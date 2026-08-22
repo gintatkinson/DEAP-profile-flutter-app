@@ -12,13 +12,13 @@ if [ "$TARGET_DIR" = "$INSTALLER_ROOT" ] && [ -e "$INSTALLER_ROOT/.pipeline/upst
 fi
 
 rm -rf "$TARGET_DIR/skills" "$TARGET_DIR/rules" "$TARGET_DIR/.pipeline" "$TARGET_DIR/.agents" "$TARGET_DIR/scripts" "$TARGET_DIR/schema"
-[ -d "$INSTALLER_ROOT/skills" ] && cp -RP "$INSTALLER_ROOT/skills" "$TARGET_DIR/" || true
-[ -d "$INSTALLER_ROOT/rules" ] && cp -RP "$INSTALLER_ROOT/rules" "$TARGET_DIR/" || true
-[ -d "$INSTALLER_ROOT/.pipeline" ] && cp -RP "$INSTALLER_ROOT/.pipeline" "$TARGET_DIR/" || true
+cp -RP "$INSTALLER_ROOT/skills" "$TARGET_DIR/"
+cp -RP "$INSTALLER_ROOT/rules" "$TARGET_DIR/"
+cp -RP "$INSTALLER_ROOT/.pipeline" "$TARGET_DIR/"
 rm -rf "$TARGET_DIR/.pipeline/upstream"
-[ -d "$INSTALLER_ROOT/.agents" ] && cp -RP "$INSTALLER_ROOT/.agents" "$TARGET_DIR/" || true
-[ -d "$INSTALLER_ROOT/scripts" ] && cp -RP "$INSTALLER_ROOT/scripts" "$TARGET_DIR/" || true
-[ -d "$INSTALLER_ROOT/schema" ] && cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/" || true
+cp -RP "$INSTALLER_ROOT/.agents" "$TARGET_DIR/"
+cp -RP "$INSTALLER_ROOT/scripts" "$TARGET_DIR/"
+cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/"
 cp -P "$INSTALLER_ROOT/requirements.txt" "$TARGET_DIR/" 2>/dev/null || true
 if [ -f "$TARGET_DIR/.gitignore" ]; then
   cat "$INSTALLER_ROOT/.gitignore" >> "$TARGET_DIR/.gitignore"
@@ -30,6 +30,7 @@ fi
 
 mkdir -p "$TARGET_DIR/schema"
 mkdir -p "$TARGET_DIR/tests"
+cp -RP "$INSTALLER_ROOT/tests/test_baseline.py" "$TARGET_DIR/tests/" 2>/dev/null || true
 mkdir -p "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/safety" "$TARGET_DIR/docs/architecture/blueprints" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases"
 mkdir -p "$TARGET_DIR/.pipeline/contracts" "$TARGET_DIR/.pipeline/domain_specs" "$TARGET_DIR/.pipeline/profiles"
 chmod +x "$TARGET_DIR"/scripts/*.sh "$TARGET_DIR"/scripts/*.py 2>/dev/null || true
@@ -45,7 +46,7 @@ fi
 
 # Scaffold downstream root CLAUDE.md if missing
 if [ ! -f "$TARGET_DIR/CLAUDE.md" ]; then
-  cat << 'EOF2' > "$TARGET_DIR/CLAUDE.md"
+  cat << 'EOF' > "$TARGET_DIR/CLAUDE.md"
 # Claude Code Project Guidelines
 
 ## Primary Commercial Toolchain Integration Context
@@ -55,12 +56,12 @@ This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder 
 - Follow all pipeline rules in `rules/` and skills in `skills/` and `.agents/skills/`.
 - Strict Planning Gate: Do not execute unauthorized modifications without an approved implementation plan.
 - Execute baseline verification: `pytest tests/test_baseline.py` and `python3 scripts/verify_downstream_baseline.py --no-domain`.
-EOF2
+EOF
 fi
 
 # Scaffold downstream root README.md if missing
 if [ ! -f "$TARGET_DIR/README.md" ]; then
-  cat << 'EOF2' > "$TARGET_DIR/README.md"
+  cat << 'EOF' > "$TARGET_DIR/README.md"
 # Downstream Low-Altitude UAS Infrastructure Safety Project
 
 > **Repository Role:** `DOWNSTREAM_APPLICATION_WORKSPACE`  
@@ -211,11 +212,11 @@ python3 -m pytest tests/
 # Run downstream conformance gate
 python3 scripts/verify_downstream_baseline.py --no-domain
 ```
-EOF2
+EOF
 fi
 
 if [ ! -f "$TARGET_DIR/tests/test_baseline.py" ]; then
-  cat << 'EOF2' > "$TARGET_DIR/tests/test_baseline.py"
+  cat << 'EOF' > "$TARGET_DIR/tests/test_baseline.py"
 """
 Downstream Environment & Runtime Integrity Verification Suite.
 /// Realises: [BaselineVerification]
@@ -223,6 +224,7 @@ Downstream Environment & Runtime Integrity Verification Suite.
 import sys
 import os
 import re
+import subprocess
 import tempfile
 import pytest
 
@@ -361,7 +363,7 @@ def test_instructions_and_readme_accessible():
     )
 
 def test_reconcile_backlog_tooling_accessible():
-    """Verify scripts/reconcile_backlog.py exists, is readable, and non-empty."""
+    """Verify scripts/reconcile_backlog.py exists, is executable, and runs to completion."""
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if not os.path.isdir(repo_root):
         repo_root = os.getcwd()
@@ -370,7 +372,11 @@ def test_reconcile_backlog_tooling_accessible():
     assert os.path.isfile(reconcile_path), f"scripts/reconcile_backlog.py missing at {repo_root}"
     assert os.path.getsize(reconcile_path) > 0, f"scripts/reconcile_backlog.py is empty at {repo_root}"
     assert os.access(reconcile_path, os.R_OK), f"scripts/reconcile_backlog.py is not readable at {repo_root}"
-EOF2
+
+    res = subprocess.run([sys.executable, reconcile_path], cwd=repo_root, capture_output=True, text=True, timeout=60)
+    assert res.returncode == 0, f"scripts/reconcile_backlog.py failed with exit code {res.returncode}:\nSTDOUT:\n{res.stdout}\nSTDERR:\n{res.stderr}"
+    assert "Traceback" not in res.stderr, f"scripts/reconcile_backlog.py produced unhandled exception:\n{res.stderr}"
+EOF
 fi
 
 if [ -f "$TARGET_DIR/scripts/setup_git_hooks.py" ]; then
@@ -378,3 +384,4 @@ if [ -f "$TARGET_DIR/scripts/setup_git_hooks.py" ]; then
 fi
 
 echo "==> Digital Pipeline Installation Complete. 0 manual steps remaining."
+
