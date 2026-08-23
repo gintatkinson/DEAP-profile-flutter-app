@@ -425,10 +425,10 @@ def check_latex_katex_syntax(repo_root):
         for err in errors:
             print(f"  - {err}", file=sys.stderr)
         sys.exit(1)
-    print("Success: Check 13 verified (KaTeX / LaTeX mathematical syntax valid across all markdown files).")
+    print("Success: Check 13 verified (KaTeX / LaTeX mathematical syntax valid across all markdown files, including rules/sysml-ssot-completeness.md).")
 
 def check_downstream_instructions_exist(repo_root):
-    """Check 14: Verify presence of README.md and agent instruction entrypoints (AGENTS.md, CLAUDE.md, or .agents/AGENTS.md)."""
+    """Check 14: Verify presence of README.md, agent instruction entrypoints (AGENTS.md, CLAUDE.md, or .agents/AGENTS.md), and rules/sysml-ssot-completeness.md."""
     readme_path = os.path.join(repo_root, "README.md")
     if not os.path.isfile(readme_path):
         print(f"ERROR: Check 14 failed: README.md missing in repository root '{repo_root}'.", file=sys.stderr)
@@ -447,7 +447,15 @@ def check_downstream_instructions_exist(repo_root):
         print(f"ERROR: Check 14 failed: No non-empty agent instruction entrypoint found in '{repo_root}' (expected AGENTS.md, CLAUDE.md, or .agents/AGENTS.md).", file=sys.stderr)
         sys.exit(1)
 
-    print("Success: Check 14 verified (README.md and agent instruction entrypoints exist).")
+    sysml_rule_path = os.path.join(repo_root, "rules", "sysml-ssot-completeness.md")
+    if not os.path.isfile(sysml_rule_path):
+        print(f"ERROR: Check 14 failed: rules/sysml-ssot-completeness.md missing in repository root '{repo_root}'.", file=sys.stderr)
+        sys.exit(1)
+    if os.path.getsize(sysml_rule_path) == 0:
+        print(f"ERROR: Check 14 failed: rules/sysml-ssot-completeness.md is empty in repository root '{repo_root}'.", file=sys.stderr)
+        sys.exit(1)
+
+    print("Success: Check 14 verified (README.md, agent instruction entrypoints, and rules/sysml-ssot-completeness.md exist).")
 
 def check_reconcile_backlog_tooling_exists(repo_root):
     """Check 15: Verify scripts/reconcile_backlog.py exists, is non-empty, and is executable."""
