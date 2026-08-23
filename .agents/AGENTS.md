@@ -5,6 +5,16 @@
 - **Sentinel Indicator:** The presence of `.pipeline/upstream/` denotes that this repository is the **Pipeline Distribution Template**, NOT a downstream customer application workspace.
 - **Customer Data Boundary:** Customer-specific application code, private flight logs, mission parameters, and proprietary artifacts belong in the customer's downstream repository (installed via `install_pipeline.sh`), and must NOT be committed to this template repository.
 
+## Pure Schema-Driven Compiler Invariant (Zero Hardcoded Domain Concepts)
+- **Abstract MBSE Compiler Declaration**: The DEAP pipeline is an abstract Model-Based Systems Engineering (MBSE) compiler and verification framework, NOT a domain-specific modeler.
+- **Strict Prohibition of Hardcoded Domain Concepts**: Agents are strictly forbidden from inventing, proposing, or hardcoding domain-specific concepts (e.g., aviation flight controllers, automotive sensors, medical models) into pipeline logic, templates, or execution plans.
+- **Deterministic Schema-Derived Specifications**: All specification generation (Epics, Features, User Stories, Use Cases, Safety Invariants) and downstream engineering artifacts derive exclusively and deterministically from AST nodes present in user-provided schemas in `schema/`.
+
+## Upstream Distribution Template Clean Landing Zone Invariant
+- **Clean Landing Zone Mandate**: In upstream distribution template repositories (`DEAP-*`), the directories `schema/`, `docs/epics/`, `docs/features/`, `docs/user-stories/`, and `docs/use-cases/` must remain clean landing zones with ONLY `.gitkeep` files.
+- **Strict Prohibition of Concrete Specifications**: Committing concrete downstream project specifications, models, or code to upstream distribution templates is strictly forbidden.
+- **Downstream Workspace Boundary**: Concrete project schemas and specifications reside exclusively in downstream application workspaces installed via `scripts/install_pipeline.sh`.
+
 ## Mandatory Hidden Folder Direct-Path Read (CRITICAL FIRST STEP)
 - **Mandatory Hidden Folder Direct-Path Read (CRITICAL FIRST STEP)**: You are strictly forbidden from assuming files or directories inside the `.pipeline/` folder (such as `.pipeline/constitution.md` or `.pipeline/profiles/`) do not exist based on glob or search tool results. Because glob and ripgrep index queries skip hidden folders, you MUST verify their presence by directly executing a path read via `view_file` or a folder check via `list_dir`. This MUST be your very first action upon starting a session before declaring state or starting tasks.
 
