@@ -73,7 +73,7 @@ void main() {
       }
 
       Future<void> takeScreenshot(String name) async {
-        final String screenshotDir = Platform.environment['SCREENSHOT_DIR'] ?? '/Users/perkunas/jail/digital-pipeline-repo/screenshots';
+        final String screenshotDir = Platform.environment['SCREENSHOT_DIR'] ?? '/Users/perkunas/jail/DEAP-profile-flutter-app/screenshots';
         final File file = File('$screenshotDir/$name.png');
         file.parent.createSync(recursive: true);
         final RenderRepaintBoundary boundary = tester.renderObject(find.byType(RepaintBoundary).first);

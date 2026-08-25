@@ -54,7 +54,7 @@ DEFAULT_CODEBASE_RULES = {
     "meta": {
         "version": "1.0.0",
         "description": "Default pipeline and codebase compliance rules",
-        "upstream_repository": "gintatkinson/digital-pipeline-repo",
+        "upstream_repository": "gintatkinson/DEAP-spec-core",
     },
     "tracker_rules": {
         "provider": "github",
@@ -977,8 +977,8 @@ def get_upstream_repository(rules, workspace_dir):
     if git_repo:
         return git_repo
     if rules and isinstance(rules, dict):
-        return rules.get("meta", {}).get("upstream_repository", "gintatkinson/digital-pipeline-repo")
-    return "gintatkinson/digital-pipeline-repo"
+        return rules.get("meta", {}).get("upstream_repository", "gintatkinson/DEAP-spec-core")
+    return "gintatkinson/DEAP-spec-core"
 
 def format_issue_reference(issue_id, tracker_rules):
     issue_id_str = str(issue_id)
@@ -1382,7 +1382,7 @@ def rewrite_header_repository_urls(content, active_repo):
         is_target_repo = (
             (url_owner_lower == active_owner and url_repo_lower == active_name) or
             (url_repo_lower == active_name) or
-            (url_repo_lower == "digital-pipeline-repo") or
+            (url_repo_lower == "deap-spec-core") or
             ("pipeline-repo" in url_repo_lower)
         )
 
@@ -1400,7 +1400,7 @@ def sanitize_source_references(content, workspace_dir=None, rules=None):
     if workspace_dir is None:
         workspace_dir = find_workspace_dir(os.getcwd())
 
-    upstream_repo = get_upstream_repository(rules, workspace_dir) or "gintatkinson/digital-pipeline-repo"
+    upstream_repo = get_upstream_repository(rules, workspace_dir) or "gintatkinson/DEAP-spec-core"
     content = rewrite_header_repository_urls(content, upstream_repo)
     branch = get_current_branch(workspace_dir)
     if not branch or branch == "HEAD":

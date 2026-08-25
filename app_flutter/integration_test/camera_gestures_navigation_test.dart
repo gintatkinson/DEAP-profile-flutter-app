@@ -40,7 +40,7 @@ void main() {
       localTile = File('${Directory.current.path}/app_flutter/test/topology/goldens/exaggerated_fuji_node.png');
     }
     if (!localTile.existsSync()) {
-      localTile = File('/Users/perkunas/jail/digital-pipeline-repo/app_flutter/test/topology/goldens/exaggerated_fuji_node.png');
+      localTile = File('/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/test/topology/goldens/exaggerated_fuji_node.png');
     }
     if (localTile.existsSync()) {
       TileFetcher.urlOverride = 'file://${localTile.absolute.path}';
@@ -114,7 +114,7 @@ void main() {
     }
 
     Future<void> takeScreenshot(String name) async {
-      final String screenshotDir = Platform.environment['SCREENSHOT_DIR'] ?? '/Users/perkunas/jail/digital-pipeline-repo/screenshots';
+      final String screenshotDir = Platform.environment['SCREENSHOT_DIR'] ?? '/Users/perkunas/jail/DEAP-profile-flutter-app/screenshots';
       final File file = File('$screenshotDir/$name.png');
       file.parent.createSync(recursive: true);
       final RenderRepaintBoundary boundary = tester.renderObject(find.byType(RepaintBoundary).first);
