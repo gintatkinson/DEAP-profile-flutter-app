@@ -62,7 +62,7 @@ void main() {
       }
       
       if (find.byType(CircularProgressIndicator).evaluate().isNotEmpty) {
-        final File file = File('/Users/perkunas/jail/DEAP-profile-flutter-app/screenshots/failure_stuck_spinner.png');
+        final File file = File('${Directory.current.path}/screenshots/failure_stuck_spinner.png');
         file.parent.createSync(recursive: true);
         final boundary = tester.renderObject<RenderRepaintBoundary>(find.byType(RepaintBoundary).first);
         final ui.Image image = (await tester.runAsync<ui.Image>(() => boundary.toImage()))!;
@@ -100,7 +100,7 @@ void main() {
     }
     
     if (find.byType(Scene3DViewport).evaluate().length != 1) {
-      final File file = File('/Users/perkunas/jail/DEAP-profile-flutter-app/screenshots/failure_duplicate_viewports.png');
+      final File file = File('${Directory.current.path}/screenshots/failure_duplicate_viewports.png');
       file.parent.createSync(recursive: true);
       final boundary = tester.renderObject<RenderRepaintBoundary>(find.byType(RepaintBoundary).first);
       final ui.Image image = (await tester.runAsync<ui.Image>(() => boundary.toImage()))!;
@@ -136,7 +136,7 @@ void main() {
     final Uint8List pixels = byteData!.buffer.asUint8List();
     
     Future<void> captureFailure(String name) async {
-      final File file = File('/Users/perkunas/jail/DEAP-profile-flutter-app/screenshots/$name.png');
+      final File file = File('${Directory.current.path}/screenshots/$name.png');
       file.parent.createSync(recursive: true);
       final pngData = await tester.runAsync<ByteData?>(() => image.toByteData(format: ui.ImageByteFormat.png));
       file.writeAsBytesSync(pngData!.buffer.asUint8List());

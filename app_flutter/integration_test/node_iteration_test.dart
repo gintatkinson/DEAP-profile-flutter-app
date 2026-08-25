@@ -14,7 +14,7 @@ import 'package:app_flutter/features/tree/tree_node.dart';
 
 final File benchmarkLogFile = File(
   Platform.environment['BENCHMARK_PATH'] ??
-  '/Users/perkunas/jail/DEAP-profile-flutter-app/benchmark_results.jsonl',
+  'benchmark_results.jsonl',
 );
 
 Future<VmService?> _connectToVmService() async {

@@ -24,15 +24,15 @@ Got dependencies!
 20 packages have newer versions incompatible with dependency constraints.
 Try `flutter pub outdated` for more information.
 Checking for wireless devices...
-00:00 +0: loading /Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/integration_test/camera_gestures_navigation_test.dart
+00:00 +0: loading app_flutter/integration_test/camera_gestures_navigation_test.dart
 Building macOS application...                                   
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Runner.xcodeproj: Runner: ld: warning: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.42.0.mhkHwN/Metal.xctoolchain/usr/lib/swift/macosx' not found
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Runner.xcodeproj: Runner: ld: warning: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.42.0.mhkHwN/Metal.xctoolchain/usr/lib/swift/macosx' not found
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.11, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'abseil-xcprivacy' from project 'Pods')
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.11, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'abseil' from project 'Pods')
+app_flutter/macos/Runner.xcodeproj: Runner: ld: warning: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.42.0.mhkHwN/Metal.xctoolchain/usr/lib/swift/macosx' not found
+app_flutter/macos/Runner.xcodeproj: Runner: ld: warning: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.42.0.mhkHwN/Metal.xctoolchain/usr/lib/swift/macosx' not found
+app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.11, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'abseil-xcprivacy' from project 'Pods')
+app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.11, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'abseil' from project 'Pods')
 warning: Run script build phase 'Create Symlinks to Header Folders' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'abseil' from project 'Pods')
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.12, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'BoringSSL-GRPC-openssl_grpc' from project 'Pods')
-/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.12, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'BoringSSL-GRPC' from project 'Pods')
+app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.12, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'BoringSSL-GRPC-openssl_grpc' from project 'Pods')
+app_flutter/macos/Pods/Pods.xcodeproj: warning: The macOS deployment target 'MACOSX_DEPLOYMENT_TARGET' is set to 10.12, but the range of supported deployment target versions is 10.13 to 26.5.99. (in target 'BoringSSL-GRPC' from project 'Pods')
 warning: Run script build phase 'Create Symlinks to Header Folders' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'BoringSSL-GRPC' from project 'Pods')
 warning: Run script build phase 'Create Symlinks to Header Folders' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'gRPC-Core' from project 'Pods')
 warning: Run script build phase 'Create Symlinks to Header Folders' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'gRPC-C++' from project 'Pods')
@@ -48,7 +48,7 @@ Expected: not <35.6074>
 Latitude should update after fly-to
 
 When the exception was thrown, this was the stack:
-#4      main.<anonymous closure> (file:///Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/integration_test/camera_gestures_navigation_test.dart:140:5)
+#4      main.<anonymous closure> (app_flutter/integration_test/camera_gestures_navigation_test.dart:140:5)
 <asynchronous suspension>
 #5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
 <asynchronous suspension>
@@ -58,7 +58,7 @@ When the exception was thrown, this was the stack:
 (elided one frame from package:stack_trace)
 
 This was caught by the test expectation on the following line:
-  file:///Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/integration_test/camera_gestures_navigation_test.dart line 140
+  app_flutter/integration_test/camera_gestures_navigation_test.dart line 140
 The test description was:
   Visual Globe TDD verification: HUD, Fly-to-Node, Panning, and Rotation
 ════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -70,4 +70,4 @@ The test description was:
 00:02 +0 -1: Some tests failed.
 
 Failing tests:
-  /Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/integration_test/camera_gestures_navigation_test.dart: Visual Globe TDD verification: HUD, Fly-to-Node, Panning, and Rotation
+  app_flutter/integration_test/camera_gestures_navigation_test.dart: Visual Globe TDD verification: HUD, Fly-to-Node, Panning, and Rotation
