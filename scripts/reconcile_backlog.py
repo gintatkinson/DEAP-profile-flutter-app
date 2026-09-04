@@ -1268,14 +1268,19 @@ def update_checklist_in_file(filepath, issue_dict, rules=None):
             prefix = match_tuple[2] if len(match_tuple) > 2 else ''
             dep_num_str = match_tuple[3] if len(match_tuple) > 3 else match_tuple[-1]
 
-        # 1. Skip plain markdown checkboxes that have no issue reference prefix
+        # 1. Skip plain markdown checkboxes that have no issue reference prefix, but flag if unchecked
         if not prefix:
+            if mark == ' ':
+                has_deps = True
+                all_deps_closed = False
             continue
 
         # 2. Skip unresolved template placeholders
         if isinstance(dep_num_str, str) and PLACEHOLDER_PATTERN.match(dep_num_str):
             ref_str = format_issue_reference(dep_num_str, tracker_rules)
             print(f"  [Deferred] Unresolved placeholder {ref_str} in {os.path.basename(filepath)} — skipping")
+            has_deps = True
+            all_deps_closed = False
             continue
         has_deps = True
         dep_num = int(dep_num_str) if dep_num_str.isdigit() else dep_num_str
@@ -1284,6 +1289,7 @@ def update_checklist_in_file(filepath, issue_dict, rules=None):
         if dep_issue is None:
             ref_str = format_issue_reference(dep_num, tracker_rules)
             print(f"  [Warning] Dependency {ref_str} not found in tracker for {os.path.basename(filepath)} — skipping item")
+            all_deps_closed = False
             continue
             
         is_closed = (str(dep_issue[state_key]).upper() == closed_state) or is_already_resolved(dep_issue, rules)
@@ -1299,6 +1305,12 @@ def update_checklist_in_file(filepath, issue_dict, rules=None):
             
         if not is_closed:
             all_deps_closed = False
+
+    # Check for any remaining unchecked checkboxes in updated_content
+    # A specification item cannot be considered completed if any blocker checkbox remains unchecked (- [ ])
+    if re.search(r'-\s*\[\s*\]', updated_content) or re.search(r'-\s*\[ \]', updated_content):
+        has_deps = True
+        all_deps_closed = False
 
     if updated_content != content:
         updated_content = write_markdown_file(filepath, updated_content)

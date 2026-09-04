@@ -42,7 +42,7 @@ def _run_bounded(cmd, cwd, timeout, label):
     open, and then race the cleanup_workspace rmtree. start_new_session puts the
     tree in its own process group so a single killpg reaches all of it.
     """
-    proc = subprocess.Popen(cmd, cwd=cwd, start_new_session=True)
+    proc = subprocess.Popen(cmd, cwd=cwd, start_new_session=True, stdin=subprocess.DEVNULL)
     try:
         rc = proc.wait(timeout=timeout)
     finally:
