@@ -26,10 +26,10 @@ from reconcile_backlog import (
 
 class TestGitLabRemoteParser(unittest.TestCase):
     def test_parse_https_url(self):
-        url = "https://gitlab.com/gintatkinson/DEAP-spec-core.git"
+        url = "https://gitlab.com/gintatkinson/DEAP01-spec-core.git"
         info = parse_git_remote_url(url)
         self.assertTrue(info["is_gitlab"])
-        self.assertEqual(info["project_path"], "gintatkinson/DEAP-spec-core")
+        self.assertEqual(info["project_path"], "gintatkinson/DEAP01-spec-core")
         self.assertEqual(info["server_url"], "https://gitlab.com")
         self.assertEqual(info["host"], "gitlab.com")
 
@@ -42,17 +42,17 @@ class TestGitLabRemoteParser(unittest.TestCase):
         self.assertEqual(info["host"], "gitlab.internal.corp")
 
     def test_parse_ssh_scp_style(self):
-        url = "git@gitlab.com:gintatkinson/DEAP-spec-core.git"
+        url = "git@gitlab.com:gintatkinson/DEAP01-spec-core.git"
         info = parse_git_remote_url(url)
         self.assertTrue(info["is_gitlab"])
-        self.assertEqual(info["project_path"], "gintatkinson/DEAP-spec-core")
+        self.assertEqual(info["project_path"], "gintatkinson/DEAP01-spec-core")
         self.assertEqual(info["server_url"], "https://gitlab.com")
 
     def test_parse_github_url(self):
-        url = "https://github.com/gintatkinson/DEAP-spec-core.git"
+        url = "https://github.com/gintatkinson/DEAP01-spec-core.git"
         info = parse_git_remote_url(url)
         self.assertFalse(info["is_gitlab"])
-        self.assertEqual(info["project_path"], "gintatkinson/DEAP-spec-core")
+        self.assertEqual(info["project_path"], "gintatkinson/DEAP01-spec-core")
         self.assertEqual(info["server_url"], "https://github.com")
 
 
@@ -234,8 +234,9 @@ class TestGitLabApiOperations(unittest.TestCase):
         offline_provider = GitLabV4Provider(offline=True)
         self.assertEqual(offline_provider.list_issues(), [])
 
+    @patch("shutil.which", return_value=None)
     @patch("urllib.request.urlopen")
-    def test_api_error_handling(self, mock_urlopen):
+    def test_api_error_handling(self, mock_urlopen, mock_which):
         mock_urlopen.side_effect = Exception("API connection error")
         created = self.provider.create_issue("Title", "Body")
         self.assertIsNone(created)
@@ -338,5 +339,213 @@ class TestTrackerProviderDetection(unittest.TestCase):
         self.assertIn("use_case", close_comments)
 
 
+class TestMultiProviderBacklogLinkSynthesis(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.epic_path = os.path.join(self.temp_dir.name, "epic-01.md")
+        epic_content = (
+            "# Epic 01: Core Platform\n\n"
+            "## 2. Requirements & Checklist\n\n"
+            "### Associated Features\n"
+            "- [ ] #0 - Feature One\n"
+        )
+        with open(self.epic_path, "w", encoding="utf-8") as f:
+            f.write(epic_content)
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
+
+    def test_gitlab_blob_url_synthesis(self):
+        """Assert GitLab blob URL uses /-/blob/ syntax when provider is gitlab."""
+        from reconcile_backlog import reconcile_epic_checklists
+        rules = {
+            "meta": {"upstream_repository": "gintatkinson/DEAP01-spec-core"},
+            "tracker_rules": {
+                "provider": "gitlab",
+                "server_url": "https://gitlab.com",
+            }
+        }
+        child_features = [("feat-01-auth", "Feature One")]
+        child_stories = []
+        child_usecases = []
+        epic_titles = {}
+        feature_titles = {"Feature One": 101}
+        story_titles = {}
+        usecase_titles = {}
+
+        with patch("reconcile_backlog.get_current_branch", return_value="main"):
+            reconcile_epic_checklists(
+                self.epic_path,
+                child_features,
+                child_stories,
+                child_usecases,
+                epic_titles,
+                feature_titles,
+                story_titles,
+                usecase_titles,
+                rules
+            )
+
+        with open(self.epic_path, "r", encoding="utf-8") as f:
+            updated_content = f.read()
+
+        # Must synthesize GitLab blob URL format with /-/blob/
+        expected_url = "https://gitlab.com/gintatkinson/DEAP01-spec-core/-/blob/main/docs/features/feat-01-auth.md"
+        self.assertIn(expected_url, updated_content)
+        self.assertNotIn("/blob/main/docs/features/feat-01-auth.md", updated_content.replace("/-/blob/", "/REPLACED/"))
+
+    def test_gitlab_blob_url_synthesis_custom_host(self):
+        """Assert GitLab blob URL with custom host uses /-/blob/ syntax."""
+        from reconcile_backlog import reconcile_epic_checklists
+        rules = {
+            "meta": {"upstream_repository": "internal-group/sub-project"},
+            "tracker_rules": {
+                "provider": "gitlab",
+                "server_url": "https://gitlab.internal.corp",
+            }
+        }
+        child_features = [("feat-02-core", "Feature Two")]
+        child_stories = []
+        child_usecases = []
+        epic_titles = {}
+        feature_titles = {"Feature Two": 102}
+        story_titles = {}
+        usecase_titles = {}
+
+        with patch.dict(os.environ, {"GITLAB_URL": "https://gitlab.internal.corp"}):
+            with patch("reconcile_backlog.get_current_branch", return_value="develop"):
+                reconcile_epic_checklists(
+                    self.epic_path,
+                    child_features,
+                    child_stories,
+                    child_usecases,
+                    epic_titles,
+                    feature_titles,
+                    story_titles,
+                    usecase_titles,
+                    rules
+                )
+
+        with open(self.epic_path, "r", encoding="utf-8") as f:
+            updated_content = f.read()
+
+        expected_url = "https://gitlab.internal.corp/internal-group/sub-project/-/blob/develop/docs/features/feat-02-core.md"
+        self.assertIn(expected_url, updated_content)
+
+    def test_github_blob_url_synthesis(self):
+        """Assert GitHub blob URL uses /blob/ syntax when provider is github."""
+        from reconcile_backlog import reconcile_epic_checklists
+        rules = {
+            "meta": {"upstream_repository": "gintatkinson/DEAP01-spec-core"},
+            "tracker_rules": {
+                "provider": "github",
+            }
+        }
+        child_features = [("feat-01-auth", "Feature One")]
+        child_stories = []
+        child_usecases = []
+        epic_titles = {}
+        feature_titles = {"Feature One": 101}
+        story_titles = {}
+        usecase_titles = {}
+
+        with patch("reconcile_backlog.get_current_branch", return_value="main"):
+            reconcile_epic_checklists(
+                self.epic_path,
+                child_features,
+                child_stories,
+                child_usecases,
+                epic_titles,
+                feature_titles,
+                story_titles,
+                usecase_titles,
+                rules
+            )
+
+        with open(self.epic_path, "r", encoding="utf-8") as f:
+            updated_content = f.read()
+
+        expected_url = "https://github.com/gintatkinson/DEAP01-spec-core/blob/main/docs/features/feat-01-auth.md"
+        self.assertIn(expected_url, updated_content)
+
+    def test_sanitize_source_references_gitlab(self):
+        """Assert sanitize_source_references produces GitLab blob URLs when provider is gitlab."""
+        from reconcile_backlog import sanitize_source_references
+        rules = {
+            "meta": {"upstream_repository": "gintatkinson/DEAP01-spec-core"},
+            "tracker_rules": {"provider": "gitlab"}
+        }
+        raw_text = "See file:///workspace/DEAP01-spec-core/docs/features/feat-01-auth.md for details."
+        with patch("reconcile_backlog.get_current_branch", return_value="main"):
+            sanitized = sanitize_source_references(raw_text, workspace_dir="/workspace/DEAP01-spec-core", rules=rules)
+        self.assertIn("https://gitlab.com/gintatkinson/DEAP01-spec-core/-/blob/main/docs/features/feat-01-auth.md", sanitized)
+
+    def test_get_blob_url_base_jira_with_gitlab_remote(self):
+        """Assert Jira tracker with GitLab remote produces GitLab blob URL base."""
+        from reconcile_backlog import get_blob_url_base
+        rules = {
+            "meta": {"upstream_repository": "safety-team/uas-core"},
+            "tracker_rules": {"provider": "jira"}
+        }
+        mock_remote = {
+            "is_gitlab": True,
+            "server_url": "https://gitlab.internal.corp",
+            "project_path": "safety-team/uas-core",
+            "host": "gitlab.internal.corp"
+        }
+        with patch("reconcile_backlog.get_git_remote_info", return_value=mock_remote):
+            base_url = get_blob_url_base(rules=rules, workspace_dir="/tmp/test", branch="release-1.0")
+        self.assertEqual(base_url, "https://gitlab.internal.corp/safety-team/uas-core/-/blob/release-1.0")
+
+
+class TestGitLabCITemplate(unittest.TestCase):
+    def setUp(self):
+        self.repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    def test_gitlab_ci_template_exists_in_pipeline_and_templates(self):
+        template_in_pipeline = os.path.join(self.repo_root, ".pipeline", ".gitlab-ci.yml")
+        template_in_templates = os.path.join(self.repo_root, ".pipeline", "templates", ".gitlab-ci.yml")
+        self.assertTrue(os.path.isfile(template_in_pipeline), f"Expected {template_in_pipeline} to exist")
+        self.assertTrue(os.path.isfile(template_in_templates), f"Expected {template_in_templates} to exist")
+
+    def test_root_gitlab_ci_absent_in_upstream(self):
+        if not os.path.exists(os.path.join(self.repo_root, ".pipeline", "upstream")):
+            self.skipTest("Skipping test_root_gitlab_ci_absent_in_upstream in downstream repository")
+        root_gitlab_ci = os.path.join(self.repo_root, ".gitlab-ci.yml")
+        self.assertFalse(os.path.exists(root_gitlab_ci), "Upstream spec-core root must not have .gitlab-ci.yml")
+
+    def test_install_pipeline_gitlab_copies_template(self):
+        import tempfile
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmpdir:
+            installer = os.path.join(self.repo_root, "scripts", "install_pipeline.sh")
+            res = subprocess.run(
+                ["bash", installer, "-p", "gitlab", tmpdir],
+                capture_output=True,
+                text=True,
+                cwd=self.repo_root,
+            )
+            self.assertEqual(res.returncode, 0, f"Installer failed: {res.stderr}")
+            installed_ci = os.path.join(tmpdir, ".gitlab-ci.yml")
+            self.assertTrue(os.path.isfile(installed_ci), f"Expected {installed_ci} to exist after -p gitlab install")
+
+    def test_install_pipeline_github_does_not_copy_template(self):
+        import tempfile
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmpdir:
+            installer = os.path.join(self.repo_root, "scripts", "install_pipeline.sh")
+            res = subprocess.run(
+                ["bash", installer, "-p", "github", tmpdir],
+                capture_output=True,
+                text=True,
+                cwd=self.repo_root,
+            )
+            self.assertEqual(res.returncode, 0, f"Installer failed: {res.stderr}")
+            installed_ci = os.path.join(tmpdir, ".gitlab-ci.yml")
+            self.assertFalse(os.path.exists(installed_ci), f"Expected {installed_ci} NOT to exist after -p github install")
+
+
 if __name__ == "__main__":
     unittest.main()
+

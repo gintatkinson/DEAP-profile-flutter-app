@@ -28,13 +28,24 @@ from ..core.workspace import WorkspaceRepository
 ALWAYS_INVALID_PLACEHOLDER_PATTERNS = [
     # Real references look like '#43'. Any bracketed token is unresolved.
     (re.compile(r"#\[[^\]]+\]"), "unresolved issue reference token"),
-    (re.compile(r"\[(?:Epic|Feature|User Story|Use Case)\s+Title\]", re.I),
+    (re.compile(r"#TBD\b", re.I), "unresolved reference token"),
+    (re.compile(r"\[(?:Feat(?:ure)?|Epic|US|UC|User\s*Story|Use\s*Case|Story|Issue)[-_\s]*(?:ID|IssueID)\]", re.I),
+     "unresolved issue reference token"),
+    (re.compile(r"\[(?:Epic|Feature|User\s*Story|Use\s*Case)\s+Title\]", re.I),
      "unpopulated template title"),
+    (re.compile(r"\[Title\]", re.I),
+     "unpopulated template title"),
+    (re.compile(r"\{\{REQUIRED_(?:JUSTIFICATION|SOURCE_REF)\}\}", re.I),
+     "unreplaced template escape token"),
     (re.compile(r"\(\s*semantic linkage justification[^)]*\)", re.I),
      "template text left in place of a written linkage justification"),
     (re.compile(r"\[POPULATE:", re.I),
      "unreplaced [POPULATE:] placeholder token"),
     (re.compile(r"\b(?:epic|feat|us|uc)-XX-name\b", re.I), "placeholder file path"),
+    (re.compile(r"\[(?:Repository\s+Base\s+URL|Branch\s+Name|Spec\s+Reference|SysMLInteractionName|SysMLTestCaseName)\]", re.I),
+     "unpopulated template token"),
+    (re.compile(r"<blob_path>", re.I),
+     "unpopulated template path"),
 ]
 
 # Conditionally valid. "*(None registered)*" is a truthful statement when nothing is
@@ -45,9 +56,37 @@ CONDITIONAL_STUB_PATTERNS = [
     (re.compile(r"\*\(\s*none(?:\s+registered)?\s*\)\*", re.I), "placeholder stub"),
     # Parentheses optional: "*(TBD)*" reads exactly like "*(None)*", which the
     # pattern above already accepts in both forms. Without this, the near-variant
-    # slips through — the same gap the comment above records (#280).
+    # slips through -- the same gap the comment above records (#280).
     (re.compile(r"\*\s*\(?\s*(?:to be populated|tbd|n/a)\s*\)?\s*\*", re.I), "placeholder stub"),
 ]
+
+ALLOWED_METADATA_PLACEHOLDERS = re.compile(
+    r"^#?\[(?:IssueID|EpicID|FeatureID|EpicIssueID)\]$|^#TBD$",
+    re.IGNORECASE,
+)
+
+
+def _is_metadata_header_table_row(line: str) -> bool:
+    """Check if a line is a metadata header table row."""
+    stripped = line.strip()
+    if not (stripped.startswith("|") and stripped.endswith("|")):
+        return False
+    cells = [c.strip() for c in stripped.strip("|").split("|")]
+    if len(cells) < 2:
+        return False
+    key = re.sub(r'[*`_:#]', '', cells[0]).strip().lower()
+    key = re.sub(r'[\s\-/]+', '_', key)
+    metadata_keys = {
+        "issue_id", "issue", "parent_epic", "feature_id", "epic_id",
+        "epic_issue_id", "status", "doc_status", "document_status", "state",
+        "user_story_id", "use_case_id", "story_id", "id", "doc_id",
+        "document_id", "attribute", "key", "field", "property",
+        "parent", "epic", "feature", "type", "title", "package",
+        "subsystem", "generation_mode", "specification_source",
+        "interface_type", "schema_containers", "version", "date",
+        "release_date", "target_baseline",
+    }
+    return key in metadata_keys
 
 
 def find_unresolved_placeholders(content: str, patterns=None):
@@ -55,51 +94,42 @@ def find_unresolved_placeholders(content: str, patterns=None):
     if patterns is None:
         patterns = ALWAYS_INVALID_PLACEHOLDER_PATTERNS
     for lineno, line in enumerate(content.splitlines(), 1):
+        is_meta_row = _is_metadata_header_table_row(line)
         for pattern, label in patterns:
-            if pattern.search(line):
+            has_unresolved = False
+            for m in pattern.finditer(line):
+                matched_str = m.group(0)
+                if is_meta_row and ALLOWED_METADATA_PLACEHOLDERS.fullmatch(matched_str.strip()):
+                    continue
+                has_unresolved = True
+                break
+            if has_unresolved:
                 yield lineno, label, line.strip()
                 break
 
-import sys
 import yaml
 from typing import Optional, Set, Tuple
 
-# Import SysML v2 AST classes safely
-try:
-    from sysmlv2_ast import (
-        SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-        SysMLOperationDef, SysMLConstraintDef, SysMLInteractionDef,
-        SysMLTestCaseDef, RequirementDef, PartDef, AttributeDef
-    )
-except ImportError:
-    try:
-        from skills.spec_orchestrator.scripts.sysmlv2_ast import (
-            SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-            SysMLOperationDef, SysMLConstraintDef, SysMLInteractionDef,
-            SysMLTestCaseDef, RequirementDef, PartDef, AttributeDef
-        )
-    except ImportError:
-        _script_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "scripts"))
-        if _script_dir not in sys.path:
-            sys.path.insert(0, _script_dir)
-        try:
-            from sysmlv2_ast import (
-                SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-                SysMLOperationDef, SysMLConstraintDef, SysMLInteractionDef,
-                SysMLTestCaseDef, RequirementDef, PartDef, AttributeDef
-            )
-        except ImportError:
-            SysMLPackage = None
-            SysMLParser = None
-            SysMLCapabilityDef = None
-            ActionDef = None
-            SysMLOperationDef = None
-            SysMLConstraintDef = None
-            SysMLInteractionDef = None
-            SysMLTestCaseDef = None
-            RequirementDef = None
-            PartDef = None
-            AttributeDef = None
+# Import SysML v2 AST classes via the fail-closed loader (refs #76): resolve
+# the real scripts dir or raise ImportError -- never bind None silently.
+from ..utils.sysml_loader import load_sysml_ast_members
+
+_sysml_ast = load_sysml_ast_members([
+    "SysMLPackage", "SysMLParser", "SysMLCapabilityDef", "ActionDef",
+    "SysMLOperationDef", "SysMLConstraintDef", "SysMLInteractionDef",
+    "SysMLTestCaseDef", "RequirementDef", "PartDef", "AttributeDef",
+])
+SysMLPackage = _sysml_ast.SysMLPackage
+SysMLParser = _sysml_ast.SysMLParser
+SysMLCapabilityDef = _sysml_ast.SysMLCapabilityDef
+ActionDef = _sysml_ast.ActionDef
+SysMLOperationDef = _sysml_ast.SysMLOperationDef
+SysMLConstraintDef = _sysml_ast.SysMLConstraintDef
+SysMLInteractionDef = _sysml_ast.SysMLInteractionDef
+SysMLTestCaseDef = _sysml_ast.SysMLTestCaseDef
+RequirementDef = _sysml_ast.RequirementDef
+PartDef = _sysml_ast.PartDef
+AttributeDef = _sysml_ast.AttributeDef
 
 
 def _find_sysml_files_in_repo(repo: WorkspaceRepository, schemas_dir: Optional[str] = None) -> List[str]:
@@ -841,8 +871,27 @@ class UmlValidator(IValidator):
                         if fm_key in ("subagent_drafted", "subagent-drafted") and fm_val == "true":
                             has_subagent_tag = True
                             break
+
         if not has_subagent_tag:
-            errors.append(Finding("specification-requires-the-subagent-generation-mode-marker", f"{doc_type} {filename} violates the Item-Level Subagent Context Isolation mandate. Specifications must be drafted strictly inside a context-isolated subagent with 'generation_mode: subagent' in the frontmatter.", location=filename))
+            for line in content.splitlines():
+                if "|" in line:
+                    parts = [p.strip() for p in line.split("|")]
+                    if parts and parts[0] == "":
+                        parts = parts[1:]
+                    if parts and parts[-1] == "":
+                        parts = parts[:-1]
+                    if len(parts) >= 2:
+                        raw_key = parts[0]
+                        raw_val = parts[1]
+                        clean_key = re.sub(r'[*`_]', '', raw_key).strip().lower()
+                        clean_val = re.sub(r'[*`_\'"]', '', raw_val).strip().lower()
+                        if clean_key in ("generation mode", "generation_mode", "generation-mode", "subagent drafted", "subagent_drafted", "subagent-drafted"):
+                            if clean_val in ("subagent", "true"):
+                                has_subagent_tag = True
+                                break
+
+        if not has_subagent_tag:
+            errors.append(Finding("specification-requires-the-subagent-generation-mode-marker", f"{doc_type} {filename} violates the Item-Level Subagent Context Isolation mandate. Specifications must be drafted strictly inside a context-isolated subagent with 'generation_mode: subagent' in the frontmatter or metadata table.", location=filename))
 
     def _validate_placeholders_and_links(
         self,
@@ -863,6 +912,7 @@ class UmlValidator(IValidator):
             if doc_type == "Epic" and (
                 re.search(r"\(\s*semantic linkage justification", line_text, re.I)
                 or re.search(r"\[POPULATE:", line_text, re.I)
+                or re.search(r"\{\{REQUIRED_JUSTIFICATION\}\}", line_text, re.I)
             ):
                 errors.append(
                     Finding(
@@ -1381,30 +1431,6 @@ class UmlValidator(IValidator):
         global_classes = kwargs.get("global_classes") or self.build_global_classes(repo, features_dir, epics_dir)
         valid_classifiers = set(valid_parts) | set(global_classes.keys())
 
-        # Collect valid operation and message names
-        valid_operations: Set[str] = set()
-        for op in all_ops:
-            if getattr(op, "name", None):
-                valid_operations.add(op.name)
-        for act in all_actions:
-            if getattr(act, "name", None):
-                valid_operations.add(act.name)
-        for part in all_parts:
-            for op in (getattr(part, "operations", []) or []):
-                if getattr(op, "name", None):
-                    valid_operations.add(op.name)
-            for act in (getattr(part, "actions", []) or []):
-                if getattr(act, "name", None):
-                    valid_operations.add(act.name)
-
-        for inter in all_interactions:
-            for msg in (getattr(inter, "messages", []) or []):
-                if msg:
-                    valid_operations.add(msg)
-            for trg in (getattr(inter, "triggers", []) or []):
-                if trg:
-                    valid_operations.add(trg)
-
         sequence_parser = MermaidSequenceDiagramParser()
         covered_interactions: Set[str] = set()
 
@@ -1452,19 +1478,43 @@ class UmlValidator(IValidator):
                 for msg in parsed_seq.messages:
                     if msg.arrow_type in ("sync", "async") and msg.operation:
                         op_name = msg.operation
-                        if op_name not in valid_operations:
-                            # Check if receiver has this method in global_classes
-                            rx_lf = parsed_seq.lifelines.get(msg.receiver)
-                            rx_cls = rx_lf.classifier_name if rx_lf else None
-                            cls_has_method = False
-                            if rx_cls and rx_cls in global_classes:
+                        rx_lf = parsed_seq.lifelines.get(msg.receiver)
+                        rx_cls = rx_lf.classifier_name if rx_lf else None
+                        rx_role = (rx_lf.role or "").lower() if rx_lf else ""
+
+                        # External actors are exempt from internal interface checking
+                        if rx_role == "actor":
+                            continue
+
+                        # Determine if operation exists on the specific receiver classifier or part
+                        cls_has_method = False
+                        if rx_cls:
+                            if rx_cls in global_classes:
                                 cls_has_method = any(m["name"] == op_name for m in global_classes[rx_cls]["methods"])
                             if not cls_has_method:
-                                errors.append(Finding(
-                                    "user-story-interaction-step-invalid",
-                                    f"User Story '{filename}': Sequence diagram message '{op_name}' is not declared in SysML interaction message flows or part operations.",
-                                    location="user-stories"
-                                ))
+                                for part in all_parts:
+                                    if getattr(part, "name", None) == rx_cls:
+                                        part_ops = [getattr(op, "name", None) for op in (getattr(part, "operations", []) or [])]
+                                        part_acts = [getattr(act, "name", None) for act in (getattr(part, "actions", []) or [])]
+                                        if op_name in part_ops or op_name in part_acts:
+                                            cls_has_method = True
+                                            break
+
+                        # Fallback: check if message is a declared SysML interaction message step
+                        if not cls_has_method:
+                            for inter in all_interactions:
+                                inter_msgs = getattr(inter, "messages", []) or []
+                                inter_trgs = getattr(inter, "triggers", []) or []
+                                if op_name in inter_msgs or op_name in inter_trgs:
+                                    cls_has_method = True
+                                    break
+
+                        if not cls_has_method:
+                            errors.append(Finding(
+                                "user-story-interaction-step-invalid",
+                                f"User Story '{filename}': Sequence diagram message '{op_name}' is not declared on receiver '{rx_cls}' or in SysML interaction message flows.",
+                                location="user-stories"
+                            ))
 
             # 3. Track covered SysML interactions
             for inter in all_interactions:
@@ -1474,8 +1524,6 @@ class UmlValidator(IValidator):
                 if fm and isinstance(fm, dict) and fm.get("interaction") == inter_name:
                     covered_interactions.add(inter_name)
                 elif re.search(rf"\b(?:interaction|Interaction|SysML\s+Interaction\s+Def)\s*:?\s*`?{re.escape(inter_name)}`?\b", content):
-                    covered_interactions.add(inter_name)
-                elif re.search(rf"\b{re.escape(inter_name)}\b", content):
                     covered_interactions.add(inter_name)
 
         # 4. Bidirectional Check: SysML interaction realization
@@ -1615,7 +1663,7 @@ class UmlValidator(IValidator):
         user_stories_dir_rel = getattr(backlog_dirs, "user_stories", None)
         user_stories_dir = os.path.join(repo.workspace_dir, user_stories_dir_rel) if user_stories_dir_rel else os.path.join(repo.workspace_dir, "docs", "user-stories")
 
-        sysml_files, all_pkgs, all_parts, _, _, _, _, _, all_test_cases, all_requirements, errors = _load_all_sysml_elements_full(repo, schemas_dir)
+        sysml_files, all_pkgs, all_parts, _, _, _, _, all_constraints, all_test_cases, all_requirements, errors = _load_all_sysml_elements_full(repo, schemas_dir)
         if errors:
             return errors
         if not sysml_files:
@@ -1644,6 +1692,10 @@ class UmlValidator(IValidator):
                 reqs_by_id_or_name[r_name] = r
             if r_id:
                 reqs_by_id_or_name[r_id] = r
+        for c in all_constraints:
+            c_name = getattr(c, "name", "")
+            if c_name:
+                reqs_by_id_or_name[c_name] = c
 
         bound_test_cases: Set[str] = set()
 
@@ -1715,14 +1767,13 @@ class UmlValidator(IValidator):
                             location="user-stories"
                         ))
                     else:
-                        if reqs_by_id_or_name:
-                            for v_req in verified_reqs:
-                                if v_req not in reqs_by_id_or_name:
-                                    errors.append(Finding(
-                                        "test-case-verify-requirement-invalid",
-                                        f"User Story '{filename}': Test case def '{tc_name}' specifies verify requirement '{v_req}' which is not defined in SysML AST.",
-                                        location="user-stories"
-                                    ))
+                        for v_req in verified_reqs:
+                            if v_req not in reqs_by_id_or_name:
+                                errors.append(Finding(
+                                    "test-case-verify-requirement-invalid",
+                                    f"User Story '{filename}': Test case def '{tc_name}' specifies verify requirement '{v_req}' which is not defined in SysML AST.",
+                                    location="user-stories"
+                                ))
 
         # Bidirectional Check: SysML test cases bound across User Stories
         for tc in all_test_cases:

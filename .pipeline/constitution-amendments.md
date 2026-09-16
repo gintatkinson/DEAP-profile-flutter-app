@@ -4,7 +4,7 @@ Append-only record of every change to `.pipeline/constitution.md`.
 
 `tests/test_constitution_integrity.py` asserts that the SHA-256 of the constitution
 matches the newest entry below. **The constitution therefore cannot be changed by
-anyone — human or agent — without a logged entry.** An unlogged edit fails the suite.
+anyone -- human or agent -- without a logged entry.** An unlogged edit fails the suite.
 
 ## Why this exists
 
@@ -13,8 +13,8 @@ the replacement has been explicitly approved by the user in the current conversa
 turn"*, and `skills/project-constitution/SKILL.md` Mandate 4 forbids modifying it
 *autonomously*. Both allow an approved amendment; neither described **how**.
 
-`project-constitution` Step 7 gave implementation profiles a full lifecycle — add,
-update, remove, list — while the constitution, the higher-authority Tier 1 document,
+`project-constitution` Step 7 gave implementation profiles a full lifecycle -- add,
+update, remove, list -- while the constitution, the higher-authority Tier 1 document,
 had a single sentence at line 285. The stronger document had the weaker process, so
 the safe default became refusal, and two known defects stayed unfixed as a result.
 See Step 9 of that skill for the procedure this log serves.
@@ -23,25 +23,25 @@ See Step 9 of that skill for the procedure this log serves.
 
 Every entry MUST carry all fields. The integrity test rejects a partial entry.
 
-- **Date** — the date of the constitution change, matching the file's `last_updated`.
-- **Logged** — when this entry was written.
-- **Motivating issue** — the issue that justifies the change, or `n/a` with a reason.
-- **Approved by** — verbatim quote of the human's approval, or `n/a` for the baseline.
-- **Destructive** — `no` if the change is purely additive or a refinement in place.
+- **Date** -- the date of the constitution change, matching the file's `last_updated`.
+- **Logged** -- when this entry was written.
+- **Motivating issue** -- the issue that justifies the change, or `n/a` with a reason.
+- **Approved by** -- verbatim quote of the human's approval, or `n/a` for the baseline.
+- **Destructive** -- `no` if the change is purely additive or a refinement in place.
   `yes` requires a justification paragraph; `project-constitution` Mandate 3 requires
   amendments to be cumulative and never destructive.
-- **Line count** — lines in the resulting file. A non-destructive entry may not
+- **Line count** -- lines in the resulting file. A non-destructive entry may not
   reduce it below the previous entry.
-- **Resulting SHA-256** — checksum of `.pipeline/constitution.md` after the change.
+- **Resulting SHA-256** -- checksum of `.pipeline/constitution.md` after the change.
 
 ---
 
-## AMEND-0000 — Baseline
+## AMEND-0000 -- Baseline
 
 - **Date:** 2026-06-29
 - **Logged:** 2026-07-31
-- **Motivating issue:** n/a — protocol adoption, no content change
-- **Approved by:** n/a — baseline record; the constitution was not modified
+- **Motivating issue:** n/a -- protocol adoption, no content change
+- **Approved by:** n/a -- baseline record; the constitution was not modified
 - **Destructive:** no
 - **Line count:** 161
 - **Resulting SHA-256:** `ae68494ed6190919dc342612d27f873d01f273750b2d1418aa3516913dac24e9`
@@ -58,23 +58,23 @@ outstanding when this log was created. Both are registered in
 `tests/rule_contracts.py` `KNOWN_DOC_DIVERGENCES` and both require line-by-line human
 approval before they can be applied through Step 9:
 
-1. **Line 41 — external actor exemption (issue #277).** The constitution requires
+1. **Line 41 -- external actor exemption (issue #277).** The constitution requires
    *every* sequence-diagram lifeline to resolve to a defined Class or Component. The
    enforced rule exempts lifelines declared as external UML actors, which are outside
    the system boundary and correctly absent from the structural models.
-2. **Line 120 — authorization sufficiency (issue #295).** The constitution states that
+2. **Line 120 -- authorization sufficiency (issue #295).** The constitution states that
    typing "Proceed" is sufficient authorization. `.agents/AGENTS.md:7` states a
    keyword is explicitly insufficient without an approved implementation plan, and
    #295 unified on the stricter reading. The constitution sentence remains weaker.
 
 ---
 
-## AMEND-0001 — External actor exemption for sequence-diagram lifelines
+## AMEND-0001 -- External actor exemption for sequence-diagram lifelines
 
 - **Date:** 2026-07-31
 - **Logged:** 2026-07-31
 - **Motivating issue:** #277 (implemented), #298 (divergence class)
-- **Approved by:** "approve both" — in response to Amendments A and B quoted verbatim as current-versus-proposed text, per Step 9 items 2 and 3.
+- **Approved by:** "approve both" -- in response to Amendments A and B quoted verbatim as current-versus-proposed text, per Step 9 items 2 and 3.
 - **Destructive:** no
 - **Line count:** 161
 - **Resulting SHA-256:** `98434ea59d1fdba780cf2aea430004658c0dc0776519f0374c96a809e5152a6e`
@@ -94,8 +94,8 @@ After:
 ### Rationale
 
 Issue #277 replaced a name-suffix bypass in `validators/uml.py` with an exemption keyed
-on UML role. The prior rule exempted classifiers by spelling — `PaymentManager` passed
-while `PaymentHandler` did not — and, because an exempt classifier never entered the
+on UML role. The prior rule exempted classifiers by spelling -- `PaymentManager` passed
+while `PaymentHandler` did not -- and, because an exempt classifier never entered the
 global class registry, it also silently disabled operation-signature validation for
 every message sent to that lifeline.
 
@@ -106,8 +106,8 @@ the system boundary and is correctly absent from the structural models.
 
 The sentence as written required *every* lifeline to resolve, so the implemented rule
 was narrower than the constitution. Left unamended this would have been an eighth
-instance of the defect class #298 exists to detect — a documented contract diverging
-from the enforced one — created while closing the third.
+instance of the defect class #298 exists to detect -- a documented contract diverging
+from the enforced one -- created while closing the third.
 
 Non-destructive: the original requirement is preserved in full and an exemption is
 carved out. The second clause restates the requirement for all non-actor lifelines so
@@ -115,12 +115,12 @@ no obligation is weakened by implication.
 
 ---
 
-## AMEND-0002 — Authorization requires an approved plan, not only a keyword
+## AMEND-0002 -- Authorization requires an approved plan, not only a keyword
 
 - **Date:** 2026-07-31
 - **Logged:** 2026-07-31
 - **Motivating issue:** #295
-- **Approved by:** "approve both" — in response to Amendments A and B quoted verbatim as current-versus-proposed text, per Step 9 items 2 and 3.
+- **Approved by:** "approve both" -- in response to Amendments A and B quoted verbatim as current-versus-proposed text, per Step 9 items 2 and 3.
 - **Destructive:** no
 - **Line count:** 161
 - **Resulting SHA-256:** `5dc3da88e38fa9333e1dd297701fdd4082fda48b343363f850e1ab20a26e5e50`
@@ -165,12 +165,12 @@ verbatim, and condition (1) is added alongside it.
 
 ---
 
-## AMEND-0003 — Standardize product name to Digital Engineering Agent Platform (DEAP)
+## AMEND-0003 -- Standardize product name to Digital Engineering Agent Platform (DEAP)
 
 - **Date:** 2026-08-06
 - **Logged:** 2026-08-06
-- **Motivating issue:** n/a — product name standardization across repository
-- **Approved by:** "PROCEED" — approved implementation plan to standardize official product name to Digital Engineering Agent Platform (DEAP).
+- **Motivating issue:** n/a -- product name standardization across repository
+- **Approved by:** "PROCEED" -- approved implementation plan to standardize official product name to Digital Engineering Agent Platform (DEAP).
 - **Destructive:** no
 - **Line count:** 161
 - **Resulting SHA-256:** `952397210c5163672e05bac9b1afcaa1351522e2ad6a3c18c09525cdc6cae896`
@@ -197,12 +197,12 @@ Non-destructive: product name updated, governance rules unchanged.
 
 ---
 
-## AMEND-0004 — Clarify Logical UI (LUI) platform-independence and canonical avionics patterns
+## AMEND-0004 -- Clarify Logical UI (LUI) platform-independence and canonical avionics patterns
 
 - **Date:** 2026-08-06
 - **Logged:** 2026-08-07
 - **Motivating issue:** Evolved LUI Architecture and Safety-Critical Real-Time UI Framework Blueprint
-- **Approved by:** "PROCEED" — approved implementation plan to evolve LUI architecture to support ARINC 661, FSM symbology, and safety-critical real-time UI framework.
+- **Approved by:** "PROCEED" -- approved implementation plan to evolve LUI architecture to support ARINC 661, FSM symbology, and safety-critical real-time UI framework.
 - **Destructive:** no
 - **Line count:** 161
 - **Resulting SHA-256:** `79141cff13372778f6f3e2243478512a47026584bdd1f86da6942ade07390e1a`
@@ -227,12 +227,12 @@ Non-destructive: additive clarification of Tier 1 LUI scope, governance rules un
 
 ---
 
-## AMEND-0005 — Transform BDD and LUI specifications to Evolved 3-Layer Aerospace Semantics
+## AMEND-0005 -- Transform BDD and LUI specifications to Evolved 3-Layer Aerospace Semantics
 
 - **Date:** 2026-08-07
 - **Logged:** 2026-08-07
 - **Motivating issue:** Aerospace & Real-Time Control Semantic Transformation (Evolved 3-Layer Chain & Canonical Aerospace BDD Templates)
-- **Approved by:** "PROCEED" — approved implementation plan for Aerospace & Real-Time Control Semantic Transformation.
+- **Approved by:** "PROCEED" -- approved implementation plan for Aerospace & Real-Time Control Semantic Transformation.
 - **Destructive:** no
 - **Line count:** 164
 - **Resulting SHA-256:** `d3c6ef70323acb045f080bca88d482a609768aaec1680695daef3a4474a1734c`
@@ -260,12 +260,12 @@ Non-destructive: additive refinement of Tier 1 LUI and BDD scenario standards, g
 
 ---
 
-## AMEND-0006 — Explicitly name enforcing validator paths for traceability mandates
+## AMEND-0006 -- Explicitly name enforcing validator paths for traceability mandates
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #378
-- **Approved by:** "PROCEED" — approved implementation plan to explicitly name enforcing validator paths for all four traceability rules in constitution.md.
+- **Approved by:** "PROCEED" -- approved implementation plan to explicitly name enforcing validator paths for all four traceability rules in constitution.md.
 - **Destructive:** no
 - **Line count:** 164
 - **Resulting SHA-256:** `8a83667fd5594b03b5a3b9ad5f1357b389f89681b5e0c6e46306e7159d348b57`
@@ -296,12 +296,12 @@ Non-destructive: additive clarification of enforcing validator paths, governance
 
 ---
 
-## AMEND-0007 — Title normalization primary selector requirement for backlog reconciliation
+## AMEND-0007 -- Title normalization primary selector requirement for backlog reconciliation
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #377
-- **Approved by:** "PROCEED" — approved implementation plan to replace title normalization prohibition with reconciliation primary selector requirement in constitution.md.
+- **Approved by:** "PROCEED" -- approved implementation plan to replace title normalization prohibition with reconciliation primary selector requirement in constitution.md.
 - **Destructive:** no
 - **Line count:** 164
 - **Resulting SHA-256:** `d763c600eda7ef7fa2447bcb732ec3e148c803d94bbebddf1824134f8dd2d016`
@@ -326,12 +326,12 @@ Non-destructive: title normalization rule updated to match enforced reconciliati
 
 ---
 
-## AMEND-0008 — Promote Three-Tier Platform Isolation architecture to top-level section
+## AMEND-0008 -- Promote Three-Tier Platform Isolation architecture to top-level section
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #384
-- **Approved by:** "PROCEED" — approved implementation plan to promote three-tier platform isolation architecture to top-level section in constitution.md.
+- **Approved by:** "PROCEED" -- approved implementation plan to promote three-tier platform isolation architecture to top-level section in constitution.md.
 - **Destructive:** no
 - **Line count:** 195
 - **Resulting SHA-256:** `f0d3ab82d4658f5798e3e228a3b5ec324f54be94dfb66762a1a0733ee85075f1`
@@ -366,12 +366,12 @@ Non-destructive: Three-tier architecture principles promoted and expanded, line 
 
 ---
 
-## AMEND-0009 — Mandate Source References across all four specification types
+## AMEND-0009 -- Mandate Source References across all four specification types
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #383
-- **Approved by:** "PROCEED" — approved implementation plan to update Source References mandate in constitution.md to explicitly cover Epics, Features, User Stories, and Use Cases.
+- **Approved by:** "PROCEED" -- approved implementation plan to update Source References mandate in constitution.md to explicitly cover Epics, Features, User Stories, and Use Cases.
 - **Destructive:** no
 - **Line count:** 195
 - **Resulting SHA-256:** `89060b0d78264c603570fe54c7f2a36c3d91ea869c868fefaa0fc7989f2afb6d`
@@ -396,12 +396,12 @@ Non-destructive: additive clarification of Source References requirement across 
 
 ---
 
-## AMEND-0010 — Expand Quality Gates section with comprehensive table of all 15 enforced quality gates
+## AMEND-0010 -- Expand Quality Gates section with comprehensive table of all 15 enforced quality gates
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #382
-- **Approved by:** "PROCEED" — approved implementation plan to expand Quality Gates section in constitution.md with comprehensive table of 15 active enforced quality gates.
+- **Approved by:** "PROCEED" -- approved implementation plan to expand Quality Gates section in constitution.md with comprehensive table of 15 active enforced quality gates.
 - **Destructive:** no
 - **Line count:** 216
 - **Resulting SHA-256:** `b01ef7d5da9ebcfdc6d0244f94d2a78ff140e3161b8157d26dc233c9490ba52c`
@@ -452,12 +452,12 @@ Non-destructive: additive table detailing all active quality gates, line count i
 
 ---
 
-## AMEND-0011 — Update labeling taxonomy to explicitly include operational and state labels
+## AMEND-0011 -- Update labeling taxonomy to explicitly include operational and state labels
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #381
-- **Approved by:** "PROCEED" — approved user request for Issue #381 Tier 1 constitution amendment.
+- **Approved by:** "PROCEED" -- approved user request for Issue #381 Tier 1 constitution amendment.
 - **Destructive:** no
 - **Line count:** 219
 - **Resulting SHA-256:** `8c6a24269a55b1312c53799b68f72c8fc7511d6816ddf459d93ab958237a8dc0`
@@ -489,12 +489,12 @@ Non-destructive: additive taxonomy expansion, line count updated from 216 to 219
 
 ---
 
-## AMEND-0012 — Add CMMI Level 3 Process Area Mapping table explicitly substantiating process alignment
+## AMEND-0012 -- Add CMMI Level 3 Process Area Mapping table explicitly substantiating process alignment
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #380
-- **Approved by:** "PROCEED" — approved user request for Issue #380 Tier 1 constitution amendment.
+- **Approved by:** "PROCEED" -- approved user request for Issue #380 Tier 1 constitution amendment.
 - **Destructive:** no
 - **Line count:** 233
 - **Resulting SHA-256:** `65a9614cc4e0238acbabdb19fa07db52ff9a3b32c6b4e3ec71c71d4b826b239b`
@@ -535,12 +535,12 @@ Non-destructive: additive table substantiating CMMI Level 3 alignment, line coun
 
 ---
 
-## AMEND-0013 — Update Granularity Bounds to normative RFC 2119 language with explicit enforcers
+## AMEND-0013 -- Update Granularity Bounds to normative RFC 2119 language with explicit enforcers
 
 - **Date:** 2026-08-08
 - **Logged:** 2026-08-08
 - **Motivating issue:** #379
-- **Approved by:** "PROCEED" — approved user request for Issue #379 Tier 1 constitution amendment.
+- **Approved by:** "PROCEED" -- approved user request for Issue #379 Tier 1 constitution amendment.
 - **Destructive:** no
 - **Line count:** 235
 - **Resulting SHA-256:** `14d2e2dfc339f51e924e12908a6e7b1b9de1d58c2e48c523ed45b1aa2e1ee9c8`
@@ -585,12 +585,12 @@ Non-destructive: additive Granularity Bounds subsection with normative language 
 
 ---
 
-## AMEND-0014 — Universal LUMI (Logical User & Machine Interface) Framework Integration
+## AMEND-0014 -- Universal LUMI (Logical User & Machine Interface) Framework Integration
 
 - **Date:** 2026-08-09
 - **Logged:** 2026-08-09
 - **Motivating issue:** Universal LUMI Framework Integration
-- **Approved by:** "PROCEED" — approved user prompt directive to implement Multi-Interface Bindings (LUMI Framework) code, skill, constitution, and validator updates.
+- **Approved by:** "PROCEED" -- approved user prompt directive to implement Multi-Interface Bindings (LUMI Framework) code, skill, constitution, and validator updates.
 - **Destructive:** no
 - **Line count:** 235
 - **Resulting SHA-256:** `6b4a547ca9afe379bda2e185e455c46e9a1868f367fc8f4b5f1520ce1d7cc7cf`
@@ -617,12 +617,12 @@ Non-destructive: additive definition of LUMI framework across Visual GUI, M2M AP
 
 ---
 
-## AMEND-0015 — Standardize product name to Digital Engineering Agent Platform (DEAP)
+## AMEND-0015 -- Standardize product name to Digital Engineering Agent Platform (DEAP)
 
 - **Date:** 2026-08-10
 - **Logged:** 2026-08-10
 - **Motivating issue:** Product Name Standardization
-- **Approved by:** "PROCEED" — approved user prompt directive to standardize official product name to Digital Engineering Agent Platform (DEAP).
+- **Approved by:** "PROCEED" -- approved user prompt directive to standardize official product name to Digital Engineering Agent Platform (DEAP).
 - **Destructive:** no
 - **Line count:** 235
 - **Resulting SHA-256:** `77b040805aa4ada8c71a7e5265e90df34f09b1b4bc4b368aeb9fdd72f0b09b5b`
@@ -649,12 +649,12 @@ Non-destructive: product name updated to Digital Engineering Agent Platform (DEA
 
 ---
 
-## AMEND-0016 — Add Downstream Single Source of Truth (SSOT) & Clean Baseline Mandate
+## AMEND-0016 -- Add Downstream Single Source of Truth (SSOT) & Clean Baseline Mandate
 
 - **Date:** 2026-08-11
 - **Logged:** 2026-08-11
 - **Motivating issue:** 5-Whys Root Cause Remediation for Downstream Single Source of Truth & Clean Baseline Linters
-- **Approved by:** "PROCEED" — approved implementation plan for 5-Whys root cause remediation.
+- **Approved by:** "PROCEED" -- approved implementation plan for 5-Whys root cause remediation.
 - **Destructive:** no
 - **Line count:** 239
 - **Resulting SHA-256:** `76f73f60b1b5c2dd3be5c6327537ddd4c2fda17cabd3985b550534311a71ec56`
@@ -678,7 +678,7 @@ After:
 > - Baseline conformance must be verified using the configured verification script, which asserts that all baseline files are present, validates type compatibility, and compiles/tests the project with a clean exit code.
 >
 > ### Downstream Single Source of Truth (SSOT) & Clean Baseline Mandate
-> - **Single Source of Truth (SSOT)**: Master architecture blueprints (`DEAP_MASTER_ARCHITECTURE.md`, `THREE_TIER_GOVERNANCE_BLUEPRINT.md`, `DEAP_SYSML_V2_SAFETY_MODEL_SPECIFICATION.sysml`) reside exclusively in the central upstream specification repository (`gintatkinson/DEAP-spec-core`). Downstream repositories are strictly forbidden from copying or duplicating master blueprints locally. All downstream projects MUST reference upstream specifications via URLs or relative submodule paths.
+> - **Single Source of Truth (SSOT)**: Master architecture blueprints (`DEAP_MASTER_ARCHITECTURE.md`, `THREE_TIER_GOVERNANCE_BLUEPRINT.md`, `DEAP_SYSML_V2_SAFETY_MODEL_SPECIFICATION.sysml`) reside exclusively in the central upstream specification repository (`DEAP-spec-core`). Downstream repositories are strictly forbidden from copying or duplicating master blueprints locally. All downstream projects MUST reference upstream specifications via URLs or relative submodule paths.
 > - **Clean Baseline & Version Control Mandate**: Every downstream repository MUST maintain a valid `.gitignore` file in its root directory. OS-generated metadata files (such as `.DS_Store`) and build artifacts are strictly forbidden from being committed or present in the working tree or git index.
 
 ### Rationale
@@ -689,12 +689,12 @@ Non-destructive: additive subsection, line count increased from 235 to 239 lines
 
 ---
 
-## AMEND-0017 — Add Pure Schema-Driven Compiler and Upstream Clean Landing Zone Invariants
+## AMEND-0017 -- Add Pure Schema-Driven Compiler and Upstream Clean Landing Zone Invariants
 
 - **Date:** 2026-08-23
 - **Logged:** 2026-08-23
 - **Motivating issue:** Pure Schema-Driven Compiler and Upstream Clean Landing Zone Invariants
-- **Approved by:** "PROCEED" — approved user prompt directive to enforce pure schema-driven compilation and clean landing zone invariants.
+- **Approved by:** "PROCEED" -- approved user prompt directive to enforce pure schema-driven compilation and clean landing zone invariants.
 - **Destructive:** no
 - **Line count:** 244
 - **Resulting SHA-256:** `c8d785e713c91c638477801af52f61f8726e1a55ac3f8e258b6770bf1b0cdf02`
@@ -736,12 +736,12 @@ Non-destructive: additive subsection, line count increased from 240 to 244 lines
 
 ---
 
-## AMEND-0018 — Register Gate 16 (Safety Integrity Quality Gate) and Phase 0 Airworthiness Gate
+## AMEND-0018 -- Register Gate 16 (Safety Integrity Quality Gate) and Phase 0 Airworthiness Gate
 
 - **Date:** 2026-08-24
 - **Logged:** 2026-08-24
-- **Motivating issue:** #38 — Missing Safety Integrity Quality Gate and SORA OSO-01..24 Completeness Verification
-- **Approved by:** "PROCEED" — approved implementation plan for Safety Integrity Quality Gate and SORA OSO-01..24 Completeness Verification.
+- **Motivating issue:** #38 -- Missing Safety Integrity Quality Gate and SORA OSO-01..24 Completeness Verification
+- **Approved by:** "PROCEED" -- approved implementation plan for Safety Integrity Quality Gate and SORA OSO-01..24 Completeness Verification.
 - **Destructive:** no
 - **Line count:** 257
 - **Resulting SHA-256:** `4779d7c72630a7ff08b6a814e1fd99ff64c1e944bb8d76b47d5977351a81c852`
@@ -795,4 +795,130 @@ Non-destructive: additive quality gate registration and airworthiness governance
 
 
 
+
+---
+
+## AMEND-0014 -- Domain-Agnostic Tier 1 Semantic Pattern Generalization & Governance Alignment
+
+- **Date:** 2026-08-29
+- **Logged:** 2026-08-29
+- **Motivating issue:** DEAP-spec-core Upstream Specification Core Compiler Domain Neutrality Alignment
+- **Approved by:** "PROCEED" -- approved implementation plan for clean domain remediation.
+- **Destructive:** no
+- **Line count:** 257
+- **Resulting SHA-256:** `de61ca04dbf1cbfdbb53709b14722863eb6f3ba7649fade49782d2655e29a010`
+
+### Change
+
+Updated frontmatter `last_updated` date to `2026-08-29` and generalized the 3-layer LUI semantic BDD patterns in Section *Requirements & Specifications Standards* to platform-independent domain models while preserving the mandatory 3-layer semantic chain.
+
+### Rationale
+
+Reinforce the pure schema-driven compiler invariant in Tier 1 functional governance for `DEAP-spec-core` (Upstream Specification Core Compiler), ensuring all examples use generic domain and interface primitives while downstream distribution templates provide domain-specific regulatory and platform bindings.
+
+Non-destructive: semantic chain rules and all 16 quality gates preserved, line count maintained.
+
+### Amendment: Commit Message Non-Closure Invariant (#382)
+- Codified strict prohibition on auto-closing trigger keywords (`fix #`, `closes #`, `resolve #`) in git commit messages to guarantee that issues remain in `status:fixed-resolved` for Product Owner validation and are never closed by server-side push automation.
+
+---
+
+## AMEND-0019 -- Derivation-Annotation Contract for Phase 0 Safety Engineering Airworthiness Gate
+
+- **Date:** 2026-09-05
+- **Logged:** 2026-09-05
+- **Motivating issue:** #199 -- Phase 0 Safety Engineering Airworthiness Gate Derivation-Annotation Contract
+- **Approved by:** "PROCEED" -- approved user prompt directive to enforce the Derivation-Annotation Contract across Phase 0 safety deliverables.
+- **Destructive:** no
+- **Line count:** 260
+- **Resulting SHA-256:** `007c020f99c8035beb4070c1135606ffc55949e247a4d595d85a10c489e27a0e`
+
+### Change
+
+Section *Universal Quality Gates*, subsection *Phase 0 Safety Engineering Airworthiness Gate*, lines 192-203.
+
+Before:
+
+> ### Phase 0 Safety Engineering Airworthiness Gate
+> - **8-Pillar Safety Specification Schema**: All downstream safety engineering deliverables (`docs/safety/STPA_MATRIX.md`) MUST conform to the 8-pillar STPA, FMECA, and SORA schema:
+>   1. System Losses (**L-1..N**)
+>   2. System Hazards (**H-1..N**)
+>   3. Hierarchical Control Structure Topology
+>   4. Unsafe Control Actions (**UCA-1..N**) covering all 4 failure modes (Not providing, Providing, Too early/too late/out of order, Stopped too soon/applied too long)
+>   5. Loss Scenarios (**LS-1..N**) & Causal Factors
+>   6. Formal Safety Constraints (**SC-1..N**)
+>   7. FMECA Criticality Matrix with at least 15 component failure mode rows (15+ rows) and RPN calculations
+>   8. SORA SAIL Risk Mitigations & OSO Traceability Table determining Final GRC, ARC, SAIL classification, and complete coverage of all 24 Operational Safety Objectives (OSO-01 through OSO-24).
+> - **ASTM F3269-17 RTA & Model-Based Design Hook Mandate**: Formal safety constraints and Run-Time Assurance (RTA) Safety Net monitors MUST specify direct integration hooks for MATLAB / Simulink / Stateflow / Embedded Coder control law synthesis and Simulink Design Verifier (SLDV) invariant proving.
+> - **Forbidden Math Delimiters on Alphanumeric IDs**: Traceability keys and non-mathematical identifiers (such as requirement IDs `SC-XX`, hazard tags `H-X`, SORA codes `OSO-XX`, loss tags `L-X`, and UCA codes `UCA-X`) MUST NOT be wrapped in LaTeX math delimiters `$...$`. Bold formatting (`**SC-01**`, `**H-1**`) MUST be used instead.
+
+After:
+
+> ### Phase 0 Safety Engineering Airworthiness Gate
+> - **8-Pillar Safety Specification Schema**: All downstream safety engineering deliverables (`docs/safety/STPA_MATRIX.md`) MUST conform to the 8-pillar STPA, FMECA, and SORA schema:
+>   1. System Losses (**L-1..N**)
+>   2. System Hazards (**H-1..N**)
+>   3. Hierarchical Control Structure Topology
+>   4. Unsafe Control Actions (**UCA-1..N**) covering all 4 failure modes (Not providing, Providing, Too early/too late/out of order, Stopped too soon/applied too long)
+>   5. Loss Scenarios (**LS-1..N**) & Causal Factors
+>   6. Formal Safety Constraints (**SC-1..N**)
+>   7. FMECA Criticality Matrix with at least 15 component failure mode rows (15+ rows) and RPN calculations
+>   8. SORA SAIL Risk Mitigations & OSO Traceability Table determining Final GRC, ARC, SAIL classification, and complete coverage of all 24 Operational Safety Objectives (OSO-01 through OSO-24).
+> - **Derivation-Annotation Contract**: All analytical content in the 8-pillar deliverable is an engineering derivative of the SSOT fact base, never a fact itself. Every derived cell MUST carry four annotations: (1) Input anchors (SSOT document, section, and clause, or explicit silent source set), (2) Methodology citation (Leveson STPA for L/H/UCA/LS/SC; MIL-STD-1629A/SAE ARP4761 for FMECA S/O/D/RPN; JARUS SORA v2.5 for GRC/ARC/SAIL; ASTM F3269-17 for RTA hooks), (3) Derivation grade (directly evidenced, analytically derived, or declared assumption), and (4) Caveat (mandatory where product documents are silent, recording the attempt made, silent source set, and downstream impact).
+> - **ASTM F3269-17 RTA & Model-Based Design Hook Mandate**: Formal safety constraints and Run-Time Assurance (RTA) Safety Net monitors MUST specify direct integration hooks for MATLAB / Simulink / Stateflow / Embedded Coder control law synthesis and Simulink Design Verifier (SLDV) invariant proving.
+> - **Forbidden Math Delimiters on Alphanumeric IDs**: Traceability keys and non-mathematical identifiers (such as requirement IDs `SC-XX`, hazard tags `H-X`, SORA codes `OSO-XX`, loss tags `L-X`, and UCA codes `UCA-X`) MUST NOT be wrapped in LaTeX math delimiters `$...$`. Bold formatting (`**SC-01**`, `**H-1**`) MUST be used instead.
+
+### Rationale
+
+Add the normative Derivation-Annotation Contract clause to the Phase 0 Safety Engineering Airworthiness Gate in `.pipeline/constitution.md`. This ensures all analytical content in the 8-pillar downstream safety deliverables carries four mandatory annotations (input anchors, methodology citation, derivation grade, caveat), eliminating hollow un-anchored cells and uncaveated assertions without provenance as required by Issue #199.
+
+Non-destructive: additive airworthiness governance clause, line count maintained at 260 lines, all 16 quality gates preserved.
+
+---
+
+## AMEND-0020 -- Prohibition of Unapproved Plan Abandonment & Mandatory Plan Continuity
+
+- **Date:** 2026-09-14
+- **Logged:** 2026-09-14
+- **Motivating issue:** User directive -- "you are not allowed to abandon plans without approval from me.. put this in the constitution"
+- **Approved by:** "Proceed to execution" (automatic policy approval of approved amendment proposal)
+- **Destructive:** no
+- **Line count:** 266
+- **Resulting SHA-256:** `8d60c87bb0f48798756de1c4001d06af39ace7aa90481a506fd5727297e382a4`
+
+### Change
+
+Section *Universal Quality Gates*, subsection *Strict Planning Mode Gate*, lines 163–167.
+
+Renamed section header to *Strict Planning Mode Gate & Plan Continuity Mandate* and added explicit third bullet point codifying the strict prohibition against abandoning, altering, or discarding approved implementation plans without explicit user approval.
+
+### Rationale
+
+Codifies the user's directive preventing agents from exhibiting reactive thrashing, abandoning in-flight work packages, leaving uncommitted changes stranded, or impulsively proposing wholesale file purges when receiving feedback or encountering friction. All plan changes must be documented and explicitly approved by the user.
+
+Non-destructive: purely additive governance constraint, line count maintained/expanded.
+
+---
+
+## AMEND-0021 -- Repository Artifact Management Mandate (Zero-Ephemeral Storage)
+
+- **Date:** 2026-09-14
+- **Logged:** 2026-09-14
+- **Motivating issue:** User directive -- "artifacts are only managed in the repo.. get that into the constitution immediately"
+- **Approved by:** "Proceed to execution" (automatic policy approval of approved amendment proposal)
+- **Destructive:** no
+- **Line count:** 267
+- **Resulting SHA-256:** `7bdf273b9fa439de14fa4ecc08c958659b174a43e29f500875134f2304c1cb5c`
+
+### Change
+
+Section *Agent Behavior*, subsection *Documentation Standards*, lines 151-158.
+
+Renamed subsection to *Documentation & Repository Artifact Management Standards* and added the explicit normative mandate requiring all engineering artifacts, solution documents, and blueprints to be committed directly inside the repository, barring primary storage in ephemeral application scratchpads.
+
+### Rationale
+
+Eliminates the loss of architectural solution documents, engineering decisions, and context across sessions and subagents. Guarantees that all artifacts are version-controlled, durable, and visible to all subagents and CI/CD quality gates.
+
+Non-destructive: additive governance clause, line count expanded.
 

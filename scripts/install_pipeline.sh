@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-INSTALLER_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+INSTALLER_ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 TARGET_DIR=""
 PROVIDER="auto"
 GITLAB_URL="https://gitlab.com"
 GITLAB_GROUP=""
+JIRA_URL="https://your-domain.atlassian.net"
+JIRA_PROJECT=""
+JIRA_EMAIL=""
 
 show_help() {
   cat << 'EOF'
@@ -20,14 +23,19 @@ Arguments:
   TARGET_DIR                 Target project directory (default: current directory '.')
 
 Options:
-  -p, --provider PROVIDER    Target issue tracker and CI/CD provider: 'github', 'gitlab', or 'auto' (default: 'auto')
+  -p, --provider PROVIDER    Target issue tracker and CI/CD provider: 'github', 'gitlab', 'jira', or 'auto' (default: 'auto')
+  -t, --tracker TRACKER      Alias for --provider: 'github', 'gitlab', 'jira', or 'auto'
       --gitlab-url URL       GitLab instance base URL (default: 'https://gitlab.com')
       --gitlab-group GROUP   GitLab namespace/group path (e.g. 'uas-safety')
+      --jira-url URL         Jira instance base URL (default: 'https://your-domain.atlassian.net')
+      --jira-project PROJECT Jira project key code (e.g. 'UAS')
+      --jira-email EMAIL     Jira account email address (for Jira Cloud Basic Auth)
   -h, --help                 Display this help documentation and exit
 
 Examples:
   ./scripts/install_pipeline.sh /path/to/downstream-project
   ./scripts/install_pipeline.sh --provider gitlab --gitlab-url https://gitlab.internal.defense.gov /path/to/project
+  ./scripts/install_pipeline.sh --tracker jira --jira-url https://my-org.atlassian.net --jira-project PROJ /path/to/project
   ./scripts/install_pipeline.sh --provider github .
 EOF
 }
@@ -39,15 +47,15 @@ while [[ $# -gt 0 ]]; do
       show_help
       exit 0
       ;;
-    -p|--provider)
+    -p|--provider|-t|--tracker)
       if [[ -z "$2" || "$2" == -* ]]; then
-        echo "Error: --provider requires an argument ('github', 'gitlab', or 'auto')." >&2
+        echo "Error: $1 requires an argument ('github', 'gitlab', 'jira', or 'auto')." >&2
         exit 1
       fi
       PROVIDER="$2"
       shift 2
       ;;
-    --provider=*)
+    --provider=*|--tracker=*)
       PROVIDER="${1#*=}"
       shift
       ;;
@@ -75,6 +83,42 @@ while [[ $# -gt 0 ]]; do
       GITLAB_GROUP="${1#*=}"
       shift
       ;;
+    --jira-url)
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: --jira-url requires a URL argument." >&2
+        exit 1
+      fi
+      JIRA_URL="$2"
+      shift 2
+      ;;
+    --jira-url=*)
+      JIRA_URL="${1#*=}"
+      shift
+      ;;
+    --jira-project)
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: --jira-project requires a project key argument." >&2
+        exit 1
+      fi
+      JIRA_PROJECT="$2"
+      shift 2
+      ;;
+    --jira-project=*)
+      JIRA_PROJECT="${1#*=}"
+      shift
+      ;;
+    --jira-email)
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: --jira-email requires an email argument." >&2
+        exit 1
+      fi
+      JIRA_EMAIL="$2"
+      shift 2
+      ;;
+    --jira-email=*)
+      JIRA_EMAIL="${1#*=}"
+      shift
+      ;;
     -*)
       echo "Error: Unknown option: $1" >&2
       show_help >&2
@@ -95,30 +139,40 @@ done
 
 TARGET_DIR="${TARGET_DIR:-.}"
 
-if [[ "$PROVIDER" != "auto" && "$PROVIDER" != "github" && "$PROVIDER" != "gitlab" ]]; then
-  echo "Error: Invalid provider '$PROVIDER'. Must be one of 'github', 'gitlab', or 'auto'." >&2
+if [[ "$PROVIDER" != "auto" && "$PROVIDER" != "github" && "$PROVIDER" != "gitlab" && "$PROVIDER" != "jira" ]]; then
+  echo "Error: Invalid provider '$PROVIDER'. Must be one of 'github', 'gitlab', 'jira', or 'auto'." >&2
   exit 1
 fi
 
 mkdir -p "$TARGET_DIR"
-TARGET_DIR="$(cd "$TARGET_DIR" 2>/dev/null && pwd || echo "$TARGET_DIR")"
+TARGET_DIR="$(cd -P "$TARGET_DIR" 2>/dev/null && pwd -P || echo "$TARGET_DIR")"
 
-if [ "$TARGET_DIR" = "$INSTALLER_ROOT" ] && [ -e "$INSTALLER_ROOT/.pipeline/upstream" ]; then
-  echo "REFUSING: target is the pipeline repository itself, not a downstream project." >&2
+if [ "$TARGET_DIR" = "$INSTALLER_ROOT" ]; then
+  if [ -e "$INSTALLER_ROOT/.pipeline/upstream" ]; then
+    echo "REFUSING: target is the pipeline repository itself, not a downstream project." >&2
+  else
+    echo "REFUSING: target directory is identical to installer root ($INSTALLER_ROOT)." >&2
+  fi
   exit 1
 fi
 
-rm -rf "$TARGET_DIR/skills" "$TARGET_DIR/rules" "$TARGET_DIR/.pipeline" "$TARGET_DIR/.agents" "$TARGET_DIR/scripts" "$TARGET_DIR/schema"
+rm -rf "$TARGET_DIR/skills" "$TARGET_DIR/rules" "$TARGET_DIR/.pipeline" "$TARGET_DIR/.agents" "$TARGET_DIR/scripts"
 cp -RP "$INSTALLER_ROOT/skills" "$TARGET_DIR/"
 cp -RP "$INSTALLER_ROOT/rules" "$TARGET_DIR/"
 cp -RP "$INSTALLER_ROOT/.pipeline" "$TARGET_DIR/"
 rm -rf "$TARGET_DIR/.pipeline/upstream"
+rm -rf "$TARGET_DIR/.pipeline/diagnostics"
 cp -RP "$INSTALLER_ROOT/.agents" "$TARGET_DIR/"
 cp -RP "$INSTALLER_ROOT/scripts" "$TARGET_DIR/"
-cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/"
+if [ ! -e "$TARGET_DIR/schema" ]; then
+  if [ -d "$INSTALLER_ROOT/schema" ]; then
+    cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/"
+  else
+    mkdir -p "$TARGET_DIR/schema"
+  fi
+fi
 cp -P "$INSTALLER_ROOT/requirements.txt" "$TARGET_DIR/" 2>/dev/null || true
 cp -P "$INSTALLER_ROOT/pyproject.toml" "$TARGET_DIR/" 2>/dev/null || true
-cp -P "$INSTALLER_ROOT/.gitlab-ci.yml" "$TARGET_DIR/" 2>/dev/null || true
 if [ -f "$TARGET_DIR/.gitignore" ]; then
   cat "$INSTALLER_ROOT/.gitignore" >> "$TARGET_DIR/.gitignore"
   # Deduplicate lines in .gitignore
@@ -127,23 +181,44 @@ elif [ -f "$INSTALLER_ROOT/.gitignore" ]; then
   cp "$INSTALLER_ROOT/.gitignore" "$TARGET_DIR/"
 fi
 
-mkdir -p "$TARGET_DIR/schema"
+if [ ! -e "$TARGET_DIR/schema" ]; then
+  mkdir -p "$TARGET_DIR/schema"
+fi
 mkdir -p "$TARGET_DIR/tests"
 cp -RP "$INSTALLER_ROOT/tests/test_baseline.py" "$TARGET_DIR/tests/" 2>/dev/null || true
 cp -RP "$INSTALLER_ROOT/tests/test_safety_integrity.py" "$TARGET_DIR/tests/" 2>/dev/null || true
 cp -RP "$INSTALLER_ROOT/tests/test_gitlab_provider.py" "$TARGET_DIR/tests/" 2>/dev/null || true
-mkdir -p "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/safety" "$TARGET_DIR/docs/architecture/blueprints" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases"
+cp -RP "$INSTALLER_ROOT/tests/test_jira_provider.py" "$TARGET_DIR/tests/" 2>/dev/null || true
+cp -RP "$INSTALLER_ROOT/tests/test_ground_truth_tooling.py" "$TARGET_DIR/tests/" 2>/dev/null || true
+cp -RP "$INSTALLER_ROOT/tests/fixtures" "$TARGET_DIR/tests/" 2>/dev/null || true
+mkdir -p "$TARGET_DIR/docs" "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/conops/units/conops" "$TARGET_DIR/docs/conops/units/mission_intent" "$TARGET_DIR/docs/interfaces" "$TARGET_DIR/docs/safety" "$TARGET_DIR/docs/architecture/blueprints" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases" "$TARGET_DIR/docs/management"
+touch "$TARGET_DIR/docs/management/.gitkeep"
 if [ -f "$INSTALLER_ROOT/docs/conops/README.md" ]; then
   cp -P "$INSTALLER_ROOT/docs/conops/README.md" "$TARGET_DIR/docs/conops/"
 fi
 if [ -f "$INSTALLER_ROOT/docs/safety/README.md" ]; then
   cp -P "$INSTALLER_ROOT/docs/safety/README.md" "$TARGET_DIR/docs/safety/"
 fi
+if [ -f "$INSTALLER_ROOT/docs/OPERATOR_PROMPT_CATALOG.md" ]; then
+  cp -P "$INSTALLER_ROOT/docs/OPERATOR_PROMPT_CATALOG.md" "$TARGET_DIR/docs/"
+fi
+if [ -f "$INSTALLER_ROOT/docs/JIRA_INTEGRATION_GUIDE.md" ]; then
+  cp -P "$INSTALLER_ROOT/docs/JIRA_INTEGRATION_GUIDE.md" "$TARGET_DIR/docs/"
+fi
 mkdir -p "$TARGET_DIR/.pipeline/contracts" "$TARGET_DIR/.pipeline/domain_specs" "$TARGET_DIR/.pipeline/profiles"
 chmod +x "$TARGET_DIR"/scripts/*.sh "$TARGET_DIR"/scripts/*.py 2>/dev/null || true
 
 # Apply provider configurations if specified
 if [ "$PROVIDER" = "gitlab" ] || [ -n "$GITLAB_GROUP" ] || [ "$GITLAB_URL" != "https://gitlab.com" ]; then
+  if [ -f "$INSTALLER_ROOT/.pipeline/templates/.gitlab-ci.yml" ]; then
+    cp -P "$INSTALLER_ROOT/.pipeline/templates/.gitlab-ci.yml" "$TARGET_DIR/.gitlab-ci.yml"
+  elif [ -f "$INSTALLER_ROOT/.pipeline/.gitlab-ci.yml" ]; then
+    cp -P "$INSTALLER_ROOT/.pipeline/.gitlab-ci.yml" "$TARGET_DIR/.gitlab-ci.yml"
+  elif [ -f "$TARGET_DIR/.pipeline/templates/.gitlab-ci.yml" ]; then
+    cp -P "$TARGET_DIR/.pipeline/templates/.gitlab-ci.yml" "$TARGET_DIR/.gitlab-ci.yml"
+  elif [ -f "$TARGET_DIR/.pipeline/.gitlab-ci.yml" ]; then
+    cp -P "$TARGET_DIR/.pipeline/.gitlab-ci.yml" "$TARGET_DIR/.gitlab-ci.yml"
+  fi
   for rules_file in "$TARGET_DIR/.pipeline/logical-ui/codebase_rules.json" "$TARGET_DIR/codebase_rules.json"; do
     if [ -f "$rules_file" ]; then
       python3 -c "
@@ -173,6 +248,48 @@ with open(path, 'w', encoding='utf-8') as f:
 " 2>/dev/null || true
     fi
   done
+elif [ "$PROVIDER" = "jira" ] || [ -n "$JIRA_PROJECT" ] || [ -n "$JIRA_EMAIL" ] || [ "$JIRA_URL" != "https://your-domain.atlassian.net" ]; then
+  for rules_file in "$TARGET_DIR/.pipeline/logical-ui/codebase_rules.json" "$TARGET_DIR/codebase_rules.json"; do
+    if [ -f "$rules_file" ]; then
+      python3 -c "
+import json, sys
+path = '$rules_file'
+with open(path, 'r', encoding='utf-8') as f:
+    data = json.load(f)
+if 'tracker_rules' not in data:
+    data['tracker_rules'] = {}
+if '$PROVIDER' != 'auto':
+    data['tracker_rules']['provider'] = '$PROVIDER'
+if '$PROVIDER' == 'jira':
+    data['tracker_rules']['numeric_prefix'] = ''
+    data['tracker_rules']['alphanumeric_prefix'] = ''
+    data['tracker_rules']['keys'] = {
+        'issue_id': 'key',
+        'title': 'title',
+        'labels': 'labels',
+        'state': 'state',
+        'closed_state_value': 'CLOSED',
+        'open_state_value': 'OPEN'
+    }
+    data['tracker_rules']['labels'] = {
+        'epic': 'type::epic',
+        'feature': 'type::feature',
+        'user_story': 'type::user-story',
+        'use_case': 'type::use-case',
+        'ready_for_review': 'status::ready-for-review',
+        'resolved': 'status::fixed-resolved'
+    }
+if '$JIRA_URL':
+    data['tracker_rules']['server_url'] = '$JIRA_URL'
+if '$JIRA_PROJECT':
+    data['tracker_rules']['project_key'] = '$JIRA_PROJECT'
+if '$JIRA_EMAIL':
+    data['tracker_rules']['email'] = '$JIRA_EMAIL'
+with open(path, 'w', encoding='utf-8') as f:
+    json.dump(data, f, indent=2)
+" 2>/dev/null || true
+    fi
+  done
 elif [ "$PROVIDER" = "github" ]; then
   for rules_file in "$TARGET_DIR/.pipeline/logical-ui/codebase_rules.json" "$TARGET_DIR/codebase_rules.json"; do
     if [ -f "$rules_file" ]; then
@@ -191,44 +308,64 @@ with open(path, 'w', encoding='utf-8') as f:
   done
 fi
 
-# Scaffold downstream root AGENTS.md if missing
-if [ ! -f "$TARGET_DIR/AGENTS.md" ]; then
-  if [ -f "$TARGET_DIR/.agents/AGENTS.md" ]; then
-    cp "$TARGET_DIR/.agents/AGENTS.md" "$TARGET_DIR/AGENTS.md"
-  elif [ -f "$INSTALLER_ROOT/AGENTS.md" ]; then
-    cp "$INSTALLER_ROOT/AGENTS.md" "$TARGET_DIR/AGENTS.md"
-  fi
-fi
+# Generate .env.template in target workspace
+cat << 'EOF' > "$TARGET_DIR/.env.template"
+# Digital Engineering Agent Platform (DEAP) Environment Variables Template
+# Copy this file to .env or export variables in your shell / CI/CD environment.
 
-# Scaffold downstream root CLAUDE.md if missing
-if [ ! -f "$TARGET_DIR/CLAUDE.md" ]; then
-  cat << 'EOF' > "$TARGET_DIR/CLAUDE.md"
-# Claude Code Project Guidelines
+# ==============================================================================
+# GitHub Configuration (for --provider github)
+# ==============================================================================
+# GITHUB_TOKEN=ghp_your_github_personal_access_token
+# GITHUB_REPOSITORY=owner/repository_name
 
-## Primary Commercial Toolchain Integration Context
-This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+# ==============================================================================
+# GitLab Configuration (for --provider gitlab)
+# ==============================================================================
+# GITLAB_URL=https://gitlab.com
+# GITLAB_PROJECT=group/project_name
+# GITLAB_TOKEN=glpat-your_gitlab_personal_access_token
+# CI_JOB_TOKEN=your_ci_job_token_if_in_gitlab_ci
+# GITLAB_CA_CERT_PATH=/path/to/custom_ca_cert.crt
 
-## Workflow & Quality Gates
-- Follow all pipeline rules in `rules/` and skills in `skills/` and `.agents/skills/`.
-- Strict Planning Gate: Do not execute unauthorized modifications without an approved implementation plan.
-- Execute baseline verification: `pytest tests/test_baseline.py` and `python3 scripts/verify_downstream_baseline.py --no-domain`.
+# ==============================================================================
+# Jira Cloud / Data Center Configuration (for --provider jira)
+# ==============================================================================
+# Base URL for Jira Cloud or Jira Data Center
+JIRA_SERVER_URL=https://your-domain.atlassian.net
+
+# Jira Project Key (e.g. UAS, SAFE, DEAP)
+JIRA_PROJECT_KEY=UAS
+
+# Atlassian Account Email (required for Jira Cloud Basic Authentication)
+JIRA_EMAIL=engineer@your-domain.com
+
+# Jira API Token (for Jira Cloud) or Personal Access Token (for Jira Data Center)
+JIRA_API_TOKEN=your_jira_api_token_or_pat_here
+
+# Optional: Path to custom Root CA bundle for self-hosted Jira Data Center
+# JIRA_CA_CERT_PATH=/etc/ssl/certs/internal-ca.pem
 EOF
-fi
+
+# Transform and scaffold downstream .agents/AGENTS.md and root AGENTS.md with full governance armor
+mkdir -p "$TARGET_DIR/.agents"
+python3 "$INSTALLER_ROOT/scripts/scaffold_downstream_agents.py" "$INSTALLER_ROOT" "$TARGET_DIR"
+
 
 # Scaffold downstream root README.md if missing
 if [ ! -f "$TARGET_DIR/README.md" ]; then
   cat << 'EOF' > "$TARGET_DIR/README.md"
-# Downstream Low-Altitude UAS Infrastructure Safety Project
+# Downstream Cyber-Physical Infrastructure Safety Project
 
 > **Repository Role:** `DOWNSTREAM_APPLICATION_WORKSPACE`  
-> **Primary Technology Profiles:** `ROS2 C++ Real-Time` | `PX4 Autopilot Flight Module`  
+> **Primary Technology Profiles:** `ROS2 C++ Real-Time` | `Target Embedded Platform Execution Profile`  
 > **Target Regulatory Frameworks:** `JARUS SORA v2.5 (SAIL I–VI)` | `ASTM F3269-17 RTA` | `ASTM F3411-22a Remote ID` | `RTCA DO-365B DAA`  
 
 ---
 
 ## 1. System Overview
 
-This repository is an installed downstream implementation workspace governed by the **Digital Engineering Agent Platform (DEAP)** for low-altitude UAS infrastructure safety, detect-and-avoid (DAA), run-time assurance (RTA), and autonomous flight operations.
+This repository is an installed downstream implementation workspace governed by the **Digital Engineering Agent Platform (DEAP)** for cyber-physical infrastructure safety, real-time control, run-time assurance (RTA), and autonomous operations.
 
 ### 1.1 Primary Commercial Toolchain Integration Context
 
@@ -257,100 +394,99 @@ Immediately following installation, any AI agent (Antigravity, Claude Code, Gemi
 1. **Read Governance Constitution**: Execute `view_file` on `.pipeline/constitution.md` to ingest the platform-independent functional governance layer and zero-mocking persistence mandates.
 2. **Load Project Skills**: Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` (and any active skills under `skills/` or `.agents/skills/`) to initialize feature-driven implementation protocols and review gates.
 3. **Load Governance Rules**: Ingest `AGENTS.md` and `rules/` to enforce project-scoped agentic rules, context-isolated subagent dispatch loops, and role boundary locks.
-4. **Load Platform Profile**: Read the target platform execution profile (`.pipeline/profiles/ros2_cpp.md` for ROS2 C++ Real-Time Nodes or `.pipeline/profiles/px4_module.md` for PX4 Autopilot Flight Modules) to establish platform-specific build, test, and lifecycle constraints.
+4. **Load Platform Profile**: Read the target platform execution profile (`.pipeline/profiles/flutter.md`, `.pipeline/profiles/react.md`, `.pipeline/profiles/ros2_cpp.md`, or `.pipeline/profiles/px4_module.md`) to establish platform-specific build, test, and lifecycle constraints.
 5. **Bootstrap Tracker Labels & Verify Baseline**: Verify that repository issue tracker labels and baseline tests pass by running `pytest tests/` and `python3 scripts/verify_downstream_baseline.py --no-domain`.
 
 ---
 
-## 4. Pipeline 0: Pre-Spec Safety Engineering Execution Workflow
+## 4. Multi-Pipeline Operator Prompt Catalog & Autonomous Execution Workflows
 
-Pipeline 0 (**Pre-Spec Safety Engineering Engine**) ingests mission flight envelopes and airspace constraints to produce normative safety specifications, STPA/FMECA analysis, SORA SAIL assurance models, and SysML v2 textual AST artifacts.
+This catalog contains the complete, unabridged, copy-pasteable operator prompt suite for executing all stages of the Digital Engineering Agent Platform (DEAP) lifecycle across context-isolated subagents in Antigravity, Claude Code, Gemini CLI, Cursor, and Cascade.
 
 ### 4.1 Master-Worker Subagent Topology
 
 ```mermaid
 flowchart LR
-    subgraph Ingestion["Universal Multi-Document & Schema Ingestion"]
-        Doc1["Operational Intent (docs/conops/*.md)"]
-        Doc2["Interface & Model Schemas (schema/*)"]
-        Doc3["Architectural Blueprints (docs/architecture/*.md)"]
-        Doc4["Prompt Directives (Fallback: Auto-Persist docs/conops/MISSION_INTENT.md)"]
-    end
-    Doc1 --> Worker_0A["Worker 0A: CONOPS Synthesizer"]
-    Doc2 --> Worker_0A
-    Doc3 --> Worker_0A
-    Doc4 --> Worker_0A
-    Worker_0A -->|"docs/conops/CONOPS.md"| Worker_0B["Worker 0B: STPA / FMECA / SORA Assurer"]
-    Worker_0B -->|"docs/safety/STPA_MATRIX.md & SORA SAIL"| Worker_0C["Worker 0C: SysML v2 Authoring Worker"]
-    Worker_0C -->|"DEAP_MODEL.sysml & Handoff AST JSON"| Pipeline_1["Pipeline 1 Projection Engine"]
+    Step0["Step 0: SysML Model Ingestion & Compilation Gate (python3 scripts/compile_sysml.py --compile)"]
+    Step0 -->|"Compiled AST"| Worker_0A["Worker 0A: CONOPS Synthesizer"]
+    Worker_0A -->|"docs/conops/CONOPS.md"| Worker_0B["Worker 0B: STPA / FMECA Assurer"]
+    Worker_0B -->|"docs/safety/STPA_MATRIX.md"| Step3["Step 3: Level 1C ICD Extraction & Level 2 Specifications"]
 ```
 
-### 4.2 Pipeline 0 Command-Line Execution Prompts
+### 4.2 Pipeline 0 Execution Prompts
 
-Execute the following prompts in sequence using context-isolated subagents:
+Execute the following prompts in sequence using context-isolated subagents to transform unstructured intent, operational scenarios, and interface schemas into formal CONOPS, STPA hazard matrices, and SysML v2 AST models:
 
-#### 4.2.1 Worker 0A: CONOPS & Mission Scenario Synthesis Prompt
+#### 4.2.1 Worker 0A: CONOPS & Operational Scenario Synthesis Prompt
 
 ```text
-Role: Worker 0A — CONOPS & Mission Scenario Synthesizer
+Execute `view_file` on `skills/spec-conops-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER (or DOWNSTREAM_CUSTOMER_PROJECT depending on execution context)
+
+Role: Worker 0A -- CONOPS & Operational Scenario Synthesizer
 
 Primary Commercial Toolchain Integration Context:
 This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
 
 Directive:
-Execute front-end CONOPS synthesis for the target UAS flight mission profile using Universal Multi-Document & Schema Ingestion:
+Execute front-end CONOPS synthesis for the target cyber-physical system using Universal Multi-Document & Schema Ingestion:
 
 1. Universal Multi-Document & Schema Discovery:
-   - Operational Intent Discovery: Scan `docs/conops/` for all mission intent markdown files (`*.md`, excluding `README.md`). If present, ingest all as authoritative operational specifications. If `docs/conops/` contains no intent files, ingest prompt directives and auto-persist `docs/conops/MISSION_INTENT.md`.
+   - Operational Intent Discovery: Scan `docs/conops/` for all mission/operational intent markdown files (`*.md`, excluding `README.md`). If present, ingest all as authoritative operational specifications. If `docs/conops/` contains no intent files, ingest prompt directives and auto-persist `docs/conops/MISSION_INTENT.md`.
    - Interface & Model Schema Ingestion: Scan `schema/` for pre-existing customer models and interface definitions (`*.sysml`, `*.proto`, `*.arxml`, `*.json`, `*.yaml`, `*.idl`). Ingest all port types, message structures, and subsystem definitions into the operational context.
    - Architectural Blueprint Ingestion: Scan `docs/architecture/` (and `docs/architecture/blueprints/`) for existing architectural specifications, network blueprints, and safety frameworks (`*.md`). Ingest all system boundaries, subsystem mappings, and commercial toolchain hooks.
    - Reconcile customer interface schemas and architectural blueprints with system boundaries and MATLAB / Simulink / Stateflow control law synthesis hooks.
 
 2. Ingestion & Analysis Scope:
-   - Operational mission envelope (flight altitude boundaries, max ground speed, payload configuration, population density, BVLOS vs VLOS flight operations).
-   - Operational airspace constraints, regulatory classification (e.g., JARUS SORA, FAA Part 107/135, EASA Specific Category), and geographic boundaries.
-   - Stakeholder role definitions (Remote Pilot in Command, Fleet Operations Manager, Command Center Lead, Air Traffic Management / UTM interface).
-   - Flight operational phases (Pre-Flight Checkout, Launch/Takeoff, En-Route Cruise, Mission Execution, Approach & Landing, Fail-Safe Contingency RTL).
+   - Schema-derived operational envelope (physical boundaries, operating dynamics, environmental constraints, payload/actuator configurations).
+   - Domain-specific operational lifecycle phases: Initialization, Normal Operation, Degraded/Contingency Modes, and Safe Shutdown/Transition.
+   - Dynamic stakeholder roles derived from the system operational context (e.g., System Operators, Dispatchers/Supervisors, Field Maintenance Technicians, External Management/Telemetry Interfaces).
+   - Domain-specific regulatory and safety classification relevant to the operational envelope.
 
 3. Output Requirements:
    - Persist/validate `docs/conops/MISSION_INTENT.md` under `docs/conops/MISSION_INTENT.md` (if operating from prompt fallback or validating canonical format).
    - Generate `CONOPS.md` under `docs/conops/CONOPS.md` integrating all discovered intent, schema, and architectural constraints.
    - Ensure clear operational phase boundaries, system physical and functional boundaries, and environmental envelope constraints.
    - Include MATLAB / Simulink / Stateflow model integration baseline hooks for downstream control law synthesis.
-   - KaTeX / LaTeX Math Formatting Mandate: All multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines. Bare alignment tabs `&` outside an alignment environment (`aligned`, `matrix`, `cases`) and `\begin{align*}` environments are strictly forbidden.
+   - KaTeX / LaTeX Math Formatting Mandate: All multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines. Bare alignment tabs `&` outside an alignment environment (`aligned`, `matrix`, `cases`) and `\begin{align*}` environments are strictly forbidden. Markdown Table Math Prohibition Rule: Strictly ban `$ ... $` and `$$ ... $$` LaTeX math delimiters inside table headers, rows, and cells; plain text and Unicode (e.g. `Initial S`, `ΔV`, `λ`, `°C`, `≥`, `≤`, `→`, `10⁻⁶`) must be used instead, with 1:1 column count match between header and delimiter rows.
 
 PROCEED
 ```
 
-#### 4.2.2 Worker 0B: STPA Hazard Analysis, FMECA & SORA SAIL Assurer Prompt
+#### 4.2.2 Worker 0B: STPA Hazard Analysis, FMECA & Domain Safety Assurer Prompt
 
 ```text
-Role: Worker 0B — STPA Hazard Analysis, FMECA & SORA SAIL Assurer
+Execute `view_file` on `skills/spec-orchestrator/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER (or DOWNSTREAM_CUSTOMER_PROJECT depending on execution context)
+
+Role: Worker 0B -- STPA Hazard Analysis, FMECA & Domain Safety Assurer
 
 Primary Commercial Toolchain Integration Context:
 This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
 
 Directive:
-Perform STPA hazard analysis, FMECA failure mode criticality evaluation, and SORA SAIL I–VI risk assessment based on `docs/conops/CONOPS.md`.
+Perform STPA hazard analysis, FMECA failure mode criticality evaluation, and domain safety risk assessment based on `docs/conops/CONOPS.md`.
 
-1. Standards Compliance:
-   - JARUS SORA v2.5 (SAIL I through SAIL VI risk mitigations, Ground Risk Class GRC, Air Risk Class ARC, Operational Safety Objectives OSO-01 through OSO-24).
-   - ASTM F3269-17 (Run-Time Assurance Monitor Architecture & Safety Net switching).
-   - RTCA DO-365B (Detect and Avoid DAA MOPS & TCAS II / ACAS sUAS alert & guidance).
+1. Standards Compliance & Domain Safety Framework:
+   - Dynamic Domain Safety Framework Selection: Apply the applicable safety framework governing the target domain (e.g., ISO 14971/IEC 62304 for Medical, EN 50128 for Rail, DNV-GL for Marine, ECSS for Space, ISO 3691-4 for Industrial AGV, SORA/DO-178C for Aviation).
+   - Run-Time Assurance (RTA) Monitor Architecture & Safety Net switching (e.g., ASTM F3269-17 or domain-equivalent safety monitor pattern).
+   - Domain-specific hazard detection, telemetry monitoring, and contingency guidance standards.
 
 2. Output Requirements:
    - Generate `STPA_MATRIX.md` under `docs/safety/STPA_MATRIX.md` adhering strictly to the 8-pillar schema:
      1. System Losses ($L-1..N$)
      2. System Hazards ($H-1..N$)
-     3. Hierarchical Control Structure Topology (defining RPIC, Autopilot, ASTM F3269-17 RTA Monitor, Actuators, Sensors)
+     3. Hierarchical Control Structure Topology (defining System Controllers, Supervisors/RTA Monitors, Actuators, Sensors)
      4. Unsafe Control Actions ($UCA-1..N$) covering all 4 failure modes: (a) Not providing causes hazard, (b) Providing causes hazard, (c) Providing too early, too late, or out of order, (d) Stopped too soon or applied too long
      5. Loss Scenarios ($LS-1..N$) & Causal Factors
      6. Formal Safety Constraints ($SC-1..N$)
      7. FMECA Criticality Matrix: Component failure modes with 15+ rows, Severity ($S$), Occurrence ($O$), Detection ($D$), and Risk Priority Numbers ($\text{RPN} = S \times O \times D$)
-     8. SORA SAIL Risk Mitigations & OSO Traceability Table: Final GRC, ARC, SAIL classification (SAIL I–VI), and comprehensive mapping of all 24 SORA OSOs (OSO-01 through OSO-24)
-   - Include ASTM F3269-17 Run-Time Assurance (RTA) Safety Net monitor architecture.
+     8. Domain Safety Framework & Risk Mitigations Table: Risk class classification, integrity levels, and comprehensive mapping of domain safety objectives and mitigations (e.g., ISO 14971/IEC 62304, EN 50128, DNV-GL, ECSS, ISO 3691-4, SORA OSO-01..24)
+   - Include Run-Time Assurance (RTA) Safety Net monitor architecture.
    - Include MATLAB / Simulink / Stateflow / Embedded Coder model integration baseline hooks and SLDV formal proof properties.
-   - KaTeX / LaTeX Math Formatting Mandate: All multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines. Bare alignment tabs `&` outside an alignment environment (`aligned`, `matrix`, `cases`) and `\begin{align*}` environments are strictly forbidden.
+   - KaTeX / LaTeX Math Formatting Mandate: All multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines. Bare alignment tabs `&` outside an alignment environment (`aligned`, `matrix`, `cases`) and `\begin{align*}` environments are strictly forbidden. Markdown Table Math Prohibition Rule: Strictly ban `$ ... $` and `$$ ... $$` LaTeX math delimiters inside table headers, rows, and cells; plain text and Unicode (e.g. `Initial S`, `ΔV`, `λ`, `°C`, `≥`, `≤`, `→`, `10⁻⁶`) must be used instead, with 1:1 column count match between header and delimiter rows.
 
 PROCEED
 ```
@@ -358,26 +494,344 @@ PROCEED
 #### 4.2.3 Worker 0C: SysML v2 Architectural & Safety Model Author Prompt
 
 ```text
-Role: Worker 0C — SysML v2 Architectural & Safety Model Author
+Execute `view_file` on `skills/spec-orchestrator/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER (or DOWNSTREAM_CUSTOMER_PROJECT depending on execution context)
+
+Role: Worker 0C -- SysML v2 Architectural & Safety Model Author
 
 Primary Commercial Toolchain Integration Context:
 This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
 
 Directive:
-Formalize the CONOPS (`CONOPS.md`), STPA hazard matrices, FMECA ratings, and SORA SAIL requirements (`STPA_MATRIX.md`) into a normative SysML v2 textual model and serialized AST handoff contract.
+Formalize the CONOPS (`CONOPS.md`), STPA hazard matrices, FMECA ratings, and domain safety requirements (`STPA_MATRIX.md`) into a canonical SysML v2 textual model and serialized AST handoff contract based on the derived domain architecture.
 
 1. Model Engineering Mandate:
-   - Construct `DEAP_MODEL.sysml` conforming to SysML v2 textual specification standards (`package`, `req`, `part`, `port`, `state`, `satisfy`, `verify`).
-   - Define safety statecharts for Run-Time Assurance (RTA) switching logic, contingency flight modes, and fail-safe Return-to-Launch (RTL) transitions.
-   - Establish MATLAB / Simulink / Stateflow export compatibility for DO-178C C/SPARK Ada code synthesis.
-   - KaTeX / LaTeX Math Formatting Mandate: Ensure any statechart/mathematical transition guards and formal expressions follow standard escaping and valid KaTeX blocks (all multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines; bare alignment tabs `&` outside an alignment environment and `\begin{align*}` are strictly forbidden).
+   - Construct canonical `DEAP_MODEL.sysml` conforming to SysML v2 textual specification standards (`package`, `req`, `part`, `port`, `state`, `satisfy`, `verify`) based on the derived domain architecture.
+   - Define safety statecharts for Run-Time Assurance (RTA) switching logic, contingency operational modes, and fail-safe transitions.
+   - Establish MATLAB / Simulink / Stateflow export compatibility for safety-critical code synthesis.
+   - KaTeX / LaTeX Math Formatting Mandate: Ensure any statechart/mathematical transition guards and formal expressions follow standard escaping and valid KaTeX blocks (all multi-line aligned equations MUST be enclosed in `\begin{aligned} ... \end{aligned}` within `$$` delimiters on dedicated lines; bare alignment tabs `&` outside an alignment environment and `\begin{align*}` are strictly forbidden). Markdown Table Math Prohibition Rule: Strictly ban `$ ... $` and `$$ ... $$` LaTeX math delimiters inside table headers, rows, and cells; plain text and Unicode (e.g. `Initial S`, `ΔV`, `λ`, `°C`, `≥`, `≤`, `→`, `10⁻⁶`) must be used instead, with 1:1 column count match between header and delimiter rows.
 
 2. Output Requirements:
-   - Generate `DEAP_MODEL.sysml` under `docs/architecture/blueprints/DEAP_MODEL.sysml`.
-   - Generate `pipeline0_handoff_contract.json` under `.pipeline/contracts/pipeline0_handoff_contract.json` for downstream Pipeline 1 Agile projection and Pipeline 2 code generation.
+   - Generate canonical `DEAP_MODEL.sysml` under `schema/DEAP_MODEL.sysml` (or `.pipeline/schema.sysml`).
+   - Generate canonical `pipeline0_handoff_contract.json` under `.pipeline/contracts/pipeline0_handoff_contract.json` for downstream Pipeline 1 Agile projection and Pipeline 2 code generation.
 
 PROCEED
 ```
+
+#### 4.2.4 Worker 0D: Interface Specification Worker (Logical ICD & Signal Dictionary) Prompt
+
+```text
+Execute `view_file` on `skills/spec-icd-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER (or DOWNSTREAM_CUSTOMER_PROJECT depending on execution context)
+
+Role: Worker 0D -- Interface Specification Worker (Logical ICD & Signal Dictionary)
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Directive:
+Synthesize Level 1C Logical Interface Specifications and Signal Dictionaries from formal SysML v2 AST interface blocks:
+
+1. AST Interface Parsing:
+   - Ingest `.pipeline/schema.sysml` and `.pipeline/schema-digest.json`.
+   - Extract directional ports (`port def`), connection bindings (`connection`), formal interface contracts (`interface def`), and information payloads (`item flow`).
+   - Ingest safety constraints (`SC-1..N`) and hazard allocations from `docs/safety/STPA_MATRIX.md` to map safety-critical signal bounds.
+
+2. Deliverable Generation & Quality Gate:
+   - Generate `docs/interfaces/ICD_01_SYSTEM_INTERFACE_MATRIX.md` containing subsystem boundary graphs, N² communication matrix, and topological port bindings.
+   - Generate `docs/interfaces/ICD_02_MASTER_SIGNAL_DICTIONARY.md` containing signal identifiers (`SIG-*`), data types, units, sampling frequencies, update rates, latency bounds, and fail-safe default values.
+   - Run Gate 23 ICD completeness validation: `python3 skills/spec-orchestrator/parity_auditor/src/parity_auditor/validators/icd_completeness_validator.py`.
+   - Register the ICD suite under the `icd` issue label using `./skills/spec-orchestrator/scripts/create_issue.sh "<file>" "icd" "<title>"`.
+   - Verify published issue body integrity via live tracker inspection.
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+### 4.3 Pipeline 1 Agile Backlog Projection Prompts
+
+Execute the following prompts to extract full Agile backlogs (Epics, Level 1C ICD Interface Matrices, BDD User Stories, and UML Use Cases) with closed-loop tracker synchronization:
+
+#### 4.3.1 Worker 1A: Structural Spec Worker (Epics & Features) Prompt
+
+```text
+Execute `view_file` on `skills/schema-specification-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 1A -- Structural Specification Worker (Epics & Features)
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Directive:
+Transform structural schemas and SysML v2 AST models into formal Agile Epics and Features adhering to OOA/OOD principles:
+
+1. AST Parsing & Subsystem Extraction:
+   - Ingest canonical SysML v2 model (`.pipeline/schema.sysml`) and schema digest (`.pipeline/schema-digest.json`).
+   - Parse all subsystem `package` declarations to identify Epic boundaries (`docs/epics/epic-*.md`).
+   - Parse all `part def` (structural components) and `item def` (data payloads) elements to identify Feature boundaries (`docs/features/feat-*.md`).
+   - Dispatch fresh context-isolated subagents for each individual Epic and Feature with YAML frontmatter declaring `generation_mode: "subagent"`.
+
+2. Local Validation & Issue Registration:
+   - Execute the local model coverage linter: `./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs --only <spec_file>`.
+   - Register Features first via `./skills/spec-orchestrator/scripts/create_issue.sh "<file>" "feature" "<title>"`.
+   - Verify live published payload on the issue tracker (`gh issue view <ID> --json body` or `glab issue view <ID>`).
+   - Inject verified Feature Issue IDs into Epic tasklists.
+   - Register Epics via `./skills/spec-orchestrator/scripts/create_issue.sh "<file>" "epic" "<title>"`.
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+
+#### 4.3.2 Worker 1B: Behavioral Spec Worker (User Stories & Statecharts) Prompt
+
+```text
+Execute `view_file` on `skills/spec-user-story-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 1B -- Behavioral Specification Worker (User Stories & Statecharts)
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Directive:
+Extract Behavior-Driven Development (BDD) User Stories, UML Sequence Lifelines, and Stateflow transition triggers from SysML v2 behavioral AST nodes:
+
+1. Behavioral AST Ingestion:
+   - Ingest `.pipeline/schema.sysml` and operational text.
+   - Parse `action def` (computations & transformations), `state def` (lifecycle states & transition guards), `port def` (message triggers), and `interaction def` (lifeline sequences).
+   - Extract algorithmic calculation stories for dynamic computations and temporal expiration stories for state lifecycles.
+   - Map acceptance criteria BDD scenarios to formal SysML `test case def` elements with `verify requirement` tags.
+
+2. Deliverable Generation & Issue Registration:
+   - Dispatch fresh context-isolated subagents per User Story (`docs/user-stories/us-*.md`) with YAML frontmatter (`generation_mode: "subagent"`).
+   - Execute local model coverage linter: `./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs --only <spec_file>`.
+   - Register User Stories via `./skills/spec-orchestrator/scripts/create_issue.sh "<file>" "user-story" "<title>"`.
+   - Verify live published payload on the issue tracker (`gh issue view <ID> --json body` or `glab issue view <ID>`).
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+#### 4.3.3 Worker 1C: Operational Spec Worker (Use Cases & Realization Matrices) Prompt
+
+```text
+Execute `view_file` on `skills/spec-usecase-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 1C -- Operational Spec Worker (Use Cases & Realization Matrices)
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Directive:
+Derive formal UML System Use Cases directly from SysML v2 `use case def` AST blocks and system interaction scenarios:
+
+1. Use Case AST Ingestion:
+   - Ingest `.pipeline/schema.sysml`, `docs/features/`, and `docs/user-stories/`.
+   - Extract `use case def` AST nodes, identifying `subject` (`part def`), typed `actor` ports, `objective`, and `include`/`extend` relations.
+   - Maintain 1:1 Use Case Def mapping with Primary/Secondary Actors, Preconditions, Trigger, Main Success Scenario, Alternate/Exception Flows (covering 100% of validation constraints across realized features), and Postconditions (Success & Failure Guarantees).
+   - Construct UML Use Case diagrams and UML State Machine diagrams.
+
+2. Realization Matrix & Registration:
+   - Construct `## Realization Matrix` resolving specific, unique tracker Issue IDs for each intersecting User Story and Feature.
+   - Execute local model coverage check: `./skills/spec-orchestrator/scripts/verify_model_coverage.py --spec-only --allow-missing-specs --only <spec_file>`.
+   - Register Use Cases via `./skills/spec-orchestrator/scripts/create_issue.sh "<file>" "use-case" "<title>"`.
+   - Verify live published payload on the issue tracker (`gh issue view <ID> --json body` or `glab issue view <ID>`).
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+#### 4.3.4 Worker 1D: WBS & Work Package Decomposition Spec Worker Prompt
+
+```text
+Execute `view_file` on `skills/spec-wbs-engineering/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 1D -- WBS & Work Package Decomposition Spec Worker
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Directive:
+Synthesize MIL-STD-881E Work Breakdown Structures (WBS), Technical Realization Registers, and Enterprise Project Management Exports (Jira, Monday.com, MS Project CSV and JSON AST) from SysML AST, ConOps, Safety Matrices, and Agile Backlog items:
+
+1. WBS & Enterprise Realization Synthesis:
+   - Ingest `.pipeline/schema.sysml`, `docs/conops/`, `docs/safety/`, `docs/epics/`, `docs/features/`, `docs/user-stories/`, and `docs/use-cases/`.
+   - Synthesize the complete 5-tier WBS hierarchy and 7 concrete Model-Based Design (MBD) work packages per feature (`WP-xxx-SPEC`, `WP-xxx-MAT-PARAM`, `WP-xxx-SL-BLD`, `WP-xxx-PY-DOM`, `WP-xxx-PY-ENG`, `WP-xxx-TST`, `WP-xxx-REP`).
+   - Construct the authoritative 7-Column End-to-End Traceability Matrix linking SysML components, Feature specs, User Stories, MATLAB/Simulink models, Python 250 Hz engines, Pytest verification suites, and DO-178C/DO-331 simulation evidence.
+   - Run the deterministic WBS suite generator: `python3 scripts/generate_wbs_suite.py`.
+
+2. Deliverable Generation & Issue Registration:
+   - Generate `docs/management/WBS_DELIVERABLES_SUITE.md` with CommonMark metadata table.
+   - Generate multi-platform export `docs/management/wbs_export_jira_monday_ms_project.csv` (RFC 4180 compliant with Jira, Monday.com, and MS Project field mappings).
+   - Generate validated machine-readable JSON AST `docs/management/wbs_export.json`.
+   - Register the WBS suite under the `wbs` issue label using `./skills/spec-orchestrator/scripts/create_issue.sh "docs/management/WBS_DELIVERABLES_SUITE.md" "wbs" "<title>"`.
+   - Verify published issue body integrity via live tracker inspection (`gh issue view <ID> --json body` or `glab issue view <ID>`).
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+### 4.4 Multi-Provider Backlog Reconciliation Commands
+
+Execute backlog reconciliation and model parity verification across your target VCS platform or offline air-gapped environment:
+
+#### 4.4.1 Option A: GitLab SaaS Reconciliation
+```bash
+./scripts/reconcile_backlog.py --provider gitlab
+```
+
+#### 4.4.2 Option B: GitLab Self-Managed / SCIF Air-Gapped Reconciliation
+```bash
+./scripts/reconcile_backlog.py --provider gitlab --gitlab-url https://gitlab.internal.defense.gov --project <group>/<project>
+```
+
+#### 4.4.3 Option C: GitHub Issues Reconciliation
+```bash
+./scripts/reconcile_backlog.py --provider github
+```
+
+#### 4.4.4 Option D: Offline Verification & 23-Gate Parity Lock
+```bash
+# Closed-loop reverse SysML v2 AST synchronization
+python3 scripts/compile_sysml.py --reverse-sync
+
+# Offline backlog checklist and status synchronization
+./scripts/reconcile_backlog.py --offline
+
+# 23-Gate Model Coverage & UML Compliance Lock
+./skills/spec-orchestrator/scripts/verify_model_coverage.py schema docs/features --spec-only
+```
+
+### 4.5 Pipeline 2 Autonomous Feature Implementation Prompts
+
+Execute the following prompts to drive feature implementation and two-path (dual-track) simulation verification through context-isolated TDD micro-tasks:
+
+#### 4.5.1 Worker 2A / Synthesis Driver: Feature-Driven Implementation Prompt
+
+```text
+Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 2A -- Feature-Driven Implementation & Synthesis Driver
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Governance Preamble & Execution Directive:
+Adopt the feature-driven-implementation skill by reading `.pipeline/constitution.md` and the target platform profile (`.pipeline/profiles/<target-platform>.md`, e.g. `ros2_cpp.md`, `px4_module.md`, or `flutter.md`).
+
+Implement prioritized Feature [Issue Number, e.g. #1] adhering strictly to the 3-Layer Definition of Done (DoD):
+1. Layer 1: Domain Model / Safety Statechart -- Platform-independent domain entities, transition guards, mathematical invariants, and safety statecharts.
+2. Layer 2: Safety Statechart / ViewModel -- State management, event handling, lifecycle hooks, and reactive telemetry bindings.
+3. Layer 3: Interface Binding / Middleware & BDD Tests -- Platform interface bindings (ROS2 lifecycle nodes, PX4 uORB modules, or Flutter widgets) verified via automated BDD integration tests against live emulators / simulation harnesses.
+
+Execution Standards:
+- Execute TDD RED-GREEN-REFACTOR cycles using context-isolated subagents for each 2-5 minute micro-task.
+- Dual-Track MBD Verification: Enforce Track A (Native MATLAB / Simulink / Stateflow synthesis) and Track B (Headless CI Digital Twin Engine) with numerical tolerance verification (error <= 10^-6) and zero license blockers.
+- Zero-Mocking Live Persistence Mandate: Validate all transactions against live databases / emulators.
+- Closed-Loop Payload Verification: Deliver cumulative solution walkthrough (`docs/designs/feat-<ID>-solution.md`), verify live published payload, comment on issue with walkthrough link, and apply `status:fixed-resolved` (GitHub) or `status::fixed-resolved` (GitLab). Leave issue open for Product Owner review.
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+#### 4.5.2 Worker 2B / Simulation Driver: Two-Path (Dual-Track) Simulation & Digital Twin Verification Prompt
+
+```text
+Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+
+Role: Worker 2B -- Two-Path (Dual-Track) Simulation & Digital Twin Verification Driver
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Governance Preamble & Execution Directive:
+Adopt the feature-driven-implementation skill by reading `.pipeline/constitution.md`, `rules/dual-track-mbd-verification.md`, and `docs/architecture/blueprints/SYSML_SSOT_BIDIRECTIONAL_SYNCHRONIZATION_ARCHITECTURE.md`.
+
+Execute Two-Path (Dual-Track) Model-Based Design (MBD) simulation synthesis and digital twin verification for Feature [Issue Number, e.g. #1]:
+
+1. Track A (Native MATLAB / Simulink / Stateflow Synthesis):
+   - Programmatic Model Construction: Deliver `models/scripts/build_<feature_slug>_model.m` to programmatically synthesize native `.slx` block diagrams and Stateflow charts using official MATLAB APIs.
+   - Parameter & Signal Dictionaries: Deliver physical parameter dictionary `models/matlab/<feature_slug>_params.m` and Simulink Data Dictionary `models/matlab/<feature_slug>_data.sldd`.
+   - Solver & Synthesis Baseline: Configure models for deterministic fixed-step discrete solvers (`FixedStepDiscrete`, $dt = 0.004\,\text{s}$ / 250 Hz) and Embedded Coder DO-178C C / SPARK Ada code synthesis.
+
+2. Track B (Headless CI Digital Twin Engine):
+   - License-Free Discrete Execution Engine: Deliver standalone Python simulation engine (`models/python/<feature_slug>_domain.py` and `models/python/<feature_slug>_engine.py`) executing at identical discrete loop rate ($dt$) with exact transition guards, polynomial transfer curves, and 6-DOF kinematics.
+   - Zero License Blocker CI Harness: Deliver automated regression test suite `tests/test_<feature_slug>_simulation.py` running 100% offline in containerized CI environments without MathWorks licenses.
+
+3. Mathematical & Discrete Equivalence Mandate:
+   - Numerical Tolerance Verification: Guarantee state vector and output trajectory error between Track A reference and Track B digital twin satisfies $\|x_{\text{Simulink}} - x_{\text{DigitalTwin}}\|_\infty \le 10^{-6}$.
+   - Formal DO-331 Verification Report: Generate comprehensive verification report `docs/reports/simulink_results/<FEATURE-ID>_simulation_results.md` detailing MC/DC coverage mapping, transition truth tables, fault-injection scenarios, and numerical parity logs.
+
+Defect Filing Directive:
+If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+
+PROCEED
+```
+
+#### 4.5.3 Two-Path MBD Artifact & Deliverable Hierarchy
+
+Every feature containing control laws, operating dynamics, physical plant estimators, or safety state machines delivers the canonical two-path MBD artifact suite:
+
+```text
+models/
+├── scripts/
+│   └── build_<feature_slug>_model.m        # Track A: Programmatic Simulink/Stateflow builder script
+├── matlab/
+│   ├── <feature_slug>_params.m            # Track A: MATLAB physical plant & control parameters
+│   └── <feature_slug>_data.sldd           # Track A: Simulink Data Dictionary (data types & signals)
+└── python/
+    ├── <feature_slug>_domain.py           # Track B: Strongly-typed domain models & state vectors
+    └── <feature_slug>_engine.py           # Track B: Standalone discrete-time simulation engine
+
+tests/
+└── test_<feature_slug>_simulation.py      # Automated CI regression suite for Track B engine
+
+docs/reports/simulink_results/
+└── <FEATURE-ID>_simulation_results.md     # Formal DO-331 simulation & numerical parity report
+```
+
+##### Dual-Track Artifact Descriptions:
+
+1. **`models/scripts/build_<feature_slug>_model.m` (Track A Builder)**:
+   Programmatically constructs native MATLAB / Simulink (`.slx`) block diagrams and Stateflow charts via official MATLAB APIs (`new_system`, `add_block`, `Stateflow.Data`, `Stateflow.State`, `Stateflow.Transition`). Configures deterministic discrete fixed-step solvers (`FixedStepDiscrete`) and Embedded Coder DO-178C C / SPARK Ada code synthesis.
+
+2. **`models/matlab/<feature_slug>_params.m` & `.sldd` (Track A Dictionaries)**:
+   Declares physical plant constants, control gains, rate limits, sensor noise variances, and discrete sample time ($dt = 0.004\,\text{s}$ / 250 Hz) in typed MATLAB structures and Simulink Data Dictionaries.
+
+3. **`models/python/<feature_slug>_domain.py` & `_engine.py` (Track B Digital Twin)**:
+   Pure Python, license-free, headless discrete simulation engine executing identical algebraic formulations, cubic polynomial blending curves ($\lambda(\tau) = 3\tau^2 - 2\tau^3$), and safety transition guards. Exposes typed state vectors and `step(dt, inputs) -> outputs` execution interface.
+
+4. **`tests/test_<feature_slug>_simulation.py` (Automated CI Verification Suite)**:
+   Pytest / Unittest test suite executing offline in CI/CD runners without MathWorks license blockers. Validates nominal control tracks, fault-injection responses, emergency safety transitions, and state invariants.
+
+5. **`docs/reports/simulink_results/<FEATURE-ID>_simulation_results.md` (DO-331 Verification Report)**:
+   Formal DO-178C / DO-331 verification deliverable documenting mathematical equivalence, step-by-step state transition logs, fault injection test results, and numerical tolerance parity ($\le 10^{-6}$).
 
 ---
 
@@ -587,7 +1041,7 @@ def test_upstream_template_clean_landing_zones():
 
     If repository is an upstream template (.pipeline/upstream/ exists), asserts that
     docs/conops/, docs/safety/, docs/epics/, docs/features/, docs/user-stories/,
-    docs/use-cases/, and schema/ contain only .gitkeep and README.md, and zero concrete
+    docs/use-cases/, docs/management/, and schema/ contain only .gitkeep and README.md, and zero concrete
     specification files or concrete .sysml domain models.
     """
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -596,7 +1050,7 @@ def test_upstream_template_clean_landing_zones():
 
     upstream_marker = os.path.join(repo_root, ".pipeline", "upstream")
     if not os.path.isdir(upstream_marker):
-        pytest.skip("Downstream project detected — skipping upstream landing zone clean check.")
+        pytest.skip("Downstream project detected -- skipping upstream landing zone clean check.")
 
     landing_zones = [
         os.path.join("docs", "conops"),
@@ -605,6 +1059,7 @@ def test_upstream_template_clean_landing_zones():
         os.path.join("docs", "features"),
         os.path.join("docs", "user-stories"),
         os.path.join("docs", "use-cases"),
+        os.path.join("docs", "management"),
         "schema",
     ]
     allowed_files = {".gitkeep", "README.md"}
@@ -625,277 +1080,52 @@ def test_upstream_template_clean_landing_zones():
     assert not violations, (
         f"Upstream distribution template landing zones contain concrete specification files: {violations}"
     )
+
+
+def test_operator_prompt_catalog_accessible():
+    """Verify docs/OPERATOR_PROMPT_CATALOG.md exists, is non-empty, and contains headers for Pipeline 1 (Workers 1A-1D) and Pipeline 2."""
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if not os.path.isdir(repo_root):
+        repo_root = os.getcwd()
+
+    catalog_path = os.path.join(repo_root, "docs", "OPERATOR_PROMPT_CATALOG.md")
+    assert os.path.isfile(catalog_path), f"docs/OPERATOR_PROMPT_CATALOG.md missing at {repo_root}"
+    assert os.path.getsize(catalog_path) > 0, f"docs/OPERATOR_PROMPT_CATALOG.md is empty at {repo_root}"
+
+    with open(catalog_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    required_headers = [
+        "Pipeline 1",
+        "Worker 1A",
+        "Worker 1B",
+        "Worker 1C",
+        "Worker 1D",
+        "Pipeline 2",
+        "Synthesis Driver",
+    ]
+    for header in required_headers:
+        assert header in content, f"Missing required header/section '{header}' in docs/OPERATOR_PROMPT_CATALOG.md"
 EOF
 fi
 
-if [ ! -f "$TARGET_DIR/tests/test_safety_integrity.py" ]; then
-  cat << 'EOF' > "$TARGET_DIR/tests/test_safety_integrity.py"
-"""
-Safety Integrity Quality Gate & SORA OSO-01..24 Completeness Verification Suite.
-/// Realises: [SafetyIntegrityQualityGate, SORACompleteness, ASTM_F3269_RTA]
-"""
-import os
-import sys
-import tempfile
-import pytest
-
-# Ensure scripts directory is in sys.path
-repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-if repo_root not in sys.path:
-    sys.path.insert(0, repo_root)
-
-from scripts.verify_downstream_baseline import (
-    count_fmeca_rows,
-    check_uca_categories,
-    check_sora_osos,
-    validate_safety_matrix_content,
-    check_safety_integrity_and_sora_completeness,
-)
-
-
-def generate_valid_stpa_matrix_content(fmeca_row_count=16, include_all_osos=True):
-    """Generate a fully conforming 8-pillar STPA_MATRIX.md string."""
-    fmeca_rows = []
-    for i in range(1, fmeca_row_count + 1):
-        fmeca_rows.append(
-            f"| FM-{i:02d} | Subsystem-{i} | Failure Mode {i} | Local Effect {i} | System Loss L-1 | 4 | 2 | 2 | 16 | Redundant Channel {i} |"
-        )
-    fmeca_table_str = "\n".join(fmeca_rows)
-
-    osos_list = [f"- **OSO-{i:02d}**: Robustness Level High / Satisfied via Architecture" for i in range(1, 25)]
-    if not include_all_osos:
-        osos_list = osos_list[:-2]  # Remove OSO-23 and OSO-24
-    osos_str = "\n".join(osos_list)
-
-    header_suffix = "(OSO-01 through OSO-24)" if include_all_osos else "(Partial OSO Set)"
-    return rf"""# STPA Safety Analysis, FMECA Matrix & SORA SAIL Assessment
-
-> **Primary Commercial Toolchain Integration Context:** MATLAB / Simulink / Stateflow / Embedded Coder  
-> **Safety Standards:** JARUS SORA v2.5 | ASTM F3269-17 RTA | RTCA DO-365B  
-
----
-
-## 1. System Losses ($L-1..N$)
-
-- **$L-1$**: Loss of human life or severe ground fatal injury.
-- **$L-2$**: Mid-air collision with crewed aircraft.
-- **$L-3$**: Total loss of UAS airframe and critical infrastructure payload.
-
----
-
-## 2. System Hazards ($H-1..N$)
-
-- **$H-1$**: Aircraft breaches 3D operational containment geofence boundary.
-- **$H-2$**: Aircraft violates RTCA DO-365B DAA well-clear safety separation.
-- **$H-3$**: Uncontrolled flight termination due to propulsion/actuator loss.
-
----
-
-## 3. Hierarchical Control Structure Topology
-
-The control structure consists of the Remote Pilot in Command (RPIC), Autopilot Flight Controller, ASTM F3269-17 Run-Time Assurance (RTA) Safety Net Monitor, Actuator Servos, and Telemetry Sensor Suite.
-
-```mermaid
-flowchart TD
-    RPIC["Remote Pilot in Command"] --> Autopilot["Autopilot Flight Controller"]
-    Autopilot --> RTA["ASTM F3269-17 RTA Monitor"]
-    RTA --> Actuator["Actuator Servos / Flight Surfaces"]
-    Sensors["IMU / GPS / DAA Sensors"] --> RTA
-    Sensors --> Autopilot
-```
-
----
-
-## 4. Unsafe Control Actions ($UCA-1..N$)
-
-Systematic identification across 4 STPA guide words / failure mode categories:
-
-1. **Not providing causes hazard**:
-   - `UCA-01`: Not providing emergency parachute deployment command when uncontrolled descent detected.
-2. **Providing causes hazard**:
-   - `UCA-02`: Providing motor cutoff command during active low-altitude hover over populated area.
-3. **Providing too early, too late, or out of order**:
-   - `UCA-03`: Providing collision avoidance maneuver too late after DAA boundary violation.
-4. **Stopped too soon or applied too long**:
-   - `UCA-04`: Stopped too soon contingency Return-to-Launch climb before reaching minimum safe altitude.
-
----
-
-## 5. Loss Scenarios ($LS-1..N$) & Causal Factors
-
-- **$LS-1$**: Primary GNSS spoofing causes false position estimation, leading to geofence boundary breach ($H-1$, $L-1$).
-- **$LS-2$**: Actuator telemetry packet loss stalls flight control surface transition.
-
----
-
-## 6. Formal Safety Constraints ($SC-1..N$)
-
-- **$SC-1$**: The flight control system shall enforce pitch limits between $-15^\circ$ and $+25^\circ$ under all operating conditions.
-- **$SC-2$**: The ASTM F3269-17 RTA Safety Net shall switch to certified safe-state recovery within 50ms of barrier violation.
-
----
-
-## 7. FMECA Criticality Matrix
-
-| Failure ID | Component / Subsystem | Failure Mode | Local Effect | System Effect | S | O | D | RPN | Mitigating Design Control |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-{fmeca_table_str}
-
----
-
-## 8. SORA SAIL Risk Mitigations & OSO Traceability Table
-
-- **Ground Risk Class (GRC):** Final GRC = 4 (Initial GRC = 5, M1/M2 mitigations applied).
-- **Air Risk Class (ARC):** Final ARC-c.
-- **Specific Assurance and Integrity Level (SAIL):** SAIL III.
-
-### Operational Safety Objectives {header_suffix}
-
-{osos_str}
-
----
-
-## 9. ASTM F3269-17 Run-Time Assurance (RTA) & Commercial Toolchain Architecture
-
-The safety net monitor architecture complies with **ASTM F3269-17** Run-Time Assurance (RTA) for Aircraft Systems. Formal invariant proofs and Stateflow recovery supervisors are synthesized directly into **MATLAB / Simulink / Stateflow / Embedded Coder** and verified with Simulink Design Verifier (SLDV).
-"""
-
-
-def test_upstream_safety_landing_zone_clean():
-    """Verify that upstream distribution templates enforce clean docs/safety/ landing zone."""
-    if os.path.isdir(os.path.join(repo_root, ".pipeline", "upstream")):
-        safety_dir = os.path.join(repo_root, "docs", "safety")
-        if os.path.isdir(safety_dir):
-            allowed = {".gitkeep", "README.md"}
-            for f in os.listdir(safety_dir):
-                assert f in allowed, f"Upstream template contains non-template file in docs/safety/: {f}"
-
-
-def test_upstream_safety_landing_zone_dirty_fails():
-    """Verify check_safety_integrity_and_sora_completeness rejects dirty upstream safety landing zones."""
-    with tempfile.TemporaryDirectory() as tmpdir:
-        os.makedirs(os.path.join(tmpdir, ".pipeline", "upstream"), exist_ok=True)
-        os.makedirs(os.path.join(tmpdir, "docs", "safety"), exist_ok=True)
-
-        # Write allowed README.md
-        with open(os.path.join(tmpdir, "docs", "safety", "README.md"), "w") as f:
-            f.write("# Safety Directory\n")
-
-        # Write concrete spec file (violation)
-        with open(os.path.join(tmpdir, "docs", "safety", "STPA_MATRIX.md"), "w") as f:
-            f.write("# Concrete STPA Matrix\n")
-
-        with pytest.raises(SystemExit) as exc_info:
-            check_safety_integrity_and_sora_completeness(tmpdir)
-        assert exc_info.value.code == 1
-
-
-def test_downstream_8_pillar_passing():
-    """Verify that a complete 8-pillar STPA matrix passes validation with zero errors."""
-    valid_content = generate_valid_stpa_matrix_content(fmeca_row_count=16, include_all_osos=True)
-    errors = validate_safety_matrix_content(valid_content)
-    assert not errors, f"Expected 0 errors for valid 8-pillar STPA matrix, got:\n{errors}"
-
-
-def test_sora_oso_01_to_24_validation():
-    """Verify all 24 SORA OSOs (OSO-01 through OSO-24) are rigorously validated."""
-    # Test complete list
-    all_osos_text = " ".join([f"OSO-{i:02d}" for i in range(1, 25)])
-    assert check_sora_osos(all_osos_text) == []
-
-    # Test missing OSO-07 and OSO-24
-    partial_osos_text = " ".join([f"OSO-{i:02d}" for i in range(1, 25) if i not in (7, 24)])
-    missing = check_sora_osos(partial_osos_text)
-    assert missing == ["OSO-07", "OSO-24"]
-
-    # Test within full document
-    incomplete_content = generate_valid_stpa_matrix_content(include_all_osos=False)
-    errors = validate_safety_matrix_content(incomplete_content)
-    assert any("OSO-23" in err and "OSO-24" in err for err in errors), f"Expected missing OSOs error, got:\n{errors}"
-
-
-def test_fmeca_row_count_validation():
-    """Verify FMECA matrix row count requires at least 15 component rows."""
-    valid_content_16 = generate_valid_stpa_matrix_content(fmeca_row_count=16)
-    assert count_fmeca_rows(valid_content_16) >= 15
-    assert validate_safety_matrix_content(valid_content_16) == []
-
-    # Exactly 15 rows
-    valid_content_15 = generate_valid_stpa_matrix_content(fmeca_row_count=15)
-    assert count_fmeca_rows(valid_content_15) == 15
-    assert validate_safety_matrix_content(valid_content_15) == []
-
-    # Less than 15 rows (e.g. 5 rows)
-    invalid_content_5 = generate_valid_stpa_matrix_content(fmeca_row_count=5)
-    assert count_fmeca_rows(invalid_content_5) == 5
-    errors = validate_safety_matrix_content(invalid_content_5)
-    assert any("FMECA Criticality Matrix contains 5 row(s); minimum required is 15 rows" in err for err in errors)
-
-
-def test_uca_failure_mode_categories():
-    """Verify all 4 STPA UCA failure mode categories are required."""
-    all_cats_text = (
-        "1. Not providing causes hazard\n"
-        "2. Providing causes hazard\n"
-        "3. Providing too early, too late, or out of order\n"
-        "4. Stopped too soon or applied too long"
-    )
-    assert check_uca_categories(all_cats_text) == []
-
-    # Missing "Not providing"
-    no_omission = (
-        "2. Providing causes hazard\n"
-        "3. Providing too early, too late, or out of order\n"
-        "4. Stopped too soon or applied too long"
-    )
-    missing = check_uca_categories(no_omission)
-    assert any("Not providing" in m for m in missing)
-
-
-def test_astm_f3269_rta_and_commercial_toolchain_hooks():
-    """Verify ASTM F3269-17 RTA and MATLAB/Simulink hooks are strictly enforced."""
-    base_content = generate_valid_stpa_matrix_content()
-
-    # Strip ASTM F3269-17
-    no_rta = base_content.replace("ASTM F3269-17", "").replace("ASTM F3269", "")
-    errors = validate_safety_matrix_content(no_rta)
-    assert any("ASTM F3269-17" in err for err in errors)
-
-    # Strip MATLAB / Simulink
-    no_matlab = base_content.replace("MATLAB", "").replace("Simulink", "").replace("Stateflow", "").replace("Embedded Coder", "").replace("SLDV", "")
-    errors = validate_safety_matrix_content(no_matlab)
-    assert any("MATLAB / Simulink" in err for err in errors)
-
-
-def test_end_to_end_check_17_downstream_integration():
-    """Verify end-to-end Check 17 execution on downstream project directory."""
-    with tempfile.TemporaryDirectory() as tmpdir:
-        # Downstream project (no .pipeline/upstream)
-        safety_dir = os.path.join(tmpdir, "docs", "safety")
-        os.makedirs(safety_dir, exist_ok=True)
-
-        stpa_file = os.path.join(safety_dir, "STPA_MATRIX.md")
-        valid_content = generate_valid_stpa_matrix_content(fmeca_row_count=16, include_all_osos=True)
-
-        with open(stpa_file, "w", encoding="utf-8") as f:
-            f.write(valid_content)
-
-        # Should pass with no exception
-        check_safety_integrity_and_sora_completeness(tmpdir)
-
-        # Corrupt file with violation (drop OSO-24)
-        corrupted_content = valid_content.replace("OSO-24", "INVALID-REF")
-        with open(stpa_file, "w", encoding="utf-8") as f:
-            f.write(corrupted_content)
-
-        with pytest.raises(SystemExit) as exc_info:
-            check_safety_integrity_and_sora_completeness(tmpdir)
-        assert exc_info.value.code == 1
-EOF
+# Install-time safety fixture self-check: the safety integrity test suite consumes
+# live fixture files under tests/fixtures/safety/; no synthetic content is generated here.
+echo "Verifying safety integrity test fixtures..."
+SAFETY_FIXTURES_MISSING=""
+for fixture_name in complete_stpa_matrix.md truncated_uca_matrix.md missing_guideword_matrix.md incomplete_osos.md proof_missing_derivation.md complete_proof.md; do
+  if [ ! -f "$TARGET_DIR/tests/fixtures/safety/$fixture_name" ]; then
+    SAFETY_FIXTURES_MISSING="$SAFETY_FIXTURES_MISSING $fixture_name"
+  fi
+done
+if [ -n "$SAFETY_FIXTURES_MISSING" ]; then
+  echo "ERROR: safety integrity test fixtures missing under tests/fixtures/safety/:$SAFETY_FIXTURES_MISSING" >&2
+  exit 1
 fi
+echo "Safety integrity test fixtures verified present (zero synthetic content generated)."
 
 if [ -f "$TARGET_DIR/scripts/setup_git_hooks.py" ]; then
-  (cd "$TARGET_DIR" && python3 scripts/setup_git_hooks.py) || true
+  (cd "$TARGET_DIR" && python3 scripts/setup_git_hooks.py --install) || true
 fi
 
 # Automatically bootstrap issue tracker label taxonomy
@@ -906,6 +1136,8 @@ if [ -f "$TARGET_DIR/skills/spec-orchestrator/scripts/bootstrap_tracker_labels.p
     echo "You can re-run label provisioning anytime: python3 skills/spec-orchestrator/scripts/bootstrap_tracker_labels.py"
   }
 fi
+
+find "$TARGET_DIR" -name ".DS_Store" -delete 2>/dev/null || true
 
 echo "==> Digital Pipeline Installation Complete. 0 manual steps remaining."
 

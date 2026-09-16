@@ -56,9 +56,13 @@ Critical and Important findings require a Mermaid diagram in Section 4. Select t
 * TOCTOU, async race: `sequenceDiagram`
 * FFI-dependent test, missing mock: `classDiagram`
 
-Must use ````mermaid` fenced blocks with valid syntax. No ASCII art. Named lifelines. `alt/loop` fragments for branches. No isolated classes. `stateDiagram-v2` syntax. Trace to file:line from Section 3.
+Must use Mermaid fenced blocks (```` ```mermaid ````) with valid syntax. No ASCII art. Named lifelines. `alt/loop` fragments for branches. No isolated classes. `stateDiagram-v2` syntax. Trace to file:line from Section 3.
 
 **All Mermaid syntax constraints are defined in `rules/platform-independence.md` and MUST be observed in full.** Most importantly here: no semicolons in `Note` statements or message text, and no curly braces in class member lines. Step D check 7 enforces these mechanically.
+
+### 1.6 Governance & Invariants
+
+- **Commit Message Non-Closure Invariant**: Agents and automated scripts are strictly prohibited from using issue auto-closing keywords (`fix`, `fixes`, `fixed`, `close`, `closes`, `closed`, `resolve`, `resolves`, `resolved` preceding `#<id>`) in git commit messages. All commit messages referencing issues MUST use neutral citations: `(#<id>)` or `(refs #<id>)` to prevent server-side premature auto-closure (`.pipeline/constitution.md:266`, `rules/tracker-source-of-truth.md`).
 
 ## 2. Output Format
 
@@ -66,9 +70,12 @@ Every finding MUST produce output matching this skeleton character-for-character
 
 ## 1. Context and References
 
+<!-- test-target: [path/to/reproducer_test.py] -->
+
 - **File**: `[path]:[line-line]`
 - **Pillar**: [Memory Safety | Resource Lifecycle | Concurrency | Test Integrity | Semantic Traceability]
 - **Symptom**: [description]
+- **Test-Target**: `[path/to/reproducer_test.py]`
 
 ## 2. Root Cause Analysis (5 Whys)
 
@@ -84,7 +91,7 @@ Every finding MUST produce output matching this skeleton character-for-character
 
 ## 4. UML Diagrams
 
-[MANDATORY for Critical/Important. For Suggestion/Nitpick: "N/A — [severity] severity."]
+[MANDATORY for Critical/Important. For Suggestion/Nitpick: "N/A -- [severity] severity."]
 
 ```mermaid
 sequenceDiagram
@@ -98,7 +105,7 @@ sequenceDiagram
 
 ## 5. Affected Callers / Downstream Impact
 
-[caller] — [how affected]
+[caller] -- [how affected]
 
 ## 6. Proposed Correction
 
@@ -109,7 +116,7 @@ sequenceDiagram
 
 ## 7. Relationship to Existing Issues
 
-Discovered in audit — new finding.
+Discovered in audit -- new finding.
 
 ## Audit Source
 
@@ -121,14 +128,14 @@ FILE_LOCATION: [path]:[line-line]
 
 Subagents follow these steps in order. No deviation.
 
-### Step A — Read
+### Step A -- Read
 
 1. Read this skill file in full.
 2. Read `[FILE_PATH]`.
 3. Read `.pipeline/constitution.md`.
 4. For Dart files, read `.pipeline/profiles/flutter.md`.
 
-### Step B — Audit
+### Step B -- Audit
 
 1. Scan every line of `[FILE_PATH]` through the `[PILLAR]` focus.
 2. For each potential defect, answer:
@@ -141,18 +148,19 @@ Subagents follow these steps in order. No deviation.
 3. Classify severity using Section 1.4.
 4. If Critical or Important, select diagram type from Section 1.5.
 
-### Step C — Write
+### Step C -- Write
 
 1. For EVERY finding, produce one issue body.
 2. Copy the skeleton from Section 2 exactly. Fill in `[...]` placeholders with real values.
 3. Section headers and field labels must match the skeleton character-for-character.
-4. Section 1: Three bullet points with bold labels. Never collapse into one line.
+4. Section 1: Four bullet points with bold labels (`File`, `Pillar`, `Symptom`, `Test-Target`), preceded immediately by `<!-- test-target: [path/to/reproducer_test.py] -->`. Never collapse into one line.
 5. Section 2: Exactly five `[1-5]. **Why [text]?** Because [text].` lines.
-6. Section 4: Valid ````mermaid` block (Critical/Important) or "N/A — [severity] severity." (Suggestion/Nitpick). No ASCII art.
+6. Section 4: Valid Mermaid block (```` ```mermaid ````) (Critical/Important) or "N/A -- [severity] severity." (Suggestion/Nitpick). No ASCII art.
 7. Section 6: Triple-backtick code block with language tag.
 8. End with SEVERITY and FILE_LOCATION lines exactly as shown in the skeleton.
+9. Identify or scaffold the test target file path (e.g. `tests/test_<name>_reproducer.py` or relevant test suite path) and annotate it in Section 1 via `<!-- test-target: [path/to/reproducer_test.py] -->` and `- **Test-Target**: `[path/to/reproducer_test.py]`` so that `scripts/reconcile_backlog.py`'s `reconcile_upstream_compiler_backlog()` can automatically discover and execute test targets for filed defects.
 
-### Step D — Verify
+### Step D -- Verify
 
 Before filing, run these checks on the body. All must pass.
 
@@ -162,17 +170,20 @@ Before filing, run these checks on the body. All must pass.
 | 2 | Audit Source line | Contains `## Audit Source` |
 | 3 | Severity line | Matches `SEVERITY: (Critical|Important|Suggestion|Nitpick)` |
 | 4 | File location line | Matches `FILE_LOCATION: [path]:[line]` |
-| 5 | Section 1 bullets | Three lines matching `^[-*] \*\*(File|Pillar|Symptom)\*\*:` |
+| 5 | Section 1 bullets | Four lines matching `^[-*] \*\*(File|Pillar|Symptom|Test-Target)\*\*:` |
 | 6 | Section 2 Whys | Five lines matching `^[1-5]\. \*\*Why .*\?\*\* Because .*` |
-| 7 | Section 4 Critical/Important | Contains ````mermaid` block, AND the offline syntax gate below exits 0 |
-| 8 | Section 4 Suggestion/Nitpick | Contains `N/A — ` |
+| 7 | Section 4 Critical/Important | Contains Mermaid block (```` ```mermaid ````), AND the offline syntax gate below exits 0 |
+| 8 | Section 4 Suggestion/Nitpick | Contains `N/A -- ` |
 | 9 | Balanced code blocks | Even number of ````` occurrences |
 | 10 | No ASCII art UML | Does NOT contain unescaped `->>` or `→` outside mermaid blocks |
 | 11 | Title-format | Matches `\[AUDIT\] \[[file.ext]\]: [description]` |
+| 12 | Test Target annotation | Contains `<!-- test-target: [path] -->` matching `<!--\s*test-target:\s*\S+\s*-->` and valid path in `- **Test-Target**:` bullet for automated discovery by `scripts/reconcile_backlog.py` (`reconcile_upstream_compiler_backlog()`) |
 
 If any check fails, fix the body and re-verify. Do NOT file until all checks pass.
 
-**Check 7 is executable and MUST be run — it is not an eyeball check.** Presence of a
+**Test Target Verification**: The subagent MUST verify that the test target file path is identified or scaffolded in the repository (e.g., under `tests/`), matches the syntax parsed by `scripts/reconcile_backlog.py`'s `reconcile_upstream_compiler_backlog()`, and is executable so that defect reconciliation runs autonomously.
+
+**Check 7 is executable and MUST be run -- it is not an eyeball check.** Presence of a
 fenced block does not establish validity. An unparseable diagram previously cleared all
 eleven checks and was filed on issue #283, where GitHub reported a parse error instead of
 rendering Section 4. Run:
@@ -201,7 +212,7 @@ rate-limits, and it ships specification content to a third party. See
 Scope limit: this enforces the documented rules in `rules/platform-independence.md`. It is
 not a full Mermaid grammar parser, so a pass is not proof the diagram renders.
 
-### Step E — File
+### Step E -- File
 
 1. Write the verified body to a dynamically named temporary file (e.g., `/tmp/gh_body_$(uuidgen).md` or `/tmp/gl_body_$(uuidgen).md`) to prevent parallel execution collisions.
 2. Resolve `[LABEL]` from the severity assigned in Section 1.4. This mapping is mandatory:
@@ -213,7 +224,7 @@ not a full Mermaid grammar parser, so a pass is not proof the diagram renders.
    | Suggestion | `enhancement` | `type::feature` |
    | Nitpick | `enhancement` | `type::feature` |
 
-   Section 1.4 defines Suggestion as forward-looking risk that is explicitly **NOT a current bug**. Filing such a finding as `bug` places it in the selection set of `debug-protocol`, whose Step 0 then forbids processing it — deadlocking that loop. See issue #287.
+   Section 1.4 defines Suggestion as forward-looking risk that is explicitly **NOT a current bug**. Filing such a finding as `bug` places it in the selection set of `debug-protocol`, whose Step 0 then forbids processing it -- deadlocking that loop. See issue #287.
 3. File the issue based on the provider environment:
    - **GitHub (`gh` CLI)**:
      ```bash
@@ -252,16 +263,20 @@ not a full Mermaid grammar parser, so a pass is not proof the diagram renders.
      ```
 4. Title format: `[AUDIT] [filename.ext]: [Brief description]`
 5. If mode is `bug-based` and finding confirms a known issue, post a comment (`gh issue comment` on GitHub, or `glab issue note` / direct notes REST API on GitLab) instead of creating a new issue.
-6. Sleep 1 second between issues.
-7. Return: issue URLs with severities.
+6. **Commit Message Hygiene**: When staging or committing audit artifacts, defect dossiers, or regression tests, all commit messages MUST adhere to the Commit Message Non-Closure Invariant using neutral citations `(#<id>)` or `(refs #<id>)`, strictly avoiding auto-closing keywords.
+7. Sleep 1 second between issues.
+8. Return: issue URLs with severities.
 
-## 4. Example — Complete Compliant Output
+## 4. Example -- Complete Compliant Output
 
 ## 1. Context and References
+
+<!-- test-target: tests/test_bridge_reproducer.py -->
 
 - **File**: `cesium_native_bridge/src/bridge.cpp:56-61`
 - **Pillar**: Memory Safety
 - **Symptom**: Dart FFI caller reads garbage or crashes after calling bridge_get_last_error when another thread concurrently calls bridge_shutdown on the same handle.
+- **Test-Target**: `tests/test_bridge_reproducer.py`
 
 ## 2. Root Cause Analysis (5 Whys)
 
@@ -290,7 +305,7 @@ sequenceDiagram
 
 ## 5. Affected Callers / Downstream Impact
 
-Dart FFI caller getLastError() — receives dangling pointer after concurrent shutdown. Any async error-handling path calling getLastError after tile load failure.
+Dart FFI caller getLastError() -- receives dangling pointer after concurrent shutdown. Any async error-handling path calling getLastError after tile load failure.
 
 ## 6. Proposed Correction
 
@@ -309,7 +324,7 @@ int32_t bridge_get_last_error(bridge_handle_t handle, char* out, int32_t size) {
 
 ## 7. Relationship to Existing Issues
 
-Discovered in audit — new finding.
+Discovered in audit -- new finding.
 
 ## Audit Source
 
@@ -322,6 +337,6 @@ FILE_LOCATION: cesium_native_bridge/src/bridge.cpp:56-61
 The ONLY text sent to each subagent. Only the three bracketed fields differ.
 
 Execute adversarial-code-auditor skill.
-Read skills/adversarial-code-auditor/SKILL.md in full. Follow the Protocol (Section 3) exactly — Read, Audit, Write, Verify, File.
+Read skills/adversarial-code-auditor/SKILL.md in full. Follow the Protocol (Section 3) exactly -- Read, Audit, Write, Verify, File.
 FILE_PATH: [FILE_PATH] PILLAR: [PILLAR] MODE: [MODE] REPO: [REPO]
 Return issue URLs with severities. PROCEED

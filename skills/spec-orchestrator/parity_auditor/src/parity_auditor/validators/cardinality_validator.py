@@ -6,7 +6,6 @@ typed parameter coverage for Embedded Coder and DO-178C synthesis (Check 19).
 
 import os
 import re
-import sys
 from typing import List, Dict, Any, Optional, Set, Tuple
 
 import yaml
@@ -15,36 +14,22 @@ from .base import IValidator
 from ..core.findings import Finding
 from ..core.workspace import WorkspaceRepository
 
-# Import SysML v2 AST classes safely
-try:
-    from sysmlv2_ast import (
-        SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-        SysMLOperationDef, SysMLConstraintDef, PartDef, AttributeDef
-    )
-except ImportError:
-    try:
-        from skills.spec_orchestrator.scripts.sysmlv2_ast import (
-            SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-            SysMLOperationDef, SysMLConstraintDef, PartDef, AttributeDef
-        )
-    except ImportError:
-        _script_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "scripts"))
-        if _script_dir not in sys.path:
-            sys.path.insert(0, _script_dir)
-        try:
-            from sysmlv2_ast import (
-                SysMLPackage, SysMLParser, SysMLCapabilityDef, ActionDef,
-                SysMLOperationDef, SysMLConstraintDef, PartDef, AttributeDef
-            )
-        except ImportError:
-            SysMLPackage = None
-            SysMLParser = None
-            SysMLCapabilityDef = None
-            ActionDef = None
-            SysMLOperationDef = None
-            SysMLConstraintDef = None
-            PartDef = None
-            AttributeDef = None
+# Import SysML v2 AST classes via the fail-closed loader (refs #76): resolve
+# the real scripts dir or raise ImportError -- never bind None silently.
+from ..utils.sysml_loader import load_sysml_ast_members
+
+_sysml_ast = load_sysml_ast_members([
+    "SysMLPackage", "SysMLParser", "SysMLCapabilityDef", "ActionDef",
+    "SysMLOperationDef", "SysMLConstraintDef", "PartDef", "AttributeDef",
+])
+SysMLPackage = _sysml_ast.SysMLPackage
+SysMLParser = _sysml_ast.SysMLParser
+SysMLCapabilityDef = _sysml_ast.SysMLCapabilityDef
+ActionDef = _sysml_ast.ActionDef
+SysMLOperationDef = _sysml_ast.SysMLOperationDef
+SysMLConstraintDef = _sysml_ast.SysMLConstraintDef
+PartDef = _sysml_ast.PartDef
+AttributeDef = _sysml_ast.AttributeDef
 
 
 def _extract_frontmatter(content: str):
@@ -361,10 +346,34 @@ class SchemaCardinalityValidator(IValidator):
                         if p_name.lower() == leaf.lower():
                             matched_parts.append(p_obj)
 
-            # Also match by class diagram classes or part names in text
+            # If not matched via schema_containers, match parts ONLY if explicitly declared in
+            # class diagram blocks or formal SysML part definition blocks
             if not matched_parts:
+                explicit_declared_parts = set()
+
+                # 1. Mermaid classDiagram blocks
+                for cd_match in re.finditer(r"```mermaid\s*\n\s*classDiagram(.*?)(?=```|\Z)", content, re.DOTALL):
+                    cd_body = cd_match.group(1)
+                    for line in cd_body.splitlines():
+                        line = re.sub(r'%%.*$', '', line).strip()
+                        if not line:
+                            continue
+                        cm = re.match(r"^class\s+([A-Za-z0-9_]+)", line)
+                        if cm:
+                            explicit_declared_parts.add(cm.group(1).lower())
+                        elif ":" in line and not line.lower().startswith("note") and re.match(r"^([A-Za-z0-9_]+)\s*:", line):
+                            explicit_declared_parts.add(re.match(r"^([A-Za-z0-9_]+)\s*:", line).group(1).lower())
+                        elif "{" in line and re.match(r"^([A-Za-z0-9_]+)\s*\{", line):
+                            explicit_declared_parts.add(re.match(r"^([A-Za-z0-9_]+)\s*\{", line).group(1).lower())
+
+                # 2. SysML code blocks
+                for sysml_match in re.finditer(r"```(?:sysml|sysmlv2)?\s*\n(.*?)(?=```|\Z)", content, re.DOTALL):
+                    sysml_body = sysml_match.group(1)
+                    for sm in re.finditer(r"\b(?:part\s+def|part)\s+([A-Za-z0-9_]+)\b", sysml_body):
+                        explicit_declared_parts.add(sm.group(1).lower())
+
                 for p_name, p_obj in parts_map.items():
-                    if re.search(rf"\b(?:class|part\s+def|part)\s+{re.escape(p_name)}\b", content) or re.search(rf"\b{re.escape(p_name)}\b", filename, re.IGNORECASE):
+                    if p_name.lower() in explicit_declared_parts:
                         matched_parts.append(p_obj)
 
             for part in matched_parts:

@@ -8,14 +8,14 @@
 
 - Before working on a feature, verify its status using the tracker's configured issue view command.
 - Before creating issues, check for duplicates using the tracker's configured issue query command.
-- All issue lifecycle operations (create, close, edit, transition) MUST use the tracker's configured issue management commands — never modify local files as the primary operation.
+- All issue lifecycle operations (create, close, edit, transition) MUST use the tracker's configured issue management commands -- never modify local files as the primary operation.
 - Every local specification file MUST include the tracker issue ID in its YAML frontmatter (`issue_id: <int>`).
-- When referencing Issue IDs in markdown, use the live tracker Issue number — never hard-code or assume numbers.
+- When referencing Issue IDs in markdown, use the live tracker Issue number -- never hard-code or assume numbers.
 - When constructing links to files in issue descriptions, dynamically determine the remote URL from the repository settings (e.g., `meta.upstream_repository`). Never use relative paths like `../features/...` in issue bodies.
 - **Registered Issues Must Have A Local Specification**: every tracker issue carrying the Epic or Feature label MUST have a corresponding local specification file. A registered issue with no file means the branch baseline is incomplete, and the reconciler will write checklist state back to an issue whose specification nobody can read.
 - **Local Indices Must Not Collide With Registered Issues**: a local specification whose ordinal (`epic-02`, `feat-07`) is already claimed on the tracker by a *differently titled* issue is a collision and MUST be renumbered. Reconciliation addresses specifications by ordinal, so the ambiguity silently retargets updates at the wrong issue.
-- **Local Specification Titles Must Be Unique Within A Spec Type**: no two Epics, no two Features, no two User Stories and no two Use Cases may declare titles that normalise to the same key. Uniqueness is scoped **per spec type, not globally**: an Epic naming a theme and a Feature delivering part of it may legitimately share a subject, and the tracker treats `(spec type, normalised title)` as the identity for exactly that reason. Reconciliation builds its issue lookup on the normalised title, so two specifications of one type sharing a key resolve to whichever issue was seen last — one body is published over the other and the loser is orphaned. Enforced offline by `parity_auditor/validators/spec_title_uniqueness_validator.py`, using the same normalisation as `reconcile_backlog.py` so the gate collides in exactly the space the reconciler collides in.
-- **Generated Item Titles Must Be Namespaced To Their Source Module**: a subagent drafting one item from one schema node MUST prefix the generated Epic, Feature, User Story and Use Case title with a bracketed short-code identifying the bounded context it came from — for example `[NI-Location] Geo Location` rather than `Geo Location`. Item subagents draft in isolation and never see one another's output, so a node name that recurs across modules (`geo-location`, `status`, `interface` are the standard cases) produces the same title twice and neither subagent is in a position to notice. The namespace is what makes the item identifiable in a shared backlog without opening it. What is mechanically gated is the *effect* — the uniqueness rule above; the gate does not check the shape of the prefix, because a prefix-shape check would reject every specification written before this rule and the invariant that actually protects the tracker is uniqueness rather than any particular spelling. That gap is recorded in `tests/rule_contracts.py` under `KNOWN_UNREGISTERED_FAMILIES` rather than left silent.
+- **Local Specification Titles Must Be Unique Within A Spec Type**: no two Epics, no two Features, no two User Stories and no two Use Cases may declare titles that normalise to the same key. Uniqueness is scoped **per spec type, not globally**: an Epic naming a theme and a Feature delivering part of it may legitimately share a subject, and the tracker treats `(spec type, normalised title)` as the identity for exactly that reason. Reconciliation builds its issue lookup on the normalised title, so two specifications of one type sharing a key resolve to whichever issue was seen last -- one body is published over the other and the loser is orphaned. Enforced offline by `parity_auditor/validators/spec_title_uniqueness_validator.py`, using the same normalisation as `reconcile_backlog.py` so the gate collides in exactly the space the reconciler collides in.
+- **Generated Item Titles Must Be Namespaced To Their Source Module**: a subagent drafting one item from one schema node MUST prefix the generated Epic, Feature, User Story and Use Case title with a bracketed short-code identifying the bounded context it came from -- for example `[NI-Location] Geo Location` rather than `Geo Location`. Item subagents draft in isolation and never see one another's output, so a node name that recurs across modules (`geo-location`, `status`, `interface` are the standard cases) produces the same title twice and neither subagent is in a position to notice. The namespace is what makes the item identifiable in a shared backlog without opening it. What is mechanically gated is the *effect* -- the uniqueness rule above; the gate does not check the shape of the prefix, because a prefix-shape check would reject every specification written before this rule and the invariant that actually protects the tracker is uniqueness rather than any particular spelling. That gap is recorded in `tests/rule_contracts.py` under `KNOWN_UNREGISTERED_FAMILIES` rather than left silent.
 
 ## What local files are for
 
@@ -26,6 +26,12 @@
 ## Multi-Provider Issue Tracker Standards (GitHub & GitLab)
 
 DEAP supports multi-provider issue tracking across GitHub (SaaS/Enterprise) and GitLab (GitLab.com, Self-Hosted EE/CE, and Air-Gapped / SCIF defense enclaves). All issue lifecycle management operations adhere to unified semantics across providers.
+
+### Mandatory Resolved Status Transition Invariant
+
+Whenever an agent or subagent delivers a commit referencing an issue via `(refs #<id>)` or `(#<id>)`, the coordinator MUST transition that issue on the configured tracker to `status:fixed-resolved` (or `status::fixed-resolved` on GitLab) and post an evidence comment containing the commit SHA, passing test outputs, and diff before declaring the task or work package complete. 
+
+Declaring completion, generating a walkthrough, or stopping while leaving referenced issues in raw `bug` state without the `status:fixed-resolved` label is strictly forbidden. While `Closed` requires Product Owner authority, reaching `status:fixed-resolved` is the mandatory completion gate for engineering execution.
 
 ### GitLab Scoped Label Taxonomy
 
@@ -59,6 +65,15 @@ If no valid token is present in the environment for the detected or configured p
 
 Product Owner (PO) issue closure authority applies **identically across both GitHub and GitLab**. Automated agents, subagents, and background scripts are strictly permitted to transition issues only up to `status::fixed-resolved` (or `status:fixed-resolved` on GitHub) with verified evidence comments. Transitioning an issue to `Closed` (or applying `status::closed`) requires formal Product Owner / Certification Authority validation.
 
+### Commit Message Issue Reference Rule (No Auto-Close Keywords)
+
+Because GitHub and GitLab automatically close referenced issues when commit messages containing trigger keywords (`fix #<id>`, `fixes #<id>`, `fixed #<id>`, `close #<id>`, `closes #<id>`, `closed #<id>`, `resolve #<id>`, `resolves #<id>`, `resolved #<id>`) are merged or pushed to the default branch, **agents and scripts are strictly forbidden from using auto-closing trigger keywords in commit messages**.
+
+All issue references in git commit messages MUST use neutral reference syntax:
+- **Permitted**: `feat(compiler): multi-mode FMECA extraction (#50, #51)` or `fix(auditor): harden LinkValidator (refs #50)`
+- **Strictly Forbidden**: `(fix #50, fix #51)`, `(closes #50)`, `(resolved #51)`, or any closing keyword preceding `#<id>`.
+
+
 ## Relationship to other rules
 
 - See `rules/platform-independence.md` for specification content rules (WHAT vs HOW) and for all Mermaid syntax constraints.
@@ -68,8 +83,8 @@ Product Owner (PO) issue closure authority applies **identically across both Git
 
 > **Consolidation note (issue #284):** this file supersedes the former
 > `rules/github-source-of-truth.md`, which stated the same mandate in
-> provider-specific wording. That file has been deleted and its unique clauses —
-> the `issue_id` frontmatter mandate and this cross-reference section — merged here.
+> provider-specific wording. That file has been deleted and its unique clauses --
+> the `issue_id` frontmatter mandate and this cross-reference section -- merged here.
 > Do not reintroduce a second statement of this rule; the fork drifted last time.
 
 ## Why

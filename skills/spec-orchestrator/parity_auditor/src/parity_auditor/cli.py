@@ -13,30 +13,93 @@ import re
 import argparse
 import json
 import shutil
-from typing import Set, List
+import ssl
+import urllib.request
+import urllib.parse
+import urllib.error
+import subprocess
+import netrc
+import time
+from typing import Set, List, Dict, Optional, Any, Tuple
 
-from .core.workspace import WorkspaceRepository
-from .parsers.schema_router import parse_schema_file
-from .validators.uml import UmlValidator
-from .validators.behavioral import BehavioralValidator
-from .validators.codebase import CodebaseValidator
-from .validators.docs import DocsValidator
-from .validators.dependency_validator import DependencyValidator
-from .validators.sync_validator import SyncValidator
-from .validators.schema_mapping_validator import SchemaMappingValidator
-from .validators.profile_scoping_validator import ProfileScopingValidator
-from .validators.test_completeness_validator import TestCompletenessValidator
-from .validators.logical_ui_validator import LogicalUiValidator
-from .validators.cardinality_validator import SchemaCardinalityValidator
-from .validators.mermaid_syntax_validator import MermaidSyntaxValidator
-from .validators.spec_filename_validator import SpecFilenameValidator
-from .validators.spec_title_uniqueness_validator import SpecTitleUniquenessValidator
-from .validators.source_reference_validator import SourceReferenceValidator
-from .validators.link_validator import LinkValidator
-from .validators.docstring_validator import DocstringValidator
-from .validators.profile_compliance_validator import ProfileComplianceValidator
-from .utils.diagnostics import serialize_diagnostics
-from .utils.comment_utils import strip_comments_and_strings
+try:
+    from .core.workspace import WorkspaceRepository, extract_metadata_from_content
+    from .parsers.schema_router import parse_schema_file
+    from .validators.uml import UmlValidator
+    from .validators.behavioral import BehavioralValidator
+    from .validators.codebase import CodebaseValidator
+    from .validators.docs import DocsValidator
+    from .validators.dependency_validator import DependencyValidator
+    from .validators.sync_validator import SyncValidator
+    from .validators.schema_mapping_validator import SchemaMappingValidator
+    from .validators.profile_scoping_validator import ProfileScopingValidator
+    from .validators.test_completeness_validator import TestCompletenessValidator
+    from .validators.logical_ui_validator import LogicalUiValidator
+    from .validators.cardinality_validator import SchemaCardinalityValidator
+    from .validators.mermaid_syntax_validator import MermaidSyntaxValidator
+    from .validators.katex_validator import KatexValidator
+    from .validators.spec_filename_validator import SpecFilenameValidator
+    from .validators.spec_title_uniqueness_validator import SpecTitleUniquenessValidator
+    from .validators.source_reference_validator import SourceReferenceValidator
+    from .validators.link_validator import LinkValidator
+    from .validators.docstring_validator import DocstringValidator
+    from .validators.profile_compliance_validator import ProfileComplianceValidator
+    from .validators.concept_provenance_validator import ConceptProvenanceValidator
+    from .validators.safety_trace_validator import SafetyTraceValidator
+    from .validators.doc_metadata_validator import DocMetadataValidator
+    from .validators.icd_completeness_validator import ICDCompletenessValidator
+    from .validators.operational_allocation_validator import OperationalAllocationValidator
+    from .validators.standards_measurement_validator import StandardsAndMeasurementValidator
+    from .validators.conops_completeness_validator import ConopsCompletenessValidator, MissionIntentCompletenessValidator
+    from .validators.research_inventory_validator import ResearchInventoryValidator
+    from .validators.coverage_digest_validator import CoverageDigestValidator
+    from .validators.obligation_witness_validator import ObligationWitnessValidator
+    from .validators.semantic_diagram_ast_validator import SemanticDiagramASTValidator
+    from .validators.semantic_prose_invariant_validator import SemanticProseInvariantValidator
+    from .validators.factual_grounding_validator import FactualGroundingValidator
+    from .utils.diagnostics import serialize_diagnostics
+    from .utils.comment_utils import strip_comments_and_strings
+except (ImportError, ValueError):
+    _src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if _src_dir not in sys.path:
+        sys.path.insert(0, _src_dir)
+    from parity_auditor.core.workspace import WorkspaceRepository, extract_metadata_from_content
+    from parity_auditor.parsers.schema_router import parse_schema_file
+    from parity_auditor.validators.uml import UmlValidator
+    from parity_auditor.validators.behavioral import BehavioralValidator
+    from parity_auditor.validators.codebase import CodebaseValidator
+    from parity_auditor.validators.docs import DocsValidator
+    from parity_auditor.validators.dependency_validator import DependencyValidator
+    from parity_auditor.validators.sync_validator import SyncValidator
+    from parity_auditor.validators.schema_mapping_validator import SchemaMappingValidator
+    from parity_auditor.validators.profile_scoping_validator import ProfileScopingValidator
+    from parity_auditor.validators.test_completeness_validator import TestCompletenessValidator
+    from parity_auditor.validators.logical_ui_validator import LogicalUiValidator
+    from parity_auditor.validators.cardinality_validator import SchemaCardinalityValidator
+    from parity_auditor.validators.mermaid_syntax_validator import MermaidSyntaxValidator
+    from parity_auditor.validators.katex_validator import KatexValidator
+    from parity_auditor.validators.spec_filename_validator import SpecFilenameValidator
+    from parity_auditor.validators.spec_title_uniqueness_validator import SpecTitleUniquenessValidator
+    from parity_auditor.validators.source_reference_validator import SourceReferenceValidator
+    from parity_auditor.validators.link_validator import LinkValidator
+    from parity_auditor.validators.docstring_validator import DocstringValidator
+    from parity_auditor.validators.profile_compliance_validator import ProfileComplianceValidator
+    from parity_auditor.validators.concept_provenance_validator import ConceptProvenanceValidator
+    from parity_auditor.validators.safety_trace_validator import SafetyTraceValidator
+    from parity_auditor.validators.doc_metadata_validator import DocMetadataValidator
+    from parity_auditor.validators.icd_completeness_validator import ICDCompletenessValidator
+    from parity_auditor.validators.operational_allocation_validator import OperationalAllocationValidator
+    from parity_auditor.validators.standards_measurement_validator import StandardsAndMeasurementValidator
+    from parity_auditor.validators.conops_completeness_validator import ConopsCompletenessValidator, MissionIntentCompletenessValidator
+    from parity_auditor.validators.research_inventory_validator import ResearchInventoryValidator
+    from parity_auditor.validators.coverage_digest_validator import CoverageDigestValidator
+    from parity_auditor.validators.obligation_witness_validator import ObligationWitnessValidator
+    from parity_auditor.validators.semantic_diagram_ast_validator import SemanticDiagramASTValidator
+    from parity_auditor.validators.semantic_prose_invariant_validator import SemanticProseInvariantValidator
+    from parity_auditor.validators.factual_grounding_validator import FactualGroundingValidator
+    from parity_auditor.utils.diagnostics import serialize_diagnostics
+    from parity_auditor.utils.comment_utils import strip_comments_and_strings
+
 
 def sanitize_github_token_env():
     """
@@ -72,7 +135,7 @@ def assert_no_mock_cli(workspace_dir: str = None):
     workspace_dir = os.path.abspath(workspace_dir)
     scratch_dir = os.path.abspath(os.path.join(workspace_dir, "scratch"))
     scratch_bin = os.path.join(scratch_dir, "bin")
-    forbidden_cmds = ["gh", "git", "flutter"]
+    forbidden_cmds = ["gh", "glab", "git", "flutter"]
 
     for cmd in forbidden_cmds:
         binary_path = os.path.join(scratch_bin, cmd)
@@ -88,34 +151,370 @@ def assert_no_mock_cli(workspace_dir: str = None):
                 sys.exit(1)
 
 
-def get_open_feature_issues(workspace_dir: str = None):
+def parse_git_remote_url(remote_url: str) -> Dict[str, Any]:
+    """
+    Parse a git remote origin URL into its components:
+    - raw: raw URL string
+    - is_gitlab: True if domain contains 'gitlab'
+    - project_path: repository path (e.g. 'gintatkinson/DEAP01-spec-core' or 'group/subgroup/project')
+    - server_url: base server URL (e.g. 'https://gitlab.com' or 'https://gitlab.internal.corp')
+    - host: domain host name (e.g. 'gitlab.com' or 'github.com')
+    """
+    if not remote_url:
+        return {"raw": "", "is_gitlab": False, "project_path": None, "server_url": None, "host": None}
+    
+    clean_url = remote_url.strip()
+    if clean_url.endswith(".git"):
+        clean_url = clean_url[:-4]
+        
+    # Check if HTTP(S) / SSH URL with scheme (e.g. https://gitlab.com/owner/repo or ssh://git@gitlab.com/owner/repo)
+    if "://" in clean_url:
+        parsed = urllib.parse.urlparse(clean_url)
+        path = parsed.path.lstrip("/")
+        netloc = parsed.netloc
+        host = netloc.split("@")[-1].split(":")[0]
+        scheme = parsed.scheme if parsed.scheme in ("http", "https") else "https"
+        server_url = f"{scheme}://{netloc.split('@')[-1]}"
+        is_gitlab = "gitlab" in host.lower()
+        return {
+            "raw": remote_url,
+            "is_gitlab": is_gitlab,
+            "project_path": path,
+            "server_url": server_url,
+            "host": host
+        }
+    
+    # Check if SCP-style SSH URL (e.g. git@gitlab.com:owner/repo or git@gitlab.internal.corp:group/sub/repo)
+    scp_match = re.match(r'^(?:[^@]+@)?([^:]+):(.+)$', clean_url)
+    if scp_match:
+        host = scp_match.group(1)
+        path = scp_match.group(2).lstrip("/")
+        is_gitlab = "gitlab" in host.lower()
+        server_url = f"https://{host}"
+        return {
+            "raw": remote_url,
+            "is_gitlab": is_gitlab,
+            "project_path": path,
+            "server_url": server_url,
+            "host": host
+        }
+        
+    # Fallback parsing
+    parts = clean_url.split("/")
+    project_path = f"{parts[-2]}/{parts[-1]}" if len(parts) >= 2 else clean_url
+    is_gitlab = "gitlab" in clean_url.lower()
+    return {
+        "raw": remote_url,
+        "is_gitlab": is_gitlab,
+        "project_path": project_path,
+        "server_url": "https://gitlab.com" if is_gitlab else "https://github.com",
+        "host": "gitlab.com" if is_gitlab else "github.com"
+    }
+
+
+def get_git_remote_info(workspace_dir: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    if not workspace_dir:
+        workspace_dir = os.getcwd()
+    try:
+        res = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            cwd=workspace_dir,
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=10
+        )
+        url = res.stdout.strip()
+        return parse_git_remote_url(url)
+    except Exception:
+        return None
+
+
+def detect_tracker_provider(cli_provider: Optional[str] = None, rules: Optional[Any] = None, workspace_dir: Optional[str] = None) -> str:
+    if cli_provider and cli_provider.lower() != "auto":
+        return cli_provider.lower()
+        
+    env_provider = os.environ.get("TRACKER_PROVIDER") or os.environ.get("PROVIDER")
+    if env_provider and env_provider.lower() != "auto":
+        return env_provider.lower()
+
+    if rules is not None:
+        configured = None
+        if hasattr(rules, "tracker_rules") and isinstance(rules.tracker_rules, dict):
+            configured = rules.tracker_rules.get("provider")
+        elif isinstance(rules, dict):
+            configured = rules.get("tracker_rules", {}).get("provider")
+        if configured and str(configured).lower() not in ("auto", "github"):
+            return str(configured).lower()
+
+    # Detect from Jira environment variables
+    if (
+        os.environ.get("JIRA_SERVER_URL")
+        or os.environ.get("JIRA_URL")
+        or os.environ.get("JIRA_PROJECT_KEY")
+        or os.environ.get("JIRA_PROJECT")
+        or os.environ.get("JIRA_API_TOKEN")
+        or os.environ.get("JIRA_PAT")
+        or os.environ.get("JIRA_TOKEN")
+    ):
+        return "jira"
+
+    # Detect from CI environment variables
+    if os.environ.get("GITLAB_CI") or os.environ.get("CI_SERVER_URL") or os.environ.get("CI_PROJECT_PATH"):
+        return "gitlab"
+    if os.environ.get("GITHUB_ACTIONS") or os.environ.get("GITHUB_REPOSITORY"):
+        return "github"
+
+    # Detect from git remote
+    remote_info = get_git_remote_info(workspace_dir)
+    if remote_info and remote_info.get("is_gitlab"):
+        return "gitlab"
+
+    # Fallback to configured provider in rules or "github"
+    if rules is not None:
+        configured = None
+        if hasattr(rules, "tracker_rules") and isinstance(rules.tracker_rules, dict):
+            configured = rules.tracker_rules.get("provider")
+        elif isinstance(rules, dict):
+            configured = rules.get("tracker_rules", {}).get("provider")
+        if configured:
+            return str(configured).lower()
+            
+    return "github"
+
+
+def _fetch_gitlab_issues(workspace_dir: Optional[str] = None, rules: Optional[Any] = None) -> Optional[List[Dict[str, Any]]]:
+    """
+    Fetch open feature issues from GitLab via glab CLI or GitLab REST API v4.
+    """
+    if os.environ.get("OFFLINE"):
+        return None
+
+    try:
+        timeout = float(os.environ.get("PARITY_AUDITOR_GL_TIMEOUT", os.environ.get("PARITY_AUDITOR_GH_TIMEOUT", "10.0")))
+    except (ValueError, TypeError):
+        timeout = 10.0
+
+    tracker_rules = {}
+    if rules is not None:
+        if hasattr(rules, "tracker_rules") and isinstance(rules.tracker_rules, dict):
+            tracker_rules = rules.tracker_rules
+        elif isinstance(rules, dict):
+            tracker_rules = rules.get("tracker_rules", {})
+
+    target_feature_labels = {"feature", "type::feature"}
+    configured_feat_label = tracker_rules.get("labels", {}).get("feature")
+    if configured_feat_label:
+        target_feature_labels.add(str(configured_feat_label).lower())
+
+    keywords = ["defect", "bug", "repro", "tooling"]
+
+    def _is_feature_issue(issue: Dict[str, Any]) -> bool:
+        title = issue.get("title", "")
+        if any(kw in title.lower() for kw in keywords):
+            return False
+        raw_labels = issue.get("labels", [])
+        if raw_labels:
+            label_names = set()
+            for lbl in raw_labels:
+                if isinstance(lbl, str):
+                    label_names.add(lbl.lower())
+                elif isinstance(lbl, dict) and "name" in lbl:
+                    label_names.add(str(lbl["name"]).lower())
+            return any(l in target_feature_labels for l in label_names)
+        return True
+
+    # 1. Attempt glab CLI if installed
+    if shutil.which("glab"):
+        try:
+            cmd = ["glab", "issue", "list", "--all", "--per-page", "1000", "--output", "json"]
+            res = subprocess.run(
+                cmd,
+                cwd=workspace_dir,
+                capture_output=True,
+                text=True,
+                timeout=timeout
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                issues = json.loads(res.stdout)
+                open_feature_issues = []
+                for issue in issues:
+                    if "iid" in issue and "number" not in issue:
+                        issue["number"] = issue["iid"]
+                    state = str(issue.get("state", "")).lower()
+                    if state in ("opened", "open") and _is_feature_issue(issue):
+                        open_feature_issues.append(issue)
+                return open_feature_issues
+            else:
+                if res.returncode != 0:
+                    print(f"ERROR: glab CLI exited with code {res.returncode}: {res.stderr.strip()}", file=sys.stderr)
+        except subprocess.TimeoutExpired:
+            print(f"ERROR: glab CLI timed out after {timeout} seconds.", file=sys.stderr)
+        except Exception as e:
+            print(f"ERROR: Failed to run glab CLI: {e}", file=sys.stderr)
+
+    # 2. Direct GitLab REST API v4 using urllib.request
+    server_url = None
+    for env_var in ("GITLAB_URL", "CI_SERVER_URL", "GL_SERVER_URL"):
+        val = os.environ.get(env_var)
+        if val and val.strip():
+            server_url = val.strip().rstrip("/")
+            break
+    if not server_url:
+        server_url = tracker_rules.get("server_url")
+    if not server_url:
+        remote_info = get_git_remote_info(workspace_dir)
+        if remote_info and remote_info.get("server_url") and remote_info.get("is_gitlab"):
+            server_url = remote_info["server_url"]
+    if not server_url:
+        server_url = "https://gitlab.com"
+    server_url = server_url.rstrip("/")
+
+    raw_project_id = None
+    for env_var in ("CI_PROJECT_PATH", "CI_PROJECT_ID", "GITLAB_PROJECT", "GL_PROJECT"):
+        val = os.environ.get(env_var)
+        if val and val.strip():
+            raw_project_id = val.strip()
+            break
+    if not raw_project_id:
+        raw_project_id = tracker_rules.get("project_id")
+    if not raw_project_id:
+        remote_info = get_git_remote_info(workspace_dir)
+        if remote_info and remote_info.get("project_path"):
+            raw_project_id = remote_info["project_path"]
+    if not raw_project_id:
+        env_repo = os.environ.get("UPSTREAM_REPOSITORY") or os.environ.get("GIT_REMOTE_ORIGIN")
+        if env_repo:
+            raw_project_id = env_repo.strip()
+
+    if not raw_project_id:
+        print("ERROR: GitLab project path/ID could not be resolved.", file=sys.stderr)
+        return None
+
+    raw_str = str(raw_project_id).strip()
+    if raw_str.isdigit():
+        project_id_encoded = raw_str
+    else:
+        project_id_encoded = urllib.parse.quote(raw_str, safe="")
+
+    # Resolve token
+    token = None
+    token_type = "PRIVATE-TOKEN"
+    for var in ("GITLAB_TOKEN", "GL_TOKEN"):
+        val = os.environ.get(var)
+        if val and val.strip():
+            token = val.strip()
+            token_type = "PRIVATE-TOKEN"
+            break
+    if not token:
+        job_token = os.environ.get("CI_JOB_TOKEN")
+        if job_token and job_token.strip():
+            token = job_token.strip()
+            token_type = "JOB-TOKEN"
+    if not token and shutil.which("glab"):
+        try:
+            res = subprocess.run(["glab", "auth", "token"], capture_output=True, text=True, timeout=5)
+            if res.returncode == 0 and res.stdout.strip():
+                token = res.stdout.strip()
+                token_type = "PRIVATE-TOKEN"
+        except Exception:
+            pass
+    if not token:
+        try:
+            hostname = urllib.parse.urlparse(server_url).hostname or "gitlab.com"
+            auth = netrc.netrc().authenticators(hostname)
+            if auth and auth[2] and auth[2].strip():
+                token = auth[2].strip()
+                token_type = "PRIVATE-TOKEN"
+        except Exception:
+            pass
+
+    if not token:
+        print("[Notice] No GitLab authentication token found (GITLAB_TOKEN, GL_TOKEN, CI_JOB_TOKEN). Operating in offline/local specification mode.", file=sys.stderr)
+        return None
+
+    ca_cert_path = os.environ.get("GITLAB_CA_CERT_PATH") or os.environ.get("SSL_CERT_FILE")
+    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+    if ca_cert_path and os.path.isfile(ca_cert_path):
+        try:
+            ctx.load_verify_locations(cafile=ca_cert_path)
+        except Exception as e:
+            print(f"Warning: Failed to load CA certificate from {ca_cert_path}: {e}", file=sys.stderr)
+
+    all_issues = []
+    page = 1
+
+    try:
+        while True:
+            params = {
+                "scope": "all",
+                "state": "opened",
+                "per_page": 100,
+                "page": page,
+            }
+            url = f"{server_url}/api/v4/projects/{project_id_encoded}/issues?{urllib.parse.urlencode(params)}"
+            headers = {
+                "Accept": "application/json",
+                "User-Agent": "DEAP-Parity-Auditor/1.0",
+                token_type: token
+            }
+            req = urllib.request.Request(url=url, headers=headers, method="GET")
+            with urllib.request.urlopen(req, context=ctx, timeout=timeout) as resp:
+                raw_body = resp.read().decode("utf-8")
+                issues = json.loads(raw_body) if raw_body.strip() else []
+                resp_headers = {k: v for k, v in resp.headers.items()}
+
+            if not isinstance(issues, list):
+                break
+
+            for issue in issues:
+                if "iid" in issue and "number" not in issue:
+                    issue["number"] = issue["iid"]
+                if _is_feature_issue(issue):
+                    all_issues.append(issue)
+
+            next_page_hdr = resp_headers.get("X-Next-Page") or resp_headers.get("x-next-page")
+            if next_page_hdr and str(next_page_hdr).strip() and str(next_page_hdr).strip() != "0":
+                page = int(next_page_hdr)
+            elif len(issues) == 100:
+                page += 1
+            else:
+                break
+
+        return all_issues
+    except Exception as e:
+        print(f"ERROR: Failed to fetch GitLab issues via REST API v4: {e}", file=sys.stderr)
+        return None
+
+
+def _fetch_github_issues(workspace_dir: Optional[str] = None, rules: Optional[Any] = None) -> Optional[List[Dict[str, Any]]]:
     """
     Fetch open feature issues from GitHub via ``gh issue list``.
-
-    Filters out issues whose title contains known defect/bug/tooling keywords.
-
-    Returns:
-        List of issue dicts with 'number' and 'title' keys, or None when the
-        ``gh`` CLI is unavailable, offline, returns a non-zero exit code, or times out.
     """
-    assert_no_mock_cli(workspace_dir)
-
     if os.environ.get("OFFLINE") or not shutil.which("gh"):
         return None
 
-    import subprocess
-    import json
     try:
         timeout = float(os.environ.get("PARITY_AUDITOR_GH_TIMEOUT", "3.0"))
     except (ValueError, TypeError):
         timeout = 3.0
 
+    tracker_rules = {}
+    if rules is not None:
+        if hasattr(rules, "tracker_rules") and isinstance(rules.tracker_rules, dict):
+            tracker_rules = rules.tracker_rules
+        elif isinstance(rules, dict):
+            tracker_rules = rules.get("tracker_rules", {})
+
+    feature_label = tracker_rules.get("labels", {}).get("feature", "feature")
+
     try:
         result = subprocess.run(
-            ["gh", "issue", "list", "--state", "open", "--label", "feature", "--json", "number,title"],
+            ["gh", "issue", "list", "--state", "open", "--label", feature_label, "--json", "number,title"],
             capture_output=True,
             text=True,
-            timeout=timeout
+            timeout=timeout,
+            cwd=workspace_dir
         )
         if result.returncode == 0:
             issues = json.loads(result.stdout)
@@ -133,6 +532,29 @@ def get_open_feature_issues(workspace_dir: str = None):
     except Exception as e:
         print(f"ERROR: Failed to run gh CLI to fetch open feature issues: {e}", file=sys.stderr)
         return None
+
+
+def get_open_feature_issues(workspace_dir: str = None, provider: str = None, rules: Any = None):
+    """
+    Fetch open feature issues from the configured issue tracker (GitHub or GitLab).
+
+    Determines provider from ``provider`` argument, ``rules`` configuration,
+    environment variables, or git remote host.
+
+    Filters out issues whose title contains known defect/bug/tooling keywords.
+
+    Returns:
+        List of issue dicts with 'number' and 'title' keys, or None when the
+        provider is unavailable, offline, returns a non-zero exit code, or times out.
+    """
+    assert_no_mock_cli(workspace_dir)
+
+    effective_provider = detect_tracker_provider(cli_provider=provider, rules=rules, workspace_dir=workspace_dir)
+
+    if effective_provider == "gitlab":
+        return _fetch_gitlab_issues(workspace_dir=workspace_dir, rules=rules)
+    else:
+        return _fetch_github_issues(workspace_dir=workspace_dir, rules=rules)
 
 def parse_ignore_issues(ignore_str: str) -> set:
     ignored = set()
@@ -157,6 +579,11 @@ def parse_ignore_issues(ignore_str: str) -> set:
 
 
 def _extract_issue_id_from_frontmatter(fm_text: str, issue_number: int) -> bool:
+    data = extract_metadata_from_content(fm_text)
+    if data:
+        val = data.get("issue_id")
+        if val is not None and int(val) == issue_number:
+            return True
     try:
         import yaml
         data = yaml.safe_load(fm_text.replace('\x01', ''))
@@ -178,8 +605,8 @@ def _extract_issue_id_from_frontmatter(fm_text: str, issue_number: int) -> bool:
 def _scope_findings(errors, only):
     """Findings naming ``only``; everything else is another item's problem.
 
-    Whole-corpus invariants still ran — a duplicate title or a dangling cross-reference
-    is only visible across files — but a finding that does not name this item belongs to
+    Whole-corpus invariants still ran -- a duplicate title or a dangling cross-reference
+    is only visible across files -- but a finding that does not name this item belongs to
     a different one. Matching on the basename keeps a collision report, which names every
     colliding file, visible to each of them (issues #331, #321).
     """
@@ -211,7 +638,9 @@ def _main_impl():
     parser = argparse.ArgumentParser(description="Model Coverage Parity Audit CLI")
     parser.add_argument("schema_dir", nargs="?", help="Path to schema directory")
     parser.add_argument("features_dir", nargs="?", help="Path to feature specs directory")
+    parser.add_argument("--workspace", help="Path to workspace directory")
     parser.add_argument("--spec-only", action="store_true", help="Run in specification-only mode, bypassing codebase checks")
+    parser.add_argument("--schema-only", action="store_true", help="Run in schema/specification-only mode, bypassing codebase checks")
     parser.add_argument("--allow-missing-specs", action="store_true", default=True, help="Skip exiting with status code 1 when there are missing specification files")
     parser.add_argument("--no-allow-missing-specs", dest="allow_missing_specs", action="store_false", help="Exit with error code when specification files are missing (strict mode)")
     parser.add_argument("--ignore-issues", help="Comma-separated list of issue numbers or ranges to ignore (e.g., 14,16-18)")
@@ -224,20 +653,33 @@ def _main_impl():
                              "without blocking on unrelated drafts (issues #331, #321).")
     parser.add_argument("--scope-all", action="store_true", help="Check against ALL open feature issues (entire repo, not just local specs)")
     parser.add_argument("--sysml", action="store_true", help="Run SysML v2 model coverage parity validation")
+    parser.add_argument("--gate", help="Run specific quality gate (e.g. 26)")
+    parser.add_argument("--check-conops", help="Path to ConOps file to check")
+    parser.add_argument("--check-mission-intent", help="Path to Mission Intent file to check")
+    parser.add_argument("--synthesize-templates", action="store_true", help="Synthesize canonical ConOps and Mission Intent templates")
+    parser.add_argument("--synthesize-coverage-digest", action="store_true", help="Synthesize COVERAGE_DIGEST.md report")
+    parser.add_argument("--synthesize-witness-registry", action="store_true", help="Synthesize OBLIGATION_WITNESS_REGISTRY.md report")
+    parser.add_argument("--output-dir", help="Output directory for synthesized documents (default: docs/conops/ or docs/research/)")
+    parser.add_argument("--provider", help="Issue tracker provider (e.g. github, gitlab, jira)")
     
     args = parser.parse_args()
+    if args.schema_only:
+        args.spec_only = True
     
-    # 1. Locate workspace directory dynamically starting from current working directory
+    # 1. Locate workspace directory dynamically starting from current working directory or explicit argument
     workspace_dir = None
-    curr = os.getcwd()
-    while True:
-        if os.path.exists(os.path.join(curr, ".pipeline", "logical-ui", "codebase_rules.json")):
-            workspace_dir = curr
-            break
-        parent = os.path.dirname(curr)
-        if parent == curr:
-            break
-        curr = parent
+    if args.workspace:
+        workspace_dir = os.path.abspath(args.workspace)
+    else:
+        curr = os.getcwd()
+        while True:
+            if os.path.exists(os.path.join(curr, ".pipeline", "logical-ui", "codebase_rules.json")):
+                workspace_dir = curr
+                break
+            parent = os.path.dirname(curr)
+            if parent == curr:
+                break
+            curr = parent
         
     # Fall back to script's directory traversal if not found in cwd hierarchy
     if not workspace_dir:
@@ -260,6 +702,40 @@ def _main_impl():
     
     # 2. Initialize WorkspaceRepository with the determined workspace_dir
     repo = WorkspaceRepository(workspace_dir)
+
+    if args.synthesize_templates:
+        out_dir = args.output_dir or os.path.join(repo.workspace_dir, "docs", "conops")
+        os.makedirs(out_dir, exist_ok=True)
+        c_val = ConopsCompletenessValidator()
+        m_val = MissionIntentCompletenessValidator()
+        c_path = os.path.join(out_dir, "CONOPS_CANONICAL_TEMPLATE.md")
+        m_path = os.path.join(out_dir, "MISSION_INTENT_CANONICAL_TEMPLATE.md")
+        c_val.synthesize_canonical_template(c_path)
+        m_val.synthesize_canonical_template(m_path)
+        print(f"Synthesized canonical ConOps template: {c_path}")
+        print(f"Synthesized canonical Mission Intent template: {m_path}")
+        sys.exit(0)
+
+    if args.synthesize_coverage_digest:
+        out_dir = args.output_dir or os.path.join(repo.workspace_dir, "docs", "research")
+        os.makedirs(out_dir, exist_ok=True)
+        cov_val = CoverageDigestValidator()
+        cov_path = os.path.join(out_dir, "COVERAGE_DIGEST.md")
+        with open(cov_path, "w", encoding="utf-8") as f:
+            f.write(cov_val.synthesize_coverage_digest(repo))
+        print(f"Synthesized Coverage Digest report: {cov_path}")
+        sys.exit(0)
+
+    if args.synthesize_witness_registry:
+        out_dir = args.output_dir or os.path.join(repo.workspace_dir, "docs", "research")
+        os.makedirs(out_dir, exist_ok=True)
+        wit_val = ObligationWitnessValidator()
+        wit_path = os.path.join(out_dir, "OBLIGATION_WITNESS_REGISTRY.md")
+        with open(wit_path, "w", encoding="utf-8") as f:
+            f.write(wit_val.synthesize_witness_registry(repo))
+        print(f"Synthesized Obligation-Witness Registry: {wit_path}")
+        sys.exit(0)
+
     
     # 3. Check if the codebase rules file exists
     rules_path = repo.get_codebase_rules_path()
@@ -311,9 +787,21 @@ def _main_impl():
     epics_dir = os.path.join(repo.workspace_dir, epics_dir_rel) if epics_dir_rel else None
         
     has_failed = False
+    # Upstream compiler repository mode: this workspace is the upstream
+    # Specification Core Compiler (sentinel: .pipeline/upstream), whose landing
+    # zones are clean and which has no client app codebases BY DESIGN. See the
+    # Clean Landing Zone Invariant in .pipeline/constitution.md and the
+    # #68 reconciler exemption.
+    upstream_mode = repo.is_upstream_compiler_repo() and not repo.has_configured_target_code_directories()
+
     print("=== Model Coverage Parity Audit ===")
     print(f"Scanning schemas in: {schema_dir}")
     print(f"Scanning feature specifications in: {features_dir}\n")
+    if upstream_mode:
+        print("[*] UPSTREAM COMPILER REPOSITORY MODE ENGAGED - skipped stages: "
+              "missing-local-specification out-of-sync finding, "
+              "empty-codebase Schema Mapping, empty-codebase Profile Scoping, "
+              "empty-codebase Test Completeness.")
     
     # 1. Parse all modules
     modules = {}
@@ -360,14 +848,15 @@ def _main_impl():
         else:
             ignored_set.update(parse_ignore_issues(str(rule_ignore)))
 
-    open_issues = get_open_feature_issues(workspace_dir)
+    open_issues = get_open_feature_issues(workspace_dir, provider=args.provider, rules=rules)
+    provider_name = detect_tracker_provider(cli_provider=args.provider, rules=rules, workspace_dir=workspace_dir).capitalize()
     if open_issues is None:
         if not args.allow_missing_specs:
             has_failed = True
-            print("[!] ERROR: Could not fetch open feature issues from GitHub while --no-allow-missing-specs is enabled.", file=sys.stderr)
+            print(f"[!] ERROR: Could not fetch open feature issues from {provider_name} while --no-allow-missing-specs is enabled.", file=sys.stderr)
             open_issues = []
         else:
-            print("[!] WARNING: Could not fetch open feature issues from GitHub. Cross-reference verification skipped.", file=sys.stderr)
+            print(f"[!] WARNING: Could not fetch open feature issues from {provider_name}. Cross-reference verification skipped.", file=sys.stderr)
             open_issues = []
 
     if ignored_set:
@@ -376,46 +865,48 @@ def _main_impl():
     if not args.scope_all:
         local_issue_ids = set()
         for f in features:
-            frontmatter_match = re.match(r"^---\s*\n(.*?)\n---\s*\n", f.content, re.DOTALL)
-            if frontmatter_match:
-                fm_text = frontmatter_match.group(1)
-                ids = [int(m) for m in re.findall(r"issue_id\s*:\s*(\d+)", fm_text)]
-                local_issue_ids.update(ids)
+            fm_data = extract_metadata_from_content(f.content)
+            if fm_data and "issue_id" in fm_data:
+                try:
+                    local_issue_ids.add(int(fm_data["issue_id"]))
+                except (ValueError, TypeError):
+                    pass
         if local_issue_ids:
             open_issues = [issue for issue in open_issues if issue.get("number") in local_issue_ids]
 
     missing_specs = []
-    for issue in open_issues:
-        issue_number = issue.get("number")
-        issue_title = issue.get("title", "")
-        found = False
-        for f in features:
-            # Try to extract YAML frontmatter and check issue_id
-            frontmatter_match = re.match(r"^---\s*\n(.*?)\n---\s*\n", f.content, re.DOTALL)
-            if frontmatter_match:
-                fm_text = frontmatter_match.group(1)
-                found = _extract_issue_id_from_frontmatter(fm_text, issue_number)
-                if found:
-                    break
-
-            # Existing filename check as fallback only when no frontmatter present
-            else:
-                basename = os.path.splitext(f.filename)[0]
-                m = re.search(r'(?:^|\D)(\d+)(?:$|\D)', basename)
-                if m and int(m.group(1)) == issue_number:
+    missing_spec_errors = []
+    if not upstream_mode:
+        for issue in open_issues:
+            issue_number = issue.get("number")
+            issue_title = issue.get("title", "")
+            found = False
+            for f in features:
+                fm_data = extract_metadata_from_content(f.content)
+                if fm_data and fm_data.get("issue_id") == issue_number:
                     found = True
                     break
-        if not found:
-            missing_specs.append(f"Issue #{issue_number}: '{issue_title}'")
-            
-    missing_spec_errors = []
-    if missing_specs:
-        print("[!] Missing local specification files for open feature issues:")
-        for spec in missing_specs:
-            print(f"  - {spec}")
-        if not args.allow_missing_specs:
-            missing_spec_errors = missing_specs[:]
-            has_failed = True
+
+                # Existing filename check as fallback only when no metadata present
+                if not fm_data:
+                    basename = os.path.splitext(f.filename)[0]
+                    m = re.search(r'(?:^|\D)(\d+)(?:$|\D)', basename)
+                    if m and int(m.group(1)) == issue_number:
+                        found = True
+                        break
+            if not found:
+                missing_specs.append(f"Issue #{issue_number}: '{issue_title}'")
+
+        if missing_specs:
+            print("[!] Missing local specification files for open feature issues:")
+            for spec in missing_specs:
+                print(f"  - {spec}")
+            if not args.allow_missing_specs:
+                missing_spec_errors = missing_specs[:]
+                has_failed = True
+    else:
+        print("Note: Missing-local-specification cross-reference skipped: docs/features is a " 
+              "clean landing zone in the upstream compiler repository (interior tooling features, issues #74/#73/#72/#70/#67/#64/#62/#61/#60/#59).")
         
     epic_files = []
     if epics_dir and os.path.exists(epics_dir):
@@ -624,22 +1115,18 @@ def _main_impl():
                                 content = f.read()
                                 all_spec_contents.append(content)
                                 
-                                import yaml
-                                frontmatter_match = re.match(r"^---\s*\n(.*?)\n---\s*\n", content, re.DOTALL)
-                                if frontmatter_match:
-                                    frontmatter_text = frontmatter_match.group(1).replace('\x01', '')
-                                    data = yaml.safe_load(frontmatter_text)
-                                    if isinstance(data, dict):
-                                        for container in data.get("schema_containers", []):
-                                            if isinstance(container, dict):
-                                                path = container.get("path", "")
-                                            else:
-                                                path = str(container)
-                                            if path:
-                                                leaf = path.split("/")[-1]
-                                                if ":" in leaf:
-                                                    leaf = leaf.split(":", 1)[-1]
-                                                spec_elements.add(leaf.lower())
+                                data = extract_metadata_from_content(content)
+                                if isinstance(data, dict):
+                                    for container in data.get("schema_containers", []):
+                                        if isinstance(container, dict):
+                                            path = container.get("path", "")
+                                        else:
+                                            path = str(container)
+                                        if path:
+                                            leaf = path.split("/")[-1]
+                                            if ":" in leaf:
+                                                leaf = leaf.split(":", 1)[-1]
+                                            spec_elements.add(leaf.lower())
                         except Exception:
                             pass
 
@@ -884,6 +1371,17 @@ def _main_impl():
     else:
         print("Success: Mermaid syntax rules verified.")
 
+    print("\n=== KaTeX Mathematical Rendering Integrity Validation ===")
+    katex_validator = KatexValidator()
+    katex_errors = _scope_findings(katex_validator.validate(repo), getattr(args, 'only', None))
+    if katex_errors:
+        print("[!] KaTeX Integrity Violations Identified:")
+        for err in katex_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: KaTeX math syntax and AST integrity verified.")
+
     print("\n=== Logical UI Validation ===")
     logical_ui_validator = LogicalUiValidator()
     logical_ui_errors = _scope_findings(logical_ui_validator.validate(repo, features_dir=features_dir), getattr(args, 'only', None))
@@ -966,9 +1464,183 @@ def _main_impl():
         has_failed = True
     else:
         print("Success: Acceptance criteria test cases and verification bindings verified.")
-        
+
+    print("\n=== Concept Provenance & Parametric SSOT Audit ===")
+    concept_provenance_validator = ConceptProvenanceValidator()
+    concept_provenance_errors = _scope_findings(concept_provenance_validator.validate(repo), getattr(args, 'only', None))
+    if concept_provenance_errors:
+        print("[!] Concept Provenance Violations Identified:")
+        for err in concept_provenance_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Concept provenance and parametric assertions verified.")
+
+    print("\n=== Safety Traceability & Set-Equality Audit ===")
+    safety_trace_validator = SafetyTraceValidator()
+    safety_trace_errors = _scope_findings(safety_trace_validator.validate(repo), getattr(args, 'only', None))
+    if safety_trace_errors:
+        print("[!] Safety Traceability Violations Identified:")
+        for err in safety_trace_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Safety traceability set-equality verified.")
+
+    print("\n=== Document Metadata & Frontmatter Audit ===")
+    doc_metadata_validator = DocMetadataValidator()
+    doc_metadata_errors = _scope_findings(doc_metadata_validator.validate(repo), getattr(args, 'only', None))
+    if doc_metadata_errors:
+        print("[!] Document Metadata Violations Identified:")
+        for err in doc_metadata_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Document metadata tables and frontmatter valid across all markdown documents.")
+
+    print("\n=== ICD Completeness & Signal Flow Parity Audit ===")
+    icd_completeness_validator = ICDCompletenessValidator()
+    icd_completeness_errors = _scope_findings(icd_completeness_validator.validate(repo, schemas_dir=schema_dir), getattr(args, 'only', None))
+    if icd_completeness_errors:
+        print("[!] ICD Completeness Violations Identified:")
+        for err in icd_completeness_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Level 1C ICD port connectivity, N² matrix, and signal dictionary verified.")
+
+    print("\n=== Operational-to-Resource Allocation Audit (Gate 24) ===")
+    operational_allocation_validator = OperationalAllocationValidator()
+    operational_allocation_errors = _scope_findings(operational_allocation_validator.validate(repo, allow_missing_specs=getattr(args, 'allow_missing_specs', True)), getattr(args, 'only', None))
+    if operational_allocation_errors:
+        print("[!] Operational-to-Resource Allocation Violations Identified:")
+        for err in operational_allocation_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Operational-to-Resource Allocation (Theorem 1 and Theorem 2) verified.")
+
+    print("\n=== Standards & SI 7D Parameter Metrology Audit (Gate 25) ===")
+    standards_measurement_validator = StandardsAndMeasurementValidator()
+    standards_measurement_errors = _scope_findings(standards_measurement_validator.validate(repo), getattr(args, 'only', None))
+    if standards_measurement_errors:
+        print("[!] Standards & Parameter Metrology Violations Identified:")
+        for err in standards_measurement_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Standards taxonomy lattice and SI 7D parameter metrology verified.")
+
+    print("\n=== ConOps & Mission Intent Completeness Audit (Gate 26) ===")
+    conops_validator = ConopsCompletenessValidator()
+    conops_errors = _scope_findings(conops_validator.validate(repo), getattr(args, 'only', None))
+    if conops_errors:
+        print("[!] ConOps Completeness Violations Identified:")
+        for err in conops_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: 12-Section ConOps completeness and SORA GRB / Emergency determinism verified.")
+
+    mission_intent_validator = MissionIntentCompletenessValidator()
+    mission_intent_errors = _scope_findings(mission_intent_validator.validate(repo), getattr(args, 'only', None))
+    if mission_intent_errors:
+        print("[!] Mission Intent Completeness Violations Identified:")
+        for err in mission_intent_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: 10-Section Mission Intent completeness and Bingo Energy math verified.")
+
+    print("\n=== Cited Research Inventory & Declared-Total Population Register Audit (Gate 27) ===")
+    research_inventory_validator = ResearchInventoryValidator()
+    research_inventory_errors = _scope_findings(research_inventory_validator.validate(repo), getattr(args, 'only', None))
+    if research_inventory_errors:
+        print("[!] Cited Research Inventory Violations Identified:")
+        for err in research_inventory_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Cited research inventory schema and declared-total population register verified.")
+
+    print("\n=== Coverage-Digest Population Audit (Gate 28) ===")
+    coverage_digest_validator = CoverageDigestValidator()
+    coverage_digest_errors = _scope_findings(
+        coverage_digest_validator.validate(repo, allow_missing_specs=getattr(args, 'allow_missing_specs', True)),
+        getattr(args, 'only', None)
+    )
+    if coverage_digest_errors:
+        print("[!] Coverage Digest Violations Identified:")
+        for err in coverage_digest_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Coverage digest population metrics and realized obligations verified.")
+
+    print("\n=== Obligation-Witness Registry Audit (Gate 29) ===")
+    obligation_witness_validator = ObligationWitnessValidator()
+    obligation_witness_errors = _scope_findings(
+        obligation_witness_validator.validate(
+            repo,
+            allow_missing_specs=getattr(args, 'allow_missing_specs', True),
+            spec_only=getattr(args, 'spec_only', False),
+        ),
+        getattr(args, 'only', None)
+    )
+    if obligation_witness_errors:
+        print("[!] Obligation Witness Registry Violations Identified:")
+        for err in obligation_witness_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Multi-dimensional obligation witness registry verified.")
+
+    print("\n=== Semantic Diagram-to-AST Topology Parity Audit (Gate 21) ===")
+    semantic_diagram_validator = SemanticDiagramASTValidator()
+    semantic_diagram_errors = _scope_findings(
+        semantic_diagram_validator.validate(repo, schemas_dir=schema_dir),
+        getattr(args, 'only', None)
+    )
+    if semantic_diagram_errors:
+        print("[!] Semantic Diagram-to-AST Topology Parity Violations Identified:")
+        for err in semantic_diagram_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Semantic diagram nodes, signal flows, and actuator grounding verified against SysML AST.")
+
+    print("\n=== Physical Invariant Semantic Prose Audit (Gate 22) ===")
+    semantic_prose_validator = SemanticProseInvariantValidator()
+    semantic_prose_errors = _scope_findings(
+        semantic_prose_validator.validate(repo, schemas_dir=schema_dir),
+        getattr(args, 'only', None)
+    )
+    if semantic_prose_errors:
+        print("[!] Physical Invariant Semantic Prose Violations Identified:")
+        for err in semantic_prose_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Physical negative invariants verified against natural language specification prose.")
+
+    print("\n=== Factual Grounding & Parametric SSOT Audit (Gate 23) ===")
+    factual_grounding_validator = FactualGroundingValidator()
+    factual_grounding_errors = _scope_findings(
+        factual_grounding_validator.validate(repo, schemas_dir=schema_dir),
+        getattr(args, 'only', None)
+    )
+    if factual_grounding_errors:
+        print("[!] Factual Grounding & Parametric SSOT Violations Identified:")
+        for err in factual_grounding_errors:
+            print(f"  - {err}")
+        has_failed = True
+    else:
+        print("Success: Factual grounding, structural descriptors, protocols, and sequence diagram temporal safety verified.")
+
     if has_failed:
-        all_errors = (uml_errors or []) + (behavioral_errors or []) + (codebase_errors or []) + (doc_errors or []) + (dependency_errors or []) + (sync_errors or []) + (schema_mapping_errors or []) + (profile_scoping_errors or []) + (test_completeness_errors or []) + (cardinality_errors or []) + (spec_filename_errors or []) + (spec_title_errors or []) + (mermaid_syntax_errors or []) + (logical_ui_errors or []) + (docstring_errors or []) + (profile_compliance_errors or []) + (package_allocation_errors or []) + (feature_op_errors or []) + (interaction_errors or []) + (safety_constraint_errors or []) + (acceptance_test_errors or []) + (missing_spec_errors or []) + (source_ref_errors or []) + (link_errors or [])
+        all_errors = (uml_errors or []) + (behavioral_errors or []) + (codebase_errors or []) + (doc_errors or []) + (dependency_errors or []) + (sync_errors or []) + (schema_mapping_errors or []) + (profile_scoping_errors or []) + (test_completeness_errors or []) + (cardinality_errors or []) + (spec_filename_errors or []) + (spec_title_errors or []) + (mermaid_syntax_errors or []) + (katex_errors or []) + (logical_ui_errors or []) + (docstring_errors or []) + (profile_compliance_errors or []) + (package_allocation_errors or []) + (feature_op_errors or []) + (interaction_errors or []) + (safety_constraint_errors or []) + (acceptance_test_errors or []) + (missing_spec_errors or []) + (source_ref_errors or []) + (link_errors or []) + (concept_provenance_errors or []) + (safety_trace_errors or []) + (doc_metadata_errors or []) + (icd_completeness_errors or []) + (operational_allocation_errors or []) + (standards_measurement_errors or []) + (conops_errors or []) + (mission_intent_errors or []) + (research_inventory_errors or []) + (coverage_digest_errors or []) + (obligation_witness_errors or []) + (semantic_diagram_errors or []) + (semantic_prose_errors or []) + (factual_grounding_errors or [])
+
+
         compiled_errors = all_errors
         target_file = None
         snippet_content = None
@@ -1019,7 +1691,7 @@ def main():
     except Exception:
         import traceback
         traceback.print_exc()
-        upstream_repo = "gintatkinson/DEAP-spec-core"
+        upstream_repo = os.environ.get("UPSTREAM_REPOSITORY") or os.environ.get("GIT_REMOTE_ORIGIN") or "gintatkinson/DEAP01-spec-core"
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             workspace_dir = None
@@ -1042,7 +1714,7 @@ def main():
         except Exception:
             pass
         print("\n[!] If you believe this failure is due to a bug or limitation in the pipeline tooling, please report it upstream:")
-        print(f"    gh issue create --repo {upstream_repo} --title \"Tooling Bug: [Brief description]\" --body \"Context: UML/Coverage validation failed in downstream execution.\"")
+        print(f"    python3 scripts/file_defect.py --repo {upstream_repo} --title \"Tooling Bug: [Brief description]\" --body-file [payload_path] --label \"bug\"")
         sys.exit(1)
 
 if __name__ == "__main__":

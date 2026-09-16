@@ -1,9 +1,9 @@
 ---
-title: "Project Constitution — Functional Layer"
+title: "Project Constitution -- Functional Layer"
 project: "Digital Engineering Agent Platform (DEAP)"
 tier: functional
 created: "2026-06-29"
-last_updated: "2026-08-24"
+last_updated: "2026-09-14"
 ---
 
 # Project Constitution: Digital Engineering Agent Platform (DEAP)
@@ -65,7 +65,7 @@ graph TD
 ### Data Model Integrity
 - Every schema definition, model node, data object, property, variant, custom type, and extension defined in the input schemas MUST map to at least one Feature.
 - Cross-module or external schema references must be explicitly documented with source and target module names.
-- Circular dependencies must be flagged and escalated — do not silently drop them.
+- Circular dependencies must be flagged and escalated -- do not silently drop them.
 
 ### Model Metamodel & Profile Mapping Standard
 - Module Declarations & Container Nodes: YANG modules, OpenAPI schemas, or Protobuf packages map to a logical Component.
@@ -117,10 +117,10 @@ graph TD
 - Feature titles use the format: `[Verb] [Object] [Qualifier]`.
 
 ### BDD Scenario Format
-- All acceptance criteria MUST use Given-When-Then format adhering to canonical aerospace BDD templates:
-  - **Pattern A (ARINC 661 Cockpit Display Systems)**: `Given [UA Parameter Buffer State], When [ARINC 661 Binary Command Received], Then [CDS Widget State & Display Kernel Render Updated]`.
-  - **Pattern B (Real-Time Safety Statechart / Flight Control)**: `Given [Aircraft State Vector / Discrete Event], When [Safety FSM Transition Triggered], Then [Actuator Command / Symbology Graphic Rendered]`.
-  - **Pattern C (Decoupled Operator Console)**: `Given [Console Domain Model State], When [Operator Action Initiated], Then [ViewModel State & GUI Component Binding Updated]`.
+- All acceptance criteria MUST use Given-When-Then format adhering to canonical 3-layer semantic BDD templates:
+  - **Pattern A (Synchronous Display Kernel / Embedded Protocol)**: `Given [Domain Input Parameter Buffer State], When [Binary Command Message Received], Then [Widget State & Display Kernel Render Updated]`.
+  - **Pattern B (Real-Time Safety Statechart / Discrete Event Control)**: `Given [Domain State Vector / Discrete Event], When [Safety Statechart FSM Transition Triggered], Then [Actuator Command / Output Signal Generated]`.
+  - **Pattern C (Decoupled Operator Console / Web Interface)**: `Given [Console Domain Model State], When [Operator Action Initiated], Then [ViewModel State & GUI Component Binding Updated]`.
 - Negative scenarios (error cases, boundary violations, emergency failsafe modes) are MANDATORY for every constraint.
 
 ### User Story Format
@@ -148,10 +148,11 @@ graph TD
 - Specification work: directly on the default branch or a single `spec/<module>` branch if the change is large.
 - Implementation work: `feat/<issue-number>-<short-description>` branches.
 
-### Documentation Standards
+### Documentation & Repository Artifact Management Standards
 - All generated markdown files include YAML frontmatter.
 - All generated markdown files include a "Source References" section at the bottom.
-- No orphan documents — every file must be linked from at least one tracker issue.
+- No orphan documents -- every file must be linked from at least one tracker issue.
+- **Repository Artifact Management Mandate (Zero-Ephemeral Storage)**: All engineering artifacts, design blueprints, solution documents, architectural specifications, implementation plans, and reports MUST be created, managed, and committed directly within the active Git repository (e.g. under `docs/architecture/`, `docs/reports/`, `docs/designs/`, or `schema/`). Storing primary architectural decisions, solution documents, or engineering specifications exclusively in ephemeral application cache directories outside the repository (such as `<appDataDir>/brain/<conversation-id>/`) is strictly prohibited. Every artifact establishing architectural baselines, safety rationales, or implementation contracts must be version-controlled in Git in lockstep with the decision, ensuring full provenance, cross-session durability, and subagent accessibility.
 
 ### Idempotency
 - Re-running any pipeline skill MUST NOT create duplicate issues or documents.
@@ -160,9 +161,10 @@ graph TD
 - If a validation gate fails, HALT immediately. Do not proceed to the next phase.
 - If you suspect the failure is due to a pipeline tooling bug or schema limitation, report it as an issue to the upstream repository.
 
-### Strict Planning Mode Gate (Insurmountable Approval Gate)
+### Strict Planning Mode Gate & Plan Continuity Mandate
 - Under NO circumstances may the agent invoke any file-writing, file-modifying, or command-running tools that alter the codebase/repository files unless BOTH of the following hold: (1) the specific file and its exact changes are documented in an approved implementation plan, AND (2) the user has explicitly typed "Proceed", "Approved", or "Approve plan" in the conversation history of the current turn sequence. An authorization keyword alone is NOT sufficient. See `.agents/AGENTS.md` § Strict Planning Gate, which takes precedence, and `rules/user-authorization-lock.md` § Precedence.
 - If a plan is written, the agent MUST immediately terminate its turn and stop calling tools to wait for approval.
+- **Prohibition of Unapproved Plan Abandonment & Mandatory Plan Continuity**: Once an implementation plan has been established, approved, or has in-flight work packages, the agent is strictly forbidden from abandoning, altering, replacing, or discarding the plan without explicit user review and authorization in the current conversation turn. The agent is strictly prohibited from reacting to user feedback, criticism, or diagnostic friction by unilaterally dropping planned work packages, abandoning uncommitted changes, or impulsively proposing wholesale file deletions, purges, or scope redirections. Any proposed deviation, scope refinement, or plan adjustment MUST be documented as an updated implementation plan and explicitly approved by the user before changing execution course.
 
 ## Universal Quality Gates
 
@@ -190,15 +192,22 @@ The pipeline mechanically enforces 16 active quality gates that halt execution o
 
 ### Phase 0 Safety Engineering Airworthiness Gate
 - **8-Pillar Safety Specification Schema**: All downstream safety engineering deliverables (`docs/safety/STPA_MATRIX.md`) MUST conform to the 8-pillar STPA, FMECA, and SORA schema:
-  1. System Losses ($L-1..N$)
-  2. System Hazards ($H-1..N$)
+  1. System Losses (**L-1..N**)
+  2. System Hazards (**H-1..N**)
   3. Hierarchical Control Structure Topology
-  4. Unsafe Control Actions ($UCA-1..N$) covering all 4 failure modes (Not providing, Providing, Too early/too late/out of order, Stopped too soon/applied too long)
-  5. Loss Scenarios ($LS-1..N$) & Causal Factors
-  6. Formal Safety Constraints ($SC-1..N$)
-  7. FMECA Criticality Matrix with at least 15 component failure mode rows ($15+$ rows) and RPN calculations
+  4. Unsafe Control Actions (**UCA-1..N**) covering all 4 failure modes (Not providing, Providing, Too early/too late/out of order, Stopped too soon/applied too long)
+  5. Loss Scenarios (**LS-1..N**) & Causal Factors
+  6. Formal Safety Constraints (**SC-1..N**)
+  7. FMECA Criticality Matrix with at least 15 component failure mode rows (15+ rows), 100% representation of declared AST `part def` components with $\ge 3$ distinct failure modes per part across the 4 universal failure dimensions, explicit `SSOT`/`Derived` basis annotations, and valid integer RPN calculations ($RPN = S \times O \times D$) with $S, O, D \in [1, 10]$.
   8. SORA SAIL Risk Mitigations & OSO Traceability Table determining Final GRC, ARC, SAIL classification, and complete coverage of all 24 Operational Safety Objectives (OSO-01 through OSO-24).
+- **Universal Failure Dimensions & Component Failure Mode Registry**: To eliminate shallow FMECA tables and guarantee exhaustive reliability analysis, Step 1.5 Technology Stack & Architecture Research MUST decompose all AST `part def` components from the authoritative SysML model and synthesize `docs/research/FAILURE_MODE_REGISTRY.md` as a mandatory intermediate artifact contract before `docs/safety/STPA_MATRIX.md` synthesis. Failure modes MUST be systematically cataloged across the 4 Universal Failure Dimensions:
+  1. **Interface**: Signal corruption, bus babbling, port disconnect, serialization fault, packet loss, CRC checksum error, impedance mismatch.
+  2. **State**: Illegal transition, deadlocks, state desynchronization, uninitialized mode, unrecoverable safe-state trap, livelock.
+  3. **Action**: Command omission, inadvertent/spurious execution, timing/latency violation, out-of-sequence execution, truncated/extended actuation duration.
+  4. **Resource**: Memory exhaustion, buffer overflow, CPU starvation, deadline miss, power sag/brownout, thermal throttling, storage corruption.
+- **Derivation-Annotation Contract**: All analytical content in the 8-pillar deliverable is an engineering derivative of the SSOT fact base, never a fact itself. Every derived cell MUST carry four annotations: (1) Input anchors (SSOT document, section, and clause, or explicit silent source set), (2) Methodology citation (Leveson STPA for L/H/UCA/LS/SC; MIL-STD-1629A/SAE ARP4761 for FMECA S/O/D/RPN; JARUS SORA v2.5 for GRC/ARC/SAIL; ASTM F3269-17 for RTA hooks), (3) Derivation grade (directly evidenced, analytically derived, or declared assumption), and (4) Caveat (mandatory where product documents are silent, recording the attempt made, silent source set, and downstream impact).
 - **ASTM F3269-17 RTA & Model-Based Design Hook Mandate**: Formal safety constraints and Run-Time Assurance (RTA) Safety Net monitors MUST specify direct integration hooks for MATLAB / Simulink / Stateflow / Embedded Coder control law synthesis and Simulink Design Verifier (SLDV) invariant proving.
+- **Forbidden Math Delimiters on Alphanumeric IDs**: Traceability keys and non-mathematical identifiers (such as requirement IDs `SC-XX`, hazard tags `H-X`, SORA codes `OSO-XX`, loss tags `L-X`, and UCA codes `UCA-X`) MUST NOT be wrapped in LaTeX math delimiters `$...$`. Bold formatting (`**SC-01**`, `**H-1**`) MUST be used instead.
 
 ### Specification Validation Gates
 - Post schema extraction: Every schema node maps to at least one Feature. Coverage = 100%.
@@ -225,7 +234,7 @@ The pipeline mechanically enforces 16 active quality gates that halt execution o
 - Baseline conformance must be verified using the configured verification script, which asserts that all baseline files are present, validates type compatibility, and compiles/tests the project with a clean exit code.
 
 ### Downstream Single Source of Truth (SSOT) & Clean Baseline Mandate
-- **Single Source of Truth (SSOT)**: Master architecture blueprints (`DEAP_MASTER_ARCHITECTURE.md`, `THREE_TIER_GOVERNANCE_BLUEPRINT.md`, `DEAP_SYSML_V2_SAFETY_MODEL_SPECIFICATION.sysml`) reside exclusively in the central upstream specification repository (`gintatkinson/DEAP-spec-core`). Downstream repositories are strictly forbidden from copying or duplicating master blueprints locally. All downstream projects MUST reference upstream specifications via URLs or relative submodule paths.
+- **Single Source of Truth (SSOT)**: Master architecture blueprints (`DEAP_MASTER_ARCHITECTURE.md`, `THREE_TIER_GOVERNANCE_BLUEPRINT.md`, `SYSML_SSOT_BIDIRECTIONAL_SYNCHRONIZATION_ARCHITECTURE.md`) reside exclusively in the central upstream specification repository (`DEAP01-spec-core`). Downstream repositories are strictly forbidden from copying or duplicating master blueprints locally. All downstream projects MUST reference upstream specifications via URLs or relative submodule paths.
 - **Clean Baseline & Version Control Mandate**: Every downstream repository MUST maintain a valid `.gitignore` file in its root directory. OS-generated metadata files (such as `.DS_Store`) and build artifacts are strictly forbidden from being committed or present in the working tree or git index.
 
 ## CMMI Level 3 & Scrum Issue Lifecycle Rules
@@ -254,4 +263,5 @@ The pipeline explicitly substantiates CMMI Level 3 alignment across key engineer
 - `Verifying`: Code changes are in peer review (PR) and automated tests are executing.
 - `Fixed / Resolved`: Development work is complete, tests have passed, and the fix is integrated into `main`. The issue remains in this state awaiting customer feedback.
 - `Closed`: The issue is archived. This state is unreachable without explicit Product Owner/Customer validation approval.
+- **Commit Message Non-Closure Invariant**: Agents and automated scripts are strictly prohibited from using issue auto-closing keywords (`fix`, `fixes`, `fixed`, `close`, `closes`, `closed`, `resolve`, `resolves`, `resolved` preceding `#<id>`) in git commit messages. All commit messages referencing issues MUST use neutral citations: `(#<id>)` or `(refs #<id>)` to prevent server-side premature auto-closure.
 
