@@ -26,7 +26,7 @@ DEFAULT_CLAUDE = """# Claude Code Project Guidelines
 This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
 
 ## Workflow & Quality Gates
-- Follow all pipeline rules in `rules/` and skills in `skills/` and `.agents/skills/`.
+- Follow all pipeline rules by executing `view_file` on `.pipeline/ACTIVE_RULES_BUNDLE.md`, and skills in `skills/` and `.agents/skills/`.
 - Strict Planning Gate: Do not execute unauthorized modifications without an approved implementation plan.
 - Execute baseline verification: `pytest tests/test_baseline.py` and `python3 scripts/verify_downstream_baseline.py --no-domain`.
 """
@@ -52,7 +52,7 @@ This platform explicitly declares **MATLAB / Simulink / Stateflow / Embedded Cod
 
 - `.agents/` & `AGENTS.md`: Agent behavior rules, role boundaries, and subagent dispatch protocols.
 - `CLAUDE.md`: Claude Code guidelines and verification gates.
-- `.pipeline/`: Constitution (`constitution.md`), domain specifications, and execution profiles.
+- `.pipeline/`: Constitution (`constitution.md`), active governance rules bundle (`ACTIVE_RULES_BUNDLE.md`), domain specifications, and execution profiles.
 - `rules/` & `skills/`: Platform engineering rules and agent workflow skills.
 - `schema/`: Contract definitions and SysML v2 schemas.
 - `tests/`: Automated baseline verification and safety compliance tests.
@@ -93,10 +93,24 @@ def scaffold_downstream_agents(installer_root: str, target_dir: str) -> None:
         )
 
     target_dot_agents_dir = os.path.join(target_dir, ".agents")
+    if os.path.exists(target_dot_agents_dir):
+        try:
+            os.chmod(target_dot_agents_dir, 0o755)
+        except OSError:
+            pass
     os.makedirs(target_dot_agents_dir, exist_ok=True)
 
     dot_agents_path = os.path.join(target_dot_agents_dir, "AGENTS.md")
     root_agents_path = os.path.join(target_dir, "AGENTS.md")
+    claude_path = os.path.join(target_dir, "CLAUDE.md")
+    readme_path = os.path.join(target_dir, "README.md")
+
+    for target_path in [dot_agents_path, root_agents_path, claude_path, readme_path]:
+        if os.path.exists(target_path):
+            try:
+                os.chmod(target_path, 0o644)
+            except OSError:
+                pass
 
     with open(dot_agents_path, "w", encoding="utf-8") as f:
         f.write(transformed)
@@ -104,12 +118,10 @@ def scaffold_downstream_agents(installer_root: str, target_dir: str) -> None:
     with open(root_agents_path, "w", encoding="utf-8") as f:
         f.write(transformed)
 
-    claude_path = os.path.join(target_dir, "CLAUDE.md")
     if not os.path.exists(claude_path):
         with open(claude_path, "w", encoding="utf-8") as f:
             f.write(DEFAULT_CLAUDE)
 
-    readme_path = os.path.join(target_dir, "README.md")
     if not os.path.exists(readme_path):
         with open(readme_path, "w", encoding="utf-8") as f:
             f.write(DEFAULT_README)

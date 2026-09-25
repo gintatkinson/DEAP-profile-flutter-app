@@ -12,15 +12,17 @@ and FMECA failure modes, compiling them into formal SysML v2 `constraint def` an
 `assert constraint` expressions for Run-Time Assurance (RTA) mathematical verification
 with Simulink Design Verifier (SLDV) and Embedded Coder synthesis.
 
-Implements Closed-Loop Bidirectional Synchronization (--reverse-sync):
+Implements Closed-Loop Bidirectional Synchronization (--reverse-sync and --forward-sync):
 Extracts Concept of Operations (ConOps), Use Cases, User Stories, Features, Epics, and Safety Matrices from markdown
 specifications into canonical SysML v2 AST nodes, merging them deterministically into
 the SysML Single Source of Truth (.pipeline/schema.sysml) and regenerating .pipeline/schema-digest.json.
+Compiles canonical Markdown specifications from SysML v2 AST SSOT models (--forward-sync).
 
 Usage:
     python3 scripts/compile_sysml.py <file.sysml>
     python3 scripts/compile_sysml.py --stpa <stpa_file.md>
     python3 scripts/compile_sysml.py --reverse-sync [--docs docs/] [--schema schema/DEAP_MODEL.sysml] [--out .pipeline/schema.sysml] [--digest .pipeline/schema-digest.json]
+    python3 scripts/compile_sysml.py --forward-sync [--schema .pipeline/schema.sysml] [--docs docs/] [--out-dir build/generated_specs/] [--dry-run]
 """
 
 import sys
@@ -30,6 +32,7 @@ import re
 import hashlib
 import argparse
 import tempfile
+import datetime
 from typing import Dict, List, Any, Optional, Set, Tuple, Union
 
 # Ensure spec-orchestrator scripts are on sys.path
@@ -62,6 +65,10 @@ try:
         StateDef,
         UseCaseDef,
         ItemDef,
+        ConnectionDef,
+        HazardDef,
+        RiskDef,
+        ItemFlowDef,
     )
 except ImportError:
     SysMLParser = None
@@ -80,6 +87,503 @@ except ImportError:
     StateDef = None
     UseCaseDef = None
     ItemDef = None
+    ConnectionDef = None
+    HazardDef = None
+    RiskDef = None
+    ItemFlowDef = None
+
+
+class MatrixGenerator:
+    """
+    Deterministic tabular matrix generator from SysML AST models.
+    Resolves Issue #356.
+
+    Synthesizes canonical Level 1B Operational Information Exchanges (Op-Tx),
+    STPA Unsafe Control Actions (UCA) 4-guide-word Cartesian products, and
+    FMECA failure mode criticality matrices from SysML v2 AST nodes.
+    """
+
+    @staticmethod
+    def generate_optx_matrix(
+        item_flows: Optional[List[Any]] = None,
+        connections: Optional[List[Any]] = None,
+    ) -> str:
+        """
+        Synthesizes the canonical 7-column Level 1B Op-Tx Markdown table:
+        Exchange ID, Source Performer, Destination Performer, Information Item / Payload,
+        Trigger / Periodic Rate, Latency Ceiling, Criticality Class.
+        """
+        headers = [
+            "Exchange ID",
+            "Source Performer",
+            "Destination Performer",
+            "Information Item / Payload",
+            "Trigger / Periodic Rate",
+            "Latency Ceiling",
+            "Criticality Class",
+        ]
+        lines = [
+            "| " + " | ".join(headers) + " |",
+            "| " + " | ".join([":---"] * len(headers)) + " |",
+        ]
+
+        raw_flows: List[Any] = []
+        if item_flows:
+            raw_flows.extend(item_flows)
+        elif connections:
+            raw_flows.extend(connections)
+
+        if not raw_flows:
+            # Canonical abstract domain-neutral performers and information flows
+            raw_flows = [
+                {
+                    "source": "SensorSuite",
+                    "destination": "CoreController",
+                    "item": "TelemetryVector",
+                    "rate": "100 Hz",
+                    "latency": "5 ms",
+                    "criticality": "High (DAL-A)",
+                },
+                {
+                    "source": "OperatorConsole",
+                    "destination": "CoreController",
+                    "item": "CommandMessage",
+                    "rate": "Event-driven",
+                    "latency": "20 ms",
+                    "criticality": "High (DAL-A)",
+                },
+                {
+                    "source": "CoreController",
+                    "destination": "ActuatorSubsystem",
+                    "item": "ActuatorSetpoint",
+                    "rate": "200 Hz",
+                    "latency": "2 ms",
+                    "criticality": "High (DAL-A)",
+                },
+                {
+                    "source": "CoreController",
+                    "destination": "SafetyWatchdog",
+                    "item": "HeartbeatSignal",
+                    "rate": "50 Hz",
+                    "latency": "10 ms",
+                    "criticality": "Critical",
+                },
+                {
+                    "source": "PayloadSubsystem",
+                    "destination": "CoreController",
+                    "item": "PayloadStatus",
+                    "rate": "10 Hz",
+                    "latency": "50 ms",
+                    "criticality": "Medium (DAL-B)",
+                },
+                {
+                    "source": "SafetyWatchdog",
+                    "destination": "ActuatorSubsystem",
+                    "item": "FailsafeTrigger",
+                    "rate": "Event-driven",
+                    "latency": "1 ms",
+                    "criticality": "Critical",
+                },
+            ]
+
+        for idx, flow in enumerate(raw_flows, start=1):
+            if isinstance(flow, dict):
+                src = (
+                    flow.get("source")
+                    or flow.get("source_performer")
+                    or flow.get("source_part")
+                    or "SensorSuite"
+                )
+                dst = (
+                    flow.get("destination")
+                    or flow.get("destination_performer")
+                    or flow.get("target_performer")
+                    or flow.get("target_part")
+                    or flow.get("target")
+                    or "CoreController"
+                )
+                payload = (
+                    flow.get("item")
+                    or flow.get("payload")
+                    or flow.get("item_payload")
+                    or flow.get("item_flow_ref")
+                    or flow.get("name")
+                    or "TelemetryVector"
+                )
+                rate = (
+                    flow.get("rate")
+                    or flow.get("trigger_rate")
+                    or (
+                        f"{flow.get('rate_hz')} Hz"
+                        if flow.get("rate_hz") is not None
+                        else None
+                    )
+                    or "100 Hz"
+                )
+                latency = (
+                    flow.get("latency")
+                    or flow.get("latency_ceiling")
+                    or (
+                        f"{flow.get('latency_ms')} ms"
+                        if flow.get("latency_ms") is not None
+                        else None
+                    )
+                    or "5 ms"
+                )
+                crit = (
+                    flow.get("criticality")
+                    or flow.get("criticality_class")
+                    or "High (DAL-A)"
+                )
+                ex_id = (
+                    flow.get("exchange_id")
+                    or (
+                        flow.get("id")
+                        if str(flow.get("id", "")).upper().startswith("OPTX-")
+                        else None
+                    )
+                    or f"OPTX-{idx:03d}"
+                )
+            else:
+                src = (
+                    getattr(flow, "source_part", None)
+                    or getattr(flow, "source", None)
+                    or "SensorSuite"
+                )
+                dst = (
+                    getattr(flow, "target_part", None)
+                    or getattr(flow, "destination", None)
+                    or getattr(flow, "target", None)
+                    or "CoreController"
+                )
+                payload = (
+                    getattr(flow, "item_payload", None)
+                    or getattr(flow, "item_flow_ref", None)
+                    or getattr(flow, "item_type", None)
+                    or getattr(flow, "name", None)
+                    or "TelemetryVector"
+                )
+                rate = (
+                    f"{getattr(flow, 'rate_hz')} Hz"
+                    if getattr(flow, "rate_hz", None) is not None
+                    else "100 Hz"
+                )
+                latency = (
+                    f"{getattr(flow, 'latency_ms')} ms"
+                    if getattr(flow, "latency_ms", None) is not None
+                    else "5 ms"
+                )
+                crit = getattr(flow, "criticality", "High (DAL-A)")
+                ex_id = f"OPTX-{idx:03d}"
+
+            lines.append(
+                f"| {ex_id} | {src} | {dst} | {payload} | {rate} | {latency} |"
+                f" {crit} |"
+            )
+
+        return "\n".join(lines)
+
+    @staticmethod
+    def generate_stpa_uca_cartesian(
+        controllers: Optional[Any] = None,
+        actions: Optional[Any] = None,
+    ) -> str:
+        """
+        Synthesizes full Cartesian product of actions x 4 STPA guide words
+        (Not providing, Providing, Too early / Too late / Out of order, Stopped too soon / Applied too long).
+        Guarantees complete coverage across all declared control actions.
+        """
+        guide_words = [
+            "Not providing",
+            "Providing",
+            "Too early / Too late / Out of order",
+            "Stopped too soon / Applied too long",
+        ]
+        headers = [
+            "UCA ID",
+            "Controller",
+            "Control Action",
+            "Guide Word",
+            "Context / State",
+            "Resulting Hazard",
+            "Safety Constraint",
+            "Severity",
+        ]
+        lines = [
+            "| " + " | ".join(headers) + " |",
+            "| " + " | ".join([":---"] * len(headers)) + " |",
+        ]
+
+        # Resolve controllers and actions
+        ctrl_action_pairs: List[Tuple[str, List[str]]] = []
+
+        if controllers is None and actions is None:
+            # Canonical 32 actions across abstract controllers -> 128 rows
+            ctrl_action_pairs = [
+                (
+                    "CoreController",
+                    [
+                        "InitializeSubsystems",
+                        "ArmActuators",
+                        "DisarmActuators",
+                        "EngageAutonomousControl",
+                        "DisengageAutonomousControl",
+                        "UpdateTrajectory",
+                        "CommandActuatorSetpoint",
+                        "ExecuteHold",
+                        "ExecuteReturnSequence",
+                        "SwitchOperatingMode",
+                        "CalibrateSensorSuite",
+                        "ProcessSensorStream",
+                        "DispatchPayloadCommand",
+                        "VerifyLinkIntegrity",
+                        "TriggerBIT",
+                        "InitiateControlledShutdown",
+                    ],
+                ),
+                (
+                    "SafetyWatchdog",
+                    [
+                        "MonitorHeartbeat",
+                        "AssertSafetyConstraint",
+                        "TriggerFailsafeState",
+                        "CommandEmergencyStop",
+                        "IsolateFaultyChannel",
+                        "InhibitActuatorOutput",
+                        "ForceAutonomousRecovery",
+                        "LogSafetyViolation",
+                    ],
+                ),
+                (
+                    "OperatorConsole",
+                    [
+                        "SendMissionPlan",
+                        "AuthorizeModeTransition",
+                        "IssueManualOverride",
+                        "AcknowledgeAlarm",
+                        "InitiateSystemStart",
+                        "InitiateSystemStop",
+                        "RequestTelemetrySync",
+                        "SetContainmentBoundary",
+                    ],
+                ),
+            ]
+        else:
+            raw_ctrls = controllers
+            if isinstance(raw_ctrls, str):
+                raw_ctrls = [raw_ctrls]
+            elif raw_ctrls is None:
+                raw_ctrls = ["CoreController"]
+
+            raw_actions = actions
+            if isinstance(raw_actions, str):
+                raw_actions = [raw_actions]
+
+            for item in raw_ctrls:
+                if isinstance(item, dict):
+                    c_name = item.get("name", "CoreController")
+                    c_acts = item.get("actions") or raw_actions or []
+                elif hasattr(item, "name"):
+                    c_name = getattr(item, "name", "CoreController")
+                    item_acts = getattr(item, "actions", [])
+                    c_acts = [getattr(a, "name", str(a)) for a in item_acts] or raw_actions or []
+                elif isinstance(item, str):
+                    c_name = item
+                    c_acts = raw_actions or []
+                else:
+                    c_name = str(item)
+                    c_acts = raw_actions or []
+
+                if not c_acts and raw_actions:
+                    c_acts = raw_actions
+
+                if c_acts:
+                    ctrl_action_pairs.append((c_name, list(c_acts)))
+
+            if not ctrl_action_pairs and raw_actions:
+                ctrl_action_pairs.append(("CoreController", list(raw_actions)))
+
+        uca_counter = 1
+        for ctrl_name, action_list in ctrl_action_pairs:
+            for action in action_list:
+                for gw in guide_words:
+                    uca_id = f"UCA-{uca_counter:03d}"
+                    context = f"Operating state nominal or degraded with active {action}"
+                    hazard = f"H_{action}_Hazard"
+                    sc = f"SC_{action}_Constraint"
+                    lines.append(
+                        f"| {uca_id} | {ctrl_name} | {action} | {gw} | {context} | {hazard} | {sc} | Critical |"
+                    )
+                    uca_counter += 1
+
+        return "\n".join(lines)
+
+    @staticmethod
+    def generate_fmeca_matrix(
+        components: Optional[Any] = None,
+        failure_modes: Optional[Any] = None,
+    ) -> str:
+        """
+        Generates FMECA matrix table with component, failure mode, effect, severity, and mitigation.
+        Ensures deterministic closure across all declared physical/logical components.
+        """
+        headers = ["Component", "Failure Mode", "Effect", "Severity", "Mitigation"]
+        lines = [
+            "| " + " | ".join(headers) + " |",
+            "| " + " | ".join([":---"] * len(headers)) + " |",
+        ]
+
+        default_fmeca = [
+            {
+                "component": "SensorSuite",
+                "failure_mode": "Calibration Drift",
+                "effect": "Degraded state estimation accuracy",
+                "severity": "Critical",
+                "mitigation": "Multi-sensor voting and anomaly detection",
+            },
+            {
+                "component": "SensorSuite",
+                "failure_mode": "Signal Loss",
+                "effect": "Loss of telemetry updates",
+                "severity": "Critical",
+                "mitigation": "Fail-silent channel shutdown and fallback to inertial dead reckoning",
+            },
+            {
+                "component": "CoreController",
+                "failure_mode": "Control Loop Deadlock",
+                "effect": "Stalled control output calculations",
+                "severity": "Critical",
+                "mitigation": "Hardware watchdog timer reset and dual-redundant switchover",
+            },
+            {
+                "component": "CoreController",
+                "failure_mode": "Memory Exhaustion",
+                "effect": "Task preemption failure",
+                "severity": "High",
+                "mitigation": "Static buffer allocation and periodic heap monitoring",
+            },
+            {
+                "component": "ActuatorSubsystem",
+                "failure_mode": "Actuator Jam",
+                "effect": "Inability to execute steering commands",
+                "severity": "Critical",
+                "mitigation": "Torque limit detection and emergency decoupling",
+            },
+            {
+                "component": "ActuatorSubsystem",
+                "failure_mode": "Command Bus Corruption",
+                "effect": "Erroneous control surface movement",
+                "severity": "Critical",
+                "mitigation": "CRC-32 packet validation and failsafe neutral positioning",
+            },
+            {
+                "component": "PayloadSubsystem",
+                "failure_mode": "Payload Power Surge",
+                "effect": "Bus voltage sag",
+                "severity": "Medium",
+                "mitigation": "Current-limiting shunt and isolated DC-DC conversion",
+            },
+            {
+                "component": "PayloadSubsystem",
+                "failure_mode": "Data Link Buffer Overflow",
+                "effect": "Dropped payload telemetry packets",
+                "severity": "Low",
+                "mitigation": "Circular buffering and backpressure flow control",
+            },
+            {
+                "component": "SafetyWatchdog",
+                "failure_mode": "Heartbeat Timeout False Alarm",
+                "effect": "Inadvertent transition to failsafe state",
+                "severity": "High",
+                "mitigation": "Consecutive missed heartbeat threshold (n >= 3)",
+            },
+            {
+                "component": "SafetyWatchdog",
+                "failure_mode": "Failsafe Actuation Failure",
+                "effect": "Inability to enforce safe containment stop",
+                "severity": "Catastrophic",
+                "mitigation": "Independent hardwired power-cut interlock",
+            },
+            {
+                "component": "OperatorConsole",
+                "failure_mode": "Command Link Latency Spike",
+                "effect": "Delayed teleoperation response",
+                "severity": "Medium",
+                "mitigation": "Autonomous hold-in-place on link timeout",
+            },
+            {
+                "component": "OperatorConsole",
+                "failure_mode": "Display Stalling",
+                "effect": "Loss of operator situational awareness",
+                "severity": "High",
+                "mitigation": "Independent auxiliary telemetry monitor",
+            },
+        ]
+
+        if components is None and failure_modes is None:
+            rows = default_fmeca
+        elif components is None and failure_modes is not None and isinstance(failure_modes, list) and failure_modes and isinstance(failure_modes[0], dict):
+            rows = failure_modes
+        else:
+            # Resolve components
+            raw_comps = components
+            if isinstance(raw_comps, str):
+                raw_comps = [raw_comps]
+            elif raw_comps is None:
+                raw_comps = ["SensorSuite", "CoreController", "ActuatorSubsystem", "PayloadSubsystem", "SafetyWatchdog", "OperatorConsole"]
+
+            comp_names = []
+            for c in raw_comps:
+                if isinstance(c, dict):
+                    comp_names.append(c.get("name", "Component"))
+                elif hasattr(c, "name"):
+                    comp_names.append(getattr(c, "name", "Component"))
+                else:
+                    comp_names.append(str(c))
+
+            # Match or generate modes
+            rows = []
+            for c_name in comp_names:
+                matched = [m for m in default_fmeca if m["component"].lower() == c_name.lower()]
+                if matched and failure_modes is None:
+                    rows.extend(matched)
+                elif failure_modes:
+                    raw_modes = failure_modes if isinstance(failure_modes, list) else [failure_modes]
+                    for mode_item in raw_modes:
+                        if isinstance(mode_item, dict):
+                            rows.append({
+                                "component": mode_item.get("component") or c_name,
+                                "failure_mode": mode_item.get("failure_mode") or mode_item.get("mode") or "ComponentFault",
+                                "effect": mode_item.get("effect", f"Degraded operation in {c_name}"),
+                                "severity": mode_item.get("severity", "Critical"),
+                                "mitigation": mode_item.get("mitigation", f"Redundant monitoring for {c_name}"),
+                            })
+                        else:
+                            rows.append({
+                                "component": c_name,
+                                "failure_mode": str(mode_item),
+                                "effect": f"Degraded operational performance in {c_name}",
+                                "severity": "Critical",
+                                "mitigation": f"Failsafe isolation and redundant monitoring for {c_name}",
+                            })
+                else:
+                    rows.append({
+                        "component": c_name,
+                        "failure_mode": "Channel Communication Timeout",
+                        "effect": f"Loss of data flow from {c_name}",
+                        "severity": "Critical",
+                        "mitigation": f"Redundant telemetry channel and timeout fallback for {c_name}",
+                    })
+
+        for row in rows:
+            comp = row.get("component", "Component")
+            mode = row.get("failure_mode") or row.get("mode") or "Unknown"
+            effect = row.get("effect", "Degraded operation")
+            severity = row.get("severity", "Critical")
+            mitigation = row.get("mitigation", "Redundant monitoring")
+            lines.append(f"| {comp} | {mode} | {effect} | {severity} | {mitigation} |")
+
+        return "\n".join(lines)
 
 
 def parse_stpa_ucas(content: str) -> List[Dict[str, Any]]:
@@ -110,15 +614,17 @@ def parse_stpa_ucas(content: str) -> List[Dict[str, Any]]:
 
     # Pattern 1: Markdown table row with explicit UCA ID
     # | UCA ID | Controller | Control Action | STPA UCA Category | Context | Hazard | Severity | SAIL |
+    # or
+    # | UCA ID | Controller | Control Action | Guide Word | Context / State | Resulting Hazard | Safety Constraint | Severity |
     row_pattern = re.compile(
-        r'\|\s*(?:\*\*)?(UCA(?:-[A-Za-z0-9_]+)?-\d+)(?:\*\*)?\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'(?:\s*([^|\n]+)\s*\|)?'
+        r'(?m)^\s*\|\s*(?:\*\*)?(UCA(?:-[A-Za-z0-9_]+)?-\d+)(?:\*\*)?\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'(?:\s*([^|\r\n]+)\s*\|)?'
     )
 
     for match in row_pattern.finditer(content):
@@ -128,8 +634,17 @@ def parse_stpa_ucas(content: str) -> List[Dict[str, Any]]:
         category = match.group(4).strip().strip('*')
         context = match.group(5).strip()
         hazard = match.group(6).strip().strip('*')
-        severity = match.group(7).strip()
-        sail = match.group(8).strip() if match.group(8) else ""
+        col7 = match.group(7).strip()
+        col8 = match.group(8).strip() if match.group(8) else ""
+
+        if col7.startswith("SC") or "constraint" in col7.lower():
+            constraint = col7
+            severity = col8 or "Critical"
+            sail = ""
+        else:
+            constraint = ""
+            severity = col7
+            sail = col8
 
         ucas.append({
             "id": uca_id,
@@ -138,7 +653,7 @@ def parse_stpa_ucas(content: str) -> List[Dict[str, Any]]:
             "category": category,
             "context": context,
             "hazard": hazard,
-            "constraint": "",
+            "constraint": constraint,
             "severity": severity,
             "sail": sail
         })
@@ -1375,14 +1890,14 @@ def extract_epics_from_markdown(content: str, filename: str = "") -> List[Any]:
 
     row_pattern = re.compile(
         r'\|\s*(?:\*\*)?([A-Za-z0-9_]+)(?:\*\*)?\s*\|'
-        r'\s*([^|]+)\s*\|'
-        r'\s*([^|\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
+        r'\s*([^|\r\n]+)\s*\|'
     )
     for match in row_pattern.finditer(body):
         cap_name = match.group(1).strip()
         pkg_name = match.group(2).strip()
         desc = match.group(3).strip()
-        if cap_name.lower() in ("capability", "capability name", "name"):
+        if cap_name.lower() in ("capability", "capability name", "name", "description"):
             continue
         if not any(getattr(c, "name", "") == cap_name for c in capabilities):
             if SysMLCapabilityDef:
@@ -2055,6 +2570,78 @@ def _merge_requirement_into_package(pkg: Any, new_req: Any) -> None:
                     existing.verified_by.append(v)
 
 
+def _merge_action_into_package(pkg: Any, new_act: Any) -> None:
+    """Merges an ActionDef into the SysMLPackage, updating matching actions in-place or adding a new action."""
+    act_name = getattr(new_act, "name", "") if not isinstance(new_act, dict) else new_act.get("name", "")
+    if not act_name:
+        return
+
+    def _find_act(p: Any) -> Optional[Any]:
+        for act in (getattr(p, "action_defs", []) or []):
+            if (getattr(act, "name", "") if not isinstance(act, dict) else act.get("name", "")) == act_name:
+                return act
+        for part in (getattr(p, "part_defs", []) or []):
+            for act in (getattr(part, "actions", []) or []):
+                if (getattr(act, "name", "") if not isinstance(act, dict) else act.get("name", "")) == act_name:
+                    return act
+        for sub_pkg in (getattr(p, "sub_packages", []) or []):
+            found = _find_act(sub_pkg)
+            if found:
+                return found
+        return None
+
+    existing = _find_act(pkg)
+    if existing:
+        new_doc = getattr(new_act, "doc", "") if not isinstance(new_act, dict) else new_act.get("doc", "")
+        if hasattr(existing, "doc") and not existing.doc and new_doc:
+            existing.doc = new_doc
+        elif isinstance(existing, dict) and not existing.get("doc") and new_doc:
+            existing["doc"] = new_doc
+    else:
+        if hasattr(pkg, "action_defs"):
+            if pkg.action_defs is None:
+                pkg.action_defs = []
+            pkg.action_defs.append(new_act)
+        elif isinstance(pkg, dict):
+            pkg.setdefault("action_defs", []).append(new_act)
+
+
+def _merge_connection_into_package(pkg: Any, new_conn: Any) -> None:
+    """Merges a ConnectionDef into the SysMLPackage, updating matching connections in-place or adding a new connection."""
+    conn_name = getattr(new_conn, "name", "") if not isinstance(new_conn, dict) else new_conn.get("name", "")
+    if not conn_name:
+        return
+
+    def _find_conn(p: Any) -> Optional[Any]:
+        for conn in (getattr(p, "connection_defs", []) or []):
+            if (getattr(conn, "name", "") if not isinstance(conn, dict) else conn.get("name", "")) == conn_name:
+                return conn
+        for part in (getattr(p, "part_defs", []) or []):
+            for conn in (getattr(part, "connections", []) or []):
+                if (getattr(conn, "name", "") if not isinstance(conn, dict) else conn.get("name", "")) == conn_name:
+                    return conn
+        for sub_pkg in (getattr(p, "sub_packages", []) or []):
+            found = _find_conn(sub_pkg)
+            if found:
+                return found
+        return None
+
+    existing = _find_conn(pkg)
+    if existing:
+        new_doc = getattr(new_conn, "doc", "") if not isinstance(new_conn, dict) else new_conn.get("doc", "")
+        if hasattr(existing, "doc") and not existing.doc and new_doc:
+            existing.doc = new_doc
+        elif isinstance(existing, dict) and not existing.get("doc") and new_doc:
+            existing["doc"] = new_doc
+    else:
+        if hasattr(pkg, "connection_defs"):
+            if pkg.connection_defs is None:
+                pkg.connection_defs = []
+            pkg.connection_defs.append(new_conn)
+        elif isinstance(pkg, dict):
+            pkg.setdefault("connection_defs", []).append(new_conn)
+
+
 def _merge_subpackage_into_package(pkg: Any, new_subpkg: Any) -> None:
     """
     Recursively and non-destructively merges subpackages, child parts, capabilities,
@@ -2137,10 +2724,418 @@ def _merge_subpackage_into_package(pkg: Any, new_subpkg: Any) -> None:
     for tc in (new_tcs or []):
         _merge_test_case_into_package(target_pkg, tc)
 
+    # Merge actions
+    new_actions = getattr(new_subpkg, "action_defs", []) if not isinstance(new_subpkg, dict) else new_subpkg.get("action_defs", [])
+    for act in (new_actions or []):
+        _merge_action_into_package(target_pkg, act)
+
+    # Merge connections
+    new_conns = getattr(new_subpkg, "connection_defs", []) if not isinstance(new_subpkg, dict) else new_subpkg.get("connection_defs", [])
+    for conn in (new_conns or []):
+        _merge_connection_into_package(target_pkg, conn)
+
     # Recursively merge nested subpackages
     nested_subpkgs = getattr(new_subpkg, "sub_packages", []) if not isinstance(new_subpkg, dict) else new_subpkg.get("packages", [])
     for nested in (nested_subpkgs or []):
         _merge_subpackage_into_package(target_pkg, nested)
+
+
+# ==============================================================================
+# OPERATIONAL ARCHITECTURE CONSTRUCT EXTRACTORS (OA, OpTx, SCN, Nodes)
+# ==============================================================================
+
+def extract_operational_activities(ast: Any) -> List[Dict[str, Any]]:
+    """
+    Extracts operational activities (OA-01..OA-N) from SysML v2 AST package or model dict.
+    Returns structured list of dictionaries with activity ID, name, doc, performer allocation,
+    inputs, outputs, parameters, steps, and attributes.
+    """
+    activities: List[Dict[str, Any]] = []
+    if ast is None:
+        return activities
+
+    raw_actions: List[Any] = []
+    if hasattr(ast, "get_all_actions"):
+        raw_actions = ast.get_all_actions()
+    elif hasattr(ast, "action_defs"):
+        raw_actions = list(ast.action_defs or [])
+        for p in getattr(ast, "part_defs", []) or []:
+            raw_actions.extend(getattr(p, "actions", []) or [])
+    elif isinstance(ast, dict):
+        raw_actions = list(ast.get("action_defs", []) or [])
+
+    seen_names: Set[str] = set()
+    idx = 1
+    for act in raw_actions:
+        if isinstance(act, str):
+            name = act
+            doc = ""
+            performer = ""
+            inputs = []
+            outputs = []
+            parameters = []
+            steps = []
+            attributes = {}
+        elif isinstance(act, dict):
+            name = str(act.get("name", ""))
+            doc = str(act.get("doc", "") or act.get("description", ""))
+            performer = str(act.get("performer", "") or act.get("performer_part", "") or act.get("allocation", ""))
+            inputs = list(act.get("inputs", []) or act.get("in_params", []))
+            outputs = list(act.get("outputs", []) or act.get("out_params", []))
+            parameters = list(act.get("parameters", []) or [])
+            steps = list(act.get("steps", []) or [])
+            attributes = dict(act.get("attributes", {}) or {})
+        else:
+            name = getattr(act, "name", "")
+            doc = getattr(act, "doc", "")
+            performer = getattr(act, "performer", "") or getattr(act, "performer_part", "") or getattr(act, "allocation", "")
+            if not performer:
+                attrs = getattr(act, "attributes", {}) or {}
+                performer = str(attrs.get("performer", "") or attrs.get("performer_node", "") or attrs.get("allocation", ""))
+            inputs = [p.to_dict() if hasattr(p, "to_dict") else {"name": getattr(p, "name", str(p)), "type_name": getattr(p, "type_name", "String")} for p in (getattr(act, "in_params", []) or getattr(act, "inputs", []) or [])]
+            outputs = [p.to_dict() if hasattr(p, "to_dict") else {"name": getattr(p, "name", str(p)), "type_name": getattr(p, "type_name", "String")} for p in (getattr(act, "out_params", []) or getattr(act, "outputs", []) or [])]
+            parameters = [p.to_dict() if hasattr(p, "to_dict") else {"name": getattr(p, "name", str(p)), "type_name": getattr(p, "type_name", "String")} for p in (getattr(act, "parameters", []) or [])]
+            steps = list(getattr(act, "steps", []) or [])
+            attributes = dict(getattr(act, "attributes", {}) or {})
+
+        if not name or name in seen_names:
+            continue
+        seen_names.add(name)
+
+        oa_match = re.search(r'OA[-_]?(\d+)', name, re.IGNORECASE)
+        if oa_match:
+            oa_id = f"OA-{int(oa_match.group(1)):02d}"
+        else:
+            oa_id = f"OA-{idx:02d}"
+
+        activities.append({
+            "id": oa_id,
+            "name": name,
+            "doc": doc,
+            "description": doc,
+            "performer": performer,
+            "performer_part": performer,
+            "allocation": performer,
+            "inputs": inputs,
+            "outputs": outputs,
+            "parameters": parameters,
+            "steps": steps,
+            "attributes": attributes,
+        })
+        idx += 1
+
+    return activities
+
+
+def extract_operational_exchanges(ast: Any) -> List[Dict[str, Any]]:
+    """
+    Extracts operational information exchanges (OpTx-01..OpTx-N) from SysML v2 AST.
+    Captures endpoints (source port, target port, performer parts), item payload,
+    protocol, latency, and flow properties.
+    """
+    exchanges: List[Dict[str, Any]] = []
+    if ast is None:
+        return exchanges
+
+    raw_conns: List[Any] = []
+    if hasattr(ast, "get_all_connections"):
+        raw_conns = ast.get_all_connections()
+    elif hasattr(ast, "connection_defs"):
+        raw_conns = list(ast.connection_defs or [])
+        for p in getattr(ast, "part_defs", []) or []:
+            raw_conns.extend(getattr(p, "connections", []) or [])
+    elif isinstance(ast, dict):
+        raw_conns = list(ast.get("connection_defs", []) or [])
+
+    seen_names: Set[str] = set()
+    idx = 1
+    for conn in raw_conns:
+        if isinstance(conn, str):
+            name = conn
+            doc = ""
+            src_port = ""
+            tgt_port = ""
+            src_part = ""
+            tgt_part = ""
+            payload = ""
+            protocol = ""
+            latency_ms = None
+            severity = 1
+            flow_props = {}
+            is_flow = False
+            attributes = {}
+        elif isinstance(conn, dict):
+            name = str(conn.get("name", ""))
+            doc = str(conn.get("doc", "") or conn.get("description", ""))
+            src_port = str(conn.get("source_port", ""))
+            tgt_port = str(conn.get("target_port", ""))
+            src_part = str(conn.get("source_part", ""))
+            tgt_part = str(conn.get("target_part", ""))
+            payload = str(conn.get("item_payload", "") or conn.get("item_flow_ref", ""))
+            protocol = str(conn.get("protocol", ""))
+            latency_ms = conn.get("latency_ms")
+            severity = int(conn.get("severity", 1))
+            flow_props = dict(conn.get("flow_properties", {}) or {})
+            is_flow = bool(conn.get("is_flow", False))
+            attributes = dict(conn.get("attributes", {}) or {})
+        else:
+            name = getattr(conn, "name", "")
+            doc = getattr(conn, "doc", "")
+            src_port = getattr(conn, "source_port", "")
+            tgt_port = getattr(conn, "target_port", "")
+            src_part = getattr(conn, "source_part", "")
+            tgt_part = getattr(conn, "target_part", "")
+            payload = getattr(conn, "item_payload", "") or getattr(conn, "item_flow_ref", "")
+            protocol = getattr(conn, "protocol", "")
+            latency_ms = getattr(conn, "latency_ms", None)
+            severity = getattr(conn, "severity", 1)
+            flow_props = dict(getattr(conn, "flow_properties", {}) or {})
+            is_flow = getattr(conn, "is_flow", False)
+            attributes = dict(getattr(conn, "attributes", {}) or {})
+
+        if not name or name in seen_names:
+            continue
+        seen_names.add(name)
+
+        if not src_part and src_port and "." in src_port:
+            src_part = src_port.split(".", 1)[0]
+        if not tgt_part and tgt_port and "." in tgt_port:
+            tgt_part = tgt_port.split(".", 1)[0]
+
+        optx_match = re.search(r'OpTx[-_]?(\d+)', name, re.IGNORECASE)
+        if optx_match:
+            optx_id = f"OpTx-{int(optx_match.group(1)):02d}"
+        else:
+            optx_id = f"OpTx-{idx:02d}"
+
+        exchanges.append({
+            "id": optx_id,
+            "name": name,
+            "doc": doc,
+            "description": doc,
+            "source_port": src_port,
+            "target_port": tgt_port,
+            "source_part": src_part,
+            "source_performer": src_part,
+            "target_part": tgt_part,
+            "target_performer": tgt_part,
+            "item_payload": payload,
+            "item_flow_ref": payload,
+            "protocol": protocol,
+            "latency_ms": latency_ms,
+            "severity": severity,
+            "flow_properties": flow_props,
+            "is_flow": is_flow,
+            "attributes": attributes,
+        })
+        idx += 1
+
+    return exchanges
+
+
+def extract_operational_scenarios(ast: Any) -> List[Dict[str, Any]]:
+    """
+    Extracts operational scenarios (SCN-01..SCN-N) from SysML v2 AST use case definitions.
+    Captures actors, sequence steps, preconditions, postconditions, and inclusions/extensions.
+    """
+    scenarios: List[Dict[str, Any]] = []
+    if ast is None:
+        return scenarios
+
+    raw_ucs: List[Any] = []
+    if hasattr(ast, "get_all_use_cases"):
+        raw_ucs = ast.get_all_use_cases()
+    elif hasattr(ast, "use_case_defs"):
+        raw_ucs = list(ast.use_case_defs or [])
+        for p in getattr(ast, "part_defs", []) or []:
+            raw_ucs.extend(getattr(p, "use_cases", []) or [])
+    elif isinstance(ast, dict):
+        raw_ucs = list(ast.get("use_case_defs", []) or [])
+
+    seen_names: Set[str] = set()
+    idx = 1
+    for uc in raw_ucs:
+        if isinstance(uc, str):
+            name = uc
+            doc = ""
+            subject = ""
+            actor = ""
+            actors = []
+            objective = ""
+            steps = []
+            preconditions = []
+            postconditions = []
+            includes = []
+            extends = []
+            attributes = {}
+        elif isinstance(uc, dict):
+            name = str(uc.get("name", ""))
+            doc = str(uc.get("doc", "") or uc.get("description", ""))
+            subject = str(uc.get("subject", ""))
+            actor = str(uc.get("actor", ""))
+            actors = list(uc.get("actors", []) or ([actor] if actor else []))
+            objective = str(uc.get("objective", "") or doc)
+            steps = list(uc.get("steps", []) or uc.get("sequence_steps", []))
+            preconditions = list(uc.get("preconditions", []) or [])
+            postconditions = list(uc.get("postconditions", []) or [])
+            includes = list(uc.get("includes", []) or [])
+            extends = list(uc.get("extends", []) or [])
+            attributes = dict(uc.get("attributes", {}) or {})
+        else:
+            name = getattr(uc, "name", "")
+            doc = getattr(uc, "doc", "")
+            subject = getattr(uc, "subject", "")
+            actor = getattr(uc, "actor", "")
+            actors = list(getattr(uc, "actors", []) or ([actor] if actor else []))
+            objective = getattr(uc, "objective", "") or doc
+            steps = list(getattr(uc, "steps", []) or [])
+            preconditions = list(getattr(uc, "preconditions", []) or [])
+            postconditions = list(getattr(uc, "postconditions", []) or [])
+            includes = list(getattr(uc, "includes", []) or [])
+            extends = list(getattr(uc, "extends", []) or [])
+            attributes = dict(getattr(uc, "attributes", {}) or {})
+
+        if not name or name in seen_names:
+            continue
+        seen_names.add(name)
+
+        scn_match = re.search(r'SCN[-_]?(\d+)', name, re.IGNORECASE)
+        if scn_match:
+            scn_id = f"SCN-{int(scn_match.group(1)):02d}"
+        else:
+            scn_id = f"SCN-{idx:02d}"
+
+        scenarios.append({
+            "id": scn_id,
+            "name": name,
+            "doc": doc,
+            "objective": objective or doc,
+            "description": objective or doc,
+            "subject": subject,
+            "actor": actor,
+            "actors": actors,
+            "steps": steps,
+            "sequence_steps": steps,
+            "preconditions": preconditions,
+            "postconditions": postconditions,
+            "includes": includes,
+            "extends": extends,
+            "attributes": attributes,
+        })
+        idx += 1
+
+    return scenarios
+
+
+def extract_operational_nodes(ast: Any) -> List[Dict[str, Any]]:
+    """
+    Extracts external operational performers/nodes participating in activities,
+    exchanges, or scenarios from SysML v2 AST.
+    """
+    nodes: List[Dict[str, Any]] = []
+    if ast is None:
+        return nodes
+
+    node_map: Dict[str, Dict[str, Any]] = {}
+
+    # 1. Harvest parts from AST
+    if hasattr(ast, "get_all_parts"):
+        for p in ast.get_all_parts():
+            p_name = getattr(p, "name", "")
+            if p_name:
+                node_map[p_name] = {
+                    "name": p_name,
+                    "type": "Part",
+                    "doc": getattr(p, "doc", ""),
+                    "allocated_activities": [getattr(a, "name", "") for a in (getattr(p, "actions", []) or [])],
+                    "connected_nodes": [],
+                }
+    elif hasattr(ast, "part_defs"):
+        for p in (getattr(ast, "part_defs", []) or []):
+            p_name = getattr(p, "name", "")
+            if p_name:
+                node_map[p_name] = {
+                    "name": p_name,
+                    "type": "Part",
+                    "doc": getattr(p, "doc", ""),
+                    "allocated_activities": [getattr(a, "name", "") for a in (getattr(p, "actions", []) or [])],
+                    "connected_nodes": [],
+                }
+    elif isinstance(ast, dict):
+        for p_name in (ast.get("part_defs", []) or []):
+            if isinstance(p_name, str):
+                node_map[p_name] = {"name": p_name, "type": "Part", "doc": "", "allocated_activities": [], "connected_nodes": []}
+            elif isinstance(p_name, dict):
+                n = p_name.get("name", "")
+                if n:
+                    node_map[n] = {"name": n, "type": "Part", "doc": p_name.get("doc", ""), "allocated_activities": [], "connected_nodes": []}
+
+    # 2. Add performers from operational activities
+    activities = extract_operational_activities(ast)
+    for act in activities:
+        perf = act.get("performer") or act.get("performer_part")
+        if perf:
+            if perf not in node_map:
+                node_map[perf] = {
+                    "name": perf,
+                    "type": "Actor",
+                    "doc": f"Operational performer for {act.get('name')}",
+                    "allocated_activities": [],
+                    "connected_nodes": [],
+                }
+            if act["name"] not in node_map[perf]["allocated_activities"]:
+                node_map[perf]["allocated_activities"].append(act["name"])
+
+    # 3. Add performers / connected nodes from operational exchanges
+    exchanges = extract_operational_exchanges(ast)
+    for ex in exchanges:
+        src = ex.get("source_part") or ex.get("source_performer")
+        tgt = ex.get("target_part") or ex.get("target_performer")
+        if src:
+            if src not in node_map:
+                node_map[src] = {"name": src, "type": "Node", "doc": "", "allocated_activities": [], "connected_nodes": []}
+            if tgt and tgt not in node_map[src]["connected_nodes"]:
+                node_map[src]["connected_nodes"].append(tgt)
+        if tgt:
+            if tgt not in node_map:
+                node_map[tgt] = {"name": tgt, "type": "Node", "doc": "", "allocated_activities": [], "connected_nodes": []}
+            if src and src not in node_map[tgt]["connected_nodes"]:
+                node_map[tgt]["connected_nodes"].append(src)
+
+    # 4. Add actors from scenarios
+    scenarios = extract_operational_scenarios(ast)
+    for scn in scenarios:
+        for act in scn.get("actors", []):
+            if act and act not in node_map:
+                node_map[act] = {
+                    "name": act,
+                    "type": "Actor",
+                    "doc": f"Actor participating in {scn.get('name')}",
+                    "allocated_activities": [],
+                    "connected_nodes": [],
+                }
+
+    idx = 1
+    for name in sorted(node_map.keys()):
+        info = node_map[name]
+        nodes.append({
+            "id": f"Node-{idx:02d}",
+            "name": info["name"],
+            "type": info.get("type", "Node"),
+            "doc": info.get("doc", ""),
+            "allocated_activities": sorted(info.get("allocated_activities", [])),
+            "connected_nodes": sorted(info.get("connected_nodes", [])),
+        })
+        idx += 1
+
+    return nodes
+
+
+# Aliases for specification generator compatibility
+extract_operational_activities_from_ast = extract_operational_activities
+extract_operational_exchanges_from_ast = extract_operational_exchanges
+extract_operational_scenarios_from_ast = extract_operational_scenarios
+extract_operational_nodes_from_ast = extract_operational_nodes
 
 
 
@@ -2169,6 +3164,515 @@ def _atomic_write_json(filepath: str, data: Any, indent: int = 2) -> None:
         tf.flush()
         os.fsync(tf.fileno())
     os.replace(temp_name, abs_path)
+
+
+def forward_sync_sysml_to_specs(
+    schema_path: Optional[str] = None,
+    docs_dir: str = "docs",
+    out_dir: Optional[str] = None,
+    dry_run: bool = False,
+) -> Dict[str, str]:
+    """
+    Executes Closed-Loop Forward Synchronization from the SysML v2 AST
+    Single Source of Truth (.pipeline/schema.sysml) into canonical markdown specifications.
+
+    Generates:
+    - Features (FEAT-*.md) from PartDef & ActionDef
+    - User Stories (US-*.md) from SysMLInteractionDef & SysMLTestCaseDef
+    - Use Cases (UC-*.md) from UseCaseDef
+    - Safety Matrix (STPA_MATRIX.md) from SysMLConstraintDef and MatrixGenerator
+
+    Parameters:
+        schema_path: Path to input SysML v2 schema file (default: .pipeline/schema.sysml).
+        docs_dir: Default destination markdown directory for downstream workspaces (default: docs).
+        out_dir: Optional explicit output directory. Mandatory in upstream templates when not in dry_run.
+        dry_run: If True, simulates generation without writing files to disk.
+
+    Returns:
+        Dict[str, str] mapping relative file paths to their generated markdown content.
+    """
+    if not schema_path:
+        default_schema = os.path.join(PROJECT_ROOT, ".pipeline", "schema.sysml")
+        if os.path.exists(default_schema):
+            schema_path = default_schema
+        else:
+            raise FileNotFoundError("No schema path provided and default '.pipeline/schema.sysml' does not exist.")
+
+    if not os.path.exists(schema_path):
+        if "package " in schema_path or "part def " in schema_path:
+            if SysMLParser is None:
+                raise RuntimeError("SysMLParser is not available to parse schema text.")
+            pkg = SysMLParser.parse_text(schema_path)
+        else:
+            raise FileNotFoundError(f"Base schema file not found: {schema_path}")
+    else:
+        if SysMLParser is None:
+            raise RuntimeError("SysMLParser is not available to parse base schema.")
+        try:
+            pkg = SysMLParser.parse_file(schema_path)
+        except Exception as exc:
+            raise RuntimeError(f"Failed to parse base schema '{schema_path}': {exc}") from exc
+
+    if pkg is None:
+        raise RuntimeError(f"Failed to parse base schema '{schema_path}': parser returned None.")
+
+    is_upstream = os.path.isdir(os.path.join(PROJECT_ROOT, ".pipeline", "upstream"))
+
+    if out_dir:
+        resolved_out_dir = os.path.abspath(out_dir)
+        print(f"[SysML v2 Forward-Sync] Routing output to explicit directory: '{resolved_out_dir}'")
+    elif is_upstream:
+        if dry_run:
+            resolved_out_dir = os.path.abspath(docs_dir if os.path.isabs(docs_dir) else os.path.join(PROJECT_ROOT, docs_dir))
+        else:
+            raise RuntimeError(
+                "In upstream repository, --forward-sync must write to an explicit --out-dir (e.g. build/generated_specs/) "
+                "or use --dry-run to protect clean landing zones (docs/epics/, docs/features/, docs/user-stories/, docs/use-cases/)."
+            )
+    else:
+        resolved_out_dir = os.path.abspath(docs_dir if os.path.isabs(docs_dir) else os.path.join(PROJECT_ROOT, docs_dir))
+
+    generated_files: Dict[str, str] = {}
+    today_iso = datetime.date.today().isoformat()
+
+    # 2. Features (FEAT-*.md) from PartDef & ActionDef
+    parts: List[Any] = []
+    if hasattr(pkg, "get_all_parts"):
+        parts = pkg.get_all_parts()
+    elif hasattr(pkg, "part_defs"):
+        parts = list(pkg.part_defs or [])
+    elif isinstance(pkg, dict):
+        parts = list(pkg.get("part_defs", []) or [])
+
+    if not parts:
+        abstract_performer_names = [
+            "OperatorConsole",
+            "CoreController",
+            "SensorSuite",
+            "ActuatorSubsystem",
+            "SafetyWatchdog",
+        ]
+        for ap in abstract_performer_names:
+            if PartDef:
+                parts.append(PartDef(name=ap, doc=f"Abstract system performer {ap}"))
+            else:
+                parts.append({"name": ap, "doc": f"Abstract system performer {ap}"})
+
+    for idx, part in enumerate(parts, start=1):
+        part_name = getattr(part, "name", "") if hasattr(part, "name") else part.get("name", f"Part_{idx}")
+        part_name = _sanitize_id(part_name)
+        part_doc = (
+            getattr(part, "doc", "")
+            if hasattr(part, "doc")
+            else (part.get("doc", "") if isinstance(part, dict) else "")
+        )
+        if not part_doc:
+            part_doc = f"Architecture, logical operations, and interface control for {part_name} subsystem"
+
+        part_attrs = (
+            getattr(part, "attributes", [])
+            if hasattr(part, "attributes")
+            else (part.get("attributes", []) if isinstance(part, dict) else [])
+        )
+        part_actions = (
+            getattr(part, "actions", [])
+            if hasattr(part, "actions")
+            else (part.get("actions", []) if isinstance(part, dict) else [])
+        )
+        part_ops = (
+            getattr(part, "operations", [])
+            if hasattr(part, "operations")
+            else (part.get("operations", []) if isinstance(part, dict) else [])
+        )
+
+        member_lines: List[str] = []
+        for attr in part_attrs:
+            a_name = getattr(attr, "name", "") if hasattr(attr, "name") else attr.get("name", "")
+            a_type = (
+                getattr(attr, "type_name", "String")
+                if hasattr(attr, "type_name")
+                else attr.get("type_name", "String")
+            )
+            if a_name:
+                member_lines.append(f"        +{a_type} {a_name}")
+
+        logical_ops_bullets: List[str] = []
+        all_acts_ops = list(part_actions) + list(part_ops)
+        if not all_acts_ops:
+            default_act_name = f"Execute{part_name}Task"
+            member_lines.append(f"        +void {default_act_name}(String inCommand)")
+            logical_ops_bullets.append(
+                f"- `+{default_act_name}(String inCommand) : void` : Executes core operations for {part_name}"
+            )
+        else:
+            for act in all_acts_ops:
+                act_name = getattr(act, "name", "") if hasattr(act, "name") else act.get("name", "ExecuteTask")
+                act_name = _sanitize_id(act_name)
+                in_params = (
+                    getattr(act, "in_params", [])
+                    if hasattr(act, "in_params")
+                    else (act.get("in_params", []) if isinstance(act, dict) else [])
+                )
+                param_strs: List[str] = []
+                for p in in_params:
+                    p_type = getattr(p, "type_name", "String") if hasattr(p, "type_name") else p.get("type_name", "String")
+                    p_n = getattr(p, "name", "param") if hasattr(p, "name") else p.get("name", "param")
+                    param_strs.append(f"{p_type} in_{p_n}")
+                param_sig = ", ".join(param_strs)
+                member_lines.append(f"        +void {act_name}({param_sig})")
+                logical_ops_bullets.append(
+                    f"- `+{act_name}({param_sig}) : void` : Dispatches control action {act_name}"
+                )
+
+        if not member_lines:
+            member_lines.append("        +String status")
+
+        members_block = "\n".join(member_lines)
+        logical_ops_block = "\n".join(logical_ops_bullets)
+
+        feat_content = f"""---
+title: "Feature {idx:02d}: {part_name} Architecture & Control"
+version: "1.0.0"
+date: "{today_iso}"
+type: feature
+part: "{part_name}"
+part_def: "{part_name}"
+generation_mode: subagent
+---
+
+# Feature {idx:02d}: {part_name} Architecture & Control
+
+## Metadata
+| Attribute | Specification Detail |
+| :--- | :--- |
+| **Title** | Feature {idx:02d}: {part_name} |
+| **Version** | 1.0.0 |
+| **Date** | {today_iso} |
+| **Type** | feature |
+| **Part** | {part_name} |
+| **Generation Mode** | subagent |
+
+## Architectural Structure
+
+```mermaid
+classDiagram
+    class {part_name} {{
+{members_block}
+    }}
+```
+
+## Logical Operations & Interface Messages
+{logical_ops_block}
+
+## Interface Requirements
+### 1. Payload Schema
+Formal schema and interface definition for {part_name}.
+
+### 2. Validation & Constraints
+Formal constraints and invariants enforced by {part_name}.
+"""
+        rel_path = os.path.join("features", f"FEAT-{idx:02d}-{part_name}.md")
+        generated_files[rel_path] = feat_content
+
+    # 3. User Stories (US-*.md) from SysMLInteractionDef & SysMLTestCaseDef
+    interactions: List[Any] = []
+    if hasattr(pkg, "interaction_defs"):
+        interactions.extend(pkg.interaction_defs or [])
+    for p in parts:
+        interactions.extend(getattr(p, "interactions", []) or [])
+
+    test_cases: List[Any] = []
+    if hasattr(pkg, "test_case_defs"):
+        test_cases.extend(pkg.test_case_defs or [])
+    for p in parts:
+        test_cases.extend(getattr(p, "test_cases", []) or [])
+
+    if not interactions:
+        canonical_interactions = [
+            {
+                "name": "TelemetrySync",
+                "lifelines": ["SensorSuite", "CoreController"],
+                "messages": ["ProcessSensorStream"],
+                "triggers": ["PeriodicTelemetryTimer"],
+                "subject": "CoreController",
+            },
+            {
+                "name": "CommandExecution",
+                "lifelines": ["OperatorConsole", "CoreController", "ActuatorSubsystem"],
+                "messages": ["SendMissionPlan", "CommandActuatorSetpoint"],
+                "triggers": ["OperatorCommandEvent"],
+                "subject": "CoreController",
+            },
+            {
+                "name": "SafetyWatchdogInteraction",
+                "lifelines": ["CoreController", "SafetyWatchdog"],
+                "messages": ["MonitorHeartbeat", "AssertSafetyConstraint"],
+                "triggers": ["HeartbeatTimeout"],
+                "subject": "SafetyWatchdog",
+            },
+        ]
+        for ci in canonical_interactions:
+            if SysMLInteractionDef:
+                interactions.append(SysMLInteractionDef(
+                    name=ci["name"],
+                    lifelines=ci["lifelines"],
+                    messages=ci["messages"],
+                    triggers=ci["triggers"],
+                    doc=f"System interaction for {ci['name']}",
+                ))
+            else:
+                interactions.append(ci)
+
+    for idx, inter in enumerate(interactions, start=1):
+        inter_name = getattr(inter, "name", "") if hasattr(inter, "name") else inter.get("name", f"Interaction_{idx}")
+        inter_name = _sanitize_id(inter_name)
+        lifelines = getattr(inter, "lifelines", []) if hasattr(inter, "lifelines") else inter.get("lifelines", [])
+        if not lifelines:
+            lifelines = ["OperatorConsole", "CoreController"]
+        messages = getattr(inter, "messages", []) if hasattr(inter, "messages") else inter.get("messages", [])
+        if not messages:
+            messages = ["ExecuteTask"]
+        triggers = getattr(inter, "triggers", []) if hasattr(inter, "triggers") else inter.get("triggers", [])
+        trig_name = triggers[0] if triggers else "OperationalTrigger"
+
+        matching_tc = None
+        if idx <= len(test_cases):
+            matching_tc = test_cases[idx - 1]
+        tc_name = getattr(matching_tc, "name", f"TC_{inter_name}") if matching_tc else f"TC_{inter_name}"
+        subject_part = (
+            getattr(matching_tc, "subject_part", lifelines[1] if len(lifelines) > 1 else lifelines[0])
+            if matching_tc
+            else (lifelines[1] if len(lifelines) > 1 else lifelines[0])
+        )
+
+        seq_lines = ["sequenceDiagram", "    autonumber"]
+        for ll in lifelines:
+            seq_lines.append(f"    participant {ll}")
+        for i in range(len(lifelines) - 1):
+            msg = messages[i] if i < len(messages) else messages[0]
+            seq_lines.append(f"    {lifelines[i]}->>{lifelines[i+1]}: {msg}()")
+        seq_diagram_str = "\n".join(seq_lines)
+
+        us_content = f"""---
+title: "User Story {idx:02d}: {inter_name}"
+version: "1.0.0"
+date: "{today_iso}"
+type: user-story
+interaction: "{inter_name}"
+interaction_def: "{inter_name}"
+test_case: "{tc_name}"
+test_case_def: "{tc_name}"
+subject: "{subject_part}"
+generation_mode: subagent
+---
+
+# User Story {idx:02d}: {inter_name}
+
+## Metadata
+| Attribute | Specification Detail |
+| :--- | :--- |
+| **Title** | User Story {idx:02d}: {inter_name} |
+| **Version** | 1.0.0 |
+| **Date** | {today_iso} |
+| **Type** | user-story |
+| **Interaction** | {inter_name} |
+| **Test Case** | {tc_name} |
+| **Subject** | {subject_part} |
+| **Generation Mode** | subagent |
+
+## Sequence Diagram
+
+```mermaid
+{seq_diagram_str}
+```
+
+## Acceptance Criteria (BDD)
+
+Scenario: Verify {inter_name} Nominal Flow
+  Given the system is initialized in nominal operational state
+  When the {trig_name} occurs
+  Then the command is executed successfully within real-time latency bounds.
+
+## Test Steps
+- step InitializeTestHarness
+- step DispatchCommand
+- step VerifyTelemetryResponse
+"""
+        rel_path = os.path.join("user-stories", f"US-{idx:02d}-{inter_name}.md")
+        generated_files[rel_path] = us_content
+
+    # 4. Use Cases (UC-*.md) from UseCaseDef
+    use_cases: List[Any] = []
+    if hasattr(pkg, "get_all_use_cases"):
+        use_cases = pkg.get_all_use_cases()
+    elif hasattr(pkg, "use_case_defs"):
+        use_cases = list(pkg.use_case_defs or [])
+    elif isinstance(pkg, dict):
+        use_cases = list(pkg.get("use_case_defs", []) or [])
+
+    if not use_cases:
+        canonical_ucs = [
+            {
+                "name": "ExecuteAutonomousMission",
+                "subject": "CoreController",
+                "actors": ["OperatorConsole"],
+                "objective": "Execute scheduled autonomous mission profile within operational envelope.",
+            },
+            {
+                "name": "HandleSafetyFailsafe",
+                "subject": "SafetyWatchdog",
+                "actors": ["CoreController"],
+                "objective": "Detect boundary violation and command failsafe hold state.",
+            },
+            {
+                "name": "CalibrateSensors",
+                "subject": "SensorSuite",
+                "actors": ["OperatorConsole"],
+                "objective": "Perform pre-operational sensor calibration and built-in self test.",
+            },
+        ]
+        for cuc in canonical_ucs:
+            if UseCaseDef:
+                use_cases.append(UseCaseDef(
+                    name=cuc["name"],
+                    subject=cuc["subject"],
+                    actors=cuc["actors"],
+                    objective=cuc["objective"],
+                    doc=cuc["objective"],
+                ))
+            else:
+                use_cases.append(cuc)
+
+    for idx, uc in enumerate(use_cases, start=1):
+        uc_name = getattr(uc, "name", "") if hasattr(uc, "name") else uc.get("name", f"UseCase_{idx}")
+        uc_name = _sanitize_id(uc_name)
+        subject = getattr(uc, "subject", "CoreController") if hasattr(uc, "subject") else uc.get("subject", "CoreController")
+        subject = _sanitize_id(subject) or "CoreController"
+        actors = getattr(uc, "actors", []) if hasattr(uc, "actors") else uc.get("actors", [])
+        if not actors:
+            single_act = getattr(uc, "actor", "OperatorConsole") if hasattr(uc, "actor") else uc.get("actor", "OperatorConsole")
+            actors = [single_act] if single_act else ["OperatorConsole"]
+        actors_clean = [_sanitize_id(str(a)) for a in actors if _sanitize_id(str(a))]
+        if not actors_clean:
+            actors_clean = ["OperatorConsole"]
+        actors_yaml = "\n".join([f"  - {a}" for a in actors_clean])
+        primary_actor = actors_clean[0]
+        objective = (
+            getattr(uc, "objective", "")
+            or getattr(uc, "doc", "")
+            or (uc.get("objective", "") if isinstance(uc, dict) else "")
+            or f"Execute formal operational objective for {uc_name}"
+        )
+
+        uc_content = f"""---
+title: "Use Case {idx:02d}: {uc_name}"
+version: "1.0.0"
+date: "{today_iso}"
+type: use-case
+use_case_def: "{uc_name}"
+use_case: "{uc_name}"
+subject: "{subject}"
+subject_part: "{subject}"
+actors:
+{actors_yaml}
+objective: "{objective}"
+generation_mode: subagent
+---
+
+# Use Case {idx:02d}: {uc_name}
+
+## Metadata
+| Attribute | Specification Detail |
+| :--- | :--- |
+| **Title** | Use Case {idx:02d}: {uc_name} |
+| **Version** | 1.0.0 |
+| **Date** | {today_iso} |
+| **Type** | use-case |
+| **Subject Part** | `{subject}` |
+| **Actors** | {', '.join(actors_clean)} |
+| **Objective** | {objective} |
+| **Generation Mode** | subagent |
+
+## Operational Flow
+
+```mermaid
+flowchart TD
+    Actor["{primary_actor}"] --> Action["{uc_name}"]
+    Action --> Target["{subject}"]
+```
+
+## Primary Scenario Steps
+1. Actor `{primary_actor}` initiates `{uc_name}`.
+2. Subject `{subject}` verifies precondition status.
+3. System completes operation within specified performance envelope.
+"""
+        rel_path = os.path.join("use-cases", f"UC-{idx:02d}-{uc_name}.md")
+        generated_files[rel_path] = uc_content
+
+    # 5. Safety Matrix (STPA_MATRIX.md) from SysMLConstraintDef and MatrixGenerator
+    constraints: List[Any] = []
+    if hasattr(pkg, "get_all_constraints"):
+        constraints = pkg.get_all_constraints()
+    elif hasattr(pkg, "constraint_defs"):
+        constraints = list(pkg.constraint_defs or [])
+    elif isinstance(pkg, dict):
+        constraints = list(pkg.get("constraint_defs", []) or [])
+
+    if not constraints:
+        default_constraints = [
+            ("SC_01_TrajectoryBoundary", "trajectory_deviation <= 1.0", "The system shall maintain trajectory position within boundary limits"),
+            ("SC_02_ActuatorCommandRate", "actuator_command_rate <= 100.0", "The system shall constrain actuator command rate to prevent saturation"),
+            ("SC_03_WatchdogHeartbeat", "watchdog_timeout <= 0.05", "The SafetyWatchdog shall trigger failsafe if heartbeat exceeds timeout"),
+        ]
+        for c_name, c_expr, c_doc in default_constraints:
+            if SysMLConstraintDef:
+                constraints.append(SysMLConstraintDef(name=c_name, expression=c_expr, doc=c_doc, is_assertion=True))
+            else:
+                constraints.append({"name": c_name, "expression": c_expr, "doc": c_doc, "is_assertion": True})
+
+    sc_table_lines = [
+        "| SC ID | Constraint Statement / Description | Controller / Subsystem | Traceability / UCA |",
+        "| :--- | :--- | :--- | :--- |",
+    ]
+    for idx, con in enumerate(constraints, start=1):
+        c_name = getattr(con, "name", f"SC_{idx}") if hasattr(con, "name") else con.get("name", f"SC_{idx}")
+        c_expr = getattr(con, "expression", "") if hasattr(con, "expression") else con.get("expression", "")
+        c_doc = getattr(con, "doc", "") if hasattr(con, "doc") else con.get("doc", "")
+        stmt = c_doc or f"The system shall enforce invariant {c_name} ({c_expr})"
+        sc_table_lines.append(f"| **SC-{idx:02d}** | {stmt} | CoreController | UCA-{idx:03d} |")
+    sc_table_block = "\n".join(sc_table_lines)
+
+    target_stpa_path = os.path.join(resolved_out_dir, "safety", "STPA_MATRIX.md")
+    if not os.path.exists(target_stpa_path):
+        ctrl_parts = [p for p in parts if getattr(p, "actions", None)]
+        stpa_uca_table = MatrixGenerator.generate_stpa_uca_cartesian(controllers=ctrl_parts if ctrl_parts else None)
+        fmeca_table = MatrixGenerator.generate_fmeca_matrix()
+
+        stpa_matrix_content = f"""# STPA Safety & Failure Mode Tracking Matrix
+
+## 1. Formal Safety Constraints
+{sc_table_block}
+
+## 2. STPA Unsafe Control Actions (UCA) Matrix
+{stpa_uca_table}
+
+## 3. FMECA Failure Mode Criticality Matrix
+{fmeca_table}
+"""
+        generated_files[os.path.join("safety", "STPA_MATRIX.md")] = stpa_matrix_content
+
+    # Write files if not dry_run
+    if not dry_run:
+        for rel_path, content in generated_files.items():
+            dest_file = os.path.join(resolved_out_dir, rel_path)
+            _atomic_write_file(dest_file, content)
+        print(f"[SysML v2 Forward-Sync] Successfully synchronized {len(generated_files)} specifications from '{schema_path}' -> '{resolved_out_dir}'")
+    else:
+        for rel_path, content in generated_files.items():
+            print(f"[SysML v2 Forward-Sync] [DRY RUN] Would generate: {rel_path} ({len(content)} bytes)")
+        print(f"[SysML v2 Forward-Sync] [DRY RUN] Simulated synchronization of {len(generated_files)} specifications.")
+
+    return generated_files
 
 
 def reverse_sync_specs_to_sysml(
@@ -2348,7 +3852,11 @@ def reverse_sync_specs_to_sysml(
         "sha256": sha256_hash,
         "total_lines": total_lines,
         "node_counts": node_counts,
-        "schema_nodes": schema_nodes
+        "schema_nodes": schema_nodes,
+        "operational_activities": extract_operational_activities(pkg),
+        "operational_exchanges": extract_operational_exchanges(pkg),
+        "operational_scenarios": extract_operational_scenarios(pkg),
+        "operational_nodes": extract_operational_nodes(pkg),
     }
 
     # Write digest JSON with atomic write semantics
@@ -2360,17 +3868,18 @@ def reverse_sync_specs_to_sysml(
     return pkg, digest_data
 
 
-def parse_sysml(content: str) -> Dict[str, List[str]]:
+def parse_sysml(content: str) -> Dict[str, Any]:
     """
     Parses SysML v2 textual model content and returns a dictionary of extracted
     AST node names across all 6 core constructs and architectural elements.
     """
-    ast: Dict[str, List[str]] = {
+    ast: Dict[str, Any] = {
         "packages": [],
         "part_defs": [],
         "attribute_defs": [],
         "port_defs": [],
         "action_defs": [],
+        "control_actions": [],
         "capability_defs": [],
         "operation_defs": [],
         "interaction_defs": [],
@@ -2379,12 +3888,18 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
         "requirement_defs": [],
         "state_defs": [],
         "use_case_defs": [],
-        "item_defs": []
+        "item_defs": [],
+        "connection_defs": [],
+        "operational_activities": [],
+        "operational_exchanges": [],
+        "operational_scenarios": [],
+        "operational_nodes": []
     }
 
     if SysMLParser is not None:
         try:
             pkg = SysMLParser.parse_text(content)
+            pkg_action_names: List[str] = []
 
             def _extract_from_pkg(p: SysMLPackage):
                 if p.name and p.name not in ast["packages"] and p.name != "SysML_Model":
@@ -2398,6 +3913,8 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
                 for ac in p.action_defs:
                     if ac.name not in ast["action_defs"]:
                         ast["action_defs"].append(ac.name)
+                    if ac.name not in pkg_action_names:
+                        pkg_action_names.append(ac.name)
                 for cap in p.capability_defs:
                     if cap.name not in ast["capability_defs"]:
                         ast["capability_defs"].append(cap.name)
@@ -2425,6 +3942,10 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
                 for itm in p.item_defs:
                     if itm.name not in ast["item_defs"]:
                         ast["item_defs"].append(itm.name)
+                for conn in (getattr(p, "connection_defs", []) or []):
+                    c_name = getattr(conn, "name", "")
+                    if c_name and c_name not in ast["connection_defs"]:
+                        ast["connection_defs"].append(c_name)
 
                 for part in p.part_defs:
                     _extract_from_part(part)
@@ -2444,6 +3965,8 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
                 for ac in part.actions:
                     if ac.name not in ast["action_defs"]:
                         ast["action_defs"].append(ac.name)
+                    if ac.name not in ast["control_actions"]:
+                        ast["control_actions"].append(ac.name)
                 for op in part.operations:
                     if op.name not in ast["operation_defs"]:
                         ast["operation_defs"].append(op.name)
@@ -2471,10 +3994,22 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
                 for itm in part.item_defs:
                     if itm.name not in ast["item_defs"]:
                         ast["item_defs"].append(itm.name)
+                for conn in (getattr(part, "connections", []) or []):
+                    c_name = getattr(conn, "name", "")
+                    if c_name and c_name not in ast["connection_defs"]:
+                        ast["connection_defs"].append(c_name)
                 for sub_part in part.parts:
                     _extract_from_part(sub_part)
 
             _extract_from_pkg(pkg)
+            op_act_names = set(pkg_action_names)
+            for name in ast["action_defs"]:
+                if re.search(r'\bOA[-_]?\d+', name, re.IGNORECASE):
+                    op_act_names.add(name)
+            ast["operational_activities"] = [name for name in ast["action_defs"] if name in op_act_names]
+            ast["operational_exchanges"] = [oe["name"] for oe in extract_operational_exchanges(pkg)]
+            ast["operational_scenarios"] = [os["name"] for os in extract_operational_scenarios(pkg)]
+            ast["operational_nodes"] = [on["name"] for on in extract_operational_nodes(pkg)]
             return ast
         except Exception:
             pass
@@ -2526,6 +4061,15 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
     for match in re.finditer(r'\bitem\s+(?:def\s+)?([a-zA-Z0-9_]+)', content):
         if match.group(1) not in ast["item_defs"]:
             ast["item_defs"].append(match.group(1))
+    for match in re.finditer(r'\b(?:connection|flow|item\s+flow|interface)\s+(?:def\s+)?([a-zA-Z0-9_]+)', content):
+        if match.group(1) not in ast["connection_defs"]:
+            ast["connection_defs"].append(match.group(1))
+
+    ast["operational_activities"] = [name for name in ast["action_defs"] if re.search(r'\bOA[-_]?\d+', name, re.IGNORECASE)]
+    ast["control_actions"] = [name for name in ast["action_defs"] if name not in ast["operational_activities"]]
+    ast["operational_exchanges"] = [name for name in ast["connection_defs"] if re.search(r'\bOpTx[-_]?\d+', name, re.IGNORECASE)]
+    ast["operational_scenarios"] = [name for name in ast["use_case_defs"] if re.search(r'\b(?:SCN|UC)[-_]?\d+', name, re.IGNORECASE)]
+    ast["operational_nodes"] = list(ast["part_defs"])
 
     return ast
 
@@ -2533,12 +4077,23 @@ def parse_sysml(content: str) -> Dict[str, List[str]]:
 # Alias for backwards compatibility
 extract_sysml_ast = parse_sysml
 
+SCHEMA_REMEDIATION_MESSAGE = (
+    "Error: No .sysml schema file found in schema/.\n"
+    "If starting from unstructured OEM prose manuals, PDF documentation, or BOM markdown tables:\n"
+    "  1. Place your OEM documentation or extract tables into schema/ or schema/extracted/.\n"
+    "  2. Execute Step 0.0 Level 0 OEM Ground Truth Ingestion:\n"
+    "     python3 skills/spec-orchestrator/scripts/sysmlv2_ingest.py --schema <path_to_markdown> --format markdown --out schema/model.sysml\n"
+    "  3. Re-run compile_sysml.py --compile to satisfy the compilation gate."
+)
+
 
 def enforce_pipeline0_compilation_gate(schema_path: Optional[str] = None, output_path: str = ".pipeline/schema.sysml", digest_path: str = ".pipeline/schema-digest.json") -> int:
     """
     Implements pipeline 0 compilation gate.
     If schema_path is None, search for a .sysml file in schema/.
     If schema file does not exist, fail closed (print descriptive error to stderr and return 1).
+    When no .sysml file is found in schema/ (or default path), prints clear remediation guidance
+    directing the user/agent to Step 0.0 Level 0 OEM Ground Truth Ingestion and returns 1.
     Parse the file using SysMLParser.parse_file(schema_path).
     If parsing fails, returns None, or the package has 0 structural elements (parts, constraints, ports, etc.), fail closed (print descriptive error to stderr and return 1).
     Serialize the package AST via pkg.to_sysml() and write atomically to output_path using _atomic_write_file.
@@ -2548,13 +4103,21 @@ def enforce_pipeline0_compilation_gate(schema_path: Optional[str] = None, output
     import glob
     if schema_path is None:
         schema_files = glob.glob("schema/*.sysml")
+        if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+            schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
         if not schema_files:
-            print("Error: No schema file provided and none found in schema/", file=sys.stderr)
+            print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
             return 1
         schema_path = schema_files[0]
         
     if not os.path.exists(schema_path):
-        print(f"Error: Schema file does not exist: {schema_path}", file=sys.stderr)
+        schema_files = glob.glob("schema/*.sysml")
+        if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+            schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+        if not schema_files:
+            print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+        else:
+            print(f"Error: Schema file does not exist: {schema_path}", file=sys.stderr)
         return 1
         
     if SysMLParser is None:
@@ -2592,7 +4155,11 @@ def enforce_pipeline0_compilation_gate(schema_path: Optional[str] = None, output
             "sha256": sha256_hash,
             "total_lines": total_lines,
             "node_counts": node_counts,
-            "schema_nodes": schema_nodes
+            "schema_nodes": schema_nodes,
+            "operational_activities": extract_operational_activities(pkg),
+            "operational_exchanges": extract_operational_exchanges(pkg),
+            "operational_scenarios": extract_operational_scenarios(pkg),
+            "operational_nodes": extract_operational_nodes(pkg),
         }
         _atomic_write_json(digest_path, digest_data)
         
@@ -2605,19 +4172,21 @@ def enforce_pipeline0_compilation_gate(schema_path: Optional[str] = None, output
 
 def main():
     parser = argparse.ArgumentParser(
-        description="SysML v2 Compiler, STPA Safety Constraints & Closed-Loop Reverse Synchronization Engine",
+        description="SysML v2 Compiler, STPA Safety Constraints & Closed-Loop Bidirectional Synchronization Engine",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("file", nargs="?", default=None, help="SysML v2 (.sysml) or STPA markdown file path")
     parser.add_argument("--compile", action="store_true", help="Execute Pipeline 0 compilation gate")
     parser.add_argument("--reverse-sync", action="store_true", help="Execute closed-loop reverse synchronization from markdown specs to SysML v2 SSOT")
+    parser.add_argument("--forward-sync", action="store_true", help="Execute closed-loop forward synchronization from SysML v2 SSOT to markdown specs")
+    parser.add_argument("--dry-run", action="store_true", default=False, help="Simulate forward synchronization without writing files to disk")
     parser.add_argument("--docs", "--docs-dir", dest="docs_dir", default="docs", help="Path to markdown specifications directory (default: docs)")
     parser.add_argument("--schema", "--schema-path", dest="schema_path", default=None, help="Path to base/input schema file (e.g. schema/DEAP_MODEL.sysml)")
     parser.add_argument("--out", "--output", dest="output_path", default=".pipeline/schema.sysml", help="Path to output .sysml SSOT file (default: .pipeline/schema.sysml)")
     parser.add_argument("--digest", "--digest-path", dest="digest_path", default=".pipeline/schema-digest.json", help="Path to output schema digest JSON (default: .pipeline/schema-digest.json)")
     parser.add_argument("--stpa", "--compile-stpa", action="store_true", help="Compile STPA hazard matrix to SysML constraint notation")
     parser.add_argument("--stpa-transpile", action="store_true", help="Execute dynamic Cartesian STPA transpilation from a SysML v2 schema into the 10-pillar safety artifact suite")
-    parser.add_argument("--out-dir", dest="out_dir", default=None, help="Output directory for the STPA transpiler artifact suite (--stpa-transpile)")
+    parser.add_argument("--out-dir", dest="out_dir", default=None, help="Output directory for generated specifications (--forward-sync) or STPA transpiler artifact suite (--stpa-transpile)")
     parser.add_argument("--fmeca-scoring-config", dest="fmeca_scoring_config", default=None, help="Path to JSON file with generic categorical FMECA scoring scales (--stpa-transpile)")
     parser.add_argument("--allow-schema-overwrite", action="store_true", default=False, help="Allow in-place overwrite of base input schema file")
 
@@ -2642,13 +4211,58 @@ def main():
         ))
 
     if args.reverse_sync:
-        reverse_sync_specs_to_sysml(
-            docs_dir=args.docs_dir,
-            schema_path=args.schema_path,
-            output_path=args.output_path,
-            digest_path=args.digest_path,
-            allow_schema_overwrite=args.allow_schema_overwrite,
-        )
+        try:
+            reverse_sync_specs_to_sysml(
+                docs_dir=args.docs_dir,
+                schema_path=args.schema_path,
+                output_path=args.output_path,
+                digest_path=args.digest_path,
+                allow_schema_overwrite=args.allow_schema_overwrite,
+            )
+        except FileNotFoundError as exc:
+            import glob
+            schema_files = glob.glob("schema/*.sysml")
+            if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+                schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+            if not schema_files:
+                print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+            else:
+                print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
+        return
+
+    if args.forward_sync:
+        schema_target = args.schema_path or args.file
+        if not schema_target:
+            default_ssot = os.path.join(PROJECT_ROOT, ".pipeline", "schema.sysml")
+            if os.path.exists(default_ssot):
+                schema_target = default_ssot
+            else:
+                import glob
+                schema_files = glob.glob("schema/*.sysml")
+                if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+                    schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+                if not schema_files:
+                    print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+                    sys.exit(1)
+                parser.error("--forward-sync requires --schema <file.sysml> or a positional .sysml file")
+        try:
+            forward_sync_sysml_to_specs(
+                schema_path=schema_target,
+                docs_dir=args.docs_dir,
+                out_dir=args.out_dir,
+                dry_run=args.dry_run,
+            )
+        except FileNotFoundError as exc:
+            import glob
+            schema_files = glob.glob("schema/*.sysml")
+            if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+                schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+            if not schema_files:
+                print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+            else:
+                print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
         return
 
     target_file = args.file
@@ -2657,7 +4271,14 @@ def main():
         sys.exit(1)
 
     if not os.path.exists(target_file):
-        print(f"Error: File not found: {target_file}")
+        import glob
+        schema_files = glob.glob("schema/*.sysml")
+        if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+            schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+        if not schema_files and (target_file.startswith("schema/") or target_file.endswith(".sysml")):
+            print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+        else:
+            print(f"Error: File not found: {target_file}", file=sys.stderr)
         sys.exit(1)
 
     with open(target_file, 'r', encoding='utf-8') as f:
@@ -3415,7 +5036,14 @@ def transpile_stpa(schema_path: str, out_dir: str, fmeca_scoring_config: Optiona
         print("Error: SysMLParser is not available for STPA transpilation.", file=sys.stderr)
         return 1
     if not os.path.exists(schema_path):
-        print(f"Error: Schema file not found: {schema_path}", file=sys.stderr)
+        import glob
+        schema_files = glob.glob("schema/*.sysml")
+        if not schema_files and os.path.isdir(os.path.join(PROJECT_ROOT, "schema")):
+            schema_files = glob.glob(os.path.join(PROJECT_ROOT, "schema", "*.sysml"))
+        if not schema_files and (schema_path.startswith("schema/") or schema_path.endswith(".sysml")):
+            print(SCHEMA_REMEDIATION_MESSAGE, file=sys.stderr)
+        else:
+            print(f"Error: Schema file not found: {schema_path}", file=sys.stderr)
         return 1
 
     try:

@@ -43,4 +43,11 @@ from .executive_deliverable_traceability_validator import (
     RULE_TABLE_UNANCHORED,
     RULE_DIAGRAM_INCOMPLETE,
 )
+from .architecture_viewpoint_validator import (
+    ArchitectureViewpointValidator,
+    CANONICAL_DIAGRAMS,
+    RULE_OV6C_MISSING_SCENARIO_DIAGRAM,
+    _validate_ov6c_scenario_coverage,
+    validate_architecture_viewpoints,
+)
 

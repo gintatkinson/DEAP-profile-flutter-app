@@ -88,12 +88,12 @@ The ConOps specification tree consists of 12 canonical modular units:
 | `01_METADATA_AND_OVERVIEW.md` | `## 1. Scope, System Identification & Normative Baseline` | `operational_context`, `user_classes` | System ID, domain classification, physical/legal boundaries, stakeholder roster, user classes (UCL-xx). |
 | `02_DEFICIENCIES_AND_MOTIVATION.md` | `## 2. Current Situation, Deficiency Analysis & Operational Motivation` | `deficiencies` | Predecessor baseline, technical, operational, and human deficiencies. |
 | `03_PROPOSED_CAPABILITIES.md` | `## 3. Proposed Capabilities & Operational Justification (Trade-Offs)` | `proposed_capabilities` | Mission drivers, value propositions, engineering trade-off evaluations. |
-| `04_USER_CLASSES_AND_STAKEHOLDERS.md` | `## 4. User Classes, Stakeholder Taxonomy & Operational Lifecycle Modes` | `operational_context` | User Classes (UCL-01..UCL-N), formal operational lifecycle stages: Phase_Startup, Phase_NominalExecution, Phase_DegradedMode, Phase_ContingencyFailsafe, Phase_SecureShutdown, Phase_MaintenanceMode; Super-System Architecture (Air Vehicle, Ground Segment, Launch System) conforming to Option 3 (Compact Subsystem Blocks with Embedded Port Attributes and max 3-column vertical tier partitioning); and Subsystem Architecture subsections covering 100% of declared AST `part def` nodes. |
-| `05_AIRSPACE_AND_SORA_RISK.md` | `## 5. Operational State Space, Boundary Containment & Risk Assessment` | `airspace_sora` | 4D volume mathematical formulation, Ground Risk Buffer ($R_{\mathrm{GRB}}$) equation, and SORA impact parameters table. |
+| `04_SYSTEM_ARCHITECTURE.md` | `## 4. System Operational Architecture & Physical Subsystem Decomposition` | `system_architecture` / `operational_context` | Super-System Architecture (Air Vehicle, Ground Segment, Launch System) conforming to Option 3 (Compact Subsystem Blocks with Embedded Port Attributes and max 3-column vertical tier partitioning); Subsystem Architecture subsections covering 100% of declared AST `part def` nodes; Port Taxonomy and SSOT Model Binding statement (accepts backward-compatible alias `04_USER_CLASSES_AND_STAKEHOLDERS.md`). |
+| `05_OPERATIONAL_STATE_SPACE_AND_RISK.md` | `## 5. Operational State Space, Boundary Containment & Risk Assessment` | `airspace_sora` | 4D volume mathematical formulation, Ground Risk Buffer ($R_{\mathrm{GRB}}$) equation, and SORA impact parameters table. |
 | `06_UAF_OPERATIONAL_ACTIVITIES.md` | `## 6. OMG UAF Operational Activity Taxonomy` | `uaf_activities` | Open-ended UAF activity roster (`OA-01`..`OA-N`) with mandatory Gate 24 allocation tags (`/// OperationalAllocation: [OA-XX]`). |
-| `07_OPTX_EXCHANGES.md` | `## 7. Operational Information Exchange (Op-Tx) Matrix` | `optx_exchanges` | Information exchange roster (`OpTx-01`..`OpTx-N`) specifying source, destination, data rates, latency limits, criticality; captures high-level operational information exchanges (C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization) and strictly excludes component-internal serial opcode reference tables. |
+| `07_OPTX_EXCHANGES.md` | `## 7. Operational Information Exchange (Op-Tx) Matrix` | `optx_exchanges` | Information exchange roster (`OpTx-01`..`OpTx-N`) specifying source, destination, data rates, latency limits, criticality; captures high-level operational information exchanges (C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization) and strictly excludes component-internal serial opcode reference tables; enforces 100% Op-Tx sequence parity where declared exchanges are partitioned across canonical operational interaction sequence diagrams (`Diagram 10.1` through `Diagram 10.4`) with zero uncovered Op-Tx exchanges. |
 | `08_ENVIRONMENTAL_OPERATING_LIMITS.md` / `08_ENVIRONMENTAL_MIL_STD_810H.md` | `## 8. Environmental Operating Limits & Stress Qualification` | `environmental_envelopes` | Ambient temperature, ingress protection (IP), electromagnetic/RF environment, spatial clearance envelopes. |
-| `09_SCENARIOS_AND_TIMELINES.md` | `## 9. Multi-Threaded Operational Scenarios & System Timelines` | `scenarios` | Nominal, degraded, and contingency scenario threads with sequential execution steps and exit criteria. |
+| `09_SCENARIOS_AND_TIMELINES.md` | `## 9. Multi-Threaded Operational Scenarios & System Timelines` | `scenarios` | Nominal, degraded, and contingency scenario threads with sequential execution steps and exit criteria; enforces 100% scenario-to-diagram parity where 100% of declared operational scenarios (`SCN-01`..`SCN-N`) MUST include a dedicated `OV-6c` Mermaid sequence diagram (`sequenceDiagram`) detailing multi-threaded lifeline sequences across the canonical scenario spectrum spanning nominal sortie, GNSS-denied navigation, lost C2 link, tactical abort, bingo energy divert, and SORA containment / flight termination. |
 | `10_MAINTENANCE_AND_GSE_SUPPORT.md` | `## 10. Maintenance & Sustainment Concepts (O/I/D Maintenance)` | `maintenance` | Three-tier maintenance model: Organizational (O-Level), Intermediate (I-Level), Depot (D-Level). |
 | `11_IMPACTS_AND_TRADE_STUDIES.md` | `## 11. Operational Impacts, System Limitations & Documented Trade Studies` | `proposed_capabilities` | Mission drivers, value propositions, engineering trade-off evaluations. |
 | `12_EMERGENCY_DECISION_MATRIX.md` | `## 12. 7-Row Emergency Decision & Contingency Matrix` | `emergency_matrix` | Canonical emergency triggers (`EMG-01`..`EMG-07`) with detection mechanisms, failsafe recovery states, max response times, and HITL authority roles. |
@@ -139,8 +139,8 @@ docs/conops/
     │   ├── 01_METADATA_AND_OVERVIEW.md
     │   ├── 02_DEFICIENCIES_AND_MOTIVATION.md
     │   ├── 03_PROPOSED_CAPABILITIES.md
-    │   ├── 04_USER_CLASSES_AND_STAKEHOLDERS.md
-    │   ├── 05_AIRSPACE_AND_SORA_RISK.md
+    │   ├── 04_SYSTEM_ARCHITECTURE.md
+    │   ├── 05_OPERATIONAL_STATE_SPACE_AND_RISK.md
     │   ├── 06_UAF_OPERATIONAL_ACTIVITIES.md
     │   ├── 07_OPTX_EXCHANGES.md
     │   ├── 08_ENVIRONMENTAL_OPERATING_LIMITS.md (or 08_ENVIRONMENTAL_MIL_STD_810H.md)
@@ -201,7 +201,7 @@ Per [`rules/latex-katex-integrity.md`](../../rules/latex-katex-integrity.md):
 - **No Table Math Delimiters**: Never use `$ ... $` or `$$ ... $$` math delimiters inside Markdown table cells. Use standard plain text and Unicode characters (e.g., `h_max m`, `deg`, `m/s`, `J`, `tau_max ms`).
 - **Parameter Definitions & Engineering Units Tables**: Display equations must be immediately followed by a parameter definition table specifying symbols, values, units, and engineering descriptions.
 
-#### Example: SORA Ground Risk Buffer Formulation (`05_AIRSPACE_AND_SORA_RISK.md`)
+#### Example: SORA Ground Risk Buffer Formulation (`05_OPERATIONAL_STATE_SPACE_AND_RISK.md`)
 $$
 \begin{aligned}
 V_{\mathrm{4D}} &= V_{\mathrm{SpatialGeometry}} \cup V_{\mathrm{ContingencyVolume}} \cup V_{\mathrm{GRB}} \\
@@ -256,13 +256,20 @@ Per IEEE 1362-1998 §5.3 (Operational Environment & System Architecture), DoDAF 
      Operational diagrams (Figure 4.9) capture high-level subsystem interconnections and buses; detailed pin-to-pin wiring contracts and serial framing are deferred to Level 1C ICDs.
   4. **System Boundary & External Actor Interfaces (IEEE 1362 §5.1 / ISO 29148 §6.4.2)**: Explicit boundary encapsulation enclosing the system segments and formal external actor interfaces (Supervisory Operators, Range Safety Officers, GNSS constellations, Environmental dynamics).
   5. **Strict Exclusion of Internal Software Modules (DoDAF SV-4)**: ConOps SV-1 operates strictly at the physical and logical subsystem / LRU boundary. Internal software execution classes, internal algorithms, class methods, and function signatures belong in Level 2 detailed design / DoDAF SV-4 and are strictly prohibited in the Level 1B ConOps SV-1 diagram. Detailed physical wire pinouts, signal dictionaries, ICD connection matrices (Level 1C), and internal software classes/methods (Level 2) are strictly decoupled from Level 1B operational architecture.
-  6. **Option 3 Standard: Compact Subsystem Blocks with Embedded Port Attributes & Vertical Hierarchical Tiers**:
-     - **Embedded Port Attributes**: All subsystem blocks MUST embed their discrete ports as bulleted attributes inside the subsystem node definition (`[<b>Name</b><br/>• PORT-... (DIRECTION)]`), rather than rendering individual ports as separate downstream child nodes or nested single-component subgraphs.
-     - **Vertical Hierarchical Tier Partitioning (`direction TB`)**: Subgraphs and segment partitions MUST enforce top-to-bottom vertical layout (`direction TB`) with a maximum of 3 columns horizontally (max 3-column vertical tier partitioning). Flat horizontal layout (`direction LR` or unrestricted horizontal chaining) is strictly prohibited to prevent unreadable horizontal diagram sprawl.
-     - **100% Mathematical Parity with Section 4.8 Allocation Table**: Every subsystem block in the SV-1 diagram embeds the exact set of typed logical and physical ports (`• PORT-... (DIRECTION)`) matching the Section 4.8 Physical & Logical Interface Allocations table rows 1:1, derived deterministically from 100% of declared AST `part def` nodes in exact lockstep.
-     - **Direct Traceable Interconnects**: Directed and bidirectional connection links (`CONN-01`..`CONN-N`) route directly between compact subsystem nodes and external actors, specifying the logical/physical flow and port bindings in the connection label.
-  7. **Canonical Compliant Mermaid SV-1 Diagram Template**: The architecture diagram MUST be authored using a compliant Mermaid flowchart (`flowchart TD` or `flowchart TB`) declaring segment subgraphs, discrete port nodes, and bidirectional/directed connection links (`CONN-XX`).
-  8. **Operational Architecture Scope (Section 4.7)**: Section 4.7 represents High-Level Operational Architecture (OV-1 / OV-2 / High-Level SV-1) partitioned across operational segments (Ground Segment, Air Vehicle Segment, Launch Segment, External Actors) with operational information exchanges (Op-Tx: C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization). ConOps Figure 4.9 captures high-level operational subsystem interconnections, buses, and architectural segments. It does NOT mandate 1:1 parity with detailed pinout-level wire connections or private internal LRU child ports from Level 1C ICDs (`ICD_01_SYSTEM_INTERFACE_MATRIX.md`). Detailed internal wire-level interconnects, pinouts, RS-485 serial framing, opcodes (0x10, 0x11, etc.), register bitmasks, and CRC-16 equations belong strictly in Level 1C Interface Control Documents (`ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `ICD_02_MASTER_SIGNAL_DICTIONARY.md`), NOT in the ConOps document.
+   6. **Option 3 Standard: Compact Subsystem Blocks with Embedded Port Attributes, Vertical Hierarchical Tiers & Segment Layout Enforcement**:
+      - **Embedded Port Attributes**: All subsystem blocks MUST embed their discrete ports as bulleted attributes inside the subsystem node definition (`[<b>Name</b><br/>• PORT-... (DIRECTION)]`), rather than rendering individual ports as separate downstream child nodes or nested single-component subgraphs. All node label lines MUST NOT exceed 35 characters and must be wrapped with `<br/>` per Rule E2.
+      - **Vertical Hierarchical Tier Partitioning (`direction TB`) & Rule E3 Tiering**: Subgraphs and segment partitions MUST enforce top-to-bottom vertical layout (`direction TB`) with a maximum of 3 columns horizontally (max 3-column vertical tier partitioning). For large subsystem counts (15–25 subsystems), subsystems within a segment MUST be partitioned into 5–6 functional tiers of at most 3 nodes per row (`AV_Tier1` through `AV_Tier6` or `Tier_1` through `Tier_N`) chained with internal invisible rank spacers (`~~~`). Flat horizontal layout (`direction LR`), flat declaration of > 3 subsystems in a segment without tier subgraphs, or untiered horizontal chaining is strictly prohibited to prevent unreadable horizontal diagram sprawl (Rule E3).
+      - **Mandatory 4-Segment Vertical Chaining Pattern**: Top-level operational segment subgraphs MUST be chained vertically using invisible rank spacers (`~~~`) connecting the segments in top-to-bottom sequence:
+        ```text
+        External_Actors ~~~ Ground_Segment
+        Ground_Segment ~~~ Air_Vehicle_Segment
+        Air_Vehicle_Segment ~~~ Support_Segment
+        ```
+        Omitting rank spacers between segments causes Dagre to place all segments on Rank 0 (collapsing onto a single horizontal line across Markdown/Mermaid renderers).
+      - **100% Mathematical Parity with Section 4.8 Allocation Table**: Every subsystem block in the SV-1 diagram embeds the exact set of typed logical and physical ports (`• PORT-... (DIRECTION)`) matching the Section 4.8 Physical & Logical Interface Allocations table rows 1:1, derived deterministically from 100% of declared AST `part def` nodes in exact lockstep.
+      - **Direct Traceable Interconnects**: Directed connection links (`CONN-01`..`CONN-N`) route directly between compact subsystem nodes and external actors using directed flows (`-->`), strictly avoiding bidirectional links (`<-->` or `<==>`) which trigger Dagre rank collapse onto a single horizontal line (Rule E3).
+   7. **Canonical Compliant Mermaid SV-1 Diagram Template**: The architecture diagram MUST be authored using a compliant Mermaid flowchart (`flowchart TD` or `flowchart TB`) declaring segment subgraphs, discrete port nodes, internal tier subgraphs with `~~~` spacers, mandatory inter-segment vertical spacers, and directed connection links (`CONN-XX`).
+   8. **Operational Architecture Scope (Section 4.7)**: Section 4.7 represents High-Level Operational Architecture (OV-1 / OV-2 / High-Level SV-1) partitioned across operational segments (Ground Segment, Air Vehicle Segment, Launch Segment, External Actors) with operational information exchanges (Op-Tx: C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization). ConOps Figure 4.9 captures high-level operational subsystem interconnections, buses, and architectural segments. It does NOT mandate 1:1 parity with detailed pinout-level wire connections or private internal LRU child ports from Level 1C ICDs (`ICD_01_SYSTEM_INTERFACE_MATRIX.md`). Detailed internal wire-level interconnects, pinouts, RS-485 serial framing, opcodes (0x10, 0x11, etc.), register bitmasks, and CRC-16 equations belong strictly in Level 1C Interface Control Documents (`ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `ICD_02_MASTER_SIGNAL_DICTIONARY.md`), NOT in the ConOps document.
 
 #### Figure 4.1: Canonical ConOps SV-1 Primary System Architecture Diagram Template (Option 3: Compact Blocks & Vertical Tiers)
 ```mermaid
@@ -280,25 +287,31 @@ flowchart TD
         GCS["Ground Control Station (GCS)<br/>• PORT_GCS_C2 (INOUT)<br/>• PORT_GCS_DISP (OUT)"]
     end
 
-    subgraph Platform_Segment["Air Vehicle and Primary Platform Segment (DoDAF SV-1)"]
+    subgraph Air_Vehicle_Segment["Air Vehicle and Primary Platform Segment (DoDAF SV-1)"]
         direction TB
-        subgraph Tier1_Processing["Guidance & Perception Tier"]
+        subgraph AV_Tier1["Tier 1 - Guidance & Perception"]
             direction TB
             FCS["Flight and Guidance Controller<br/>• PORT_FCS_C2 (INOUT)<br/>• PORT_FCS_CMD (OUT)<br/>• PORT_FCS_TLM (IN)"]
             NavSensors["Sensor Fusion Unit<br/>• PORT_NAV_RF (IN)<br/>• PORT_NAV_DATA (OUT)"]
         end
 
-        subgraph Tier2_Actuation["Energy - Actuation & Safety Tier"]
+        subgraph AV_Tier2["Tier 2 - Energy Actuation and Safety"]
             direction TB
             Actuators["Distributed Actuator Core<br/>• PORT_ACT_IN (IN)"]
             Watchdog["Hardware Safety Watchdog<br/>• PORT_WD_IN (IN)<br/>• PORT_WD_TRIG (OUT)"]
         end
+
+        AV_Tier1 ~~~ AV_Tier2
     end
 
     subgraph Support_Segment["Launch and Auxiliary Support Segment (IEEE 1362 §5.3)"]
         direction TB
         GSE["Ground Support Equipment<br/>and Staging<br/>• PORT_GSE_PWR (OUT)"]
     end
+
+    External_Actors ~~~ Ground_Segment
+    Ground_Segment ~~~ Air_Vehicle_Segment
+    Air_Vehicle_Segment ~~~ Support_Segment
 
     %% External Interface Connections
     Operator -->|"CONN-01: Operator Command Input"| GCS
@@ -307,20 +320,32 @@ flowchart TD
     RangeSafety -->|"CONN-04: Flight Termination Consent"| GCS
 
     %% Segment Inter-Connects (Item Flows)
-    GCS <-->|"CONN-05: PACE Bidirectional C2 Datalink [PORT_GCS_C2 <-> PORT_FCS_C2]"| FCS
+    GCS -->|"CONN-05: PACE C2 Command Datalink [PORT_GCS_C2 -> PORT_FCS_C2]"| FCS
     NavSensors -->|"CONN-06: Navigation State Estimates [PORT_NAV_DATA -> PORT_FCS_TLM]"| FCS
     FCS -->|"CONN-07: Real-Time Actuator Demand Vector [PORT_FCS_CMD -> PORT_ACT_IN]"| Actuators
     FCS -->|"CONN-08: Heartbeat Pulse and Safety Telemetry [PORT_FCS_CMD -> PORT_WD_IN]"| Watchdog
-    GSE -.->|"CONN-09: Regulated Pre-Flight Power and Diagnostics [PORT_GSE_PWR]"| Platform_Segment
+    GSE -.->|"CONN-09: Regulated Pre-Flight Power and Diagnostics [PORT_GSE_PWR]"| Air_Vehicle_Segment
 ```
 
-- **Subsystem Architecture & AST Part Allocation (Section 4.8)**:
-  For EVERY declared AST `part def` node $p \in \text{AST}$, Section 4 must contain a dedicated subsection (`#### 4.8.x {part.name} Subsystem Architecture`) specifying:
+- **Super-System Segment Allocation Matrix (Table 4.2 / Section 4.2)**:
+  Physical subsystems, computational nodes, and functional elements must be allocated across operational segments enforcing clear physical and organizational ownership boundaries. Table 4.2 MUST include the `SSOT Ground Truth Source & Citation` column as column 3 (between `Operational Segment` and `Primary Functional Role`):
+  `| Subsystem Part | Operational Segment | SSOT Ground Truth Source & Citation | Primary Functional Role |`
+  Every row must provide direct machine-resolvable links to Level 0 schema documents and SysML AST part bindings (e.g. `[schema/<source_file>](schema/<source_file>#anchor) ("OEM Clause Title") | SysML v2: \`part def <NodeName>\``).
+
+- **Subsystem Architecture & AST Part Allocation (Subsection 4.3 / Section 4.8)**:
+  For EVERY declared AST `part def` node $p \in \text{AST}$, Section 4 must contain a dedicated subsection (`#### 4.3.x {part.name} Subsystem Architecture` / `#### 4.8.x {part.name} Subsystem Architecture`) specifying:
   1. **Functional Purpose & Scope**: Primary operational mission role derived from AST doc comments and actions.
   2. **Physical & Logical Interface / Port Allocations**: Declared input, output, and bidirectional ports (`PORT-... (IN/OUT/INOUT)`) and high-level bus interconnects in 100% lockstep parity with the SV-1 diagram. Detailed wire pinouts, register layouts, and serial framing are deferred to Level 1C ICD.
   3. **Power, Mass & Resource Envelopes**: Operating electrical power draw, mass partition budget ($m_{\mathrm{alloc}}$), and thermal operating envelopes.
   4. **Operational Role & Statechart Integration**: Lifecycle mode allocation ($\Phi_{\mathrm{lifecycle}}$) and active operational states.
   5. **Safety Invariants, Containment Interlocks & FMECA Linkage**: Watchdog interlocks, emergency trigger containment bindings (`EMG-01`..`EMG-07`), and safety criticalities.
+  6. **SSOT Ground Truth Mapping**: Mandatory 6th bullet providing direct machine-resolvable links to Level 0 schema documents and SysML AST part bindings: `- **SSOT Ground Truth Mapping:** [schema/<source_file>](schema/<source_file>#anchor) ("OEM Clause Title") | SysML v2: \`part def <NodeName>\``. Every subsystem entry in Subsection 4.3 must contain this 6th bullet.
+- **Section 4 Review Checklist for Worker ConOps**:
+  The `Worker ConOps` MUST verify the following before finalizing Section 4:
+  - [ ] **Table 4.2 SSOT Column Mandate**: Table 4.2 (`### 4.2 Super-System Segment Allocation Matrix`) includes the `SSOT Ground Truth Source & Citation` column as column 3 (between `Operational Segment` and `Primary Functional Role`), and every allocated subsystem cites an authoritative Level 0 schema document and SysML AST part binding.
+  - [ ] **Subsection 4.3 6th Bullet Mandate**: Every subsystem entry in Subsection 4.3 (`### 4.3 Subsystem Architecture (100% AST Part Coverage)`) contains the mandatory 6th bullet: `- **SSOT Ground Truth Mapping:** [schema/<source_file>](schema/<source_file>#anchor) ("OEM Clause Title") | SysML v2: \`part def <NodeName>\`` providing direct machine-resolvable links to Level 0 schema documents and SysML AST part bindings.
+  - [ ] **100% AST Part Coverage**: 100% of declared AST `part def` nodes have dedicated subsections in Subsection 4.3 in lockstep mathematical parity with the SV-1 diagram.
+  - [ ] **Option 3 Compact Blocks & Vertical Tiers**: Mermaid SV-1 diagram implements Option 3 with embedded port attributes and vertical layout (`direction TB`) capped at 3 horizontal columns.
 - **Zero-Omission Rule**: Omitting any declared AST `part def` is strictly forbidden and triggers compiler validation failure during `assemble_conops.py` assembly.
 - **Level 1B Operational Boundary & Section 8 Op-Tx Exclusions**: Section 4.8 and Section 8 (Op-Tx) capture high-level operational information exchanges (Op-Tx: C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization) and strictly exclude component-internal serial opcode reference tables, register bitmasks, RS-485 serial framing, and CRC-16 equations, which belong strictly in Level 1C Interface Control Documents (`ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `ICD_02_MASTER_SIGNAL_DICTIONARY.md`).
 
@@ -357,14 +382,88 @@ $$
 | Emergency Heartbeat Timeout | tau_timeout_Emergency | s | tau_timeout_Emergency > tau_timeout_Contingency | Timeout initiating definitive failsafe sequence extracted from SysML state def |
 | Re-acquisition Hysteresis Window | tau_hysteresis | s | tau_hysteresis > 0 | Continuous stable link duration required before up-tier promotion |
 
-### 4.7 Section 10 Operational Sequence Diagram Template & Safety-Critical Actuation Invariants
+### 4.7 Section 9/10 Operational Sequence Diagram Templates & Deterministic Safety Interlock Invariants (DoDAF OV-6c / ISO 29148 §6.4.2)
 Per [`rules/sysml-ssot-completeness.md`](../../rules/sysml-ssot-completeness.md) §3 and MIL-STD-882E §4.4:
+- **100% Scenario-to-Diagram Parity Invariant (Diagram 7 / OV-6c Lifeline Sequences)**:
+  100% of declared operational scenarios (`SCN-01`..`SCN-N`) MUST include a dedicated `OV-6c` Mermaid sequence diagram (`sequenceDiagram`) detailing multi-threaded lifeline sequences and message exchanges between operational performers. Operational scenarios lacking an accompanying `sequenceDiagram` block fail Gate 30 under check ID `conops-ov6c-missing-scenario-diagram`.
+- **Canonical Scenario Spectrum**:
+  Operational scenarios MUST cover the canonical scenario spectrum spanning:
+  1. **Nominal Sortie**: End-to-end mission lifecycle from pre-operation staging through autonomous state trajectory execution, on-station mission processing, precision recovery, and controlled shutdown.
+  2. **GNSS-Denied Navigation**: Resilient sensor fusion, optical flow, visual-inertial odometry, and dead-reckoning fallback under satellite navigation denial.
+  3. **Lost C2 Link**: Tiered PACE communications failover hierarchy, heartbeat loss timeout, autonomous holding patterns, and deterministic lost-link return protocols.
+  4. **Tactical Abort**: Dynamic threat avoidance, operator supervisory veto, and controlled ingress abort.
+  5. **Bingo Energy Divert**: Closed-loop energy margin evaluation, secondary recovery site selection, and statutory reserve preservation.
+  6. **SORA Containment / Flight Termination**: Critical boundary excursion detection, Ground Risk Buffer containment enforcement, and failsafe termination.
 - **Strict Prohibition of Autonomous High-Consequence Actuation**: Autonomous generation of irreversible physical actuation, high-energy discharge, or safety-critical effector commands without prior human operator authorization/consent is strictly prohibited across all specification tiers. Any sequence diagram attempting uncommanded or unauthorized physical actuation is immediately rejected under rule `factual-grounding-temporal-safety-violation`.
 - **Mandatory Temporal Precedence of Human Consent**:
   In every Mermaid sequence diagram (`sequenceDiagram`) representing high-consequence operations or safety-critical actuation, an explicit Human-in-the-Loop (HITL) operator authorization command / consent token (e.g. `Operator ->> Console: Authorize_Action_Command`, `Console ->> SystemController: Action_Authorized_Consent_Token`) MUST temporally precede any physical interlock disengagement or actuation signal (`SystemController ->> SafetyInterlock: Disengage_Safety_Interlock`, `SystemController ->> PhysicalActuator: Command_Physical_Actuation`).
 - **Abstract Temporal Safety Invariant Rule**: High-consequence or irreversible physical actuation commands require temporal predecessor human operator consent tokens if mandated by system safety requirements.
 
-#### Figure 10.1: Operational Sequence Diagram with Human Authorization & Safety Interlock Disengagement
+#### Figure 9.1: SCN-01 Nominal Lifecycle Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Operator as "Human Operator"
+    participant GCS as "Ground Control Station"
+    participant FCS as "Flight Controller"
+    participant Sensors as "Sensor Suite"
+    participant Actuators as "Actuator Subsystem"
+
+    Note over Operator,Actuators: Phase 1: Pre-Operation Staging & PBIT
+    Operator ->> GCS: Power_On_Initialization
+    GCS ->> FCS: Initiate_PBIT_Command
+    FCS ->> Sensors: Run_Sensor_BIT
+    Sensors -->> FCS: Sensor_Calibration_Pass
+    FCS ->> Actuators: Verify_Actuator_Endstops
+    Actuators -->> FCS: Actuator_Status_Nominal
+    FCS -->> GCS: PBIT_100_Percent_Pass_Telemetry
+    GCS -->> Operator: System_Ready_For_Mission
+
+    Note over Operator,Actuators: Phase 2: Autonomous Sortie & Station Keeping
+    Operator ->> GCS: Authorize_Sortie_Execution
+    GCS ->> FCS: Upload_Mission_Corridor_Plan
+    FCS ->> Actuators: Command_Nominal_Transit
+    Sensors ->> FCS: Stream_Navigation_State
+    FCS -->> GCS: Periodic_Heartbeat_and_Telemetry
+
+    Note over Operator,Actuators: Phase 3: Nominal Egress & Safe Recovery
+    FCS ->> FCS: Evaluate_Bingo_Energy_Condition
+    FCS ->> Actuators: Command_Deceleration_Profile
+    Actuators -->> FCS: Zero_Velocity_Rest_Confirmed
+    FCS ->> Actuators: Isolate_Actuator_Power
+    FCS -->> GCS: Mission_Complete_Secure_Shutdown
+```
+
+#### Figure 9.2: SCN-03 PACE Tiered Failover Hierarchy
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Modem as "PACE Datalink Router"
+    participant Controller as "System Controller"
+    participant Watchdog as "Safety Watchdog"
+    participant Guidance as "Guidance Subsystem"
+
+    Note over Modem,Guidance: Primary Link Degradation & Alternate Failover
+    Modem ->> Controller: Primary_Link_SNR_Below_Threshold
+    Controller ->> Modem: Start_Primary_Loss_Timer
+    Modem ->> Controller: Primary_Timeout_tau_Primary_Exceeded
+    Controller ->> Modem: Activate_Alternate_Encrypted_Network
+    Modem -->> Controller: Alternate_Network_Handshake_Established
+
+    Note over Modem,Guidance: Alternate Loss & Contingency Fallback
+    Modem ->> Controller: Alternate_Network_Unreachable
+    Controller ->> Modem: Fallback_To_Contingency_Narrowband
+    Controller ->> Controller: Throttle_Non_Essential_Payload_Streams
+
+    Note over Modem,Guidance: Complete Link Loss & Deterministic Return
+    Watchdog ->> Controller: Total_Timeout_tau_Contingency_Breached
+    Controller ->> Guidance: Engage_Autonomous_LostLink_Holding
+    Guidance ->> Guidance: Execute_Hold_Duration_tau_hold
+    Guidance ->> Controller: Hold_Expired_Calculate_Return_Corridor
+    Controller ->> Guidance: Execute_Deterministic_Return_Trajectory
+```
+
+#### Figure 9.3: SCN-05 Deterministic High-Consequence Safety Interlock Protocol
 ```mermaid
 sequenceDiagram
     autonumber
@@ -393,6 +492,16 @@ sequenceDiagram
   2. All participant names and notes containing special characters, hyphens, slashes, or colons must be properly enclosed in double quotes.
   3. Every Mermaid block MUST be strictly closed with matching ```` ``` ```` on a newline.
   4. Display math formulations must use `$$ \begin{aligned} ... \end{aligned} $$` on separate newlines with no bare alignment `&` outside aligned blocks.
+
+### 4.8 Canonical Op-Tx Operational Interaction Sequence Architecture & Parity Invariant (Diagram 10.1 - 10.4 / OMG UAF Op-Tx / ISO 29148 §6.4.2)
+Per OMG UAF v2.0 Operational Information Views (Op-Tx) and ISO/IEC/IEEE 29148:2018:
+- **100% Op-Tx Interaction Sequence Parity Invariant**: All declared operational information exchanges (`OpTx-01`..`OpTx-N`) in Section 7 MUST be realized across canonical operational sequence diagrams partitioned under `Diagram 10.1` through `Diagram 10.4`. If sequence diagrams exist in Section 7 but some declared Op-Tx exchanges are omitted from all sequence diagrams, the compiler emits a finding flagging the uncovered Op-Tx exchanges (`conops-optx-sequence-unrealized`).
+- **Canonical 4-Part Op-Tx Interaction Architecture**:
+  1. **Diagram 10.1: Command, Control & Supervisory Interaction Sequence**: Captures C2 uplink directives (`OpTx-09`), consolidated telemetry downlink (`OpTx-08`), external regulatory/deconfliction updates (`OpTx-14`), compressed video feeds (`OpTx-15`), and diagnostic blackbox offload (`OpTx-16`).
+  2. **Diagram 10.2: Sensor Perception, Navigation & Payload Data Flow Sequence**: Captures primary sensor state telemetry (`OpTx-01`), external positioning/nav reference feeds (`OpTx-05`), raw payload sensor streaming (`OpTx-06`), and processed feature telemetry (`OpTx-07`).
+  3. **Diagram 10.3: Real-Time Core Control & Actuation Feedback Loop Sequence**: Captures power resource and BMS telemetry (`OpTx-04`), closed-loop actuator control demand vectors (`OpTx-02`), and actuator state/thermal feedback (`OpTx-03`).
+  4. **Diagram 10.4: Safety Monitoring, Watchdog Interlock & Failsafe Containment Sequence**: Captures controller watchdog heartbeat strobe (`OpTx-10`), statutory broadcast remote ID telemetry (`OpTx-13`), emergency failsafe triggers (`OpTx-11`), and failsafe squib/containment actuation lines (`OpTx-12`).
+- **Domain-Neutral Performer Invariant**: All sequence diagrams in Section 7 MUST reference exclusively generic systems engineering performers (`OperatorConsole`, `CoreController`, `SensorSuite`, `ActuatorSubsystem`, `PayloadSubsystem`, `SafetyWatchdog`).
 
 ---
 

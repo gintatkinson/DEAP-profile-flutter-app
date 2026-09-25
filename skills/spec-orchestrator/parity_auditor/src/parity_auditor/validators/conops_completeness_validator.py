@@ -695,7 +695,7 @@ MANDATORY_CONOPS_TABLE_SCHEMAS: Dict[int, Dict[str, Any]] = {
             ("information_item", ["information_item", "information_element", "item", "info_item", "message"]),
             ("data_rate", ["data_rate", "throughput", "rate", "frequency"]),
             ("max_latency", ["max_latency", "latency", "max_latency_ms", "latency_limit"]),
-            ("criticality", ["criticality", "criticality_level", "dal", "safety_criticality"]),
+            ("criticality", ["criticality", "criticality_level", "dal", "safety_criticality", "integrity_assurance_level", "assurance_level", "integrity"]),
         ],
     },
     10: {
@@ -778,11 +778,11 @@ class ConopsCompletenessValidator(IValidator):
     """
 
     MANDATORY_SECTIONS: List[Dict[str, Any]] = [
-        {"num": 1, "title": "Scope & System Identification", "aliases": ["scope", "system identification", "system boundary", "scope, system identification & normative baseline", "scope, identification & normative baseline", "normative baseline"]},
+        {"num": 1, "title": "Scope & System Identification", "aliases": ["scope", "system identification", "system boundary", "scope, system identification & normative baseline", "scope, identification & normative baseline", "normative baseline", "stakeholder community", "user classes", "stakeholder taxonomy", "operational context"]},
         {"num": 2, "title": "Current Situation & Deficiency Analysis (Predecessors)", "aliases": ["current situation", "deficiency analysis", "predecessor", "predecessors", "deficiencies", "operational motivation", "deficiency analysis & operational motivation"]},
         {"num": 3, "title": "Proposed Capabilities & Trade-Offs (Pugh Decision Matrix)", "aliases": ["proposed capabilities", "trade-off", "trade-offs", "pugh decision matrix", "pugh matrix", "operational justification", "justification"]},
-        {"num": 4, "title": "Operational User Classes, Stakeholder Community & Systems Architecture", "aliases": ["user classes", "stakeholder community", "systems architecture", "super-system", "subsystem architecture", "stakeholder taxonomy", "operational lifecycle modes", "user classes, stakeholder taxonomy & operational lifecycle modes", "stakeholders"]},
-        {"num": 5, "title": "Operational State Space & SORA 4D Volume Risk Assessment", "aliases": ["operational state space", "sora", "4d volume", "boundary containment", "risk assessment", "ground risk buffer", "grb math", "grb"]},
+        {"num": 4, "title": "System Operational Architecture & Physical Subsystem Decomposition", "aliases": ["systems architecture", "system operational architecture", "physical subsystem decomposition", "super-system", "subsystem architecture", "system architecture", "physical architecture", "operational architecture"]},
+        {"num": 5, "title": "Operational State Space, Boundary Containment & Risk Assessment", "aliases": ["operational state space", "operational state space, boundary containment & risk assessment", "operational state space & sora 4d volume risk assessment", "boundary containment", "risk assessment", "sora", "4d volume", "ground risk buffer", "grb math", "grb"]},
         {"num": 6, "title": "OMG UAF Operational Activity Taxonomy", "aliases": ["operational activity taxonomy", "uaf operational activities", "operational activities", "uaf activities", "oa-", "omg uaf"]},
         {"num": 7, "title": "Operational Information Exchange (Op-Tx) Matrix", "aliases": ["operational information exchange", "op-tx matrix", "op-tx table", "information exchange", "op-tx"]},
         {"num": 8, "title": "Operational Environments & MIL-STD-810H", "aliases": ["operational environments", "mil-std-810h", "environmental stress qualification", "physical constraints", "environmental constraints", "environmental envelopes"]},
@@ -1147,7 +1147,7 @@ class ConopsCompletenessValidator(IValidator):
             _, sec3_line, sec3_content = matched_sections[3]
             findings.extend(self._validate_pugh_decision_matrix(content, rel_path, sec3_content, sec3_line))
 
-        # Section 4: Operational User Classes, Stakeholder Community & Systems Architecture (Fixes #130, #260, #298, #301)
+        # Section 4: System Operational Architecture & Physical Subsystem Decomposition (Fixes #130, #260, #298, #301)
         if 4 in matched_sections and "TEMPLATE" not in rel_path.upper():
             _, sec4_line, sec4_content = matched_sections[4]
             findings.extend(self._validate_operational_architecture_coverage(content, rel_path, sec4_content, sec4_line, repo=repo))
@@ -1166,6 +1166,11 @@ class ConopsCompletenessValidator(IValidator):
                         location=f"{rel_path}:{sec5_line}",
                         detail={"declared_r_grb": r_grb_val, "minimum_r_grb": r_calc, "section": 5},
                     ))
+
+        # Section 7: Operational Information Exchange (Op-Tx) Sequence Parity (Fixes #354)
+        if 7 in matched_sections and "TEMPLATE" not in rel_path.upper():
+            _, sec7_line, sec7_content = matched_sections[7]
+            findings.extend(self._validate_optx_sequence_parity(content, rel_path, sec7_content, sec7_line))
 
         # Section 9: Multi-Threaded Operational Scenarios Timeline Steps (Fixes #114, #130, #298)
         if 9 in matched_sections and "TEMPLATE" not in rel_path.upper():
@@ -1243,6 +1248,81 @@ class ConopsCompletenessValidator(IValidator):
                             "file": rel_path,
                         },
                     ))
+        return findings
+
+    def _validate_optx_sequence_parity(
+        self,
+        content: str,
+        rel_path: str,
+        sec7_content: str,
+        sec7_line: int,
+    ) -> List[Finding]:
+        """
+        Validates semantic parity between Section 7 Op-Tx declared exchanges
+        and operational interaction sequence diagrams (Diagram 10.1 - 10.4)
+        (Fixes #354).
+        """
+        findings: List[Finding] = []
+
+        # 1. Parse Section 7 tables to extract declared Op-Tx exchange identifiers
+        sec7_tables, _ = _parse_commonmark_tables(sec7_content)
+        declared_exchanges: List[str] = []
+        declared_display: Dict[str, str] = {}
+        for tbl in sec7_tables:
+            for row in tbl:
+                full_row_str = " ".join(str(v) for v in row.values())
+                m_optx = re.search(r'\b(OpTx-0*[0-9]+)\b', full_row_str, re.IGNORECASE)
+                if m_optx:
+                    raw_id = m_optx.group(1)
+                    m_num = re.search(r'[0-9]+', raw_id)
+                    if m_num:
+                        norm_id = f"OpTx-{int(m_num.group(0)):02d}"
+                        if norm_id not in declared_exchanges:
+                            declared_exchanges.append(norm_id)
+                            declared_display[norm_id] = raw_id
+
+        if not declared_exchanges:
+            return findings
+
+        # 2. Extract sequenceDiagram blocks in Section 7
+        raw_blocks = re.findall(r'```(?:mermaid)?\s*\n([\s\S]*?)```', sec7_content, re.IGNORECASE)
+        seq_blocks: List[str] = []
+        for b in raw_blocks:
+            body_lines = [l.strip() for l in b.splitlines() if l.strip() and not l.strip().startswith("%%")]
+            if body_lines and re.match(r'^sequenceDiagram\b', body_lines[0], re.IGNORECASE):
+                seq_blocks.append(b)
+
+        if not seq_blocks:
+            return findings
+
+        combined_seq_text = "\n".join(seq_blocks)
+        has_optx_ref = bool(re.search(r'\bOpTx-0*[0-9]+\b', combined_seq_text, re.IGNORECASE))
+        has_diagram_10 = bool(re.search(r'\bDiagram\s+10(?:\.\d+)?\b', sec7_content, re.IGNORECASE))
+
+        # Check Op-Tx sequence parity if diagrams reference OpTx, cite Diagram 10, or in 07_OPTX unit
+        if has_optx_ref or has_diagram_10 or "07_OPTX" in rel_path.upper():
+            found_ref_norms: Set[str] = set()
+            for ref_match in re.finditer(r'\bOpTx-0*([0-9]+)\b', combined_seq_text, re.IGNORECASE):
+                found_ref_norms.add(f"OpTx-{int(ref_match.group(1)):02d}")
+
+            uncovered: List[str] = []
+            for norm_id in declared_exchanges:
+                if norm_id not in found_ref_norms:
+                    uncovered.append(declared_display.get(norm_id, norm_id))
+
+            if uncovered:
+                findings.append(Finding(
+                    "conops-optx-sequence-unrealized",
+                    f"Section 7 Op-Tx operational exchange(s) [{', '.join(uncovered)}] are not realized in any operational sequence diagram in '{rel_path}'.",
+                    location=f"{rel_path}:{sec7_line}",
+                    detail={
+                        "section": 7,
+                        "unrealized_exchanges": uncovered,
+                        "declared_count": len(declared_exchanges),
+                        "file": rel_path,
+                    },
+                ))
+
         return findings
 
     def _validate_scenario_timeline_steps(
@@ -1542,7 +1622,9 @@ class ConopsCompletenessValidator(IValidator):
             return findings
 
         sorted_parts = sorted(list(part_defs))
-        sec48_match = re.search(r'(?:^|\n)#{3,4}\s+4\.8\b', sec4_content)
+        sec48_match = re.search(r'(?:^|\n)#{3,4}\s+(?:4\.3|4\.8)\b[^\n]*subsystem\s+architecture', sec4_content, re.IGNORECASE)
+        if not sec48_match:
+            sec48_match = re.search(r'(?:^|\n)#{3,4}\s+4\.8\b', sec4_content)
         if not sec48_match:
             findings.append(Finding(
                 "conops-partdef-coverage-incomplete",
@@ -1553,7 +1635,8 @@ class ConopsCompletenessValidator(IValidator):
         else:
             start_pos = sec48_match.start()
             rest = sec4_content[sec48_match.end():]
-            next_heading = re.search(r'\n#{2,3}\s+(?!4\.8\b)', rest)
+            sec_num = "4.3" if "4.3" in sec48_match.group(0) else "4.8"
+            next_heading = re.search(rf'\n#{{2,3}}\s+(?!{re.escape(sec_num)}\b)', rest)
             if next_heading:
                 sec48_content = sec4_content[start_pos : sec48_match.end() + next_heading.start()]
             else:
@@ -1776,8 +1859,8 @@ class ConopsCompletenessValidator(IValidator):
 - [1. Scope & System Identification](#1-scope--system-identification)
 - [2. Current Situation & Deficiency Analysis (Predecessors)](#2-current-situation--deficiency-analysis-predecessors)
 - [3. Proposed Capabilities & Trade-Offs (Pugh Decision Matrix)](#3-proposed-capabilities--trade-offs-pugh-decision-matrix)
-- [4. Operational User Classes, Stakeholder Community & Systems Architecture](#4-operational-user-classes-stakeholder-community--systems-architecture)
-- [5. Operational State Space & SORA 4D Volume Risk Assessment](#5-operational-state-space--sora-4d-volume-risk-assessment)
+- [4. System Operational Architecture & Physical Subsystem Decomposition](#4-system-operational-architecture--physical-subsystem-decomposition)
+- [5. Operational State Space, Boundary Containment & Risk Assessment](#5-operational-state-space-boundary-containment--risk-assessment)
 - [6. OMG UAF Operational Activity Taxonomy](#6-omg-uaf-operational-activity-taxonomy)
 - [7. Operational Information Exchange (Op-Tx) Matrix](#7-operational-information-exchange-op-tx-matrix)
 - [8. Operational Environments & MIL-STD-810H](#8-operational-environments--mil-std-810h)
@@ -1791,6 +1874,9 @@ class ConopsCompletenessValidator(IValidator):
 - **Operational Domain:** `{{OPERATIONAL_DOMAIN}}`
 - **Operational Boundaries:** {{OPERATIONAL_BOUNDARIES}}
 - **Stakeholder Roster:** {{STAKEHOLDER_ROSTER}}
+
+### 1.4 User Classes and Other Involved Personnel
+{{USER_CLASSES_AND_STAKEHOLDERS}}
 
 ## 2. Current Situation & Deficiency Analysis (Predecessors)
 - **Current Operational Baseline:** {{CURRENT_OPERATIONAL_BASELINE}}
@@ -1816,23 +1902,28 @@ $$
 | Lifecycle Maintenance Cost | {{WEIGHT_CRIT_3}} | 0 (Datum) | {{SCORE_A_3}} | {{SCORE_B_3}} | {{SCORE_C_3}} |
 | **Weighted Total Score S_j(w)** | **1.00** | **0.00** | **{{WEIGHTED_SCORE_A}}** | **{{WEIGHTED_SCORE_B}}** | **{{WEIGHTED_SCORE_C}}** |
 
-## 4. Operational User Classes, Stakeholder Community & Systems Architecture
-- **User Classes & Stakeholder Taxonomy:** {{USER_CLASSES_AND_STAKEHOLDERS}}
-- **Operational Lifecycle Modes across $\Phi_{\mathrm{lifecycle}}$:**
-- **Phase_Startup:** {{PHASE_STARTUP_DESCRIPTION}}
-- **Phase_NominalExecution:** {{PHASE_NOMINAL_EXECUTION_DESCRIPTION}}
-- **Phase_DegradedMode:** {{PHASE_DEGRADED_MODE_DESCRIPTION}}
-- **Phase_ContingencyFailsafe:** {{PHASE_CONTINGENCY_FAILSAFE_DESCRIPTION}}
-- **Phase_SecureShutdown:** {{PHASE_SECURE_SHUTDOWN_DESCRIPTION}}
-- **Phase_MaintenanceMode:** {{PHASE_MAINTENANCE_MODE_DESCRIPTION}}
+## 4. System Operational Architecture & Physical Subsystem Decomposition
 
-### 4.7 Super-System Architecture
+### 4.1 Super-System Operational Architecture & Segment Boundaries
 {{SUPER_SYSTEM_ARCHITECTURE}}
 
-### 4.8 Subsystem Architecture
+### 4.2 Super-System Segment Allocation Matrix
+{{SEGMENT_ALLOCATION_MATRIX}}
+
+### 4.3 Subsystem Architecture (100% AST Part Coverage)
 {{SUBSYSTEM_ARCHITECTURE_SECTION}}
 
-## 5. Operational State Space & SORA 4D Volume Risk Assessment
+### 4.4 Port Taxonomy & Interface Interconnects
+{{PORT_TAXONOMY_SECTION}}
+
+### 4.5 Level 0 SSOT Model Binding Statement
+{{MODEL_BINDING_STATEMENT}}
+
+## 5. Operational State Space, Boundary Containment & Risk Assessment
+
+### 5.1 Operational Lifecycle Modes across $\Phi_{\mathrm{lifecycle}}$
+{{OPERATIONAL_LIFECYCLE_MODES}}
+
 $$
 \begin{aligned}
 V_{\mathrm{4D}} &= V_{\mathrm{SpatialGeometry}} \cup V_{\mathrm{ContingencyVolume}} \cup V_{\mathrm{GRB}} \\
@@ -1977,7 +2068,7 @@ class MissionIntentCompletenessValidator(IValidator):
         {"num": 3, "title": "Measures of Effectiveness (MoE) & Measures of Performance (MoP) Metrics", "aliases": ["measures of effectiveness", "measures of performance", "moe", "mop", "moe/mop", "metrics"]},
         {"num": 4, "title": "Multi-Domain Operational Threat & Contested Environment Matrix", "aliases": ["threat", "multi-domain threat", "electronic warfare", "ew matrix", "cyber environment", "threat matrix", "contested environment"]},
         {"num": 5, "title": "PACE C2 Link Communications Plan", "aliases": ["pace c2", "pace plan", "pace communications plan", "c2 link communications plan", "pace"]},
-        {"num": 6, "title": "Rules of Engagement (ROE) & Weapon/Sensor Interlocks", "aliases": ["rules of engagement", "roe", "weapon/sensor interlocks", "sensor interlocks", "roe interlocks", "interlocks", "safety constraints & subsystem interlocks", "safety constraints", "safety interlocks", "subsystem interlocks"]},
+        {"num": 6, "title": "Rules of Engagement (ROE) & Weapon/Sensor Interlocks", "aliases": ["rules of engagement", "roe", "operational rules of engagement", "weapon/sensor interlocks", "sensor interlocks", "roe interlocks", "interlocks", "safety constraints & subsystem interlocks", "safety constraints", "safety interlocks", "subsystem interlocks"]},
         {"num": 7, "title": "Airspace Deconfliction & U-space Dynamic Geo-Zones", "aliases": ["airspace deconfliction", "u-space", "geo-zones", "dynamic geo-zones", "airspace", "geofence"]},
         {"num": 8, "title": "Go/No-Go Decision Matrix", "aliases": ["go/no-go", "go-no-go", "go / no-go decision matrix", "go / no-go matrix", "gng-"]},
         {"num": 9, "title": "Bingo Energy Mathematics & Secondary Divert Protocols", "aliases": ["bingo energy", "secondary divert", "divert protocols", "bingo energy mathematics", "bingo", "divert"]},
@@ -2178,6 +2269,10 @@ class MissionIntentCompletenessValidator(IValidator):
                     sec_title = req["title"]
                     sec_aliases = req["aliases"]
 
+                    # If Section 8 is optional and not present in content_sections, skip checking it in TOC (Issue #335)
+                    if sec_num == 8 and not _find_matching_section(content_sections, sec_num, sec_title, sec_aliases):
+                        continue
+
                     num_pattern_text = rf'\[(?:section\s+)?{sec_num}[.\s:\-]'
                     num_pattern_anchor = rf'\(#(?:section-)?{sec_num}[-_]'
                     found_in_toc = bool(
@@ -2249,21 +2344,21 @@ class MissionIntentCompletenessValidator(IValidator):
             else:
                 seen_h2_headers[h_norm] = (l_num, h)
 
-        # Check Exact Section Cardinality (Fixes #148)
-        if len(content_sections) != 10:
+        # Check Section Cardinality (8 to 10 sections) (Fixes #148, #335)
+        if not (8 <= len(content_sections) <= 10):
             findings.append(Finding(
                 "mission-section-cardinality-mismatch",
-                f"Mission Intent specification '{rel_path}' has section cardinality mismatch (found {len(content_sections)} section(s); expected exactly 10 sections).",
+                f"Mission Intent specification '{rel_path}' has section cardinality mismatch (found {len(content_sections)} section(s); expected 8 to 10 sections).",
                 location=rel_path,
                 detail={
                     "severity": "CRITICAL",
-                    "expected_sections": 10,
+                    "expected_sections": "8 to 10",
                     "actual_sections": len(content_sections),
                     "file": rel_path,
                 },
             ))
 
-        # Check for 10 Mandatory Sections
+        # Check for Mandatory Sections
         matched_sections: Dict[int, Tuple[str, int, str]] = {}
         for req in self.MANDATORY_SECTIONS:
             sec_num = req["num"]
@@ -2273,6 +2368,9 @@ class MissionIntentCompletenessValidator(IValidator):
             if res:
                 matched_sections[sec_num] = res
             else:
+                if sec_num == 8:
+                    # Section 8 ("Go/No-Go Decision Matrix") is optional if not present in Mission Intent (Issue #335)
+                    continue
                 findings.append(Finding(
                     "mission-section-missing",
                     f"Mandatory Mission Intent Section {sec_num} ('{title}') is missing or empty in '{rel_path}'.",

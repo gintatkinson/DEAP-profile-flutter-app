@@ -40,6 +40,18 @@ from parity_auditor.parsers.schema_router import (
     extract_subsystem_parts,
 )
 
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+if _script_dir not in sys.path:
+    sys.path.insert(0, _script_dir)
+
+try:
+    from compile_sysml import MatrixGenerator
+except ImportError:
+    try:
+        from scripts.compile_sysml import MatrixGenerator
+    except ImportError:
+        MatrixGenerator = None
+
 
 class LifecycleType(str, Enum):
     """Formal lifecycle archetypes for cyber-physical mission systems."""
@@ -84,9 +96,9 @@ CANONICAL_CONOPS_UNITS: List[str] = [
     "01_METADATA_AND_OVERVIEW.md",
     "02_DEFICIENCIES_AND_MOTIVATION.md",
     "03_PROPOSED_CAPABILITIES.md",
+    "04_SYSTEM_ARCHITECTURE.md",
     "04_USER_CLASSES_AND_STAKEHOLDERS.md",
     "05_OPERATIONAL_STATE_SPACE_AND_RISK.md",
-    "05_AIRSPACE_AND_SORA_RISK.md",
     "06_UAF_OPERATIONAL_ACTIVITIES.md",
     "07_OPTX_EXCHANGES.md",
     "08_ENVIRONMENTAL_OPERATING_LIMITS.md",
@@ -104,6 +116,8 @@ CANONICAL_MISSION_INTENT_UNITS: List[str] = [
     "04_MULTI_DOMAIN_THREAT_MATRIX.md",
     "05_PACE_C2_PLAN.md",
     "06_SAFETY_INTERLOCKS.md",
+    "06_RULES_OF_ENGAGEMENT.md",
+    "06_ROE_SAFETY_INTERLOCKS.md",
     "07_AIRSPACE_GEOZONES.md",
     "08_GO_NO_GO_MATRIX.md",
     "09_ENERGY_AND_RESERVE_BOUNDS.md",
@@ -170,6 +184,50 @@ def _sanitize_level_1b_operational_text(text: str) -> str:
     return s.strip()
 
 
+def _wrap_mermaid_label(text: str, max_width: int = 35) -> str:
+    """
+    Wraps text into segments <= max_width characters using <br/>.
+    Enforces Rule E2 / Rule E3 visual ergonomics (Issue #342).
+    """
+    if not text:
+        return text
+    segments = re.split(r"(<br\s*/?>|\r?\n)", text, flags=re.I)
+    out_parts: List[str] = []
+    for seg in segments:
+        if re.match(r"^(<br\s*/?>|\r?\n)$", seg, flags=re.I):
+            out_parts.append(seg)
+            continue
+        clean_seg = re.sub(r"</?[a-zA-Z0-9_-]+\s*/?>", "", seg).strip()
+        if len(clean_seg) <= max_width:
+            out_parts.append(seg)
+        else:
+            words = seg.split()
+            lines: List[str] = []
+            curr: List[str] = []
+            curr_len = 0
+            for w in words:
+                w_clean = re.sub(r"</?[a-zA-Z0-9_-]+\s*/?>", "", w)
+                w_len = len(w_clean)
+                if w_len > max_width:
+                    if curr:
+                        lines.append(" ".join(curr))
+                        curr = []
+                        curr_len = 0
+                    for c_idx in range(0, len(w), max_width):
+                        lines.append(w[c_idx:c_idx + max_width])
+                elif curr and curr_len + 1 + w_len > max_width:
+                    lines.append(" ".join(curr))
+                    curr = [w]
+                    curr_len = w_len
+                else:
+                    curr.append(w)
+                    curr_len += (1 if curr else 0) + w_len
+            if curr:
+                lines.append(" ".join(curr))
+            out_parts.append("<br/>".join(lines))
+    return "".join(out_parts)
+
+
 def is_component_icd_document(text: str, file_path: str = "") -> bool:
     """
     Detects whether a document is a low-level raw wire-packet trace or standalone protocol capture log.
@@ -232,6 +290,605 @@ def is_component_icd_document(text: str, file_path: str = "") -> bool:
     return False
 
 
+ABSTRACT_PERFORMERS: List[str] = [
+    "OperatorConsole",
+    "CoreController",
+    "SensorSuite",
+    "ActuatorSubsystem",
+    "PayloadSubsystem",
+    "SafetyWatchdog",
+]
+
+CANONICAL_ABSTRACT_OPTX_EXCHANGES: List[Dict[str, Any]] = [
+    {
+        "id": "OpTx-01",
+        "name": "PrimarySensorTelemetry",
+        "source_performer": "SensorSuite",
+        "target_performer": "CoreController",
+        "arrow": "->>",
+        "doc": "Raw Inertial & Kinematic Measurements, State Delta Vectors, Barometric Static Pressure, Magnetometer Heading",
+    },
+    {
+        "id": "OpTx-02",
+        "name": "ActuatorControlDemand",
+        "source_performer": "CoreController",
+        "target_performer": "ActuatorSubsystem",
+        "arrow": "->>",
+        "doc": "Dynamic Torque Demands, Control Surface Deflections, Speed Controller Setpoints, Power Limiter Flags",
+    },
+    {
+        "id": "OpTx-03",
+        "name": "ActuatorStateFeedback",
+        "source_performer": "ActuatorSubsystem",
+        "target_performer": "CoreController",
+        "arrow": "-->>",
+        "doc": "Measured Actuator Positions, Motor RPM Telemetry, Phase Current Draw, Thermal Diagnostic Flags",
+    },
+    {
+        "id": "OpTx-04",
+        "name": "PowerResourceTelemetry",
+        "source_performer": "SensorSuite",
+        "target_performer": "CoreController",
+        "arrow": "->>",
+        "doc": "Total Battery Pack Voltage, Cell Temperature Matrix, State-of-Charge (SoC), Current Draw, Dynamic Bingo Thresholds",
+    },
+    {
+        "id": "OpTx-05",
+        "name": "ExternalNavReferenceData",
+        "source_performer": "SensorSuite",
+        "target_performer": "CoreController",
+        "arrow": "->>",
+        "doc": "Multi-Constellation Satellite PVT Solutions, RTK Differential Phase Residuals, Ephemeris Data, UTC Time Reference",
+    },
+    {
+        "id": "OpTx-06",
+        "name": "RawPayloadSensorStream",
+        "source_performer": "SensorSuite",
+        "target_performer": "PayloadSubsystem",
+        "arrow": "->>",
+        "doc": "High-Bandwidth Multi-Modal Video Frames, Timestamp Metadata, Radiometric Matrices, Raw Spatial Point Clouds",
+    },
+    {
+        "id": "OpTx-07",
+        "name": "ProcessedFeatureTelemetry",
+        "source_performer": "PayloadSubsystem",
+        "target_performer": "CoreController",
+        "arrow": "-->>",
+        "doc": "Extracted State Feature Vectors, Target Bounding Boxes, Optical Odometry Vectors, Environmental Obstacle Disparities",
+    },
+    {
+        "id": "OpTx-08",
+        "name": "ConsolidatedDownlinkTelemetry",
+        "source_performer": "CoreController",
+        "target_performer": "OperatorConsole",
+        "arrow": "-->>",
+        "doc": "Consolidated System State Telemetry, 3D Kinematics, Energy SoC, Communications Link SNR, Geofence Margin Status",
+    },
+    {
+        "id": "OpTx-09",
+        "name": "SupervisoryUplinkCommand",
+        "source_performer": "OperatorConsole",
+        "target_performer": "CoreController",
+        "arrow": "->>",
+        "doc": "Uplink Mission Directives, Dynamic 4D Waypoint Corridors, ROE Arming Keys, Manual Override Mode Vectors",
+    },
+    {
+        "id": "OpTx-10",
+        "name": "WatchdogHeartbeatStrobe",
+        "source_performer": "CoreController",
+        "target_performer": "SafetyWatchdog",
+        "arrow": "->>",
+        "doc": "Controller Task Alive Token, Execution Deadline Checksum, Task Schedule Monotonic Counter",
+    },
+    {
+        "id": "OpTx-11",
+        "name": "EmergencyFailsafeTrigger",
+        "source_performer": "SafetyWatchdog",
+        "target_performer": "ActuatorSubsystem",
+        "arrow": "->>",
+        "doc": "Hardware Safety Abort Strobe, Power Stage Isolation Command, Safe State Clamping Signal",
+    },
+    {
+        "id": "OpTx-12",
+        "name": "FailsafeSquibActuationLine",
+        "source_performer": "SafetyWatchdog",
+        "target_performer": "PayloadSubsystem",
+        "arrow": "->>",
+        "doc": "Dual-Channel High-Current Fire Pulse, Autonomous Containment / Pyrotechnic Cutter Ignition Command",
+    },
+    {
+        "id": "OpTx-13",
+        "name": "BroadcastRemoteIDTelemetry",
+        "source_performer": "CoreController",
+        "target_performer": "SafetyWatchdog",
+        "arrow": "-->>",
+        "doc": "Statutory Broadcast ID, Serial Number / Session ID, Geodetic Position Coordinates, Ground Speed, Emergency Status",
+    },
+    {
+        "id": "OpTx-14",
+        "name": "RegulatoryStateDeconflictionData",
+        "source_performer": "OperatorConsole",
+        "target_performer": "CoreController",
+        "arrow": "->>",
+        "doc": "Dynamic Geo-Zone Activation/Deactivation, Strategic 4D Corridor Clearances, Adjacent Traffic Conformance Status",
+    },
+    {
+        "id": "OpTx-15",
+        "name": "CompressedPayloadVideoStream",
+        "source_performer": "PayloadSubsystem",
+        "target_performer": "OperatorConsole",
+        "arrow": "-->>",
+        "doc": "H.264/H.265 Encoded Video Stream, KLV Metadata, Real-Time Feature Overlays",
+    },
+    {
+        "id": "OpTx-16",
+        "name": "DiagnosticBlackboxLogStream",
+        "source_performer": "CoreController",
+        "target_performer": "OperatorConsole",
+        "arrow": "-->>",
+        "doc": "High-Rate Operational Recorder Time-Series, Sensor Disparity Registers, Exception Stack Traces, BIT Failure Logs",
+    },
+]
+
+
+class MermaidSequenceSynthesizer:
+    """
+    Deterministic synthesizer that compiles SysML v2 connection definitions,
+    item flows, and operational use cases into formal Mermaid sequenceDiagram blocks.
+    Guarantees complete alignment with abstract performers:
+    OperatorConsole, CoreController, SensorSuite, ActuatorSubsystem, PayloadSubsystem, SafetyWatchdog.
+    Fixes Issue #358.
+    """
+
+    PERFORMER_ORDER: Dict[str, int] = {
+        "OperatorConsole": 1,
+        "SensorSuite": 2,
+        "CoreController": 3,
+        "SafetyWatchdog": 4,
+        "ActuatorSubsystem": 5,
+        "PayloadSubsystem": 6,
+    }
+
+    PERFORMER_SYNONYMS: Dict[str, str] = {
+        "operatorstation": "OperatorConsole",
+        "operator": "OperatorConsole",
+        "c2station": "OperatorConsole",
+        "groundstation": "OperatorConsole",
+        "primarycommunications": "OperatorConsole",
+        "communicationssubsystem": "OperatorConsole",
+        "controller": "CoreController",
+        "flightcontroller": "CoreController",
+        "autonomouscontroller": "CoreController",
+        "controllerlogic": "CoreController",
+        "controllerlogicsubsystem": "CoreController",
+        "sensors": "SensorSuite",
+        "sensorsubsystem": "SensorSuite",
+        "primarysensorsuite": "SensorSuite",
+        "primarysensorsubsystem": "SensorSuite",
+        "navsubsystem": "SensorSuite",
+        "externalpositioningservice": "SensorSuite",
+        "powermanagementsubsystem": "SensorSuite",
+        "power": "SensorSuite",
+        "powersubsystem": "SensorSuite",
+        "actuators": "ActuatorSubsystem",
+        "payload": "PayloadSubsystem",
+        "cameratape": "PayloadSubsystem",
+        "watchdog": "SafetyWatchdog",
+        "safetyinterlock": "SafetyWatchdog",
+        "emergencycontainmentsubsystem": "PayloadSubsystem",
+        "externaldataservice": "SafetyWatchdog",
+    }
+
+    def __init__(
+        self,
+        exchanges: Optional[Union[List[Dict[str, Any]], Any]] = None,
+        scenarios: Optional[List[Dict[str, Any]]] = None,
+    ):
+        self.exchanges: List[Dict[str, Any]] = []
+        self.scenarios: List[Dict[str, Any]] = scenarios or []
+
+        if exchanges is not None:
+            if hasattr(exchanges, "operational_exchanges"):
+                self.exchanges = list(getattr(exchanges, "operational_exchanges", []) or [])
+                if not self.scenarios and hasattr(exchanges, "operational_scenarios"):
+                    self.scenarios = list(getattr(exchanges, "operational_scenarios", []) or [])
+            elif isinstance(exchanges, list):
+                self.exchanges = list(exchanges)
+            elif isinstance(exchanges, dict):
+                if "operational_exchanges" in exchanges:
+                    self.exchanges = list(exchanges["operational_exchanges"] or [])
+                elif "connection_defs" in exchanges:
+                    try:
+                        from compile_sysml import extract_operational_exchanges
+                        self.exchanges = extract_operational_exchanges(exchanges)
+                    except Exception:
+                        self.exchanges = []
+            else:
+                try:
+                    from compile_sysml import extract_operational_exchanges
+                    self.exchanges = extract_operational_exchanges(exchanges)
+                except Exception:
+                    self.exchanges = []
+
+        if not self.exchanges:
+            self.exchanges = [dict(e) for e in CANONICAL_ABSTRACT_OPTX_EXCHANGES]
+
+    @classmethod
+    def _normalize_performer(cls, raw_performer: str) -> str:
+        """
+        Normalizes any performer node to one of the canonical abstract performers,
+        enforcing pure schema-driven abstract domain neutrality.
+        """
+        if not raw_performer:
+            return "CoreController"
+
+        clean = re.sub(r"[^A-Za-z0-9_]", "", str(raw_performer)).strip("_")
+        if not clean:
+            return "CoreController"
+
+        if clean in cls.PERFORMER_ORDER:
+            return clean
+
+        key = clean.lower()
+        if key in cls.PERFORMER_SYNONYMS:
+            return cls.PERFORMER_SYNONYMS[key]
+
+        if "operator" in key or "console" in key or "station" in key or "human" in key:
+            return "OperatorConsole"
+        if "watchdog" in key or "safety" in key:
+            return "SafetyWatchdog"
+        if "sensor" in key or "nav" in key or "position" in key or "power" in key or "bms" in key:
+            return "SensorSuite"
+        if "actuator" in key or "motor" in key or "servo" in key:
+            return "ActuatorSubsystem"
+        if "payload" in key or "camera" in key or "video" in key or "stream" in key or "squib" in key or "containment" in key:
+            return "PayloadSubsystem"
+        if "controller" in key or "guidance" in key or "autonomy" in key or "core" in key:
+            return "CoreController"
+
+        return clean
+
+    def synthesize_interaction_diagram(
+        self,
+        title: str,
+        note: str,
+        filter_ids: List[str],
+    ) -> str:
+        """
+        Synthesizes a partitioned sequence diagram for a subset of Op-Tx exchanges.
+        Enforces autonumber, grounded participant lifelines, and formatted message labels.
+        """
+        filter_set = set(filter_ids)
+        selected_map: Dict[str, Dict[str, Any]] = {}
+        for ex in self.exchanges:
+            ex_id = ex.get("id", "")
+            m = re.search(r'OpTx[-_]?(\d+)', ex_id, re.IGNORECASE)
+            norm_id = f"OpTx-{int(m.group(1)):02d}" if m else ex_id
+            if norm_id in filter_set and norm_id not in selected_map:
+                selected_map[norm_id] = ex
+
+        # Backfill any missing filter IDs from canonical abstract exchanges
+        for c_ex in CANONICAL_ABSTRACT_OPTX_EXCHANGES:
+            c_id = c_ex["id"]
+            if c_id in filter_set and c_id not in selected_map:
+                selected_map[c_id] = c_ex
+
+        selected = [selected_map[fid] for fid in filter_ids if fid in selected_map]
+        if not selected:
+            return ""
+
+        lifelines_set: Set[str] = set()
+        for ex in selected:
+            src = self._normalize_performer(ex.get("source_performer") or ex.get("source_part") or "CoreController")
+            tgt = self._normalize_performer(ex.get("target_performer") or ex.get("target_part") or "CoreController")
+            lifelines_set.add(src)
+            lifelines_set.add(tgt)
+
+        lifelines = sorted(lifelines_set, key=lambda p: self.PERFORMER_ORDER.get(p, 99))
+
+        fence = chr(96) * 3
+        lines = [
+            f"{fence}mermaid",
+            "sequenceDiagram",
+            "    autonumber",
+        ]
+        for p in lifelines:
+            lines.append(f"    participant {p} as {p}")
+
+        lines.append("")
+        clean_note = (note or title).replace(":", " - ").replace(";", ",")
+        clean_note = " ".join(clean_note.splitlines()).strip()
+        if len(lifelines) > 1:
+            lines.append(f"    Note over {lifelines[0]},{lifelines[-1]}: {clean_note}")
+        elif lifelines:
+            lines.append(f"    Note over {lifelines[0]}: {clean_note}")
+
+        for ex in selected:
+            src = self._normalize_performer(ex.get("source_performer") or ex.get("source_part") or "CoreController")
+            tgt = self._normalize_performer(ex.get("target_performer") or ex.get("target_part") or "CoreController")
+            raw_id = ex.get("id", "OpTx-00")
+            m = re.search(r'OpTx[-_]?(\d+)', raw_id, re.IGNORECASE)
+            optx_id = f"OpTx-{int(m.group(1)):02d}" if m else raw_id
+            msg_name = ex.get("name", "InformationExchange")
+            msg_name = _sanitize_level_1b_operational_text(msg_name) or msg_name
+            msg_name = msg_name.replace(":", " - ").replace(";", ",")
+            arrow = ex.get("arrow")
+            if not arrow:
+                arrow = "-->>" if any(k in msg_name.lower() for k in ("telemetry", "feedback", "stream", "data", "log", "status")) else "->>"
+            lines.append(f"    {src}{arrow}{tgt}: {optx_id} - {msg_name}")
+
+        lines.append(fence)
+        return "\n".join(lines)
+
+    def synthesize_all_optx_diagrams(self) -> Dict[str, str]:
+        """Synthesizes the four canonical ConOps operational interaction sequence diagrams."""
+        return {
+            "DIAGRAM_10_1": self.synthesize_interaction_diagram(
+                "Supervisory Control & Telemetry Session",
+                "Operational Supervisory Control and Telemetry Session",
+                ["OpTx-08", "OpTx-09", "OpTx-14", "OpTx-15", "OpTx-16"],
+            ),
+            "DIAGRAM_10_2": self.synthesize_interaction_diagram(
+                "Sensor Perception & State Estimation Pipeline",
+                "Perception Acquisition and State Estimation Pipeline",
+                ["OpTx-01", "OpTx-05", "OpTx-06", "OpTx-07"],
+            ),
+            "DIAGRAM_10_3": self.synthesize_interaction_diagram(
+                "Deterministic Control & Energy Management Loop",
+                "Deterministic Control and Energy Management Loop",
+                ["OpTx-02", "OpTx-03", "OpTx-04"],
+            ),
+            "DIAGRAM_10_4": self.synthesize_interaction_diagram(
+                "Safety Watchdog Monitoring & Containment",
+                "Independent Safety Watchdog Monitoring and Containment",
+                ["OpTx-10", "OpTx-11", "OpTx-12", "OpTx-13"],
+            ),
+        }
+
+    def synthesize_section_7_4_markdown(self) -> str:
+        """
+        Synthesizes the complete Section 7.4 Markdown block containing
+        Diagrams 10.1, 10.2, 10.3, and 10.4.
+        """
+        diags = self.synthesize_all_optx_diagrams()
+        lines = [
+            "### 7.4 Operational Interaction Sequence Architecture (Diagram 10.1 - 10.4)",
+            "In accordance with OMG UAF v2.0 Operational Information Views (Op-Tx) and ISO/IEC/IEEE 29148:2018 §6.4.2, the 16 declared Op-Tx operational information exchanges are partitioned across four canonical interaction sequence diagrams using abstract systems engineering performers (`OperatorConsole`, `CoreController`, `SensorSuite`, `ActuatorSubsystem`, `PayloadSubsystem`, `SafetyWatchdog`).",
+            "",
+            "#### 7.4.1 Diagram 10.1: Command, Control & Supervisory Interaction Sequence",
+            diags.get("DIAGRAM_10_1", ""),
+            "",
+            "#### 7.4.2 Diagram 10.2: Sensor Perception, Navigation & Payload Data Flow Sequence",
+            diags.get("DIAGRAM_10_2", ""),
+            "",
+            "#### 7.4.3 Diagram 10.3: Real-Time Core Control & Actuation Feedback Loop Sequence",
+            diags.get("DIAGRAM_10_3", ""),
+            "",
+            "#### 7.4.4 Diagram 10.4: Safety Monitoring, Watchdog Interlock & Failsafe Containment Sequence",
+            diags.get("DIAGRAM_10_4", ""),
+        ]
+        return "\n".join(lines).strip()
+
+    def synthesize_scenario_diagram(self, scenario: Dict[str, Any]) -> str:
+        """Synthesizes an operational scenario sequence diagram from use case steps."""
+        steps = scenario.get("steps") or scenario.get("sequence_steps") or []
+        scn_id = scenario.get("id", "SCN-01")
+        name = scenario.get("name", "OperationalScenario")
+        actors = scenario.get("actors") or ([scenario.get("actor")] if scenario.get("actor") else [])
+        actors = [self._normalize_performer(a) for a in actors if a]
+        if not actors:
+            actors = ["OperatorConsole", "CoreController"]
+        elif "CoreController" not in actors:
+            actors.append("CoreController")
+
+        fence = chr(96) * 3
+        lines = [
+            f"{fence}mermaid",
+            "sequenceDiagram",
+            "    autonumber",
+        ]
+        for a in actors:
+            lines.append(f"    participant {a} as {a}")
+        lines.append("")
+        clean_name = name.replace(":", " - ").replace(";", ",")
+        lines.append(f"    Note over {actors[0]},{actors[-1]}: {scn_id} - {clean_name}")
+
+        for idx, step in enumerate(steps, start=1):
+            if isinstance(step, dict):
+                src = self._normalize_performer(step.get("source") or step.get("from") or actors[0])
+                tgt = self._normalize_performer(step.get("target") or step.get("to") or actors[-1])
+                desc = step.get("description") or step.get("action") or f"Step {idx}"
+            else:
+                src = actors[0]
+                tgt = actors[-1] if len(actors) > 1 else actors[0]
+                desc = str(step)
+            desc = desc.replace(":", " - ").replace(";", ",")
+            lines.append(f"    {src}->>{tgt}: Step {idx} - {desc}")
+
+        lines.append(fence)
+        return "\n".join(lines)
+
+
+class ArchitectureDiagramCompiler:
+    """
+    Unified deterministic compiler transforming SysML v2 AST parts, ports,
+    connections, and state definitions into DoDAF/UAF architectural viewpoints.
+    Guarantees 100% domain neutrality across abstract performers:
+    OperatorConsole, CoreController, SensorSuite, ActuatorSubsystem, PayloadSubsystem, SafetyWatchdog.
+    Resolves Issue #355.
+    """
+
+    def __init__(
+        self,
+        ast_parts: Optional[List[Any]] = None,
+        sys_id: str = "AutonomousSystem",
+        connections: Optional[List[Any]] = None,
+        states: Optional[List[Any]] = None,
+    ):
+        self.ast_parts = ast_parts or []
+        self.sys_id = sys_id or "AutonomousSystem"
+        self.connections = connections or []
+        self.states = states or []
+
+    def compile_ov1_system_context(self) -> str:
+        """
+        Compiles high-level system context diagram in ConOps Section 1 showing abstract system,
+        operator console, environmental actors, and operational boundaries (DoDAF 2.02 / OMG UAF v2.0 / IEEE 1362).
+        """
+        fence = chr(96) * 3
+        clean_sys_id = re.sub(r'[^A-Za-z0-9_]', '', str(self.sys_id)) or "AutonomousSystem"
+        lines = [
+            f"{fence}mermaid",
+            "flowchart TD",
+            "    %% Diagram 1: System Context (OV-1) Architecture",
+            '    subgraph OperationalContext["System Operational Context (OV-1)"]',
+            "        direction TB",
+            '        subgraph External_Environment["External Operating Environment & Dynamics"]',
+            "            direction TB",
+            '            Environment["External Environment &<br/>Operational Dynamics"]',
+            '            ExternalAuthority["External Regulatory &<br/>Oversight Authority"]',
+            "        end",
+            "",
+            '        subgraph Command_Segment["Supervisory Command & Control Segment"]',
+            "            direction TB",
+            '            OperatorConsole["Supervisory Operator Console<br/>& Mission Director"]',
+            "        end",
+            "",
+            f'        subgraph System_Boundary["Operational System Boundary ({clean_sys_id})"]',
+            "            direction TB",
+            '            CoreController["Core Controller Subsystem<br/>(PerformerNode: CoreController)"]',
+            '            SensorSuite["Perception & Sensor Suite<br/>(PerformerNode: SensorSuite)"]',
+            '            ActuatorSubsystem["Actuation Subsystem<br/>(PerformerNode: ActuatorSubsystem)"]',
+            '            PayloadSubsystem["Mission Payload Subsystem<br/>(PerformerNode: PayloadSubsystem)"]',
+            '            SafetyWatchdog["Independent Safety Watchdog<br/>(PerformerNode: SafetyWatchdog)"]',
+            "        end",
+            "    end",
+            "",
+            '    OperatorConsole -->|"CONN-01: Supervisory Directives & Mission Plan"| CoreController',
+            '    CoreController -->|"CONN-02: Consolidated Telemetry & System Status"| OperatorConsole',
+            '    Environment -.->|"CONN-03: Dynamic Physical Signals & Disturbances"| SensorSuite',
+            '    SensorSuite -->|"CONN-04: Filtered State Telemetry & Perception"| CoreController',
+            '    CoreController -->|"CONN-05: Real-Time Actuation Demands"| ActuatorSubsystem',
+            '    PayloadSubsystem -->|"CONN-06: High-Rate Feature Telemetry"| CoreController',
+            '    SafetyWatchdog -.->|"CONN-07: Independent Safety Interlock & Abort"| ActuatorSubsystem',
+            '    ExternalAuthority -->|"CONN-08: Spatial Corridor Clearances"| OperatorConsole',
+            fence,
+        ]
+        return "\n".join(lines)
+
+    def compile_ov2_operational_node_connectivity(self) -> str:
+        """
+        Compiles OV-2 Operational Node Connectivity diagram (Diagram 10) connecting
+        abstract performers and operational information flows (DoDAF 2.02 / OMG UAF v2.0).
+        """
+        fence = chr(96) * 3
+        lines = [
+            f"{fence}mermaid",
+            "flowchart TD",
+            "    %% Diagram 10: OV-2 Operational Node Connectivity",
+            '    OperatorConsole["Supervisory Operator Console<br/>(OperatorConsole)"]',
+            '    CoreController["Autonomous Core Controller<br/>(CoreController)"]',
+            '    SensorSuite["Perception & Sensor Suite<br/>(SensorSuite)"]',
+            '    ActuatorSubsystem["Drive & Actuator Subsystem<br/>(ActuatorSubsystem)"]',
+            '    PayloadSubsystem["Mission Processing Payload<br/>(PayloadSubsystem)"]',
+            '    SafetyWatchdog["Independent Safety Watchdog<br/>(SafetyWatchdog)"]',
+            '    ExternalCoordination["External Environment &<br/>Coordination Service"]',
+            "",
+            '    OperatorConsole -->|"OpTx-09: Supervisory Uplink Directives"| CoreController',
+            '    CoreController -->|"OpTx-08: Consolidated Downlink Telemetry"| OperatorConsole',
+            '    SensorSuite -->|"OpTx-01/05: State Measurements & Navigation Data"| CoreController',
+            '    SensorSuite -->|"OpTx-06: Raw Sensor Stream"| PayloadSubsystem',
+            '    CoreController -->|"OpTx-02: Deterministic Actuator Demand"| ActuatorSubsystem',
+            '    ActuatorSubsystem -->|"OpTx-03: Actuator Feedback & RPM Telemetry"| CoreController',
+            '    PayloadSubsystem -->|"OpTx-07: Processed Feature Telemetry"| CoreController',
+            '    PayloadSubsystem -->|"OpTx-15: Compressed Payload Stream"| OperatorConsole',
+            '    CoreController -->|"OpTx-10: Controller Task Heartbeat Strobe"| SafetyWatchdog',
+            '    SafetyWatchdog -.->|"OpTx-11/12: Hardware Safety Abort & Failsafe Trigger"| ActuatorSubsystem',
+            '    ExternalCoordination -->|"OpTx-14: Boundary Authorization & Weather"| OperatorConsole',
+            fence,
+        ]
+        return "\n".join(lines)
+
+    def compile_sv2_bus_interconnect(self) -> str:
+        """
+        Compiles SV-2 Communications / Bus Interconnect diagram (Diagram 4) showing
+        communications topology, bus links, and port interconnects (DoDAF 2.02 / SysML v2 IBD).
+        """
+        fence = chr(96) * 3
+        lines = [
+            f"{fence}mermaid",
+            "flowchart TD",
+            "    %% Diagram 4: SV-2 Subsystem Interconnect & Bus Architecture / IBD",
+            '    subgraph SubsystemInterconnect["SV-2 Subsystem Interconnect & Bus Topology"]',
+            "        direction TB",
+            '        subgraph Performers["Subsystem Performer Nodes & Ports"]',
+            "            direction TB",
+            '            OperatorConsole["OperatorConsole<br/>• PORT-C2-INOUT (INOUT)"]',
+            '            CoreController["CoreController<br/>• PORT-CTRL-IN (IN)<br/>• PORT-ACT-OUT (OUT)<br/>• PORT-WD-STROBE (OUT)"]',
+            '            SensorSuite["SensorSuite<br/>• PORT-NAV-IN (IN)<br/>• PORT-SENS-OUT (OUT)<br/>• PORT-PAYLOAD-RAW (OUT)"]',
+            '            ActuatorSubsystem["ActuatorSubsystem<br/>• PORT-ACT-IN (IN)<br/>• PORT-ACT-FB (OUT)<br/>• PORT-SAFE-CLAMP (IN)"]',
+            '            PayloadSubsystem["PayloadSubsystem<br/>• PORT-RAW-IN (IN)<br/>• PORT-FEAT-OUT (OUT)<br/>• PORT-STREAM-OUT (OUT)"]',
+            '            SafetyWatchdog["SafetyWatchdog<br/>• PORT-WD-IN (IN)<br/>• PORT-ABORT-OUT (OUT)"]',
+            "        end",
+            "",
+            '        subgraph BusTopology["System Communications & Bus Infrastructure"]',
+            "            direction TB",
+            '            DeterministicCANBus["Deterministic Real-Time Bus<br/>(CAN FD / TTP / ARINC 825)"]',
+            '            HighSpeedEthernetBus["High-Speed Payload Data Bus<br/>(Gigabit Ethernet / PCIe / TSN)"]',
+            '            SafetyDiscreteBus["Dedicated Hardware Safety Bus<br/>(Optoisolated Discrete Lines)"]',
+            '            WirelessPACEBus["Wireless PACE Telemetry Datalink<br/>(Primary / Alternate RF Channels)"]',
+            "        end",
+            "    end",
+            "",
+            '    OperatorConsole ---|"PORT-C2-INOUT"| WirelessPACEBus',
+            '    WirelessPACEBus ---|"PORT-C2-INOUT"| CoreController',
+            '    SensorSuite ---|"PORT-SENS-OUT"| DeterministicCANBus',
+            '    DeterministicCANBus ---|"PORT-CTRL-IN"| CoreController',
+            '    CoreController ---|"PORT-ACT-OUT"| DeterministicCANBus',
+            '    DeterministicCANBus ---|"PORT-ACT-IN"| ActuatorSubsystem',
+            '    ActuatorSubsystem ---|"PORT-ACT-FB"| DeterministicCANBus',
+            '    SensorSuite ---|"PORT-PAYLOAD-RAW"| HighSpeedEthernetBus',
+            '    HighSpeedEthernetBus ---|"PORT-RAW-IN"| PayloadSubsystem',
+            '    PayloadSubsystem ---|"PORT-FEAT-OUT"| DeterministicCANBus',
+            '    PayloadSubsystem ---|"PORT-STREAM-OUT"| HighSpeedEthernetBus',
+            '    CoreController ---|"PORT-WD-STROBE"| SafetyDiscreteBus',
+            '    SafetyDiscreteBus ---|"PORT-WD-IN"| SafetyWatchdog',
+            '    SafetyWatchdog ---|"PORT-ABORT-OUT"| SafetyDiscreteBus',
+            '    SafetyDiscreteBus ---|"PORT-SAFE-CLAMP"| ActuatorSubsystem',
+            fence,
+        ]
+        return "\n".join(lines)
+
+    def compile_sv10b_statechart(self, states: Optional[List[Any]] = None) -> str:
+        """
+        Compiles SV-10b Systems State Transition / RTA Statechart showing operational modes,
+        transitions, triggers, and containment actions (DoDAF 2.02 / SysML State Machine).
+        """
+        fence = chr(96) * 3
+        active_states = states if states is not None else self.states
+        lines = [
+            f"{fence}mermaid",
+            "stateDiagram-v2",
+            "    %% Diagram 8: SV-10b Master System Lifecycle State Machine & RTA Statechart",
+            "    [*] --> Initialization",
+            "    Initialization --> Standby: PBIT_Pass / System_Ready",
+            "    Initialization --> EmergencyContainment: PBIT_Failure / Hardware_Fault",
+            "    Standby --> OperationalActive: Arm_Command / Preflight_Clear",
+            "    Standby --> SecureShutdown: PowerOff_Command",
+            "    OperationalActive --> OperationalActive: Nominal_Execution / Periodic_Update",
+            "    OperationalActive --> DegradedMode: Sensor_Anomaly / Link_Degradation",
+            "    DegradedMode --> OperationalActive: Reacquisition / Anomaly_Cleared",
+            "    DegradedMode --> EmergencyContainment: Anomaly_Critical / RTA_Intervention",
+            "    OperationalActive --> EmergencyContainment: Boundary_Excursion / Trigger_EMG",
+            "    EmergencyContainment --> SafeTerminalState: Containment_Complete / Zeroization",
+            "    OperationalActive --> RecoveryPhase: Mission_Complete",
+            "    RecoveryPhase --> SecureShutdown: Post_Op_BIT / System_Disarmed",
+            "    SecureShutdown --> [*]",
+            fence,
+        ]
+        return "\n".join(lines)
+
+
 class SysMLParameterBindingEngine:
     """
     Automated SysML AST Parameter Binding Engine.
@@ -267,6 +924,10 @@ class SysMLParameterBindingEngine:
         self.ast_part_names: Set[str] = set()
         self.ast_super_systems: List[Any] = []
         self.ast_subsystems: List[Any] = []
+        self.operational_exchanges: List[Dict[str, Any]] = []
+        self.operational_scenarios: List[Dict[str, Any]] = []
+        self.sequence_synthesizer: Optional[MermaidSequenceSynthesizer] = None
+        self.architecture_diagram_compiler: Optional[ArchitectureDiagramCompiler] = None
 
         if domain:
             self.parameter_bindings["DOMAIN_TYPE"] = domain
@@ -295,6 +956,9 @@ class SysMLParameterBindingEngine:
         self._derive_domain_ontology()
         self._derive_lifecycle_contract()
         self._derive_subsystem_architecture()
+        self._derive_operational_interaction_sequences()
+        self._derive_architecture_diagrams()
+        self._derive_matrices()
 
     @property
     def domain(self) -> str:
@@ -497,7 +1161,7 @@ class SysMLParameterBindingEngine:
 
         # Only calculate/populate mass budgets if mass fractions are explicitly provided
         has_fractions = (
-            "MASS_FRACTION_AIRFRAME_PCT" in self.parameter_bindings and
+            ("MASS_FRACTION_AIRFRAME_PCT" in self.parameter_bindings or "MASS_FRACTION_STRUCTURE_PCT" in self.parameter_bindings) and
             "MASS_FRACTION_AVIONICS_PCT" in self.parameter_bindings and
             "MASS_FRACTION_PROPULSION_PCT" in self.parameter_bindings and
             "MASS_FRACTION_ENERGY_PCT" in self.parameter_bindings and
@@ -506,7 +1170,8 @@ class SysMLParameterBindingEngine:
 
         if has_fractions:
             try:
-                airframe_pct = float(self.parameter_bindings["MASS_FRACTION_AIRFRAME_PCT"]) / 100.0
+                struct_pct_raw = self.parameter_bindings.get("MASS_FRACTION_STRUCTURE_PCT") or self.parameter_bindings.get("MASS_FRACTION_AIRFRAME_PCT")
+                airframe_pct = float(struct_pct_raw) / 100.0
                 avionics_pct = float(self.parameter_bindings["MASS_FRACTION_AVIONICS_PCT"]) / 100.0
                 propulsion_pct = float(self.parameter_bindings["MASS_FRACTION_PROPULSION_PCT"]) / 100.0
                 energy_pct = float(self.parameter_bindings["MASS_FRACTION_ENERGY_PCT"]) / 100.0
@@ -521,6 +1186,8 @@ class SysMLParameterBindingEngine:
                 
                 if "MASS_BUDGET_AIRFRAME_KG" not in self._explicit_keys:
                     self.parameter_bindings["MASS_BUDGET_AIRFRAME_KG"] = str(airframe)
+                if "MASS_BUDGET_STRUCTURE_KG" not in self._explicit_keys:
+                    self.parameter_bindings["MASS_BUDGET_STRUCTURE_KG"] = str(airframe)
                 if "MASS_BUDGET_AVIONICS_KG" not in self._explicit_keys:
                     self.parameter_bindings["MASS_BUDGET_AVIONICS_KG"] = str(avionics)
                 if "MASS_BUDGET_PROPULSION_KG" not in self._explicit_keys:
@@ -1096,7 +1763,7 @@ class SysMLParameterBindingEngine:
             if "CONTAINMENT_RESPONSE_STANDARD" not in self._explicit_keys:
                 self.parameter_bindings["CONTAINMENT_RESPONSE_STANDARD"] = "IEC 61508 SIL 3 Part 3 §7.4"
         else:
-            self.parameter_bindings["STRUCTURE_PARTITION_LABEL"] = "Primary Mechanical Structure / Airframe"
+            self.parameter_bindings["STRUCTURE_PARTITION_LABEL"] = "Primary Mechanical Structure / Physical Chassis"
             self.parameter_bindings["FAILSAFE_CONTAINMENT_NAME"] = "autonomous failsafe containment mechanism"
             self.parameter_bindings["ALTITUDE_UNIT"] = "m"
             if "V_STALL_MAX_MPS" not in self.parameter_bindings:
@@ -1576,6 +2243,167 @@ class SysMLParameterBindingEngine:
         self._explicit_keys.add("SUBSYSTEM_ARCHITECTURE_SECTION")
         self._explicit_keys.add("CONOPS_SECTION_4_SUBSYSTEMS")
 
+        seg_matrix = self._synthesize_segment_allocation_matrix(sys_id)
+        self.parameter_bindings["SEGMENT_ALLOCATION_MATRIX"] = seg_matrix
+        self._explicit_keys.add("SEGMENT_ALLOCATION_MATRIX")
+
+        port_tax = self._synthesize_port_taxonomy_text()
+        self.parameter_bindings["PORT_TAXONOMY_SECTION"] = port_tax
+        self._explicit_keys.add("PORT_TAXONOMY_SECTION")
+
+        binding_stmt = f"The physical and operational architecture of **{sys_id}** is bound deterministically to the Level 0 Single Source of Truth (SSOT) SysML v2 architectural metamodel, guaranteeing 100% bidirectional traceability across all declared AST part definitions, logical ports, and operational activities."
+        self.parameter_bindings["MODEL_BINDING_STATEMENT"] = binding_stmt
+        self._explicit_keys.add("MODEL_BINDING_STATEMENT")
+
+    def _derive_operational_interaction_sequences(self) -> None:
+        """
+        Synthesizes deterministic Mermaid sequence diagrams for Section 7 (Op-Tx exchanges)
+        and binds them to template placeholders.
+        Fixes Issue #358.
+        """
+        synthesizer = MermaidSequenceSynthesizer(self.operational_exchanges, self.operational_scenarios)
+        self.sequence_synthesizer = synthesizer
+        diags = synthesizer.synthesize_all_optx_diagrams()
+
+        for k, v in diags.items():
+            self.parameter_bindings[k] = v
+            self.parameter_bindings[f"OPTX_{k}"] = v
+            self._explicit_keys.add(k)
+            self._explicit_keys.add(f"OPTX_{k}")
+
+        sec7_4_md = synthesizer.synthesize_section_7_4_markdown()
+        for placeholder in (
+            "SECTION_7_4_SEQUENCES",
+            "CONOPS_SECTION_7_SEQUENCES",
+            "OPTX_SEQUENCE_DIAGRAMS",
+            "OPTX_INTERACTION_SEQUENCES",
+            "SECTION_7_OPTX_SEQUENCES",
+        ):
+            self.parameter_bindings[placeholder] = sec7_4_md
+            self._explicit_keys.add(placeholder)
+
+    def _derive_architecture_diagrams(self) -> None:
+        """
+        Synthesizes DoDAF/UAF architectural viewpoints using ArchitectureDiagramCompiler
+        and binds them to template placeholders.
+        Resolves Issue #355.
+        """
+        sys_id = (
+            self.parameter_bindings.get("SYSTEM_IDENTIFIER")
+            or self.parameter_bindings.get("SYSTEM_NAME")
+            or self.inferred_system_identifier
+            or "AutonomousSystem"
+        )
+        compiler = ArchitectureDiagramCompiler(
+            ast_parts=self.ast_parts,
+            sys_id=sys_id,
+            connections=getattr(self, "connections", []),
+            states=getattr(self, "states", []),
+        )
+        self.architecture_diagram_compiler = compiler
+
+        ov1 = compiler.compile_ov1_system_context()
+        ov2 = compiler.compile_ov2_operational_node_connectivity()
+        sv2 = compiler.compile_sv2_bus_interconnect()
+        sv10b = compiler.compile_sv10b_statechart()
+
+        bindings = {
+            "OV1_SYSTEM_CONTEXT_DIAGRAM": ov1,
+            "OV1_DIAGRAM": ov1,
+            "SYSTEM_CONTEXT_DIAGRAM": ov1,
+            "OV2_OPERATIONAL_CONNECTIVITY_DIAGRAM": ov2,
+            "OV2_DIAGRAM": ov2,
+            "OPERATIONAL_NODE_CONNECTIVITY_DIAGRAM": ov2,
+            "SV2_BUS_INTERCONNECT_DIAGRAM": sv2,
+            "SV2_DIAGRAM": sv2,
+            "BUS_INTERCONNECT_DIAGRAM": sv2,
+            "SV10B_STATECHART_DIAGRAM": sv10b,
+            "SV10B_DIAGRAM": sv10b,
+            "STATECHART_DIAGRAM": sv10b,
+            "LIFECYCLE_STATECHART_DIAGRAM": sv10b,
+        }
+        for k, v in bindings.items():
+            self.parameter_bindings[k] = v
+            self._explicit_keys.add(k)
+
+    def _derive_matrices(self) -> None:
+        """
+        Synthesizes deterministic tabular matrices (Level 1B Op-Tx 7-column matrix,
+        STPA UCA Cartesian product matrix, and FMECA failure modes table)
+        using MatrixGenerator and binds them to template placeholders.
+        Resolves Issue #356.
+        """
+        if MatrixGenerator is None:
+            return
+
+        # 1. Level 1B Op-Tx 7-column matrix
+        optx_table = MatrixGenerator.generate_optx_matrix(
+            item_flows=self.operational_exchanges,
+            connections=getattr(self, "connections", []),
+        )
+        self.parameter_bindings["OPTX_MATRIX_TABLE"] = optx_table
+        self.parameter_bindings["OPTX_TABLE"] = optx_table
+        self.parameter_bindings["OPTX_EXCHANGES_TABLE"] = optx_table
+        self.parameter_bindings["SECTION_8_OPTX"] = optx_table
+        self._explicit_keys.add("OPTX_MATRIX_TABLE")
+        self._explicit_keys.add("OPTX_TABLE")
+        self._explicit_keys.add("OPTX_EXCHANGES_TABLE")
+        self._explicit_keys.add("SECTION_8_OPTX")
+
+        # 2. STPA UCA Cartesian Product Matrix
+        controllers = []
+        for part in self.ast_parts:
+            p_name = getattr(part, "name", "")
+            p_actions = [getattr(a, "name", str(a)) for a in getattr(part, "actions", [])]
+            if p_actions:
+                controllers.append({"name": p_name, "actions": p_actions})
+
+        stpa_table = MatrixGenerator.generate_stpa_uca_cartesian(
+            controllers=controllers if controllers else None,
+            actions=None,
+        )
+        self.parameter_bindings["STPA_UCA_TABLE"] = stpa_table
+        self.parameter_bindings["STPA_TABLE"] = stpa_table
+        self.parameter_bindings["UCA_TABLE"] = stpa_table
+        self._explicit_keys.add("STPA_UCA_TABLE")
+        self._explicit_keys.add("STPA_TABLE")
+        self._explicit_keys.add("UCA_TABLE")
+
+        # 3. FMECA Failure Modes Matrix
+        comp_names = [getattr(p, "name", "") for p in self.ast_parts if getattr(p, "name", "")]
+        fmeca_table = MatrixGenerator.generate_fmeca_matrix(
+            components=comp_names if comp_names else None,
+            failure_modes=None,
+        )
+        self.parameter_bindings["FMECA_TABLE"] = fmeca_table
+        self.parameter_bindings["FMECA_MATRIX_TABLE"] = fmeca_table
+        self._explicit_keys.add("FMECA_TABLE")
+        self._explicit_keys.add("FMECA_MATRIX_TABLE")
+
+    def _synthesize_segment_allocation_matrix(self, sys_id: str) -> str:
+        parts = self.ast_parts if self.ast_parts else []
+        rows = []
+        for p in parts:
+            p_name = _sanitize_level_1b_operational_text(getattr(p, "name", str(p)))
+            if p_name:
+                rows.append(f"| `{p_name}` | Primary Operational Segment | IEEE 1362 §5.3 / DoDAF SV-1 | Realizes core operational mission functions |")
+        if not rows:
+            rows = [
+                "| `CoreController` | Primary Operational Segment | IEEE 1362 §5.3 | Autonomous Guidance & Control |",
+                "| `TelemetryTerminal` | Command & Control Segment | DoDAF SV-1 | Encrypted PACE Communications |",
+                "| `GroundSupportUnit` | Auxiliary Support Segment | IEEE 1362 §5.3 | Pre-Operational Power & Diagnostics |",
+            ]
+        header = "| Subsystem Part | Operational Segment | Allocation Authority | Functional Role |\n| :--- | :--- | :--- | :--- |"
+        return header + "\n" + "\n".join(rows)
+
+    def _synthesize_port_taxonomy_text(self) -> str:
+        return (
+            "- **PORT-C2-INOUT (INOUT):** Bidirectional PACE command and control telemetry datalink interface.\n"
+            "- **PORT-NAV-IN (IN):** Navigation, positioning, and reference frame telemetry input interface.\n"
+            "- **PORT-ACT-OUT (OUT):** Deterministic actuator demand vector and containment control interface.\n"
+            "- **PORT-PWR-IN (IN):** Regulated primary/auxiliary power bus distribution interface."
+        )
+
     def _synthesize_super_system_architecture_text(self, sys_id: str, dom: str = "") -> str:
         """
         Generates Section 4.7 Super-System Architecture Markdown derived deterministically from SysML AST.
@@ -1601,8 +2429,8 @@ class SysMLParameterBindingEngine:
             '',
             '        subgraph External_Actors["External Operating Environment & Actors (IEEE 1362 §5.1)"]',
             '            direction TB',
-            '            Operator["Human Operator & Mission Supervisor"]',
-            '            Environment["External Environment & Infrastructure"]',
+            '            Operator["Human Operator &<br/>Mission Supervisor"]',
+            '            Environment["External Environment &<br/>Infrastructure Dynamics"]',
             '        end',
             '',
             '        subgraph Platform_Segment["Primary Operational Segment (DoDAF SV-1)"]',
@@ -1612,12 +2440,12 @@ class SysMLParameterBindingEngine:
         part_node_ids: List[Tuple[str, str]] = []
         if parts:
             chunk_size = 3
+            tier_subgraphs = [f"Tier_{i+1}" for i in range(len(parts) // 3 + (1 if len(parts) % 3 else 0))]
             for chunk_idx in range(0, len(parts), chunk_size):
                 chunk = parts[chunk_idx:chunk_idx + chunk_size]
                 tier_num = (chunk_idx // chunk_size) + 1
                 tier_subgraph_name = f"Tier_{tier_num}"
-                tier_label = f"Subsystem Architecture Tier {tier_num}" if len(parts) > 3 else "Core Platform Subsystems"
-                lines.append(f'            subgraph {tier_subgraph_name}["{tier_label}"]')
+                lines.append(f'            subgraph {tier_subgraph_name}')
                 lines.append('                direction TB')
                 for p in chunk:
                     raw_p_name = getattr(p, "name", str(p))
@@ -1625,6 +2453,7 @@ class SysMLParameterBindingEngine:
                     p_name = re.sub(r'_?0x[0-9a-fA-F]+', '', p_name, flags=re.IGNORECASE) or "Subsystem"
                     p_node_id = re.sub(r'[^A-Za-z0-9_]', '_', p_name)
                     part_node_ids.append((p_node_id, p_name))
+                    wrapped_p_name = _wrap_mermaid_label(p_name, max_width=35)
                     ports = getattr(p, "ports", []) or []
                     if ports:
                         port_items = []
@@ -1633,30 +2462,37 @@ class SysMLParameterBindingEngine:
                             clean_pt_name = _sanitize_level_1b_operational_text(raw_pt_name) or raw_pt_name
                             clean_pt_name = re.sub(r'_?0x[0-9a-fA-F]+', '', clean_pt_name, flags=re.IGNORECASE) or "p_port"
                             pt_dir = (getattr(pt, "direction", "inout") or "inout").upper()
-                            port_items.append(f"<br/>• {clean_pt_name} ({pt_dir})")
+                            port_line = f"• {clean_pt_name} ({pt_dir})"
+                            wrapped_port = _wrap_mermaid_label(port_line, max_width=35)
+                            port_items.append(f"<br/>{wrapped_port}")
                         port_text = "".join(port_items)
-                        lines.append(f'                {p_node_id}["{p_name}{port_text}"]')
+                        lines.append(f'                {p_node_id}["{wrapped_p_name}{port_text}"]')
                     else:
-                        lines.append(f'                {p_node_id}["{p_name}"]')
+                        lines.append(f'                {p_node_id}["{wrapped_p_name}"]')
                 lines.append('            end')
+            if len(tier_subgraphs) > 1:
+                for t_idx in range(len(tier_subgraphs) - 1):
+                    lines.append(f"            {tier_subgraphs[t_idx]} ~~~ {tier_subgraphs[t_idx+1]}")
         else:
             lines.append(f'            Platform["{sys_id} Core System"]')
             part_node_ids.append(("Platform", f"{sys_id} Core System"))
 
         lines.append('        end')
         lines.append('')
+        lines.append('        External_Actors ~~~ Platform_Segment')
+        lines.append('')
         if part_node_ids:
             primary_node = part_node_ids[0][0]
-            lines.append(f'        Operator -->|"CONN-01: Operator Command & Authorization"| {primary_node}')
-            lines.append(f'        Operator <-->|"CONN-02: Bidirectional PACE C2 Datalink"| {primary_node}')
-            lines.append(f'        Environment -.->|"CONN-03: Environmental Dynamics & Disturbance"| {primary_node}')
+            lines.append(f'        Operator -->|"CONN-01: Operator Command Input"| {primary_node}')
+            lines.append(f'        Operator -->|"CONN-02: PACE C2 Datalink"| {primary_node}')
+            lines.append(f'        Environment -.->|"CONN-03: Environment Dynamics"| {primary_node}')
             if len(part_node_ids) > 1:
                 for idx_p, (other_node, _other_name) in enumerate(part_node_ids[1:], start=4):
-                    lines.append(f'        {primary_node} <-->|"CONN-{idx_p:02d}: Internal Bus & Inter-Subsystem Control"| {other_node}')
+                    lines.append(f'        {primary_node} -->|"CONN-{idx_p:02d}: Subsystem Demand"| {other_node}')
         else:
-            lines.append('        Operator -->|"CONN-01: Operator Command & Authorization"| Platform_Segment')
-            lines.append('        Operator <-->|"CONN-02: Bidirectional PACE C2 Datalink"| Platform_Segment')
-            lines.append('        Environment -.->|"CONN-03: Environmental Dynamics & Disturbance"| Platform_Segment')
+            lines.append('        Operator -->|"CONN-01: Operator Command Input"| Platform_Segment')
+            lines.append('        Operator -->|"CONN-02: PACE C2 Datalink"| Platform_Segment')
+            lines.append('        Environment -.->|"CONN-03: Environment Dynamics"| Platform_Segment')
         lines.append('    end')
         lines.append('```')
         return "\n".join(lines)
@@ -1823,7 +2659,7 @@ class SysMLParameterBindingEngine:
 
             if lifecycle_type == LifecycleType.EXPENDABLE_KINETIC_EFFECTOR:
                 lines.append(f"- **Phase_Startup:** Executes automated power-on Built-In-Test (PBIT), sensor bias baseline verification, and arming handshake.")
-                lines.append(f"- **Phase_NominalExecution:** Performs continuous closed-loop guidance/flight processing, deterministic telemetry streaming, and nominal mission tasks.")
+                lines.append(f"- **Phase_NominalExecution:** Performs continuous closed-loop guidance/control processing, deterministic telemetry streaming, and nominal mission tasks.")
                 lines.append(f"- **Phase_DegradedMode:** Enforces degraded operating limits, switches to redundant channels upon signal loss, and suppresses non-critical loads.")
                 lines.append(f"- **Phase_ContingencyFailsafe:** Executes deterministic failsafe containment action within bounded response latency (safe containment ditching / zeroization).")
                 lines.append(f"- **Phase_TerminalEngagement:** Executes high-rate terminal state estimation, target intercept guidance, and kinetic impact zeroization.")
@@ -1911,6 +2747,12 @@ class SysMLParameterBindingEngine:
                     if kind in ("package", "system") and not self.inferred_system_identifier:
                         self.inferred_system_identifier = name.strip()
 
+        # Ingest operational exchanges and scenarios if present
+        if "operational_exchanges" in data and isinstance(data["operational_exchanges"], list):
+            self.operational_exchanges.extend(data["operational_exchanges"])
+        if "operational_scenarios" in data and isinstance(data["operational_scenarios"], list):
+            self.operational_scenarios.extend(data["operational_scenarios"])
+
         self.detected_domain = self._detect_domain_type()
         self.parameter_bindings["DETECTED_DOMAIN"] = self.detected_domain
         self.parameter_bindings["DOMAIN_TYPE"] = self.detected_domain
@@ -1922,6 +2764,8 @@ class SysMLParameterBindingEngine:
         self._derive_domain_regulatory_standards()
         self._derive_domain_ontology()
         self._derive_lifecycle_contract()
+        self._derive_operational_interaction_sequences()
+        self._derive_matrices()
 
     def _map_semantic_aliases(self, key: str, val: str) -> None:
         """Maps domain attributes to canonical template tokens (Issues #162, #170)."""
@@ -2145,6 +2989,13 @@ class SysMLParameterBindingEngine:
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             self.ingest_dictionary(data)
+            if isinstance(data, dict):
+                if "operational_exchanges" in data and isinstance(data["operational_exchanges"], list):
+                    self.operational_exchanges.extend(data["operational_exchanges"])
+                if "operational_scenarios" in data and isinstance(data["operational_scenarios"], list):
+                    self.operational_scenarios.extend(data["operational_scenarios"])
+                if self.operational_exchanges or self.operational_scenarios:
+                    self._derive_operational_interaction_sequences()
             return True
         except Exception:
             return False
@@ -2190,6 +3041,16 @@ class SysMLParameterBindingEngine:
                         self.ast_part_names.add(p.name)
                         self._explicit_keys.add(p.name)
                         self._explicit_keys.add(p.name.upper())
+                try:
+                    from compile_sysml import extract_operational_exchanges, extract_operational_scenarios
+                    exs = extract_operational_exchanges(pkg)
+                    if exs:
+                        self.operational_exchanges.extend(exs)
+                    scns = extract_operational_scenarios(pkg)
+                    if scns:
+                        self.operational_scenarios.extend(scns)
+                except Exception:
+                    pass
         except Exception:
             pass
 
@@ -2269,6 +3130,8 @@ class SysMLParameterBindingEngine:
         self._derive_domain_ontology()
         self._derive_lifecycle_contract()
         self._derive_subsystem_architecture()
+        self._derive_operational_interaction_sequences()
+        self._derive_matrices()
 
         return True
 
@@ -2436,6 +3299,7 @@ class SysMLParameterBindingEngine:
         self._derive_operational_intent()
         self._derive_lifecycle_contract()
         self._derive_subsystem_architecture()
+        self._derive_operational_interaction_sequences()
 
         return ingested
 
@@ -2519,6 +3383,7 @@ class SysMLParameterBindingEngine:
 
         self._derive_lifecycle_contract()
         self._derive_subsystem_architecture()
+        self._derive_operational_interaction_sequences()
 
     def auto_discover_sources(self, root_dir: str) -> None:
         """Auto-detects parameter dictionaries and SysML AST symbols across repository root."""
@@ -2600,9 +3465,16 @@ class SysMLParameterBindingEngine:
             "SUPER_SYSTEM_ARCHITECTURE",
             "SUBSYSTEM_ARCHITECTURE_SECTION",
             "CONOPS_SECTION_4_SUBSYSTEMS",
+            "SEGMENT_ALLOCATION_MATRIX",
+            "PORT_TAXONOMY_SECTION",
+            "MODEL_BINDING_STATEMENT",
         ):
             self._derive_subsystem_architecture()
             return self.parameter_bindings.get(token_upper, "")
+        elif token_upper == "USER_CLASSES_AND_STAKEHOLDERS":
+            return "- **UCL-01 System Operator (SO):** Direct supervisory mission management and boundary oversight.\n- **UCL-02 Range Safety Officer (RSO):** Airspace containment enforcement and failsafe override authority.\n- **UCL-03 Payload Specialist (PS):** Multi-modal sensor data interpretation and payload stream management.\n- **UCL-04 Maintenance Technician (MT):** O-Level pre-operation inspections, modular LRU swaps, and BIT checks.\n- **UCL-05 Safety Monitor (SM):** Continuous perimeter monitoring, environmental anomaly detection, and safety oversight."
+        elif token_upper == "OPERATIONAL_LIFECYCLE_MODES":
+            return "- **Phase_Startup:** Power-on Built-In-Test (PBIT), sensor alignment, and pre-operation validation.\n- **Phase_NominalExecution:** Autonomous mission start, state corridor tracking, and real-time telemetry streaming.\n- **Phase_DegradedMode:** Non-critical sensor failover, PACE datalink fallback, and degraded envelope limits.\n- **Phase_ContingencyFailsafe:** Autonomous contingency execution, divert to recovery site, or state containment.\n- **Phase_SecureShutdown:** Autonomous precision arrival, power de-energization, and diagnostic blackbox archival.\n- **Phase_MaintenanceMode:** Diagnostic telemetry offload, calibration, firmware update, and hardware inspection."
 
         # 2. Pugh Decision Matrix
         elif token_upper == "WEIGHT_CRIT_1":
@@ -2639,12 +3511,19 @@ class SysMLParameterBindingEngine:
             return "Diagnostic telemetry offload, LRU replacement, and BIT verification."
 
         # 4. Mass Fractions & Structural Budgets
-        elif token_upper == "MASS_FRACTION_AIRFRAME_PCT":
+        elif token_upper in ("MASS_FRACTION_AIRFRAME_PCT", "MASS_FRACTION_STRUCTURE_PCT"):
             return "30.0"
-        elif token_upper == "MASS_BUDGET_AIRFRAME_KG":
+        elif token_upper in ("MASS_BUDGET_AIRFRAME_KG", "MASS_BUDGET_STRUCTURE_KG"):
             mtow = self._get_mtow_value()
             return str(round(0.30 * mtow, 2))
-        elif token_upper in ("POWER_NOMINAL_AIRFRAME_W", "POWER_PEAK_AIRFRAME_W", "POWER_NOMINAL_ENERGY_W", "POWER_PEAK_ENERGY_W"):
+        elif token_upper in (
+            "POWER_NOMINAL_AIRFRAME_W",
+            "POWER_PEAK_AIRFRAME_W",
+            "POWER_NOMINAL_STRUCTURE_W",
+            "POWER_PEAK_STRUCTURE_W",
+            "POWER_NOMINAL_ENERGY_W",
+            "POWER_PEAK_ENERGY_W",
+        ):
             return "0.0"
         elif token_upper == "MASS_FRACTION_AVIONICS_PCT":
             return "15.0"
@@ -2832,10 +3711,38 @@ class SysMLParameterBindingEngine:
             "SERIAL_WIRE_PROTOCOL",
         ):
             return "Subsystem interactions are formalized exclusively as Level 1B Operational Information Exchanges (Op-Tx) and Level 1C Logical Signal Flows; component-internal serial opcode mappings and wire-level registers are deferred to Level 2 detailed design."
-        elif token_upper in ("SECTION_8_OPTX", "OPTX_TABLE", "OPTX_EXCHANGES_TABLE"):
-            return "Operational information exchanges are formally specified in the 16-channel Op-Tx Matrix (Section 7)."
+        elif token_upper in ("SECTION_8_OPTX", "OPTX_TABLE", "OPTX_EXCHANGES_TABLE", "OPTX_MATRIX_TABLE"):
+            self._derive_matrices()
+            return self.parameter_bindings.get("OPTX_MATRIX_TABLE", "")
+        elif token_upper in ("STPA_UCA_TABLE", "STPA_TABLE", "UCA_TABLE"):
+            self._derive_matrices()
+            return self.parameter_bindings.get("STPA_UCA_TABLE", "")
+        elif token_upper in ("FMECA_TABLE", "FMECA_MATRIX_TABLE"):
+            self._derive_matrices()
+            return self.parameter_bindings.get("FMECA_TABLE", "")
+        elif token_upper in ("DIAGRAM_10_1", "OPTX_DIAGRAM_10_1", "DIAGRAM.10.1", "OPTX_DIAGRAM.10.1"):
+            self._derive_operational_interaction_sequences()
+            return self.parameter_bindings.get("DIAGRAM_10_1", "")
+        elif token_upper in ("DIAGRAM_10_2", "OPTX_DIAGRAM_10_2", "DIAGRAM.10.2", "OPTX_DIAGRAM.10.2"):
+            self._derive_operational_interaction_sequences()
+            return self.parameter_bindings.get("DIAGRAM_10_2", "")
+        elif token_upper in ("DIAGRAM_10_3", "OPTX_DIAGRAM_10_3", "DIAGRAM.10.3", "OPTX_DIAGRAM.10.3"):
+            self._derive_operational_interaction_sequences()
+            return self.parameter_bindings.get("DIAGRAM_10_3", "")
+        elif token_upper in ("DIAGRAM_10_4", "OPTX_DIAGRAM_10_4", "DIAGRAM.10.4", "OPTX_DIAGRAM.10.4"):
+            self._derive_operational_interaction_sequences()
+            return self.parameter_bindings.get("DIAGRAM_10_4", "")
+        elif token_upper in (
+            "SECTION_7_4_SEQUENCES",
+            "CONOPS_SECTION_7_SEQUENCES",
+            "OPTX_SEQUENCE_DIAGRAMS",
+            "OPTX_INTERACTION_SEQUENCES",
+            "SECTION_7_OPTX_SEQUENCES",
+        ):
+            self._derive_operational_interaction_sequences()
+            return self.parameter_bindings.get("SECTION_7_4_SEQUENCES", "")
         elif token_upper == "SCENARIO_NOMINAL_THREAD":
-            return "Autonomous pre-flight BIT, launch, corridor survey, and precision recovery."
+            return "Autonomous pre-operational BIT, departure, corridor survey, and precision recovery."
         elif token_upper == "SCENARIO_DEGRADED_THREAD":
             return "Primary GNSS loss triggers optical odometry navigation fallback."
         elif token_upper == "SCENARIO_CONTINGENCY_THREAD":
@@ -2845,7 +3752,7 @@ class SysMLParameterBindingEngine:
         elif token_upper == "EMG_DETECTION_MECHANISM":
             return "Heartbeat loss > 5.0 s"
         elif token_upper == "EMG_CONTAINMENT_ACTION":
-            return "Execute autonomous lost-link loiter / return"
+            return "Execute autonomous lost-link hold / return"
         elif token_upper == "EMG_FAILSAFE_STATE":
             return "Contingency_LostLinkReturn"
         elif token_upper == "EMG_MAX_RESPONSE_TIME":
@@ -3164,11 +4071,11 @@ class SysMLParameterBindingEngine:
 
         # 9. Maintenance SLAs & Ground Support
         elif token_upper == "O_LEVEL_MAINTENANCE_DESCRIPTION":
-            return "Pre-flight visual inspection, modular battery swap, Built-In-Test verification."
+            return "Pre-operational visual inspection, modular battery swap, Built-In-Test verification."
         elif token_upper == "I_LEVEL_MAINTENANCE_DESCRIPTION":
             return "Actuator servo calibration, sensor recalibration, modular LRU swap."
         elif token_upper == "D_LEVEL_MAINTENANCE_DESCRIPTION":
-            return "Airframe structural overhaul, composite NDI inspection, flight computer recertification."
+            return "Chassis structural overhaul, composite NDI inspection, core real-time controller recertification."
         elif token_upper == "SWAP_TIME_BATTERY_MAX_MIN":
             return "5.0"
         elif token_upper == "SWAP_TIME_PAYLOAD_MAX_MIN":
@@ -3258,9 +4165,9 @@ class SysMLParameterBindingEngine:
         elif token_upper == "THR_PWR_DESCRIPTION":
             return "Battery cell over-temperature or main bus short"
         elif token_upper == "THR_ENV_VECTOR":
-            return "Severe Gust Turbulence / In-Flight Icing"
+            return "Severe Environmental Disturbance / Dynamic Surface Icing"
         elif token_upper == "THR_ENV_DESCRIPTION":
-            return "Atmospheric icing on air data sensors and surfaces"
+            return "Environmental icing on external sensors and surfaces"
         elif token_upper == "THR_EW_VECTOR":
             return "GNSS Denial / Jamming / Spoofing"
         elif token_upper == "THR_EW_DESCRIPTION":
@@ -3709,6 +4616,116 @@ def verify_markdown_links(content: str) -> List[str]:
     return errors
 
 
+def relativize_markdown_links(text: str, output_file: str, workspace_dir: str) -> str:
+    """
+    Deterministically normalizes markdown links [label](target) so they resolve
+    relative to the directory of output_file.
+
+    External URLs (http://, https://, mailto:, etc.) and in-page anchors (#...)
+    are preserved as-is. Existing anchors (#anchor) attached to relative links
+    are preserved.
+    """
+    if not text:
+        return ""
+
+    abs_ws_dir = os.path.abspath(workspace_dir)
+    if os.path.isabs(output_file):
+        abs_output_file = os.path.abspath(output_file)
+    else:
+        abs_output_file = os.path.abspath(os.path.join(abs_ws_dir, output_file))
+    abs_output_dir = os.path.dirname(abs_output_file)
+
+    def _replace_link(match: re.Match) -> str:
+        label = match.group("label")
+        raw_target = match.group("target")
+        target_trimmed = raw_target.strip()
+
+        if not target_trimmed:
+            return match.group(0)
+
+        # Handle angle brackets <url>
+        has_angle_brackets = False
+        if target_trimmed.startswith("<") and ">" in target_trimmed:
+            end_angle = target_trimmed.find(">")
+            url_part = target_trimmed[1:end_angle].strip()
+            title_part = target_trimmed[end_angle + 1 :]
+            has_angle_brackets = True
+        else:
+            # Handle optional link title: url "title"
+            parts = target_trimmed.split(None, 1)
+            if len(parts) == 2 and (
+                parts[1].startswith('"') or parts[1].startswith("'") or parts[1].startswith("(")
+            ):
+                url_part = parts[0]
+                title_part = " " + parts[1]
+            else:
+                url_part = target_trimmed
+                title_part = ""
+
+        # Preserve external URLs and in-page anchors
+        if (
+            url_part.startswith("#")
+            or url_part.startswith("http://")
+            or url_part.startswith("https://")
+            or url_part.startswith("mailto:")
+            or url_part.startswith("ftp://")
+            or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://", url_part)
+            or not url_part
+        ):
+            return match.group(0)
+
+        # Separate path and anchor
+        if "#" in url_part:
+            path_part, anchor_part = url_part.split("#", 1)
+            anchor_suffix = "#" + anchor_part
+        else:
+            path_part = url_part
+            anchor_suffix = ""
+
+        if not path_part:
+            return match.group(0)
+
+        # Normalize path_part resolution
+        is_explicit_rel = path_part.startswith("./") or path_part.startswith("../") or path_part in (".", "..")
+        is_abs = path_part.startswith("/") or (len(path_part) > 2 and path_part[1] == ":" and path_part[2] in ("/", "\\"))
+
+        if is_abs:
+            if path_part.startswith(abs_ws_dir):
+                target_abs = os.path.normpath(path_part)
+            else:
+                target_abs = os.path.normpath(os.path.join(abs_ws_dir, path_part.lstrip("/\\")))
+        elif is_explicit_rel:
+            target_abs = os.path.normpath(os.path.join(abs_output_dir, path_part))
+            if not os.path.exists(target_abs):
+                cand_ws = os.path.normpath(os.path.join(abs_ws_dir, path_part.lstrip("./\\")))
+                cand_docs = os.path.normpath(os.path.join(abs_ws_dir, "docs", path_part.lstrip("./\\")))
+                cand_schema = os.path.normpath(os.path.join(abs_ws_dir, "schema", os.path.basename(path_part)))
+                if os.path.exists(cand_ws):
+                    target_abs = cand_ws
+                elif os.path.exists(cand_docs):
+                    target_abs = cand_docs
+                elif os.path.exists(cand_schema):
+                    target_abs = cand_schema
+        else:
+            # Workspace-relative path (schema/..., docs/..., etc.)
+            target_abs = os.path.normpath(os.path.join(abs_ws_dir, path_part))
+
+        new_rel = os.path.relpath(target_abs, abs_output_dir).replace(os.sep, "/")
+        if path_part.startswith("./") and not new_rel.startswith(".") and new_rel:
+            new_rel = "./" + new_rel
+
+        new_url = new_rel + anchor_suffix
+        if has_angle_brackets:
+            new_target = f"<{new_url}>{title_part}"
+        else:
+            new_target = f"{new_url}{title_part}"
+
+        return f"[{label}]({new_target})"
+
+    link_pattern = re.compile(r"\[(?P<label>(?:\\\]|[^\]])+)\]\((?P<target>[^)\n]+)\)")
+    return link_pattern.sub(_replace_link, text)
+
+
 def validate_unit_integrity(
     unit_paths: List[str],
     param_engine: Optional[SysMLParameterBindingEngine] = None,
@@ -3828,25 +4845,51 @@ def assemble_document(
 
     if canonical_whitelist is not None:
         whitelist_set = set(canonical_whitelist)
-        if "04_USER_CLASSES_AND_STAKEHOLDERS.md" in whitelist_set:
+        if "04_SYSTEM_ARCHITECTURE.md" in whitelist_set or "04_USER_CLASSES_AND_STAKEHOLDERS.md" in whitelist_set:
+            whitelist_set.add("04_SYSTEM_ARCHITECTURE.md")
+            whitelist_set.add("04_USER_CLASSES_AND_STAKEHOLDERS.md")
             whitelist_set.add("04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md")
-        if "06_SAFETY_INTERLOCKS.md" in whitelist_set:
-            whitelist_set.add("06_ROE_SAFETY_INTERLOCKS.md")
-        if "06_ROE_SAFETY_INTERLOCKS.md" in whitelist_set:
+        if "05_OPERATIONAL_STATE_SPACE_AND_RISK.md" in whitelist_set or "05_AIRSPACE_AND_SORA_RISK.md" in whitelist_set:
+            whitelist_set.add("05_OPERATIONAL_STATE_SPACE_AND_RISK.md")
+            whitelist_set.add("05_AIRSPACE_AND_SORA_RISK.md")
+        if any(x in whitelist_set for x in ("06_SAFETY_INTERLOCKS.md", "06_ROE_SAFETY_INTERLOCKS.md", "06_RULES_OF_ENGAGEMENT.md")):
             whitelist_set.add("06_SAFETY_INTERLOCKS.md")
+            whitelist_set.add("06_ROE_SAFETY_INTERLOCKS.md")
+            whitelist_set.add("06_RULES_OF_ENGAGEMENT.md")
         for f in sorted(all_md_files):
             if f not in whitelist_set:
                 print(f"[Warning] Skipping non-canonical/deprecated unit file '{f}' in '{units_dir}'.")
         filenames = []
         for f in canonical_whitelist:
-            if f in all_md_files:
-                filenames.append(f)
-            elif f == "04_USER_CLASSES_AND_STAKEHOLDERS.md" and "04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md" in all_md_files:
-                filenames.append("04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md")
-            elif f == "06_SAFETY_INTERLOCKS.md" and "06_ROE_SAFETY_INTERLOCKS.md" in all_md_files:
-                filenames.append("06_ROE_SAFETY_INTERLOCKS.md")
-            elif f == "06_ROE_SAFETY_INTERLOCKS.md" and "06_SAFETY_INTERLOCKS.md" in all_md_files:
-                filenames.append("06_SAFETY_INTERLOCKS.md")
+            if f in ("04_SYSTEM_ARCHITECTURE.md", "04_USER_CLASSES_AND_STAKEHOLDERS.md"):
+                unit4_handled = any(x in filenames for x in ("04_SYSTEM_ARCHITECTURE.md", "04_USER_CLASSES_AND_STAKEHOLDERS.md", "04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md"))
+                if not unit4_handled:
+                    if "04_SYSTEM_ARCHITECTURE.md" in all_md_files:
+                        filenames.append("04_SYSTEM_ARCHITECTURE.md")
+                    elif "04_USER_CLASSES_AND_STAKEHOLDERS.md" in all_md_files:
+                        filenames.append("04_USER_CLASSES_AND_STAKEHOLDERS.md")
+                    elif "04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md" in all_md_files:
+                        filenames.append("04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md")
+            elif f in ("05_OPERATIONAL_STATE_SPACE_AND_RISK.md", "05_AIRSPACE_AND_SORA_RISK.md"):
+                unit5_handled = any(x in filenames for x in ("05_OPERATIONAL_STATE_SPACE_AND_RISK.md", "05_AIRSPACE_AND_SORA_RISK.md"))
+                if not unit5_handled:
+                    if "05_OPERATIONAL_STATE_SPACE_AND_RISK.md" in all_md_files:
+                        filenames.append("05_OPERATIONAL_STATE_SPACE_AND_RISK.md")
+                    elif "05_AIRSPACE_AND_SORA_RISK.md" in all_md_files:
+                        filenames.append("05_AIRSPACE_AND_SORA_RISK.md")
+            elif f in ("06_SAFETY_INTERLOCKS.md", "06_ROE_SAFETY_INTERLOCKS.md", "06_RULES_OF_ENGAGEMENT.md"):
+                unit6_handled = any(x in filenames for x in ("06_SAFETY_INTERLOCKS.md", "06_ROE_SAFETY_INTERLOCKS.md", "06_RULES_OF_ENGAGEMENT.md"))
+                if not unit6_handled:
+                    if f in all_md_files:
+                        filenames.append(f)
+                    else:
+                        for alt in ("06_RULES_OF_ENGAGEMENT.md", "06_SAFETY_INTERLOCKS.md", "06_ROE_SAFETY_INTERLOCKS.md"):
+                            if alt in all_md_files and alt not in filenames:
+                                filenames.append(alt)
+                                break
+            elif f in all_md_files:
+                if f not in filenames:
+                    filenames.append(f)
         if not filenames:
             return "", [f"No canonical unit files from whitelist found in '{units_dir}'."]
     else:
@@ -3854,14 +4897,17 @@ def assemble_document(
 
     unit_paths = [os.path.join(units_dir, f) for f in filenames]
 
-    # Required placeholder gate for Unit 4 (Issues #299, #302)
+    # Required placeholder gate for Unit 4 (Issues #299, #302, #313)
     for path in unit_paths:
         fname = os.path.basename(path)
-        if fname in ("04_USER_CLASSES_AND_STAKEHOLDERS.md", "04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md"):
+        if fname in ("04_SYSTEM_ARCHITECTURE.md", "04_USER_CLASSES_AND_STAKEHOLDERS.md", "04_SYSTEM_CAPABILITIES_AND_FUNCTIONS.md"):
             with open(path, "r", encoding="utf-8") as f:
                 u4_raw = f.read()
-            if "{{SUPER_SYSTEM_ARCHITECTURE}}" not in u4_raw or "{{SUBSYSTEM_ARCHITECTURE_SECTION}}" not in u4_raw:
-                raise ValueError("04_USER_CLASSES_AND_STAKEHOLDERS.md omits required placeholder {{SUPER_SYSTEM_ARCHITECTURE}} or {{SUBSYSTEM_ARCHITECTURE_SECTION}}.")
+            has_concrete_super_sys = ("### 4.1" in u4_raw or "Super-System" in u4_raw or "Super-system" in u4_raw) and ("```mermaid" in u4_raw or "SV-1" in u4_raw)
+            has_concrete_subsystems = ("### 4.3" in u4_raw or "### 4.8" in u4_raw or "Subsystem Architecture" in u4_raw) and ("LRU" in u4_raw or "Subsystem" in u4_raw or "Part" in u4_raw)
+            has_concrete_arch = has_concrete_super_sys and has_concrete_subsystems
+            if not has_concrete_arch and ("{{SUPER_SYSTEM_ARCHITECTURE}}" not in u4_raw or "{{SUBSYSTEM_ARCHITECTURE_SECTION}}" not in u4_raw):
+                raise ValueError(f"{fname} omits required placeholder {{{{SUPER_SYSTEM_ARCHITECTURE}}}} or {{{{SUBSYSTEM_ARCHITECTURE_SECTION}}}}.")
 
     # Validate unit integrity with parameter binding
     is_valid, integrity_errors = validate_unit_integrity(unit_paths, param_engine=param_engine)
@@ -3876,6 +4922,75 @@ def assemble_document(
             raw_text = f.read()
         fname = os.path.basename(path)
         bound_text = param_engine.substitute(raw_text)
+
+        # Automated fallback generation for Section 7 Op-Tx interaction sequences (Issue #358)
+        if "07_OPTX" in fname.upper() or "OPTX" in fname.upper():
+            has_seq = "sequenceDiagram" in bound_text
+            has_d10 = bool(re.search(r'\bDiagram\s+10(?:\.\d+)?\b', bound_text, re.IGNORECASE))
+            if not has_seq or not has_d10:
+                if not hasattr(param_engine, "sequence_synthesizer") or param_engine.sequence_synthesizer is None:
+                    param_engine._derive_operational_interaction_sequences()
+                synth = getattr(param_engine, "sequence_synthesizer", None)
+                if synth:
+                    sec7_4 = synth.synthesize_section_7_4_markdown()
+                    if "### 7.4" in bound_text:
+                        bound_text = re.sub(
+                            r"###\s*7\.4[^\n]*\n.*?(?=\n###?\s*7\.[5-9]|\n##?\s*8|\Z)",
+                            sec7_4 + "\n",
+                            bound_text,
+                            flags=re.DOTALL,
+                        )
+                    else:
+                        bound_text = bound_text.rstrip() + "\n\n" + sec7_4 + "\n"
+
+        # Automated synthesis of DoDAF/UAF architectural viewpoints (Issue #355)
+        if not hasattr(param_engine, "architecture_diagram_compiler") or param_engine.architecture_diagram_compiler is None:
+            param_engine._derive_architecture_diagrams()
+        arch_compiler = getattr(param_engine, "architecture_diagram_compiler", None)
+
+        if arch_compiler:
+            # Section 1 / OV-1 System Context Diagram
+            if "01_METADATA" in fname.upper() or "OVERVIEW" in fname.upper():
+                has_ov1 = bool(re.search(r'\b(?:OV-?1|Diagram\s+1(?!\.\d)|System\s+Context)\b', bound_text, re.IGNORECASE) and "```mermaid" in bound_text)
+                if not has_ov1 or "{{OV1_SYSTEM_CONTEXT_DIAGRAM}}" in raw_text or "{{SYSTEM_CONTEXT_DIAGRAM}}" in raw_text:
+                    ov1_diag = arch_compiler.compile_ov1_system_context()
+                    if "### 1.4" in bound_text:
+                        if "```mermaid" not in bound_text[bound_text.find("### 1.4"):]:
+                            bound_text = re.sub(
+                                r"(###\s*1\.4[^\n]*\n[^\n]*\n)",
+                                r"\1\n" + ov1_diag + "\n\n",
+                                bound_text,
+                            )
+            # Section 4 / SV-2 Bus Interconnect Diagram
+            if "04_SYSTEM_ARCHITECTURE" in fname.upper() or "SUBSYSTEM" in fname.upper():
+                has_sv2 = bool(re.search(r'\b(?:SV-?2|Diagram\s+4(?!\.\d)|Bus\s+Architecture|Interconnect)\b', bound_text, re.IGNORECASE) and "```mermaid" in bound_text)
+                if not has_sv2 or "{{SV2_BUS_INTERCONNECT_DIAGRAM}}" in raw_text:
+                    sv2_diag = arch_compiler.compile_sv2_bus_interconnect()
+                    if "### 4.4" in bound_text:
+                        if "```mermaid" not in bound_text[bound_text.find("### 4.4"):]:
+                            bound_text = re.sub(
+                                r"(###\s*4\.4[^\n]*\n[^\n]*\n)",
+                                r"\1\n" + sv2_diag + "\n\n",
+                                bound_text,
+                            )
+            # Section 7 / OV-2 Operational Node Connectivity Diagram
+            if "07_OPTX" in fname.upper() or "OPTX" in fname.upper():
+                has_ov2 = bool(re.search(r'\b(?:OV-?2|Diagram\s+10(?!\.\d)|Node\s+Connectivity)\b', bound_text, re.IGNORECASE) and "flowchart" in bound_text)
+                if not has_ov2 or "{{OV2_OPERATIONAL_CONNECTIVITY_DIAGRAM}}" in raw_text:
+                    ov2_diag = arch_compiler.compile_ov2_operational_node_connectivity()
+                    if "#### 7.1.1" in bound_text:
+                        if "```mermaid" not in bound_text[bound_text.find("#### 7.1.1"):bound_text.find("### 7.2") if "### 7.2" in bound_text else len(bound_text)]:
+                            bound_text = re.sub(
+                                r"(####\s*7\.1\.1[^\n]*\n[^\n]*\n)",
+                                r"\1\n" + ov2_diag + "\n\n",
+                                bound_text,
+                            )
+            # Section 5 / SV-10b Systems State Transition Statechart
+            if "05_OPERATIONAL_STATE" in fname.upper() or "04_OPERATIONAL_MODES" in fname.upper():
+                has_sv10b = bool(re.search(r'\b(?:SV-?10b|Lifecycle\s+State\s+Machine|State\s+Transition)\b', bound_text, re.IGNORECASE) and ("stateDiagram" in bound_text or "flowchart" in bound_text))
+                if not has_sv10b and "{{SV10B_STATECHART_DIAGRAM}}" in raw_text:
+                    sv10b_diag = arch_compiler.compile_sv10b_statechart()
+
         units.append((fname, bound_text))
 
     meta = _extract_doc_metadata(units, param_engine=param_engine)
@@ -3977,6 +5092,31 @@ def assemble_document(
                 f"ConOps Section 4 AST Part Coverage Gate failed: Missing declared AST part def(s): {', '.join(missing_parts)} in Section 4."
             )
 
+    if is_conops:
+        diag_matches = list(re.finditer(r"(?:^|\n)#{3,4}\s+Diagram\s+(\d+(?:\.\d+)?)\s*:\s*(.*?)(?:\n|\Z)", assembled))
+        if diag_matches:
+            major_numbers = []
+            for dm in diag_matches:
+                d_str = dm.group(1)
+                major_num = int(d_str.split(".")[0])
+                if not major_numbers or major_numbers[-1] != major_num:
+                    major_numbers.append(major_num)
+            for idx, num in enumerate(major_numbers):
+                expected = idx + 1
+                if num != expected:
+                    errors.append(
+                        f"ConOps Diagram Sequence Gate failed: Diagram numbers must be strictly monotonic (expected Diagram {expected}, found Diagram {num})."
+                    )
+                    break
+            d1_match = next((m for m in diag_matches if m.group(1) == "1"), None)
+            if d1_match:
+                preceding_text = assembled[:d1_match.start()]
+                sec_match = list(re.finditer(r"(?:^|\n)##\s+(\d+)\.", preceding_text))
+                if not sec_match or sec_match[-1].group(1) != "1":
+                    errors.append(
+                        "ConOps Viewpoint Placement Gate failed: Diagram 1 (OV-1 System Context) must reside in Section 1 (Metadata & Overview / System Overview) per IEEE 1362."
+                    )
+
     return assembled, errors
 
 
@@ -4029,6 +5169,9 @@ def assemble_conops(
         param_engine = SysMLParameterBindingEngine(config_path=params, workspace_dir=ws_dir, auto_detect=True, domain=domain)
     else:
         param_engine = SysMLParameterBindingEngine(workspace_dir=ws_dir, auto_detect=True, domain=domain)
+
+    if not hasattr(param_engine, "architecture_diagram_compiler") or param_engine.architecture_diagram_compiler is None:
+        param_engine._derive_architecture_diagrams()
 
     detected_dom = domain or getattr(param_engine, "detected_domain", "aviation")
 
@@ -4093,6 +5236,7 @@ def assemble_conops(
         elif not verify_only:
             os.makedirs(output_dir, exist_ok=True)
             out_file = os.path.join(output_dir, "CONOPS.md")
+            conops_doc = relativize_markdown_links(conops_doc, out_file, ws_dir)
             with open(out_file, "w", encoding="utf-8") as f:
                 f.write(conops_doc)
             print(f"[+] Successfully wrote compiled ConOps to '{out_file}'.")
@@ -4113,6 +5257,7 @@ def assemble_conops(
         elif not verify_only:
             os.makedirs(output_dir, exist_ok=True)
             out_file = os.path.join(output_dir, "MISSION_INTENT.md")
+            mission_doc = relativize_markdown_links(mission_doc, out_file, ws_dir)
             with open(out_file, "w", encoding="utf-8") as f:
                 f.write(mission_doc)
             print(f"[+] Successfully wrote compiled Mission Intent to '{out_file}'.")

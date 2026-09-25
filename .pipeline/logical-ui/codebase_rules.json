@@ -101,7 +101,8 @@
         "0E8A16",
         "--force"
       ]
-    }
+    },
+    "owner": "gintatkinson"
   },
   "backlog_directories": {
     "epics": "docs/epics",
