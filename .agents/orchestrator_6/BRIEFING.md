@@ -51,17 +51,17 @@ Orchestrate the multi-stage adversarial audit, upstream defect filing, and deter
 | challenger_r3_1 | teamwork_preview_challenger | Adversarial Verifier 1 | completed | 34f75cac-5b32-4498-9a69-b5e4d8b405f1 |
 | challenger_r3_2 | teamwork_preview_challenger | Adversarial Verifier 2 | completed | e3a85bea-3da1-4e7a-8a79-197996a87f59 |
 | auditor_r3_1 | teamwork_preview_auditor | Forensic Integrity Auditor | completed | 3e89f7e2-41f6-4e92-a308-8f3f718a2a21 |
-| worker_sync | teamwork_preview_worker | Remote Synchronization Worker | completed | da942e0d-e890-46f0-815b-9a0ee97d9d92 |
+| worker_sync | teamwork_preview_worker | Remote Synchronization Worker | in-progress | da942e0d-e890-46f0-815b-9a0ee97d9d92 |
 
 ## Succession Status
 - Succession required: no
 - Spawn count: 9 / 16
-- Pending subagents: none
+- Pending subagents: da942e0d-e890-46f0-815b-9a0ee97d9d92
 - Predecessor: none
-- Successor: not needed (all milestones completed)
+- Successor: not yet spawned
 
 ## Active Timers
-- Heartbeat cron: cancelled (task-20)
+- Heartbeat cron: not started
 - Safety timer: none
 
 ## Artifact Index

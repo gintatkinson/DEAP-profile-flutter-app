@@ -201,86 +201,233 @@ When downstream customer projects are onboarded and executed via `scripts/instal
 
 PROCEED
 
-## 2026-09-24T20:42:06Z
+## 2026-09-26T16:47:37Z
 
-Downstream Propagation & Integration Team: Distribute and install the updated DEAP pipeline tooling, active governance rule bundle (`.pipeline/ACTIVE_RULES_BUNDLE.md`), and updated non-circular operator prompt catalogs to all downstream repositories.
+Execute view_file on skills/spec-orchestrator/SKILL.md as your very first step before executing any file edits or commands, and strictly follow its formatting templates and instruction guidelines.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER
+Working directory: /Users/perkunas/jail/DEAP01-spec-core
+Primary Native Skill: skills/spec-orchestrator/SKILL.md
+
+Task: Author authoritative operational handoff DEAP-HANDOFF-ROOT-006 in HANDOFF.md, strictly maintaining the upstream specification compiler boundary and purging all hardcoded downstream customer concepts.
+
+## Requirements
+
+### R1. Upstream Compiler Scope & Boundary Enforcement
+- Strictly adhere to the Pure Schema-Driven Compiler Invariant: DEAP01-spec-core is an abstract MBSE compiler and verification framework.
+- Purge all concrete downstream customer domain concepts (such as Avenger 5, specific aircraft mass/inertia bounds, or UAS flight controller implementations) from HANDOFF.md. Downstream project roadmaps belong exclusively in customer workspaces (e.g. uav-009).
+- Document upstream compiler deliverables: installer hardening (preserving customer compiled schemas in scripts/install_pipeline.sh), dual-provider architecture (GitHub and GitLab CLI engines in create_issue.sh and reconcile_backlog.py), CommonMark AST validation, and clean landing zones.
+
+### R2. Complete 13 Failure Modes Retrospective
+- Retain Failure Modes 1 through 9 verbatim (ensuring zero downstream drone schema filenames; replace any reference to schema/avenger5_system.sysml in Failure Mode 2 with abstract schema/*.sysml or downstream customer SysML model).
+- Detail Failure Modes 10 through 13 in full depth:
+  * Failure Mode 10: Regex & Substring Heuristics vs. AST / Schema Validation (Anti-Regex Invariant).
+  * Failure Mode 11: Attempting to Clobber Downstream Customer Workspaces instead of Hardening Upstream Compiler Tooling.
+  * Failure Mode 12: Collapsing Teamwork-Preview into Self-Auditing Single Workers.
+  * Failure Mode 13: Coordinator Context Bloat via Verbose Terminal Diagnostics, Repeated Test Runs, and Blurring Upstream/Downstream Boundaries.
+
+### R3. Fleet Synchronization & Remote Baseline Matrix
+- Record the verified baseline commits across the fleet:
+  * Upstream DEAP01-spec-core: commit dd7638c / 6188e52 (GitHub origin/main, clean 0-byte diff).
+  * Customer uav-009: commit faff825 (GitLab origin/main, clean 0-byte diff).
+  * Customer uav-011: commit c2826b9 (GitLab origin/main, clean 0-byte diff).
+  * Template DEAP-uas-infrastructure-safety: clean landing zones (.gitkeep only).
+
+### R4. Remote Synchronization & Commit Mandate
+- Stage and commit HANDOFF.md using neutral citation:
+  git commit -am "docs(handoff): update HANDOFF.md to DEAP-HANDOFF-ROOT-006 (refs #371)"
+- Push to GitHub origin/main and verify git diff origin/main is 0 bytes.
+- CONSTRAINT: Run ZERO tests. Do not invoke test runners, linters, or baseline verification scripts.
+
+## Acceptance Criteria
+- [ ] HANDOFF.md contains 0 references to concrete downstream drone schemas (e.g. schema/avenger5_system.sysml does not exist here and is not cited as an upstream schema).
+- [ ] HANDOFF.md documents all 13 unvarnished failure modes.
+- [ ] Section 4 and Section 5 focus on the upstream specification compiler roadmap and abstract pipeline orchestration, directing downstream application work to run in downstream application repositories.
+- [ ] git diff origin/main is 0 bytes on DEAP01-spec-core.
+
+PROCEED
+
+## 2026-09-26T19:37:44Z
+
+Execute view_file on skills/spec-orchestrator/SKILL.md as your very first step before executing any file edits or commands, and strictly follow its formatting templates and instruction guidelines.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER
+Target Workspace: /Users/perkunas/jail/DEAP01-spec-core
+Primary Role: Abstract MBSE Specification Compiler & Tooling Maintenance
+Primary Commercial Toolchain Integration Context: MATLAB / Simulink / Stateflow / Embedded Coder
+
+Execute a phased audit, triage, and comprehensive resolution of all 17 open and unfixed defect issues in DEAP01-spec-core across AST factual grounding, dual-provider tooling, baseline validator masking, and test mock elimination.
 
 Working directory: /Users/perkunas/jail/DEAP01-spec-core
 Integrity mode: development
 
-## Downstream Repository Scope
-1. **Domain Distribution Template**:
-   - `DEAP-uas-infrastructure-safety` (`https://github.com/gintatkinson/DEAP-uas-infrastructure-safety.git`)
-2. **Customer Application Workspaces**:
-   - `uav-011` (`/Users/perkunas/jail/uav-011`, `https://gitlab.com/gintatkinson/uav-011.git`)
-   - `uav-009` (`/Users/perkunas/jail/uav-009`, `https://gitlab.com/gintatkinson/uav-009.git`)
-
 ## Requirements
 
-### R1. Propagate to Domain Distribution Template (`DEAP-uas-infrastructure-safety`)
-- In a temporary scratch directory (outside workspace), clone `https://github.com/gintatkinson/DEAP-uas-infrastructure-safety.git`.
-- Execute `/Users/perkunas/jail/DEAP01-spec-core/scripts/install_pipeline.sh . --role DOMAIN_DISTRIBUTION_TEMPLATE --domain-url https://github.com/gintatkinson/DEAP-uas-infrastructure-safety.git`.
-- Verify `.pipeline/ACTIVE_RULES_BUNDLE.md` is compiled with 100% of active rules.
-- Verify clean landing zone invariant (`schema/`, `docs/epics/`, `docs/features/`, `docs/user-stories/`, `docs/use-cases/` have only `.gitkeep`).
-- Commit (`feat(governance): bundle active governance rules into ACTIVE_RULES_BUNDLE.md (refs #368)`) and push to `origin/main` on GitHub.
+### R1. Comprehensive Triage & Evidence Audit (Phase 1)
+Audit all 17 open issues (#378, #377, #376, #375, #374, #373, #372, #368, #366, #365, #364, #363, #362, #361, #360, #349, #286) against the current codebase state and recent git commit log (d0e1bf0 down to dd7638c):
+- Identify which issues have already been remediated by recent commits (e.g. #368 consolidated rules bundle, #363 template URLs, #373 duplicate checks).
+- For each verified remediated issue, post an empirical verification evidence comment via gh issue comment and transition the issue label to status:fixed-resolved (retaining issue open status per tracker non-closure invariant).
+- Formally catalog the remaining active defects into thematic clusters for Phase 2 execution.
 
-### R2. Propagate to Customer Workspace (`uav-011`)
-- Run `/Users/perkunas/jail/DEAP01-spec-core/scripts/install_pipeline.sh /Users/perkunas/jail/uav-011 --provider gitlab`.
-- Verify `.pipeline/ACTIVE_RULES_BUNDLE.md` exists and contains all 21 rules.
-- Verify `README.md` operator prompt catalog directs agents to `.pipeline/ACTIVE_RULES_BUNDLE.md` and contains zero circular clone commands.
-- Commit in `/Users/perkunas/jail/uav-011` (`feat(governance): bundle active governance rules into ACTIVE_RULES_BUNDLE.md (refs #368)`) and push to `origin/main` on GitLab.
+### R2. Positive AST Provenance & Anti-Regex Hardening (Phase 2 - Cluster A)
+Remediate grounding evasion defects (#378, #377, #376, #364):
+- Replace negative-string regex heuristics and exemption tag bypasses in factual_grounding_validator.py with positive closed-world AST provenance validation against the SysML v2 AST and typed parameter dictionaries.
+- Ensure Mermaid sequence diagrams and code fences do not bypass numeric grounding.
 
-### R3. Propagate to Customer Workspace (`uav-009`)
-- Run `/Users/perkunas/jail/DEAP01-spec-core/scripts/install_pipeline.sh /Users/perkunas/jail/uav-009 --provider gitlab`.
-- Verify `.pipeline/ACTIVE_RULES_BUNDLE.md` exists and contains all 21 rules.
-- Verify `README.md` operator prompt catalog directs agents to `.pipeline/ACTIVE_RULES_BUNDLE.md` and contains zero circular clone commands.
-- Commit in `/Users/perkunas/jail/uav-009` (`feat(governance): bundle active governance rules into ACTIVE_RULES_BUNDLE.md (refs #368)`) and push to `origin/main` on GitLab.
+### R3. Dual-Provider Tooling & Installer Hardening (Phase 2 - Cluster B)
+Remediate tooling automation defects (#374, #373, #372, #363):
+- Fix skills/spec-orchestrator/scripts/create_issue.sh to prevent ARG_MAX buffer overflow by supporting body file payloads (--body-file), and ensure duplicate issue detection indexes the title column correctly.
+- Ensure scripts/install_pipeline.sh correctly resolves domain template repository URLs between GitHub and GitLab without synthesizing non-existent routes.
+
+### R4. Baseline Gate Masking & SSOT Parity (Phase 2 - Cluster C)
+Remediate validator masking and Green Test Trap defects (#375, #366, #365, #362, #361):
+- Fix scripts/verify_downstream_baseline.py Checks 17, 20, 23 and architecture_viewpoint_validator.py Gate 30 so that missing architecture models or specifications fail closed rather than silently returning exit code 0 when allow_missing_specs=False.
+- Implement dual-schema SSOT parity verification and update README.md documentation harnesses.
+
+### R5. Synthetic Mock Elimination in Safety & Parity Tests (Phase 2 - Cluster D)
+Remediate mock violations (#360, #349, #286):
+- Replace synthetic in-memory string mocks in safety validation and diagram parity tests with genuine schema/AST structures from test fixtures, enforcing closed-world model verification and eliminating citation fraud.
 
 ## Acceptance Criteria
 
-### Objective Verification
-- [ ] `DEAP-uas-infrastructure-safety` pushed to GitHub with verified `.pipeline/ACTIVE_RULES_BUNDLE.md`.
-- [ ] `/Users/perkunas/jail/uav-011` pushed to GitLab with verified `.pipeline/ACTIVE_RULES_BUNDLE.md` and updated prompt catalog.
-- [ ] `/Users/perkunas/jail/uav-009` pushed to GitLab with verified `.pipeline/ACTIVE_RULES_BUNDLE.md` and updated prompt catalog.
-- [ ] `git diff origin/main` verified clean across all three target repositories.
+### Automated Gate Verification
+- [ ] Phase 1 Triage Report completed with empirical evidence for all 17 issues.
+- [ ] All remediated issues have verification evidence posted and carry status:fixed-resolved.
+- [ ] Remaining active defects have verified automated unit/integration tests in tests/.
+- [ ] pytest tests/ runs with 100% pass rate (0 failures, 0 regressions).
+- [ ] python3 scripts/verify_downstream_baseline.py passes all baseline checks with exit code 0.
+- [ ] python3 scripts/verify_commit_messages.py --head passes with neutral citations (refs #<id>) and zero auto-closing verbs.
+- [ ] Clean working tree with git diff origin/main returning 0 bytes after remote push.
 
 PROCEED
 
-## 2026-09-25T14:30:00Z
+## 2026-09-27T07:04:27Z
 
-Teamwork-Preview Multi-Agent Directive:
-Fix Issue #363 in DEAP01-spec-core scripts/install_pipeline.sh as the essential first step, execute adversarial code audits and file formal dossiers to issue trackers, implement verified fixes, publish and ground 75 specification items in uav-009, and propagate verified pipeline tooling, active rules bundles, and non-circular onboarding catalogs across the entire fleet of downstream repositories defined in README.md.
+Execute view_file on skills/spec-orchestrator/SKILL.md as your very first step before executing any file edits or commands, and strictly follow its formatting templates and instruction guidelines.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER
+Target Workspace: /Users/perkunas/jail/DEAP01-spec-core
+Primary Role: Abstract MBSE Specification Compiler & Tooling Maintenance
+Primary Commercial Toolchain Integration Context: MATLAB / Simulink / Stateflow / Embedded Coder
+
+Execute fleet-wide pipeline propagation and parity verification from upstream DEAP01-spec-core to active downstream workspaces uav-009 and uav-011, verify all 31 baseline gates pass, synchronize with remote tracking branches at 0 bytes diff, and update the upstream handoff baseline matrix.
 
 Working directory: /Users/perkunas/jail/DEAP01-spec-core
 Integrity mode: development
 
 ## Requirements
 
-### M1. The Essential First Step: Fix Issue #363 in DEAP01-spec-core (scripts/install_pipeline.sh)
-- Target: `scripts/install_pipeline.sh`.
-- Root Cause: In role detection (lines 324-342), when `--domain-url` is specified, `TARGET_ROLE` defaults to `DOWNSTREAM_CUSTOMER_PROJECT`, omitting the domain template onboarding clone command in `README.md` and causing `test_domain_url_synthesis.py` unit tests to fail.
-- Fix: Ensure `install_pipeline.sh` synthesizes domain template onboarding commands properly whenever `--domain-url` or a domain template remote is provided or when `--role DOMAIN_DISTRIBUTION_TEMPLATE` is passed.
-- Verification: `python3 -m unittest -v tests/test_domain_url_synthesis.py` passes 9/9 tests with exit code 0.
-- Review Gate: Reviewer and Challenger verify fix and neutral commit citation `(refs #363)`. Push to GitHub `origin/main`.
+### R1. Propagate to Customer Workspace uav-009 (Preserving Customer SSOT & Specs)
+- Execute bash /Users/perkunas/jail/DEAP01-spec-core/scripts/install_pipeline.sh /Users/perkunas/jail/uav-009.
+- In strict adherence to Failure Mode 11, verify that customer SysML models (schema/avenger5_system.sysml), compiled ASTs (.pipeline/schema.sysml), defect dossiers (docs/audit/), and all 75 published specifications in docs/ are 100% preserved (zero clobbering).
 
-### M2. Adversarial Defect Audits & Tracker Grounding
-- Dispatch context-isolated auditor subagents per `skills/adversarial-code-auditor/SKILL.md`:
-  1. Audit Governance Ingestion Defect in `README.md` and `docs/OPERATOR_PROMPT_CATALOG.md` (bare directory reads) -> Post to GitHub `gintatkinson/DEAP01-spec-core`.
-  2. Audit Single-Provider Tooling Defect in `skills/spec-orchestrator/scripts/create_issue.sh` (hardcoded `gh` CLI) -> Post to GitHub `gintatkinson/DEAP01-spec-core`.
-  3. Audit Downstream Specification Grounding Defect in `/Users/perkunas/jail/uav-009/docs/` (75 ungrounded specs with `#[IssueID]`) -> Post to GitLab `gintatkinson/uav-009`.
-- Convene Multi-Agent Gate (Reviewers & Challengers) to verify 12 checks + offline Check 7 Mermaid syntax before posting.
-- Capture created issue numbers and update `HANDOFF.md` to `DEAP-HANDOFF-ROOT-004`.
+### R2. Automated Baseline Gate Verification for uav-009
+- Run python3 /Users/perkunas/jail/DEAP01-spec-core/scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-009.
+- Verify that all baseline checks (Checks 10 through 31, including Check 31 Dual-Schema SSOT Parity Gate) pass with exit code 0.
 
-### M3. Implementation, Grounding & Full-Fleet Downstream Propagation
-- Step 1: Fix `README.md`, `docs/OPERATOR_PROMPT_CATALOG.md`, and `scripts/scaffold_downstream_agents.py` in `DEAP01-spec-core` to mandate `.pipeline/ACTIVE_RULES_BUNDLE.md`. Run unit tests in `tests/test_readme_scaffolding.py` (27/27 pass) and pass Check 14.
-- Step 2: Refactor `create_issue.sh` with `gh` + `glab` auto-detection and link rewriting. Add regression tests in `tests/test_create_issue_dual_provider.py`.
-- Step 3: Deploy updated tooling to `/Users/perkunas/jail/uav-009`, publish 75 specs via `glab`, run `reconcile_backlog.py --provider gitlab`, replace `#[IssueID]` tokens with live numeric IDs, and pass 30/30 baseline checks.
-- Step 4: Propagate verified installer to customer workspaces (`/Users/perkunas/jail/uav-011`, `uav-007`, `uav-006`, `uas-003`). Pass 30/30 checks and push to GitLab.
-- Step 5: Propagate verified installer to the 6 Tier 1 domain distribution templates (`DEAP-uas-infrastructure-safety`, `DEAP-surgical-robotics-console`, `DEAP-space-cubesat-constellation`, `DEAP-industrial-warehouse-agv`, `DEAP-subsea-oceanographic-auv`, `DEAP-rail-autonomous-locomotive`) and Profile Repositories (`DEAP-profile-flutter-app`, `DEAP-profile-react-web`, `DEAP-profile-backend-api`, `DEAP-profile-vhdl-hardware`). Preserve clean landing zone invariant (strictly `.gitkeep`), verify 0-byte remote diffs, and push to GitHub.
+### R3. Git Stage, Commit & Remote Push for uav-009
+- Stage updated pipeline framework assets in /Users/perkunas/jail/uav-009.
+- Commit with neutral citation:
+  chore(pipeline): propagate upstream spec-core fixes and Check 31 SSOT parity gate (refs #378, refs #377, refs #376, refs #375, refs #372, refs #366, refs #365, refs #364, refs #362, refs #361, refs #360, refs #349, refs #286)
+- Verify commit neutrality via python3 /Users/perkunas/jail/uav-009/scripts/verify_commit_messages.py --head.
+- Push to remote tracking branch: git -C /Users/perkunas/jail/uav-009 push origin main.
+- Confirm git -C /Users/perkunas/jail/uav-009 diff origin/main is 0 bytes and working tree is clean.
 
-### M4. Multi-Agent Consensus Gate & Independent Victory Audit
-- Convene final multi-agent review gate (Reviewers, Challengers, Forensic Auditor).
-- Sentinel dispatches `teamwork_preview_victory_auditor` to conduct 3-phase independent audit (Timeline, Integrity, Test Execution).
-- Issue `VICTORY CONFIRMED` only upon unanimous verification.
+### R4. Propagate to Application Workspace uav-011 (Preserving Clean Landing Zones)
+- Execute bash /Users/perkunas/jail/DEAP01-spec-core/scripts/install_pipeline.sh /Users/perkunas/jail/uav-011.
+- Verify that landing zones (schema/, docs/epics/, docs/features/, docs/user-stories/, docs/use-cases/) maintain 100% clean .gitkeep state.
+
+### R5. Automated Baseline Gate Verification for uav-011
+- Run python3 /Users/perkunas/jail/DEAP01-spec-core/scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-011.
+- Verify that all baseline checks (Checks 10 through 31) pass with exit code 0.
+
+### R6. Git Stage, Commit & Remote Push for uav-011
+- Stage updated pipeline framework assets in /Users/perkunas/jail/uav-011.
+- Commit with neutral citation:
+  chore(pipeline): propagate upstream spec-core fixes and Check 31 SSOT parity gate (refs #378, refs #377, refs #376, refs #375, refs #372, refs #366, refs #365, refs #364, refs #362, refs #361, refs #360, refs #349, refs #286)
+- Verify commit neutrality via python3 /Users/perkunas/jail/uav-011/scripts/verify_commit_messages.py --head.
+- Push to remote tracking branch: git -C /Users/perkunas/jail/uav-011 push origin main.
+- Confirm git -C /Users/perkunas/jail/uav-011 diff origin/main is 0 bytes and working tree is clean.
+
+### R7. Update Fleet Parity Matrix in DEAP01-spec-core/HANDOFF.md
+- Record the newly verified baseline commit hashes of uav-009 and uav-011 in Section 2.1 of HANDOFF.md.
+- Commit with neutral citation: docs(handoff): update fleet parity baseline commit matrix (refs #372).
+- Push to GitHub origin/main and verify git diff origin/main is 0 bytes.
+
+## Acceptance Criteria
+
+### Automated Gate Verification
+- [ ] uav-009: All 31 baseline checks pass with exit code 0 under verify_downstream_baseline.py.
+- [ ] uav-009: Pushed to GitLab origin/main, clean working tree, 0-byte remote diff.
+- [ ] uav-009: Customer models (schema/avenger5_system.sysml), compiled ASTs, and 75 specifications are 100% intact.
+- [ ] uav-011: All 31 baseline checks pass with exit code 0 under verify_downstream_baseline.py.
+- [ ] uav-011: Pushed to GitLab origin/main, clean working tree, 0-byte remote diff.
+- [ ] DEAP01-spec-core: HANDOFF.md Section 2.1 updated, pushed to GitHub origin/main, 0-byte remote diff.
+- [ ] Zero auto-closing verbs across all commit messages; verified by verify_commit_messages.py --head.
 
 PROCEED
+
+## 2026-09-27T15:38:55Z
+
+Execute view_file on skills/spec-orchestrator/SKILL.md as your very first step before executing any file edits or commands, and strictly follow its formatting templates and instruction guidelines.
+
+Repository Classification: UPSTREAM_SPEC_CORE_COMPILER
+Target Workspace: /Users/perkunas/jail/DEAP01-spec-core
+Primary Native Skill: skills/spec-orchestrator/SKILL.md
+Primary Commercial Toolchain Integration Context: MATLAB / Simulink / Stateflow / Embedded Coder
+
+Perform a multi-agent adversarial audit and remediation of README.md and associated installer scaffolding templates in DEAP01-spec-core, resolving architecture tier numbering contradictions, heading ordering defects, and upstream vs. downstream repository execution boundaries.
+
+Working directory: /Users/perkunas/jail/DEAP01-spec-core
+Integrity mode: development
+
+## Requirements
+
+### R1. Forensic Audit of README.md & Installer Scaffolding
+- Deploy an adversarial auditor subagent to perform a comprehensive audit of `README.md` and the README scaffolding logic in `scripts/install_pipeline.sh`.
+- Catalog all structural defects, including contradictory tier numbering, inverted heading hierarchies, broken/outdated test citations, and repository classification boundary ambiguities.
+
+### R2. Architecture Tier Hierarchy & Heading Normalization
+- Remediate the tier numbering contradictions in `README.md` (Sections 1.2 & 5.4) and ASCII topology diagrams where both the Upstream Compiler and Domain Distribution Templates are labeled "Tier 1":
+  * Normalize to a clean, unambiguous three-tier architecture:
+    - Tier 1: Upstream Specification Core Compiler (`DEAP01-spec-core`)
+    - Tier 2: Domain Distribution Templates (`DEAP-*`)
+    - Tier 3: Customer Application Workspaces (`uav-*`)
+  * Alternatively, clearly distinguish the two propagation boundaries (Tier 1 Compiler Propagation vs. Tier 2 Customer Onboarding) from repository classifications.
+- Correct the out-of-order heading sequence in Section 1 so `1.1 Primary Commercial Toolchain Integration` logically precedes `1.2 System Architecture & Repository Boundaries`.
+
+### R3. Upstream Compiler vs. Downstream Prompt Boundary Hardening
+- Clarify Section 9.4 (Pipeline 2 Operator Prompts):
+  * Explicitly specify that Pipeline 2 (Autonomous Feature Implementation for Flutter/ROS2/PX4 and Digital Twin Simulation) is strictly intended for execution within downstream customer application workspaces (`DOWNSTREAM_CUSTOMER_PROJECT`, e.g. `uav-*`).
+  * Remove ambiguous statements implying that concrete application features or simulation drivers may be executed directly in `UPSTREAM_SPEC_CORE_COMPILER`.
+
+### R4. Automated Regression & Scaffolding Test Verification
+- Run `python3 -m unittest tests/test_readme_scaffolding.py` and ensure all scaffolding tests pass with exit code 0.
+- Update `tests/test_readme_scaffolding.py` to assert the corrected heading hierarchy, tier definitions, and absence of contradictory tier labels.
+- Run `python3 scripts/verify_downstream_baseline.py --no-domain` and verify all baseline checks pass cleanly with exit code 0.
+
+### R5. Git Stage, Neutral Citation Commit & Remote Synchronization
+- Verify zero issue-closing verbs across commit messages via `python3 scripts/verify_commit_messages.py --head`.
+- Stage all changes, commit using neutral issue citations:
+  `git commit -m "docs(readme): normalize architecture tiers, fix heading sequence, and harden repository boundary (refs #371, refs #368)"`
+- Push to GitHub `origin/main` and verify that `git diff origin/main` returns exactly 0 bytes.
+- Have the Victory Auditor independently confirm the 0-byte remote diff and gate passes before declaring victory.
+
+PROCEED
+
+## Acceptance Criteria
+
+### Documentation & Scaffolding Integrity
+- [ ] No contradictory "Tier 1" labels remain across `README.md` and `scripts/install_pipeline.sh`; tiers 1, 2, and 3 are distinctly and consistently defined.
+- [ ] Section 1.1 precedes Section 1.2 in `README.md`.
+- [ ] Pipeline 2 execution guidance explicitly restricts autonomous feature implementation to downstream customer workspaces.
+
+### Verification & Automated Gates
+- [ ] `python3 -m unittest tests/test_readme_scaffolding.py` passes with exit code 0.
+- [ ] `python3 scripts/verify_downstream_baseline.py --no-domain` passes with exit code 0.
+- [ ] `python3 scripts/verify_commit_messages.py --head` verifies zero issue-closing verbs.
+
+### Git & Remote Synchronization
+- [ ] Commit message strictly matches `docs(readme): normalize architecture tiers, fix heading sequence, and harden repository boundary (refs #371, refs #368)`.
+- [ ] Changes are successfully pushed to `origin/main`.
+- [ ] `git diff origin/main` returns exactly 0 bytes.

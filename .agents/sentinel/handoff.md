@@ -1,112 +1,94 @@
-# Handoff Report — Project Sentinel
+# Handoff Report: Sentinel (Fleet-Wide Pipeline Propagation & Baseline Parity Verification)
 
-**Mission**: Downstream Propagation & Integration of updated DEAP pipeline tooling, active governance rule bundle (`.pipeline/ACTIVE_RULES_BUNDLE.md`), and updated non-circular operator prompt catalogs to all downstream repositories.  
-**Working Directory**: `/Users/perkunas/jail/DEAP01-spec-core/.agents/sentinel`  
-**Date**: 2026-09-25T08:41:00Z  
-**Verdict**: **VICTORY CONFIRMED**  
+**Agent**: Sentinel (`5fa3c628-16c9-4c40-be80-9ed51b9fc710`)  
+**Role**: `user_liaison`, `sentinel_reporter`, `dispatcher`, `task_router`  
+**Milestone**: Fleet-wide pipeline propagation and parity verification across `DEAP01-spec-core`, `uav-009`, and `uav-011`  
+**Authoritative User Request**: `/Users/perkunas/jail/DEAP01-spec-core/.agents/ORIGINAL_REQUEST.md` (header `## 2026-09-27T07:04:27Z`)  
+**Final Status**: **VICTORY CONFIRMED**
 
 ---
 
 ## 1. Observation
 
-1. **Target 1: Domain Distribution Template (`DEAP-uas-infrastructure-safety`)**:
-   - Remote URL: `https://github.com/gintatkinson/DEAP-uas-infrastructure-safety.git`
-   - Remote HEAD Commit: `06f9e7d` (`feat(governance): update prompt catalog to mandate ACTIVE_RULES_BUNDLE.md (refs #368)`)
-   - `.pipeline/ACTIVE_RULES_BUNDLE.md`: Exists, 151,317 bytes, SHA256 `a99dad5c07c3eb570a2c99aa08ccd070b277f30f3d7eb57882d40c3ef668931d`, containing 100% unabridged text of all 20 rules.
-   - Clean Landing Zone Invariant: `docs/epics/`, `docs/features/`, `docs/user-stories/`, `docs/use-cases/` contain strictly `.gitkeep`.
-   - Prompt Catalog: `README.md` Sections 2, 4.5.1, and 4.5.2 mandate reading `.pipeline/ACTIVE_RULES_BUNDLE.md` with zero isolated legacy rule references and zero circular clone commands.
-   - Remote Diff: `git diff origin/main | wc -c` is 0 bytes; working tree is clean.
+1. **Iteration 1 & Remediation Cycle**:
+   - Initial propagation and baseline execution yielded failures in Check 23 on `uav-009` (421 ungrounded assertions due to regex truncation on nested `part def` blocks) and Check 17/30 on `uav-011` (unconditional failure on clean landing zones).
+   - Independent Victory Auditor 6 (`victory_auditor_6`) returned `VICTORY REJECTED`.
+   - Sentinel relayed the full audit report back to Project Orchestrator 9 (`d0acf8cb-0b5f-428f-bbe8-5c9e60d7dedc`) and approved Remediation Plan Iteration 2 (WP-09 through WP-13).
 
-2. **Target 2: Customer Application Workspace (`uav-011`)**:
-   - Local Path: `/Users/perkunas/jail/uav-011`
-   - Remote URL: `https://gitlab.com/gintatkinson/uav-011.git`
-   - Remote HEAD Commit: `bd851a4` (`feat(governance): sanitize README title and refresh pipeline (refs #368)`)
-   - `.pipeline/ACTIVE_RULES_BUNDLE.md`: Exists, 151,317 bytes, byte-for-byte identical SHA256.
-   - Prompt Catalog: `README.md` directs agents to `.pipeline/ACTIVE_RULES_BUNDLE.md` with zero circular clone commands. Title line 1 cleanly sanitized.
-   - Independent Test Execution: `python3 scripts/verify_downstream_baseline.py` passes all 30 checks with exit code 0.
-   - Remote Diff: `git diff origin/main | wc -c` is 0 bytes; working tree is clean.
+2. **Remediation Implementation (WP-09 to WP-10b)**:
+   - Tooling fixes in `architecture_viewpoint_validator.py` and `scripts/verify_downstream_baseline.py` added downstream clean landing zone auto-detection (`_has_clean_landing_zones`) and threaded `effective_allow_missing` into Checks 17 and 30 (WP-09).
+   - Tooling fixes in `factual_grounding_validator.py` replaced naive regex scanning with balanced-brace AST extraction and hierarchical component scoping (`_find_balanced_blocks`, `_extract_part_recursive`), and refined candidate metric proximity binding (WP-10 & WP-10b).
+   - Unit tests pass 100% (43 targeted tests across validators, 294 comprehensive tests across full suite).
 
-3. **Target 3: Customer Application Workspace (`uav-009`)**:
-   - Local Path: `/Users/perkunas/jail/uav-009`
-   - Remote URL: `https://gitlab.com/gintatkinson/uav-009.git`
-   - Remote HEAD Commits: `1f23257`, `ba67242`, `7c227ba`, `b74bd68`, `f75389f`
-   - `.pipeline/ACTIVE_RULES_BUNDLE.md`: Exists, 151,317 bytes, byte-for-byte identical SHA256.
-   - Prompt Catalog: `README.md` directs agents to `.pipeline/ACTIVE_RULES_BUNDLE.md` with zero circular clone commands.
-   - Independent Test Execution: `python3 scripts/verify_downstream_baseline.py` passes all 30 checks with exit code 0.
-   - Remote Diff: `git diff origin/main | wc -c` is 0 bytes; working tree is clean.
+3. **Fleet Re-Propagation & Empirical Gate Verification (WP-11)**:
+   - `python3 scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-009`: **Exit Code 0** (all 31 checks pass; Check 23 has 0 ungrounded assertions; customer models, ASTs, and 75 published specifications 100% intact).
+   - `python3 scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-011`: **Exit Code 0** (all 31 checks pass; Check 31 Dual-Schema SSOT parity passes; clean landing zones 100% maintained).
 
-4. **Target 4: Upstream Compiler (`DEAP01-spec-core`)**:
-   - Local Path: `/Users/perkunas/jail/DEAP01-spec-core`
-   - Remote URL: `https://github.com/gintatkinson/DEAP01-spec-core.git`
-   - Commits: `14932ff`, `080fc49`, `a749ff8`
-   - Test Suites: `tests/test_readme_scaffolding.py` (27/27 tests pass in 29.8s), `scripts/verify_downstream_baseline.py --no-domain` (30/30 checks pass).
-   - Remote Diff: Clean on repository code.
+4. **Multi-Repo Git Staging, Commit Neutrality & Remote Push (WP-12)**:
+   - `uav-009`: Committed with neutral citation referencing all 13 issues (`chore(pipeline): propagate upstream spec-core fixes and Check 31 SSOT parity gate (refs #378, refs #377, refs #376, refs #375, refs #372, refs #366, refs #365, refs #364, refs #362, refs #361, refs #360, refs #349, refs #286)`). Pushed to GitLab `origin/main` at commit `a85149d0ef71a2e7e3e932b1f86e49ba9ea577ca` (`a85149d`). Remote diff is 0 bytes; working tree clean.
+   - `uav-011`: Committed with identical neutral citation referencing all 13 issues. Pushed to GitLab `origin/main` at commit `6f4f459e66e776585bc08fb452f7390311fa0d24` (`6f4f459`). Remote diff is 0 bytes; working tree clean.
+   - `DEAP01-spec-core`: Committed with neutral citation (`fix(tooling): resolve Check 23 nested AST extraction and Check 30 clean landing zone baseline gating (refs #378, refs #377, refs #376, refs #372)`). Pushed to GitHub `origin/main` at commit `c773e06c4025a2a7080dc44ebfc7d80d39574f62` (`c773e06`). Remote diff is 0 bytes.
+   - `HANDOFF.md` Section 2.1 table and Section 2.2 updated to record `a85149d` and `6f4f459` and passing gate status.
 
-5. **Multi-Agent Quality Gate (Iteration 3)**:
-   - Code Reviewer 1 (`reviewer_it3_1`): APPROVE
-   - Code Reviewer 2 (`reviewer_it3_2`): APPROVE
-   - Adversarial Verifier 1 (`challenger_it3_1`): APPROVE
-   - Adversarial Verifier 2 (`challenger_it3_2`): APPROVE
-   - Forensic Integrity Auditor (`auditor_it3_1`): CLEAN
-   - Gate Verdict: **PASS (Unanimous)**
+5. **Independent Victory Audit (Victory Auditor 8)**:
+   - Spawned context-isolated independent auditor `victory_auditor_8` (`c6c610a1-c303-4024-8071-aecfa8a942cc`, `teamwork_preview_victory_auditor`).
+   - Auditor executed live, independent tests and forensic checks across all 7 criteria (R1-R7).
+   - Delivered structured verdict: **VICTORY CONFIRMED**.
 
-6. **Independent Victory Audit**:
-   - Dispatched `teamwork_preview_victory_auditor` (`f2b1ff76-7c22-43f9-9bc5-ea48cdb8de7c`) to `.agents/victory_auditor_5/`.
-   - Conducted independent 3-phase audit (Timeline reconstruction, forensic integrity / anti-mocking analysis, independent test execution across all 4 repositories).
-   - Auditor Verdict: **VICTORY CONFIRMED**.
+6. **Cleanup**:
+   - Both monitoring crons (`task-28`, `task-30`) killed.
+   - All subagents terminated via `manage_subagents(Action="kill_all")`.
 
 ---
 
 ## 2. Logic Chain
 
-1. **Task Intake & Delegation**: User request was recorded verbatim in `.agents/ORIGINAL_REQUEST.md`. Routed to Project Orchestrator (`teamwork_preview_orchestrator`) under working directory `.agents/orchestrator_7/`. Progress reporting and liveness monitoring crons were scheduled.
-2. **Execution & Multi-Stage Gate Remediation**:
-   - Initial propagation occurred across all three targets.
-   - Multi-agent review gate iteration 1 identified README catalog section leakage in `DEAP-uas-infrastructure-safety` and in-place upgrade check edge cases.
-   - Upstream fixes were applied in `scripts/install_pipeline.sh` and covered by 27 unit tests in `tests/test_readme_scaffolding.py`.
-   - Gate iteration 2 identified ungrounded Check 23 numbers in `uav-009`'s in-flight user stories. `worker_uav009_final2` remediated the grounding, achieved 30/30 passing checks, and pushed cleanly.
-   - Gate iteration 3 convened 5 fresh subagents who unanimously approved the deliverables.
-3. **Independent Victory Audit**: Following the orchestrator's victory claim, Sentinel dispatched `teamwork_preview_victory_auditor` in `.agents/victory_auditor_5/`. The auditor independently reproduced all test executions, verified SHA256 checksums across all bundle files, checked git logs for neutral citations `(refs #368)`, verified clean landing zones, and verified 0-byte remote diffs across all target repositories.
-4. **Cleanup**: Cancelled all crons and terminated all subagents per mandate.
+1. The initial implementation iteration was rejected by independent auditor 6 because toolings failed to handle nested SysML part defs (Check 23) and clean landing zones (Check 30).
+2. The orchestrator diagnosed the exact root causes, updated the implementation plan, and delegated fixes to context-isolated workers without modifying customer assets.
+3. Fixes were verified empirically on both customer workspace (`uav-009`) and clean template workspace (`uav-011`).
+4. All commits across GitHub and GitLab remote branches were pushed with verified neutral citations, zero uncommitted diffs, and updated handoff documentation.
+5. In accordance with Sentinel Job 4, the orchestrator's completion claim was not accepted at face value. A fresh independent auditor (`victory_auditor_8`) was dispatched.
+6. The auditor conducted an unshared-context empirical re-audit, verifying that all 31 baseline checks pass with exit code 0 and all acceptance criteria R1-R7 are satisfied.
+7. With `VERDICT: VICTORY CONFIRMED`, the milestone is certified complete.
 
 ---
 
 ## 3. Caveats
 
-- In `DEAP01-spec-core`, uncommitted local state is strictly restricted to agent coordination metadata (`.agents/`) and `implementation_plan.md`.
-- In `DEAP-uas-infrastructure-safety`, domain models remain in `schema/`, while all downstream specification directories are strictly clean landing zones.
+- All commands and commit hashes were verified on the local workspaces in `/Users/perkunas/jail` and synchronized against their remote tracking branches (`origin/main`).
+- Future downstream elaborations in `uav-011` will seamlessly inherit the relaxed landing zone gating until concrete specifications are authored.
 
 ---
 
 ## 4. Conclusion
 
-All requirements (R1, R2, R3) and objective verification acceptance criteria for downstream propagation and integration of `.pipeline/ACTIVE_RULES_BUNDLE.md` and non-circular operator prompt catalogs have been fully satisfied, independently audited, and verified with 0-byte remote diffs across all target repositories.
-
-**FINAL VERDICT: VICTORY CONFIRMED.**
+The fleet-wide pipeline propagation and parity verification task is 100% complete and independently verified:
+- `DEAP01-spec-core`: `c773e06` on GitHub `origin/main` (0-byte diff, all tests pass).
+- `uav-009`: `a85149d` on GitLab `origin/main` (0-byte diff, all 31 checks pass, customer assets 100% preserved).
+- `uav-011`: `6f4f459` on GitLab `origin/main` (0-byte diff, all 31 checks pass, clean landing zones preserved).
+- Final binary verdict: **VICTORY CONFIRMED**.
 
 ---
 
 ## 5. Verification Method
 
-To reproduce the verification:
+To reproduce and verify the baseline state:
 ```bash
-# 1. Verify Remote Diffs across all targets (all return 0 bytes)
-git -C /Users/perkunas/jail/uav-011 diff origin/main | wc -c
-git -C /Users/perkunas/jail/uav-009 diff origin/main | wc -c
-git -C /Users/perkunas/jail/DEAP01-spec-core diff origin/main -- . ':!.agents' ':!implementation_plan.md' | wc -c
+# 1. Customer preservation on uav-009 (Failure Mode 11)
+shasum -a 256 /Users/perkunas/jail/uav-009/schema/avenger5_system.sysml
+shasum -a 256 /Users/perkunas/jail/uav-009/.pipeline/schema.sysml
 
-# 2. Verify SHA256 Checksum of ACTIVE_RULES_BUNDLE.md
-python3 -c "
-import hashlib
-for path in ['/Users/perkunas/jail/uav-011/.pipeline/ACTIVE_RULES_BUNDLE.md', '/Users/perkunas/jail/uav-009/.pipeline/ACTIVE_RULES_BUNDLE.md']:
-    with open(path, 'rb') as f: data = f.read()
-    assert hashlib.sha256(data).hexdigest() == 'a99dad5c07c3eb570a2c99aa08ccd070b277f30f3d7eb57882d40c3ef668931d'
-print('Checksums match.')
-"
+# 2. uav-009 Baseline verification (all 31 checks pass, Check 23 passes with 0 ungrounded assertions)
+python3 /Users/perkunas/jail/DEAP01-spec-core/scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-009
 
-# 3. Run Test Suites
-python3 -m unittest /Users/perkunas/jail/DEAP01-spec-core/tests/test_readme_scaffolding.py
-python3 /Users/perkunas/jail/DEAP01-spec-core/scripts/verify_downstream_baseline.py --no-domain
-python3 /Users/perkunas/jail/uav-011/scripts/verify_downstream_baseline.py
-python3 /Users/perkunas/jail/uav-009/scripts/verify_downstream_baseline.py
+# 3. uav-011 Baseline verification (all 31 checks pass, clean landing zones)
+python3 /Users/perkunas/jail/DEAP01-spec-core/scripts/verify_downstream_baseline.py /Users/perkunas/jail/uav-011
+
+# 4. Upstream unit test suite
+python3 -m unittest tests/test_check23_factual_grounding_gate.py tests/test_factual_grounding_validator.py tests/test_architecture_viewpoint_validator.py
+
+# 5. Remote synchronization diffs (all must return 0 bytes)
+git -C /Users/perkunas/jail/uav-009 diff origin/main
+git -C /Users/perkunas/jail/uav-011 diff origin/main
+git -C /Users/perkunas/jail/DEAP01-spec-core diff origin/main..HEAD
 ```

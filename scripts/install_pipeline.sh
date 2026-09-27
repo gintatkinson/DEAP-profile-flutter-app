@@ -27,6 +27,7 @@ Arguments:
   TARGET_DIR                 Target project directory (default: current directory '.')
 
 Options:
+      --target TARGET_DIR    Target project directory (equivalent to positional argument)
   -r, --role ROLE            Target repository role: 'domain-template' or 'customer-project' (auto-detected if omitted)
   -p, --provider PROVIDER    Target issue tracker and CI/CD provider: 'github', 'gitlab', 'jira', or 'auto' (default: 'auto')
   -t, --tracker TRACKER      Alias for --provider: 'github', 'gitlab', 'jira', or 'auto'
@@ -60,6 +61,18 @@ while [[ $# -gt 0 ]]; do
     -h|--help)
       show_help
       exit 0
+      ;;
+    --target)
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: --target requires a target directory argument." >&2
+        exit 1
+      fi
+      TARGET_DIR="$2"
+      shift 2
+      ;;
+    --target=*)
+      TARGET_DIR="${1#*=}"
+      shift
       ;;
     -r|--role)
       if [[ -z "$2" || "$2" == -* ]]; then
@@ -347,11 +360,23 @@ echo "Target repository role: $TARGET_ROLE"
 # Preserve any existing downstream project metadata or configuration
 PRESERVED_METADATA=""
 PRESERVED_PROFILE_CONFIG=""
+PRESERVED_SCHEMA_SYSML=""
+PRESERVED_SCHEMA_DIGEST=""
+PRESERVED_LINEAGE=""
 if [ -f "$TARGET_DIR/.pipeline/project_metadata.json" ]; then
   PRESERVED_METADATA=$(cat "$TARGET_DIR/.pipeline/project_metadata.json")
 fi
 if [ -f "$TARGET_DIR/.pipeline/profile_config.json" ]; then
   PRESERVED_PROFILE_CONFIG=$(cat "$TARGET_DIR/.pipeline/profile_config.json")
+fi
+if [ -f "$TARGET_DIR/.pipeline/schema.sysml" ]; then
+  PRESERVED_SCHEMA_SYSML=$(cat "$TARGET_DIR/.pipeline/schema.sysml")
+fi
+if [ -f "$TARGET_DIR/.pipeline/schema-digest.json" ]; then
+  PRESERVED_SCHEMA_DIGEST=$(cat "$TARGET_DIR/.pipeline/schema-digest.json")
+fi
+if [ -f "$TARGET_DIR/.pipeline/lineage.json" ]; then
+  PRESERVED_LINEAGE=$(cat "$TARGET_DIR/.pipeline/lineage.json")
 fi
 
 if [ "$TARGET_DIR" != "$INSTALLER_ROOT" ]; then
@@ -370,6 +395,18 @@ if [ "$TARGET_DIR" != "$INSTALLER_ROOT" ]; then
   if [ -n "$PRESERVED_PROFILE_CONFIG" ]; then
     chmod u+w "$TARGET_DIR/.pipeline/profile_config.json" 2>/dev/null || true
     echo "$PRESERVED_PROFILE_CONFIG" > "$TARGET_DIR/.pipeline/profile_config.json"
+  fi
+  if [ -n "$PRESERVED_SCHEMA_SYSML" ]; then
+    chmod u+w "$TARGET_DIR/.pipeline/schema.sysml" 2>/dev/null || true
+    echo "$PRESERVED_SCHEMA_SYSML" > "$TARGET_DIR/.pipeline/schema.sysml"
+  fi
+  if [ -n "$PRESERVED_SCHEMA_DIGEST" ]; then
+    chmod u+w "$TARGET_DIR/.pipeline/schema-digest.json" 2>/dev/null || true
+    echo "$PRESERVED_SCHEMA_DIGEST" > "$TARGET_DIR/.pipeline/schema-digest.json"
+  fi
+  if [ -n "$PRESERVED_LINEAGE" ]; then
+    chmod u+w "$TARGET_DIR/.pipeline/lineage.json" 2>/dev/null || true
+    echo "$PRESERVED_LINEAGE" > "$TARGET_DIR/.pipeline/lineage.json"
   fi
   cp -RPf "$INSTALLER_ROOT/.agents" "$TARGET_DIR/"
   cp -RPf "$INSTALLER_ROOT/scripts" "$TARGET_DIR/"
@@ -402,10 +439,27 @@ if [ ! -e "$TARGET_DIR/schema" ]; then
   mkdir -p "$TARGET_DIR/schema"
 fi
 mkdir -p "$TARGET_DIR/tests"
-mkdir -p "$TARGET_DIR/docs" "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/conops/units/conops" "$TARGET_DIR/docs/conops/units/mission_intent" "$TARGET_DIR/docs/interfaces" "$TARGET_DIR/docs/safety" "$TARGET_DIR/docs/architecture/blueprints" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases" "$TARGET_DIR/docs/management"
+mkdir -p "$TARGET_DIR/docs"
 chmod -R u+w "$TARGET_DIR/docs" 2>/dev/null || true
-touch "$TARGET_DIR/docs/management/.gitkeep" "$TARGET_DIR/docs/epics/.gitkeep" "$TARGET_DIR/docs/features/.gitkeep" "$TARGET_DIR/docs/user-stories/.gitkeep" "$TARGET_DIR/docs/use-cases/.gitkeep" "$TARGET_DIR/schema/.gitkeep" "$TARGET_DIR/docs/conops/.gitkeep" "$TARGET_DIR/docs/safety/.gitkeep"
 if [ "$TARGET_ROLE" = "DOMAIN_DISTRIBUTION_TEMPLATE" ]; then
+  mkdir -p "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/conops/units/conops" "$TARGET_DIR/docs/conops/units/mission_intent" "$TARGET_DIR/docs/interfaces" "$TARGET_DIR/docs/safety" "$TARGET_DIR/docs/architecture/blueprints" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases" "$TARGET_DIR/docs/management"
+  for keep_dir in "$TARGET_DIR/docs/management" "$TARGET_DIR/docs/epics" "$TARGET_DIR/docs/features" "$TARGET_DIR/docs/user-stories" "$TARGET_DIR/docs/use-cases" "$TARGET_DIR/schema" "$TARGET_DIR/docs/conops" "$TARGET_DIR/docs/safety"; do
+    HAS_CONCRETE_SPECS=0
+    if [ -d "$keep_dir" ]; then
+      for f in "$keep_dir"/*; do
+        if [ -f "$f" ]; then
+          fname=$(basename "$f")
+          if [ "$fname" != ".gitkeep" ] && [ "$fname" != "README.md" ] && [ "$fname" != ".DS_Store" ]; then
+            HAS_CONCRETE_SPECS=1
+            break
+          fi
+        fi
+      done
+    fi
+    if [ "$HAS_CONCRETE_SPECS" -eq 0 ]; then
+      touch "$keep_dir/.gitkeep"
+    fi
+  done
   rm -f "$TARGET_DIR/schema/README.md" "$TARGET_DIR/docs/conops/README.md" "$TARGET_DIR/docs/safety/README.md"
 fi
 if [ "$TARGET_DIR" != "$INSTALLER_ROOT" ]; then
@@ -437,7 +491,7 @@ cat << 'EOF' > "$BUNDLE_FILE"
 
 > **Notice:** This consolidated governance manifest is compiled automatically at installation time by `scripts/install_pipeline.sh`.
 > It aggregates 100% of the active governance rules from `rules/` into a single, unified source of truth.
-> Autonomous agents (Antigravity, Claude Code, Gemini CLI, Cursor) MUST execute `view_file` on this file to ingest the full suite of active governance rules in a single read before executing any implementation or orchestration tasks.
+> Autonomous agents (Antigravity, Claude Code, Cursor) MUST execute `view_file` on this file to ingest the full suite of active governance rules in a single read before executing any implementation or orchestration tasks.
 
 ## Table of Contents
 
@@ -641,6 +695,7 @@ elif [ "$TARGET_ROLE" = "DOMAIN_DISTRIBUTION_TEMPLATE" ]; then
   if ! grep -qE "Customer Project Onboarding|\.tmp-pipeline" "$TARGET_DIR/README.md" || \
      ! grep -qE "DOMAIN_DISTRIBUTION_TEMPLATE" "$TARGET_DIR/README.md" || \
      ! grep -q "ACTIVE_RULES_BUNDLE.md" "$TARGET_DIR/README.md" || \
+     ! grep -q "Worker 2A.1" "$TARGET_DIR/README.md" || \
      grep -q "rules/dual-track-mbd-verification.md" "$TARGET_DIR/README.md" || \
      grep -qE " -- Downstream.* -- Downstream" "$TARGET_DIR/README.md"; then
     SHOULD_SCAFFOLD_README=true
@@ -650,6 +705,7 @@ elif [ "$TARGET_ROLE" = "DOWNSTREAM_CUSTOMER_PROJECT" ]; then
      ! grep -qE "DOWNSTREAM_CUSTOMER_PROJECT" "$TARGET_DIR/README.md" || \
      ! grep -qE "Project Lifecycle & Tooling Maintenance" "$TARGET_DIR/README.md" || \
      ! grep -q "ACTIVE_RULES_BUNDLE.md" "$TARGET_DIR/README.md" || \
+     ! grep -q "Worker 2A.1" "$TARGET_DIR/README.md" || \
      grep -q "rules/dual-track-mbd-verification.md" "$TARGET_DIR/README.md" || \
      grep -qE " -- Downstream.* -- Downstream" "$TARGET_DIR/README.md"; then
     SHOULD_SCAFFOLD_README=true
@@ -823,7 +879,7 @@ $DOMAIN_PROJECT_DESC
 
 ### 1.1 Clean Landing Zone Invariant
 
-As a **Tier 1 Domain Distribution Template**, this repository maintains pristine, clean landing zones in \`schema/\`, \`docs/epics/\`, \`docs/features/\`, \`docs/user-stories/\`, and \`docs/use-cases/\` with only \`.gitkeep\` files (or domain-wide baseline SysML v2 schemas). Concrete customer project specifications, flight code, ROS2 nodes, and proprietary implementation artifacts belong exclusively in downstream customer application workspaces and must NOT be committed here.
+As a **Tier 2 Domain Distribution Template**, this repository maintains pristine, clean landing zones in \`schema/\`, \`docs/epics/\`, \`docs/features/\`, \`docs/user-stories/\`, and \`docs/use-cases/\` with only \`.gitkeep\` files (or domain-wide baseline SysML v2 schemas). Concrete customer project specifications, flight code, ROS2 nodes, and proprietary implementation artifacts belong exclusively in downstream customer application workspaces and must NOT be committed here.
 
 ### 1.2 Primary Commercial Toolchain Integration Context
 
@@ -864,10 +920,9 @@ bash scripts/install_pipeline.sh .
 
 ### 3.2 Mandatory Agent Initialization Sequence
 
-Immediately following installation, any AI agent (Antigravity, Claude Code, Gemini CLI, Cursor) initializing in this repository MUST execute the following sequence before accepting user directives or executing task implementations:
+Immediately following installation, any AI agent (Antigravity, Claude Code, Cursor) initializing in this repository MUST execute the following sequence before accepting user directives or executing task implementations:
 
-0. **Detect Repository Role & Scope**:
-   - Inspect whether \`.pipeline/upstream/\` exists on disk.
+0. **Detect Repository Role & Scope (Direct-Path Read)**: Inspect whether \`.pipeline/upstream/\` exists on disk via direct-path read (\`list_dir\` or \`view_file\`). Do not rely on glob or search tools that ignore hidden dot-directories.
    - If absent and repository name starts with \`DEAP-\` -> **Domain Distribution Template Mode**: Clean landing zones must be maintained.
 1. **Read Governance Constitution**: Execute \`view_file\` on \`.pipeline/constitution.md\` to ingest the platform-independent functional governance layer and zero-mocking persistence mandates.
 2. **Load Project Skills**: Execute \`view_file\` on \`skills/feature-driven-implementation/SKILL.md\` (and any active skills under \`skills/\` or \`.agents/skills/\`) to initialize feature-driven implementation protocols and review gates.
@@ -894,7 +949,7 @@ $DOMAIN_PROJECT_DESC
 
 ### 1.1 Customer Application Workspace Scope
 
-As a **Tier 2 Customer Application Workspace**, this repository is authorized for concrete engineering delivery, proprietary application code, ROS2 lifecycle nodes, PX4 flight modules, hardware-in-the-loop tests, and verified Agile backlog implementations.
+As a **Tier 3 Customer Application Workspace**, this repository is authorized for concrete engineering delivery, proprietary application code, ROS2 lifecycle nodes, PX4 flight modules, hardware-in-the-loop tests, and verified Agile backlog implementations.
 
 ### 1.2 Primary Commercial Toolchain Integration Context
 
@@ -945,10 +1000,9 @@ bash scripts/install_pipeline.sh .
 
 ### 3.3 Mandatory Agent Initialization Sequence
 
-Immediately following installation, any AI agent (Antigravity, Claude Code, Gemini CLI, Cursor) initializing in this repository MUST execute the following sequence before accepting user directives or executing task implementations:
+Immediately following installation, any AI agent (Antigravity, Claude Code, Cursor) initializing in this repository MUST execute the following sequence before accepting user directives or executing task implementations:
 
-0. **Detect Repository Role & Scope**:
-   - Inspect whether \`.pipeline/upstream/\` exists on disk.
+0. **Detect Repository Role & Scope (Direct-Path Read)**: Inspect whether \`.pipeline/upstream/\` exists on disk via direct-path read (\`list_dir\` or \`view_file\`). Do not rely on glob or search tools that ignore hidden dot-directories.
    - If absent -> **Downstream Customer Project Mode**: Authorized for customer feature implementation and domain codebase delivery.
 1. **Read Governance Constitution**: Execute \`view_file\` on \`.pipeline/constitution.md\` to ingest the platform-independent functional governance layer and zero-mocking persistence mandates.
 2. **Load Project Skills**: Execute \`view_file\` on \`skills/feature-driven-implementation/SKILL.md\` (and any active skills under \`skills/\` or \`.agents/skills/\`) to initialize feature-driven implementation protocols and review gates.
@@ -964,16 +1018,39 @@ EOF
   cat << 'EOF' >> "$TARGET_DIR/README.md"
 ## 4. Multi-Pipeline Operator Prompt Catalog & Autonomous Execution Workflows
 
-This catalog contains the complete, unabridged, copy-pasteable operator prompt suite for executing all stages of the Digital Engineering Agent Platform (DEAP) lifecycle across context-isolated subagents in Antigravity, Claude Code, Gemini CLI, Cursor, and Cascade.
+This catalog contains the complete, unabridged operator prompt suite for executing all stages of the Digital Engineering Agent Platform (DEAP) lifecycle across context-isolated subagents in Antigravity, Claude Code, and Cursor.
 
 ### 4.1 Master-Worker Subagent Topology
 
 ```mermaid
-flowchart LR
-    Step00["Step 0.0: Level 0 OEM Ground Truth Ingestion (sysmlv2_ingest.py)"] --> Step0["Step 0: SysML Model Ingestion & Compilation Gate (python3 scripts/compile_sysml.py --compile)"]
-    Step0 -->|"Compiled AST"| Worker_0A["Worker 0A: CONOPS Synthesizer"]
-    Worker_0A -->|"docs/conops/CONOPS.md"| Worker_0B["Worker 0B: STPA / FMECA Assurer"]
-    Worker_0B -->|"docs/safety/STPA_MATRIX.md"| Step3["Step 3: Level 1C ICD Extraction & Level 2 Specifications"]
+flowchart TD
+    subgraph P0["Pipeline 0: Pre-Spec Safety Engineering & Model Formulation"]
+        Step00["Step 0.0: Level 0 OEM Ground Truth Ingestion (sysmlv2_ingest.py)"] --> Step0["Step 0: SysML Model Ingestion & Compilation Gate (python3 scripts/compile_sysml.py --compile)"]
+        Step0 -->|"Compiled AST"| W0A["Worker 0A: CONOPS Synthesizer"]
+        W0A -->|"docs/conops/CONOPS.md"| W0B["Worker 0B: STPA / FMECA Assurer"]
+        W0B -->|"docs/safety/STPA_MATRIX.md"| W0C["Worker 0C: SysML Model Author"]
+        W0C -->|"schema/DEAP_MODEL.sysml"| W0D["Worker 0D: Interface Specification Worker (Logical ICD & Master Signal Dictionary)"]
+    end
+
+    subgraph P1["Pipeline 1: Agile Specification Backlog Projection"]
+        W0D -->|"pipeline0_handoff_contract.json"| W1A["Worker 1A: Structural Spec Worker (Epics & Features)"]
+        W1A -->|"docs/epics/ & docs/features/"| W1B["Worker 1B: Behavioral Spec Worker (User Stories & Statecharts)"]
+        W1B -->|"docs/user-stories/"| W1C["Worker 1C: Operational Spec Worker (Use Cases & Realization)"]
+        W1C -->|"docs/use-cases/"| W1D["Worker 1D: WBS & Work Package Decomposition Spec Worker"]
+        W1D -->|"docs/management/WBS_DELIVERABLES_SUITE.md"| Reconcile["Grounding Auditor & Backlog Reconciliation Gate"]
+    end
+
+    subgraph P2["Pipeline 2: Autonomous Feature Implementation & Simulation"]
+        Reconcile --> Backlog["Prioritized Backlog Feature"]
+        Backlog --> W2A1["Worker 2A.1: Flutter Feature Implementer (app_flutter/)"]
+        Backlog --> W2A2["Worker 2A.2: ROS2 / PX4 Real-Time Control Implementer"]
+        Backlog --> W2B["Worker 2B: Dual-Track Simulation Driver (Simulink & Python Twin)"]
+        W2A1 & W2A2 & W2B --> Rev1["Stage 1: Spec Compliance Review (Reviewer 1)"]
+        Rev1 --> Rev2["Stage 2: Code Quality & Numerical Review (Reviewer 2)"]
+        Rev2 --> Chall["Adversarial Challenge Gate (Challengers 1 & 2)"]
+        Chall --> Victory["Independent Victory Auditor (Victory Auditor)"]
+        Victory -->|"VICTORY CONFIRMED"| Release["Backlog Reconciliation & Status Transition"]
+    end
 ```
 
 ### 4.2 Pipeline 0 Execution Prompts
@@ -1343,44 +1420,98 @@ python3 scripts/compile_sysml.py --reverse-sync
 
 Execute the following prompts to drive feature implementation and two-path (dual-track) simulation verification through context-isolated TDD micro-tasks:
 
-#### 4.5.1 Worker 2A / Synthesis Driver: Feature-Driven Implementation Prompt
+#### 4.5.1 Worker 2A.1 / Synthesis Driver: Flutter Feature Implementation Prompt
 
 ```text
 Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` as your very first step before taking any action.
 
-Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT
 
-Role: Worker 2A -- Feature-Driven Implementation & Synthesis Driver
+Role: Worker 2A.1 -- Flutter Feature-Driven Implementation Specialist
 
 Primary Commercial Toolchain Integration Context:
 This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
 
-Governance Preamble & Execution Directive:
-Adopt the feature-driven-implementation skill by reading `.pipeline/constitution.md`, `.pipeline/ACTIVE_RULES_BUNDLE.md`, and the target platform profile (`.pipeline/profiles/<target-platform>.md`, e.g. `ros2_cpp.md`, `px4_module.md`, or `flutter.md`).
+Target Directory & Confinement Invariant:
+All source code, assets, configurations, and tests MUST reside exclusively under `app_flutter/`. Writing source code or configuration files at repository root is strictly prohibited.
 
-Implement prioritized Feature [Issue Number, e.g. #1] adhering strictly to the 3-Layer Definition of Done (DoD):
-1. Layer 1: Domain Model / Safety Statechart -- Platform-independent domain entities, transition guards, mathematical invariants, and safety statecharts.
-2. Layer 2: Safety Statechart / ViewModel -- State management, event handling, lifecycle hooks, and reactive telemetry bindings.
-3. Layer 3: Interface Binding / Middleware & BDD Tests -- Platform interface bindings (ROS2 lifecycle nodes, PX4 uORB modules, or Flutter widgets) verified via automated BDD integration tests against live emulators / simulation harnesses.
+Architecture Pattern:
+MVVM (Model-View-ViewModel) layered architecture. Views are stateless widgets consuming ViewModels via dependency injection. ViewModels manage domain state and event streams. Domain entities are decoupled from presentation. All persistence transactions must interact exclusively with abstract repositories resolved dynamically at bootstrap.
 
-Execution Standards:
-- Execute TDD RED-GREEN-REFACTOR cycles using context-isolated subagents for each 2-5 minute micro-task.
-- Dual-Track MBD Verification: Enforce Track A (Native MATLAB / Simulink / Stateflow synthesis) and Track B (Headless CI Digital Twin Engine) with numerical tolerance verification (error <= 10^-6) and zero license blockers.
-- Zero-Mocking Live Persistence Mandate: Validate all transactions against live databases / emulators.
-- Closed-Loop Payload Verification: Deliver cumulative solution walkthrough (`docs/designs/feat-<ID>-solution.md`), verify live published payload, comment on issue with walkthrough link, and apply `status:fixed-resolved` (GitHub) or `status::fixed-resolved` (GitLab). Leave issue open for Product Owner review.
+The 15 Mandatory Domain Engineering Standards:
+1. Result<T> Over Exceptions: All fallible domain operations and repository methods MUST return explicit Result<T> signatures (Success<T> or Failure<T>) rather than throwing untyped runtime exceptions.
+2. Sealed Class Hierarchies: Domain states, algebraic data types, events, and error hierarchies MUST use sealed class hierarchies (`sealed class`) to enforce exhaustive pattern matching.
+3. Named Constructors with Validation: Complex domain entities MUST declare private or named constructors performing assertion and validation logic to guarantee invalid objects cannot be instantiated.
+4. Typed Errors per Domain: Every domain module MUST define explicit, strongly-typed error classes extending a sealed domain error base (`DomainError`) rather than returning raw error strings or untyped exceptions.
+5. @immutable Annotation Mandatory: Every domain class, entity, value object, event, and state container MUST be annotated with `@immutable` to enforce compile-time immutability.
+6. Interface Segregation: Domain interfaces and repository contracts MUST be narrow, lean, and highly cohesive so clients do not depend on unused methods.
+7. Zero dynamic: The use of `dynamic` or untyped `Object?` in domain signatures, interfaces, properties, or variables is strictly prohibited. All data flows must be strongly typed.
+8. BDD Test Naming: Unit and integration test names for domain logic MUST use explicit BDD behavior-driven naming patterns (`given_when_then` or `should [behavior] when [condition]`).
+9. UML Traceability Tags Mandatory: Every public domain class, interface, mixin, extension, or typedef header MUST include a DartDoc traceability tag (`/// Realises: [SpecName/ClassName]`) referencing its underlying specification or UML classifier.
+10. Public Member Docstrings Mandatory: Full DartDoc comments (`///`) are mandatory for every public class, interface, method, function, constructor, getter, and property in the domain layer.
+11. const Constructors: Immutable domain classes and value objects with final fields MUST declare const constructors to support compile-time constant canonicalization.
+12. Value Equality: All domain value objects and entities MUST override `operator ==` and `hashCode` (or extend Equatable) to guarantee value-based equality.
+13. Typedefs for Callbacks: Callback functions, listener signatures, and event handlers MUST be declared as explicit typedef aliases rather than raw inline function types.
+14. Private Constructors with Public Factories: Domain entities requiring construction validation MUST restrict direct instantiation via private constructors (`._()`) and expose public factory constructors.
+15. Separation of Serialization: Domain models MUST remain completely decoupled from JSON, database, or network serialization logic (`fromJson`/`toJson`). Serialization logic MUST reside strictly in separate DTOs or data layer adapters.
 
-Defect Filing Directive:
-If any compiler fault, schema inconsistency, or invariant violation is discovered, you are strictly forbidden from filing raw issues directly. You MUST dispatch a fresh context-isolated subagent with `skills/adversarial-code-auditor/SKILL.md` to perform the 5-pillar audit, generate the verified 7-section defect dossier, and submit it via `python3 scripts/file_defect.py`. Issue auto-closing keywords or issue close commands are strictly forbidden.
+Execution Standards & Governance Mandates:
+- Adopt the feature-driven-implementation skill by reading `.pipeline/constitution.md`, `.pipeline/ACTIVE_RULES_BUNDLE.md`, and `.pipeline/profiles/flutter.md`.
+- Section 1.9 Zero-Mocking Live Persistence Mandate: All client-side application targets MUST connect to a live persistent database, emulator, or local register map at runtime; in-memory mocks are strictly prohibited.
+- 3-Layer Definition of Done (DoD):
+  1. Layer 1: Domain State & Signal Model -- Strongly-typed domain models, value objects, and repository interfaces.
+  2. Layer 2: Logic & Safety State Management -- ViewModels, statecharts, reactive bindings, and event streams.
+  3. Layer 3: Display & Actuator Interface Binding -- High-density Flutter widgets, container queries, and BDD User Story Widget tests.
+- TDD RED-GREEN-REFACTOR cycle: Write failing test first, verify failure, write minimal passing code, verify pass, refactor.
+
+Verification Commands:
+cd app_flutter && flutter analyze && flutter test
+
+---GOVERNANCE-END---
+
+Implement prioritized Feature [Issue Number, e.g. #1] adhering strictly to the above standards.
 
 PROCEED
 ```
 
-#### 4.5.2 Worker 2B / Simulation Driver: Two-Path (Dual-Track) Simulation & Digital Twin Verification Prompt
+#### 4.5.2 Worker 2A.2 / Synthesis Driver: ROS2 / PX4 Feature Implementation Prompt
 
 ```text
 Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` as your very first step before taking any action.
 
-Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT (or UPSTREAM_SPEC_CORE_COMPILER depending on execution context)
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT
+
+Role: Worker 2A.2 -- Real-Time Robotics & Autopilot Implementation Specialist
+
+Primary Commercial Toolchain Integration Context:
+This project explicitly declares MATLAB / Simulink / Stateflow / Embedded Coder as the Primary Tier-1 Commercial Toolchain Integration Context (Model-Based Design, Control Law Synthesis, DO-178C C/SPARK Ada code generation).
+
+Platform Profiles & Target Standards:
+Follow `.pipeline/profiles/ros2_cpp.md` (ROS 2 Humble/Iron/Jazzy, `rclcpp_lifecycle::LifecycleNode`, zero dynamic allocations in real-time loops via `rttest`, hardened QoS `RELIABILITY_RELIABLE`) and `.pipeline/profiles/px4_module.md` (PX4 Autopilot Firmware, `ModuleBase<T>`, uORB pub/sub messaging, ASTM F3269-17 Run-Time Assurance monitors). Hardware-in-the-loop (HIL) tests must validate real-time execution bounds, sensor jitter tolerances, and fail-safe actuation responses against simulated PX4 hardware targets.
+
+Execution Standards & Governance Mandates:
+- Adopt the feature-driven-implementation skill by reading `.pipeline/constitution.md`, `.pipeline/ACTIVE_RULES_BUNDLE.md`, and the target platform profile.
+- Architecture Pattern: Real-time ROS2 lifecycle nodes and PX4 uORB modules with deterministic execution semantics.
+- 3-Layer Definition of Done: Domain State Model, Lifecycle State Machine & Safety Monitor, Middleware Binding (uORB / ROS2 Topic) with automated unit, integration, and hardware-in-the-loop tests.
+- TDD RED-GREEN-REFACTOR cycle with context-isolated micro-tasks.
+
+Verification Commands:
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+colcon test --event-handlers console_direct+
+
+---GOVERNANCE-END---
+
+Implement prioritized Feature [Issue Number, e.g. #1] adhering strictly to the above standards.
+
+PROCEED
+```
+
+#### 4.5.3 Worker 2B / Simulation Driver: Two-Path (Dual-Track) Simulation & Digital Twin Verification Prompt
+
+```text
+Execute `view_file` on `skills/feature-driven-implementation/SKILL.md` as your very first step before taking any action.
+
+Repository Classification: DOWNSTREAM_CUSTOMER_PROJECT
 
 Role: Worker 2B -- Two-Path (Dual-Track) Simulation & Digital Twin Verification Driver
 
@@ -1411,7 +1542,7 @@ If any compiler fault, schema inconsistency, or invariant violation is discovere
 PROCEED
 ```
 
-#### 4.5.3 Two-Path MBD Artifact & Deliverable Hierarchy
+#### 4.5.4 Two-Path MBD Artifact & Deliverable Hierarchy
 
 Every feature containing control laws, operating dynamics, physical plant estimators, or safety state machines delivers the canonical two-path MBD artifact suite:
 

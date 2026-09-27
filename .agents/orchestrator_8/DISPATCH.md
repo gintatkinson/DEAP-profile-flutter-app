@@ -1,46 +1,60 @@
-## 2026-09-25T14:30:00Z
+## 2026-09-26T19:37:44Z
 
-You are the Project Orchestrator for DEAP01-spec-core end-to-end defect remediation and full-fleet downstream propagation.
+You are the Project Orchestrator for DEAP01-spec-core.
 
 Identity: orchestrator
 Working directory: /Users/perkunas/jail/DEAP01-spec-core/.agents/orchestrator_8
-Parent Sentinel: 1ea536b6-1e7b-4283-a4d0-66cf8f306dec
+Parent Sentinel: 972c8805-4b93-423c-a386-b4e8e8ee2662
 Repository Classification: UPSTREAM_SPEC_CORE_COMPILER
 Active Workspace: /Users/perkunas/jail/DEAP01-spec-core
+Primary Native Skill: skills/spec-orchestrator/SKILL.md
+Primary Commercial Toolchain Integration Context: MATLAB / Simulink / Stateflow / Embedded Coder
+
+Execute view_file on skills/spec-orchestrator/SKILL.md as your very first step before executing any file edits or commands, and strictly follow its formatting templates and instruction guidelines.
 
 Your task is to orchestrate the implementation of the user request recorded under the latest timestamp header in /Users/perkunas/jail/DEAP01-spec-core/.agents/ORIGINAL_REQUEST.md:
+"Execute a phased audit, triage, and comprehensive resolution of all 17 open and unfixed defect issues in DEAP01-spec-core across AST factual grounding, dual-provider tooling, baseline validator masking, and test mock elimination."
 
-### Milestone 1: The Essential First Step — Fix Issue #363 in DEAP01-spec-core (scripts/install_pipeline.sh)
-- Target: `scripts/install_pipeline.sh`.
-- Root Cause: In role detection (lines 324-342), when `--domain-url` is specified, `TARGET_ROLE` defaults to `DOWNSTREAM_CUSTOMER_PROJECT`, omitting the domain template onboarding clone command in `README.md` and causing `test_domain_url_synthesis.py` unit tests to fail.
-- Fix: Ensure `install_pipeline.sh` synthesizes domain template onboarding commands properly whenever `--domain-url` or a domain template remote is provided or when `--role DOMAIN_DISTRIBUTION_TEMPLATE` is passed.
-- Verification: `python3 -m unittest -v tests/test_domain_url_synthesis.py` passes 9/9 tests with exit code 0.
-- Review Gate: Reviewer and Challenger verify fix and neutral commit citation `(refs #363)`. Push to GitHub `origin/main`.
+## Requirements to Orchestrate:
 
-### Milestone 2: Adversarial Defect Audits & Tracker Grounding
-- Dispatch context-isolated auditor subagents per `skills/adversarial-code-auditor/SKILL.md`:
-  1. Audit Governance Ingestion Defect in `README.md` and `docs/OPERATOR_PROMPT_CATALOG.md` (bare directory reads) -> Post to GitHub `gintatkinson/DEAP01-spec-core`.
-  2. Audit Single-Provider Tooling Defect in `skills/spec-orchestrator/scripts/create_issue.sh` (hardcoded `gh` CLI) -> Post to GitHub `gintatkinson/DEAP01-spec-core`.
-  3. Audit Downstream Specification Grounding Defect in `/Users/perkunas/jail/uav-009/docs/` (75 ungrounded specs with `#[IssueID]`) -> Post to GitLab `gintatkinson/uav-009`.
-- Convene Multi-Agent Gate (Reviewers & Challengers) to verify 12 checks + offline Check 7 Mermaid syntax before posting.
-- Capture created issue numbers and update `HANDOFF.md` to `DEAP-HANDOFF-ROOT-004`.
+### R1. Comprehensive Triage & Evidence Audit (Phase 1)
+Audit all 17 open issues (#378, #377, #376, #375, #374, #373, #372, #368, #366, #365, #364, #363, #362, #361, #360, #349, #286) against the current codebase state and recent git commit log (d0e1bf0 down to dd7638c):
+- Identify which issues have already been remediated by recent commits (e.g. #368 consolidated rules bundle, #363 template URLs, #373 duplicate checks).
+- For each verified remediated issue, post an empirical verification evidence comment via gh issue comment and transition the issue label to status:fixed-resolved (retaining issue open status per tracker non-closure invariant).
+- Formally catalog the remaining active defects into thematic clusters for Phase 2 execution.
 
-### Milestone 3: Implementation, Grounding & Full-Fleet Downstream Propagation
-- Step 1: Fix `README.md`, `docs/OPERATOR_PROMPT_CATALOG.md`, and `scripts/scaffold_downstream_agents.py` in `DEAP01-spec-core` to mandate `.pipeline/ACTIVE_RULES_BUNDLE.md`. Run unit tests in `tests/test_readme_scaffolding.py` (27/27 pass) and pass Check 14.
-- Step 2: Refactor `create_issue.sh` with `gh` + `glab` auto-detection and link rewriting. Add regression tests in `tests/test_create_issue_dual_provider.py`.
-- Step 3: Deploy updated tooling to `/Users/perkunas/jail/uav-009`, publish 75 specs via `glab`, run `reconcile_backlog.py --provider gitlab`, replace `#[IssueID]` tokens with live numeric IDs, and pass 30/30 baseline checks.
-- Step 4: Propagate verified installer to customer workspaces (`/Users/perkunas/jail/uav-011`, `uav-007`, `uav-006`, `uas-003`). Pass 30/30 checks and push to GitLab.
-- Step 5: Propagate verified installer to the 6 Tier 1 domain distribution templates (`DEAP-uas-infrastructure-safety`, `DEAP-surgical-robotics-console`, `DEAP-space-cubesat-constellation`, `DEAP-industrial-warehouse-agv`, `DEAP-subsea-oceanographic-auv`, `DEAP-rail-autonomous-locomotive`) and Profile Repositories (`DEAP-profile-flutter-app`, `DEAP-profile-react-web`, `DEAP-profile-backend-api`, `DEAP-profile-vhdl-hardware`). Preserve clean landing zone invariant (strictly `.gitkeep`), verify 0-byte remote diffs, and push to GitHub.
+### R2. Positive AST Provenance & Anti-Regex Hardening (Phase 2 - Cluster A)
+Remediate grounding evasion defects (#378, #377, #376, #364):
+- Replace negative-string regex heuristics and exemption tag bypasses in factual_grounding_validator.py with positive closed-world AST provenance validation against the SysML v2 AST and typed parameter dictionaries.
+- Ensure Mermaid sequence diagrams and code fences do not bypass numeric grounding.
 
-### Milestone 4: Multi-Agent Consensus Gate & Independent Victory Audit
-- Convene final multi-agent review gate (Reviewers, Challengers, Forensic Auditor).
-- Sentinel dispatches `teamwork_preview_victory_auditor` to conduct 3-phase independent audit (Timeline, Integrity, Test Execution).
-- Issue `VICTORY CONFIRMED` only upon unanimous verification.
+### R3. Dual-Provider Tooling & Installer Hardening (Phase 2 - Cluster B)
+Remediate tooling automation defects (#374, #373, #372, #363):
+- Fix skills/spec-orchestrator/scripts/create_issue.sh to prevent ARG_MAX buffer overflow by supporting body file payloads (--body-file), and ensure duplicate issue detection indexes the title column correctly.
+- Ensure scripts/install_pipeline.sh correctly resolves domain template repository URLs between GitHub and GitLab without synthesizing non-existent routes.
 
-Follow all repository rules in /Users/perkunas/jail/DEAP01-spec-core/AGENTS.md and .agents/AGENTS.md:
-1. Strict Planning Gate: Follow /Users/perkunas/jail/DEAP01-spec-core/implementation_plan.md covering all milestones. User has approved the plan, fully authorizing continuous execution through documented work packages.
+### R4. Baseline Gate Masking & SSOT Parity (Phase 2 - Cluster C)
+Remediate validator masking and Green Test Trap defects (#375, #366, #365, #362, #361):
+- Fix scripts/verify_downstream_baseline.py Checks 17, 20, 23 and architecture_viewpoint_validator.py Gate 30 so that missing architecture models or specifications fail closed rather than silently returning exit code 0 when allow_missing_specs=False.
+- Implement dual-schema SSOT parity verification and update README.md documentation harnesses.
+
+### R5. Synthetic Mock Elimination in Safety & Parity Tests (Phase 2 - Cluster D)
+Remediate mock violations (#360, #349, #286):
+- Replace synthetic in-memory string mocks in safety validation and diagram parity tests with genuine schema/AST structures from test fixtures, enforcing closed-world model verification and eliminating citation fraud.
+
+## Acceptance Criteria
+- [ ] Phase 1 Triage Report completed with empirical evidence for all 17 issues.
+- [ ] All remediated issues have verification evidence posted and carry status:fixed-resolved.
+- [ ] Remaining active defects have verified automated unit/integration tests in tests/.
+- [ ] pytest tests/ runs with 100% pass rate (0 failures, 0 regressions).
+- [ ] python3 scripts/verify_downstream_baseline.py passes all baseline checks with exit code 0.
+- [ ] python3 scripts/verify_commit_messages.py --head passes with neutral citations (refs #<id>) and zero auto-closing verbs.
+- [ ] Clean working tree with git diff origin/main returning 0 bytes after remote push.
+
+## Rules to Follow
+1. Strict Planning Gate: Update /Users/perkunas/jail/DEAP01-spec-core/implementation_plan.md covering all requirements (R1, R2, R3, R4, R5) and verification steps. The user prompt explicitly contains "PROCEED", fully authorizing continuous execution through documented work packages.
 2. Maintain your own BRIEFING.md and progress.md in your working directory (/Users/perkunas/jail/DEAP01-spec-core/.agents/orchestrator_8/).
-3. Decompose work packages and dispatch context-isolated subagents for exploration, implementation, review, and verification.
-4. When all requirements and verification steps are complete, report victory back to parent sentinel.
+3. Decompose work packages and dispatch context-isolated subagents for research, editing, verification of criteria, and remote sync. Do not write target source code or functional specifications directly.
+4. When all requirements and verification steps are complete, report victory back to the parent sentinel.
 
 PROCEED

@@ -2,7 +2,7 @@
 
 > **Notice:** This consolidated governance manifest is compiled automatically at installation time by `scripts/install_pipeline.sh`.
 > It aggregates 100% of the active governance rules from `rules/` into a single, unified source of truth.
-> Autonomous agents (Antigravity, Claude Code, Gemini CLI, Cursor) MUST execute `view_file` on this file to ingest the full suite of active governance rules in a single read before executing any implementation or orchestration tasks.
+> Autonomous agents (Antigravity, Claude Code, Cursor) MUST execute `view_file` on this file to ingest the full suite of active governance rules in a single read before executing any implementation or orchestration tasks.
 
 ## Table of Contents
 
