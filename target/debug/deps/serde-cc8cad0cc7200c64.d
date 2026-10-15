@@ -1,0 +1,14 @@
+/Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/deps/serde-cc8cad0cc7200c64.d: /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/build/serde-a266ddf04ff112d7/out/private.rs
+
+/Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/deps/libserde-cc8cad0cc7200c64.rlib: /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/build/serde-a266ddf04ff112d7/out/private.rs
+
+/Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/deps/libserde-cc8cad0cc7200c64.rmeta: /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/build/serde-a266ddf04ff112d7/out/private.rs
+
+/Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/perkunas/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/build/serde-a266ddf04ff112d7/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/perkunas/jail/DEAP-profile-flutter-app/target/debug/build/serde-a266ddf04ff112d7/out

@@ -1,4 +1,4 @@
-# ACTIVE RULES BUNDLE — Consolidated Governance Manifest
+# ACTIVE RULES BUNDLE -- Consolidated Governance Manifest
 
 > **Notice:** This consolidated governance manifest is compiled automatically at installation time by `scripts/install_pipeline.sh`.
 > It aggregates 100% of the active governance rules from `rules/` into a single, unified source of truth.
@@ -77,7 +77,7 @@ fragmentation issue #289 fixed for the Mermaid rules. The per-trigger requiremen
 themselves are data, not prose, and live in `rules/behavioral_triggers.json`.
 
 These rules are mechanically enforced, offline, by
-`parity_auditor/validators/behavioral.py`. Before issue #304 they were enforced and
+`./target/release/verify-baseline` (superseding the retired Python validator `behavioral.py`). Before issue #304 they were enforced and
 stated in no document at all -- the orphan-enforcement shape recorded as #299 -- so a
 subagent drafting a User Story could not have known the requirement existed.
 
@@ -115,7 +115,7 @@ vocabulary is platform-specific, so this file is its normative home and
 `.pipeline/profiles/<platform>.md` supplies the vocabulary. That division follows
 `rules/platform-independence.md` § *Where platform-specific details belong*.
 
-Enforced offline by `parity_auditor/validators/codebase.py`. Every rule below was
+Enforced offline by `./target/release/verify-baseline` (superseding the retired Python validator `codebase.py`). Every rule below was
 enforced before issue #304 and stated in no document -- the orphan-enforcement shape
 recorded as issue #299 -- so nothing generating code into a downstream workspace could
 have been told what it had to satisfy.
@@ -214,7 +214,7 @@ degrades silently rather than failing loudly.
 
 # Rule: Hierarchical Concept of Operations & Tactical Mission Intent Integrity
 
-**ALWAYS enforce:** All Concept of Operations (`docs/conops/units/conops/` and `CONOPS.md`) and Tactical Mission Intent (`docs/conops/units/mission_intent/` and `MISSION_INTENT.md`) specifications in the Digital Engineering Autonomous Pipeline (DEAP) MUST adhere strictly to pure open schema contracts ($N \ge N_{\mathrm{min}}$ with zero static row caps), open multi-domain threat taxonomies across all 7 operational domains, mandatory INCOSE SEH v5.0 MoE/MoP mathematical formulations, 100% public clause citations, and deterministic modular assembly via `scripts/assemble_conops.py`.
+**ALWAYS enforce:** All Concept of Operations (`docs/conops/units/conops/` and `CONOPS.md`) and Tactical Mission Intent (`docs/conops/units/mission_intent/` and `MISSION_INTENT.md`) specifications in the Digital Engineering Autonomous Pipeline (DEAP) MUST adhere strictly to pure open schema contracts ($N \ge N_{\mathrm{min}}$ with zero static row caps), open multi-domain threat taxonomies across all 9 operational domains, mandatory INCOSE SEH v5.0 MoE/MoP mathematical formulations, 100% public clause citations, and deterministic modular assembly via `./target/release/assemble-conops`.
 
 ## Scope and Normative Authority
 
@@ -226,23 +226,23 @@ This governance standard is aligned with:
 - **ISO/IEC/IEEE 15288:2023**: Systems and software engineering -- System life cycle processes (§6.4.2 Stakeholder Needs and Requirements Definition & §6.4.3 Architecture Definition Process).
 - **INCOSE Systems Engineering Handbook v5.0**: Concept Definition (§3.4.4), Measures of Effectiveness (MoE), Measures of Performance (MoP), and Operational Scenario Engineering.
 - **ISO/IEC/IEEE 29148:2018**: Systems and software engineering -- Requirements engineering (§6.4.2 ConOps and §6.4.3 OpsCon).
-- **NATO STANAG 4586**: Standard Interfaces of UAV Control System (UCS) for NATO UAV Interoperability.
+- **IEEE 1362:1998**: Guide for Information Technology -- System Definition -- Concept of Operations (ConOps) Document.
 - **MIL-STD-882E**: Department of Defense Standard Practice: System Safety and Hazard Analysis (Task 202: Operational Hazard Analysis).
-- **SAE ARP4761 / ARP4754A**: Guidelines and Methods for Conducting the Safety Assessment Process on Civil Airborne Systems and Equipment (§3: Functional Hazard Assessment).
+- **IEC 61508**: Functional safety of electrical/electronic/programmable electronic safety-related systems (§7: Management of functional safety & Hazard Analysis).
 - **MIL-STD-1629A**: Procedures for Performing a Failure Mode, Effects and Criticality Analysis (Method 101: Functional FMECA, Method 102: Piece-Part Hardware FMECA).
-- **JARUS SORA v2.5**: Specific Operations Risk Assessment, 4D Operational Volume, and Ground Risk Buffer (GRB) calculation.
+- **Operational Domain Risk Assessment**: 4D Operational Volume and Boundary Containment Margin calculation.
 - **OMG UAF v1.2 / v2.0**: Unified Architecture Framework Operational Domain Views (Op-Pr, Op-Tx, Op-Is).
 
 Enforced offline by:
-- `parity_auditor/validators/conops_completeness_validator.py` (Gate 26)
-- `parity_auditor/validators/coverage_digest_validator.py` (Gate 28)
-- `parity_auditor/validators/obligation_witness_validator.py` (Gate 29)
+- `./target/release/verify-baseline` (superseding the retired Python validator `conops_completeness_validator.py`) (Gate 26)
+- `./target/release/verify-baseline` (superseding the retired Python validator `coverage_digest_validator.py`) (Gate 28)
+- `./target/release/verify-baseline` (superseding the retired Python validator `obligation_witness_validator.py`) (Gate 29)
 
 ### Architecture Hierarchy & Standards Governance (INCOSE SEH v5.0 §3.4.4 / ISO/IEC/IEEE 15288:2023 / ISO/IEC/IEEE 29148:2018 §6.4.2)
 
 In accordance with **INCOSE Systems Engineering Handbook v5.0 (§3.4.4 Concept Definition)**, **ISO/IEC/IEEE 15288:2023 (§6.4.2 Stakeholder Needs and Requirements Definition & §6.4.3 Architecture Definition Process)**, and **ISO/IEC/IEEE 29148:2018 (§6.4.2 ConOps & §6.4.3 OpsCon)**, the DEAP specification compilation framework enforces a strict 5-tier architecture hierarchy:
 1. **Level 1A: Stakeholder Intent, Normative Baseline & Threat Context**: Normative Research Inventory (`docs/research/RESEARCH_INVENTORY.md`), Failure Mode Registry (`docs/research/FAILURE_MODE_REGISTRY.md`), and regulatory obligations baseline.
-2. **Level 1B: Concept of Operations (ConOps) & Tactical Mission Intent**: Operational Activities (`OA-01`..`OA-N`), multi-threaded operational scenarios (`SCN-01`..`SCN-N`), operational information exchanges (`OpTx-01`..`OpTx-N`), METL tasks (`MET-01`..`MET-N`), operational lifecycle modes ($\Phi_{\mathrm{lifecycle}}$), SORA 4D containment math, and High-Level Operational Architecture (OV-1 / OV-2 / SV-1).
+2. **Level 1B: Concept of Operations (ConOps) & Tactical Mission Intent**: Operational Activities (`OA-01`..`OA-N`), multi-threaded operational scenarios (`SCN-01`..`SCN-N`), operational information exchanges (`OpTx-01`..`OpTx-N`), METL tasks (`MET-01`..`MET-N`), operational lifecycle modes ($\Phi_{\mathrm{lifecycle}}$), 4D operational containment mathematics, and High-Level Operational Architecture (OV-1 / OV-2 / SV-1).
 3. **Level 1C: Logical & Physical Interface Control Documents (ICD)**: Interface Control Documents (`docs/icd/ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `docs/icd/ICD_02_MASTER_SIGNAL_DICTIONARY.md`), discrete port dictionaries, pinouts, bus topologies, and wire framing.
 4. **Level 2: System Requirements Specification (SyRS) & Functional Architecture**: Downstream structural requirements consisting of Epics (`epic-xx`), Features (`feat-xx`), User Stories (`us-xx`), and formal System Use Cases (`uc-xx`).
 5. **Level 3: Detailed Design & Model-Based Design (MBD)**: Low-level software and hardware requirements, MATLAB / Simulink / Stateflow / Embedded Coder synthesis models, target source code, and Piece-Part BOM FMECA (MIL-STD-1629A Method 102).
@@ -250,13 +250,18 @@ In accordance with **INCOSE Systems Engineering Handbook v5.0 (§3.4.4 Concept D
 ### Strict Level 1B vs. Level 2 Metamodel Abstraction Boundary
 - **ConOps Operational Scope (Level 1B)**: ConOps models user operational viewpoints, user classes, operational activities (`OA-xx`), and operational scenarios (`SCN-xx`).
 - **Strict Exclusion of Level 2 System Use Cases**: ConOps documents and SV-1 diagrams are strictly forbidden from defining, citing, or injecting formal Level 2 System Use Cases (`uc-xx`). Formal System Use Cases (`uc-xx`) specify technical system functions realizing Level 2 Features and belong strictly in downstream System Requirements Specifications (SyRS Level 2 under `docs/use-cases/`).
+- **User Class Taxonomy Disambiguation (`UCL-xx`)**: In accordance with ISO/IEC/IEEE 29148:2018 §5.2.4, operational User Classes MUST use the `UCL-xx` prefix (`UCL-01` through `UCL-N`), strictly isolating stakeholder taxonomy from SyRS Level 2 System Use Cases (`uc-xx` or `USECASE-xx`) to prevent downstream agent reasoning collisions and automated sanitization corruption (refs #291).
+
 
 ### System Architecture Diagram Representation Standard (Option 3) & 100% Mathematical Parity Invariant
 In accordance with DoDAF v2.02 SV-1, IEEE 1362 §5.3, ISO/IEC/IEEE 15288:2023, INCOSE SE Handbook v5.0 (§3.4.4), and ISO/IEC/IEEE 29148:2018 §6.4.2–§6.4.3:
 - **Option 3 Standard (Compact Subsystem Blocks with Embedded Port Attributes)**: Subsystems MUST be rendered as compact subsystem block nodes with embedded bulleted port declarations (`[<b>Name</b><br/>• PORT-... (DIRECTION)]`), rather than exploding ports into separate flowchart nodes within giant subgraphs.
 - **Vertical Hierarchical Tier Partitioning (`direction TB`)**: Multi-subsystem and segment interface diagrams MUST declare `direction TB` inside subgraphs and partition nodes into vertical tiers with a maximum of 3 columns horizontally (max 3-column vertical tier partitioning).
 - **100% Mathematical Parity with Section 4.8 Allocation Table**: Every subsystem block in the SV-1 diagram embeds the exact set of typed logical and physical ports (`• PORT-... (DIRECTION)`) matching the Section 4.8 Physical & Logical Interface Allocations table rows 1:1, derived deterministically from 100% of declared AST `part def` nodes in exact lockstep.
-- **Strict Level 1B vs. Level 1C ICD Boundary**: Detailed internal wire-level interconnects, pinouts, RS-485 serial framing, opcodes (0x10, 0x11, etc.), register bitmasks, and CRC-16 equations belong strictly in Level 1C Interface Control Documents (`ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `ICD_02_MASTER_SIGNAL_DICTIONARY.md`), NOT in the ConOps document. Section 8 (Op-Tx) captures high-level operational information exchanges (Op-Tx: C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization) and strictly excludes component-internal serial opcode reference tables.
+- **Pure Schema-Driven Operational Segments & Dynamic Layout Spacers**: Operational segments and Mermaid layout subgraphs MUST derive 100% and exclusively from top-level packages or segment blocks present in the user-provided SysML AST in `schema/`. Hardcoding domain-specific segment names or communication plans into architecture diagrams, rules, or templates is strictly prohibited. Layout vertical spacers (`~~~`) MUST be generated dynamically between declared AST segments.
+- **Level 1B ConOps SV-1 to Level 1C ICD 1:1 Parity Mandate**: Detailed internal wire-level interconnects, pinouts, RS-485 serial framing, opcodes (0x10, 0x11, etc.), register bitmasks, and CRC-16 equations belong in Level 1C Interface Control Documents (`ICD_01_SYSTEM_INTERFACE_MATRIX.md` and `ICD_02_MASTER_SIGNAL_DICTIONARY.md`). Every ConOps SV-1 architectural edge/connection (`CONN-01`..`CONN-N`) MUST map 1:1 bidirectionally with a registered Level 1C interface entry in the System Interface Matrix (`ICD_01_SYSTEM_INTERFACE_MATRIX.md`), ensuring zero orphan connection links or unregistered interface contracts across Level 1B and Level 1C specifications. Section 8 (Op-Tx) captures high-level operational information exchanges (Op-Tx: C2 Commands, Telemetry, Video, Target Tracks, Arming Authorization) and strictly excludes component-internal serial opcode reference tables.
+- **Canonical SSOT Architecture Views Library Mandate (`docs/architecture/views/`) & Diagram Divergence Prevention**: All high-level operational and system architecture views MUST derive from or maintain 1:1 bidirectional parity with the canonical SSOT Architecture Views Library in `docs/architecture/views/` (including `sv1_super_system.mmd`, `sv1_platform_subsystems.mmd`, and `icd_system_interface_matrix.mmd`). Authoring independent, duplicate inline Mermaid architecture diagrams that diverge in subgraphs, nodes, ports, or connection links across ConOps, ICDs, and executive deliverables is strictly prohibited (refs #276).
+- **Modularized Subgraph Boundary Edge Routing (Rule E5)**: In accordance with Rule E5, architecture diagrams MUST decouple super-system operational context (DoDAF SV-1 Super-System View `sv1_super_system.mmd`) from internal subsystem bus breakdowns (DoDAF SV-1 Platform Subsystems View `sv1_platform_subsystems.mmd`). Inter-segment and cross-subgraph communication MUST route through discrete boundary interface ports or segment gateway/controller nodes, strictly prohibiting edges penetrating deeply into nested subgraphs across multiple hierarchy levels. Internal component buses and tier interconnects route within dedicated subsystem views, eliminating monolithic visual hairballs (refs #277).
 
 ---
 
@@ -275,14 +280,14 @@ In accordance with DoDAF v2.02 SV-1, IEEE 1362 §5.3, ISO/IEC/IEEE 15288:2023, I
 
 ### 2. Open Multi-Domain Operational Threat Matrices
 - **9-Domain Minimum Requirement**: To guarantee comprehensive risk characterization beyond simple mechanical hardware failures, the Multi-Domain Operational Threat & Contested Environment Matrix MUST explicitly address at least one threat vector from every one of the following 9 operational threat domains ($N \ge 9$):
-1. **Kinetic**: Ballistic impact, hostile shrapnel, mid-air object collision (e.g., bird strike, debris), explosive blast overpressure.
-2. **Mechanical**: Structural flutter, fatigue failure, control surface/actuator jamming, motor bearing seizure, propeller delamination.
-3. **Power / Thermal**: Battery cell thermal runaway, power rail brownout, electronic speed controller (ESC) thermal throttling, generator disconnect.
-4. **Environmental**: Extreme ambient temperature, severe turbulence/wind gusts exceeding structural / airframe limits, icing/pitot probe freeze, lightning discharge, heavy precipitation, volcanic particulate.
-5. **EW / Cyber**: GNSS spoofing/jamming, RF command uplink jamming, telemetry sniffing, man-in-the-middle packet injection, unauthorized command injection, firmware tampering.
+1. **Kinetic**: Ballistic impact, hostile fragments/shrapnel, physical obstacle/debris collision, explosive blast overpressure.
+2. **Mechanical**: Structural resonance/flutter, mechanical fatigue failure, linkage or actuator mechanism jamming, bearing seizure, structural delamination or material fracture.
+3. **Power / Thermal**: Energy storage / battery cell thermal runaway, power rail brownout, power converter / motor driver thermal throttling, generator disconnect.
+4. **Environmental**: Extreme ambient temperature, dynamic fluid/aerodynamic/hydrodynamic loads exceeding structural design limits, probe/sensor freeze and icing, electrostatic/lightning discharge, heavy precipitation, atmospheric or fluid particulate contamination.
+5. **EW / Cyber**: Positioning/navigation signal spoofing or jamming, RF command uplink jamming, telemetry interception, man-in-the-middle packet injection, unauthorized command injection, firmware tampering.
 6. **Optical**: High-energy laser blinding of optical tracking sensors, sensor dazzling, camera saturation, optical flow denial.
 7. **Signature / Acoustic**: Acoustic emission harmonics, infrared plume radiation, radar cross-section (RCS) observability.
-8. **Human Factors**: Ground operator input disparity, operator / pilot fatigue, unauthorized control override, communication protocol desynchronization.
+8. **Human Factors**: Operator input disparity, operator cognitive saturation or fatigue, unauthorized control override, human-machine interface (HMI) communication protocol desynchronization.
 9. **CBRN**: Chemical plumes, biological particulates, radiological contamination, toxic corrosive environments.
 
 Restricting threat analysis to an arbitrary single domain or omitting applicable threat vectors is strictly prohibited.
@@ -293,19 +298,19 @@ Restricting threat analysis to an arbitrary single domain or omitting applicable
 - **SI & Normalized Units**: Every metric MUST define its unit of measurement using normalized SI units, percentages, or explicit `Dimensionless` designations.
 
 ### 4. 100% Public Clause Citations
-- **Traceability Rule**: Every operational requirement, normative standard, threat mitigation rule, and METL task MUST cite verifiable, publicly accessible standard clauses (e.g., `ISO/IEC/IEEE 29148:2018 §6.4.2`, `NATO STANAG 4586 Annex B §3.2`, `JARUS SORA v2.5 Annex B §2.1`, `MIL-STD-882E §4.3`, `RTCA DO-178C §6.3.1`).
+- **Traceability Rule**: Every operational requirement, normative standard, threat mitigation rule, and METL task MUST cite verifiable, publicly accessible standard clauses (e.g., `ISO/IEC/IEEE 29148:2018 §6.4.2`, general authoritative public standards clauses, `MIL-STD-882E §4.3`, `IEC 61508-3 §7.4`).
 - **Prohibition of Un-Cited Additions**: Speculative, ungrounded, or heuristic requirements lacking authoritative clause citations are strictly forbidden across all specification units.
 
 ### 5. LaTeX & KaTeX Mathematical Rendering Integrity
 Per [`rules/latex-katex-integrity.md`](latex-katex-integrity.md):
-- **Display Math Blocks**: All mathematical formulations (SORA 4D Ground Risk Buffer $R_{\mathrm{GRB}}$, Bingo Energy dynamics $E_{\mathrm{bingo}}(t)$) MUST use dedicated display blocks `$$ \begin{aligned} ... \end{aligned} $$` on separate newlines.
+- **Display Math Blocks**: All mathematical formulations (derived from schema AST constraint or calculation definitions) MUST use dedicated display blocks `$$ \begin{aligned} ... \end{aligned} $$` on separate newlines.
 - **Pure Symbolic Math**: Embedding physical unit macros (e.g. `\text{ m}`, `\text{ m/s}`, `\text{ J}`) inside LaTeX math blocks is strictly prohibited.
 - **Accompanying Parameter Tables**: Display equations MUST be immediately followed by a parameter definition table defining every mathematical symbol, nominal value, SI unit, and engineering constraint.
-- **No Table Math Delimiters**: Math delimiters (`$ ... $` or `$$ ... $$`) inside Markdown table headers, delimiter rows, and data cells are strictly prohibited. Use standard plain text and Unicode characters (e.g. `h_max m`, `v_wind m/s`, `J`, `deg`, `tau_max ms`).
+- **No Table Math Delimiters**: Math delimiters (`$ ... $` or `$$ ... $$`) inside Markdown table headers, delimiter rows, and data cells are strictly prohibited. Use standard plain text and Unicode characters (e.g. `boundary_max m`, `v_max m/s`, `J`, `deg`, `tau_max ms`).
 
 ### 6. Deterministic Modular Assembly & Cross-Model Allocation
 - **Modular Unit Storage**: ConOps and Mission Intent specifications MUST be authored as discrete modular unit files under `docs/conops/units/conops/` (12 modules: `01_METADATA_AND_OVERVIEW.md` through `12_EMERGENCY_DECISION_MATRIX.md`) and `docs/conops/units/mission_intent/` (10 modules: `01_COMMANDERS_INTENT.md` through `10_OPERATIONAL_ALLOCATION_TAGS.md`).
-- **Deterministic Assembly Engine**: Master documents (`docs/conops/CONOPS.md` and `docs/conops/MISSION_INTENT.md`) MUST be compiled via `python3 scripts/assemble_conops.py`.
+- **Deterministic Assembly Engine**: Master documents (`docs/conops/CONOPS.md` and `docs/conops/MISSION_INTENT.md`) MUST be compiled via `./target/release/assemble-conops`.
 - **Zero Placeholder Tokens**: Assembled specifications MUST contain zero unresolved `{{...}}` template tokens.
 - **Gate 24 Operational Allocation**: Every UAF Operational Activity (`OA-XX`) and METL Task (`MET-XX`) MUST define a machine-verifiable Gate 24 allocation tag (`/// OperationalAllocation: [OA-XX]` or `/// OperationalAllocation: [MET-XX]`) linking operational tasks to structural and behavioral SysML v2 AST elements.
 
@@ -316,7 +321,7 @@ Per [`rules/latex-katex-integrity.md`](latex-katex-integrity.md):
 Safety, threat, and hazard derivation in DEAP follows a strict three-tier, multi-run architectural lifecycle to eliminate circular dependency deadlocks between operational concept definition and physical component selection:
 
 ### Tier 1 (Run 1: Mission Intent / Concept Formulation)
-- **Primary Methodologies**: Functional Hazard Assessment (FHA) under **SAE ARP4761 §3** and Operational Hazard Analysis (OHA) under **MIL-STD-882E Task 202**.
+- **Primary Methodologies**: Functional Hazard Assessment (FHA) under **IEC 61508-1 §7.4** and Operational Hazard Analysis (OHA) under **MIL-STD-882E Task 202**.
 - **Derivation Mechanism**: Threats and operational hazards are derived systematically from declared **Mission Functions** (`Propel`, `Navigate`, `Communicate`, `Sense`, `Contain`) and **Operating Domains** (`Kinetic`, `Mechanical`, `Power/Thermal`, `Environmental`, `EW`, `Cyber`, `Optical`, `Signature`, `Human Factors`, `CBRN`) using standardized hazard guide words:
   * `Loss`: Complete absence or cessation of the required mission function.
   * `Degraded`: Sub-nominal capacity, reduced bandwidth, or inadequate control authority.
@@ -335,45 +340,19 @@ Safety, threat, and hazard derivation in DEAP follows a strict three-tier, multi
 
 ---
 
-## Standard Metric & Volume Equations
+## Pure Schema-Driven Mathematical Formulation Invariant
 
-### SORA Ground Risk Buffer Formulation
-$$
-\begin{aligned}
-V_{\mathrm{4D}} &= V_{\mathrm{SpatialGeometry}} \cup V_{\mathrm{ContingencyVolume}} \cup V_{\mathrm{GRB}} \\
-R_{\mathrm{GRB}} &= h_{\mathrm{max}} \cdot \tan(\theta_{\mathrm{impact}}) + v_{\mathrm{wind,max}} \cdot \sqrt{\frac{2 h_{\mathrm{max}}}{g}} + d_{\mathrm{glide,max}}
-\end{aligned}
-$$
+All mathematical equations and parameter definition tables in ConOps must derive 100% and exclusively from AST nodes (`constraint def`, `calc def`, and attribute constraints) present in the user-provided SysML schemas in `schema/`.
 
-- Parameter Definitions & Engineering Units:
-- $V_{\mathrm{4D}}$: Total 4D spatial-temporal operational volume envelope.
-- $R_{\mathrm{GRB}}$: Declared ground risk buffer radius.
-- $h_{\mathrm{max}}$: Maximum operating altitude above reference surface (m).
-- $\theta_{\mathrm{impact}}$: Worst-case operational trajectory impact angle (deg).
-- $v_{\mathrm{wind,max}}$: Maximum operational wind speed limit (m/s).
-- $g$: Standard gravitational acceleration constant ($9.80665\text{ m/s}^2$).
-- $d_{\mathrm{glide,max}}$: Maximum unpowered lateral displacement margin (m).
+Universal Formatting Contract: Every mathematical constraint rendered as a display block `$$ \begin{aligned} ... \end{aligned} $$` must be followed by a parameter definition table specifying symbols, values, units, and descriptions extracted directly from the schema AST node attributes.
 
-### Bingo Energy Dynamics Formulation
-$$
-\begin{aligned}
-E_{\mathrm{bingo}}(t) &= E_{\mathrm{return}}(\mathbf{p}(t), \mathbf{p}_{\mathrm{dest}}) + E_{\mathrm{divert}}(\mathbf{p}_{\mathrm{dest}}, \mathbf{p}_{\mathrm{alt}}) + E_{\mathrm{reserve}} + E_{\mathrm{contingency}} \\
-E_{\mathrm{reserve}} &\ge 0.20 \cdot E_{\mathrm{capacity}}
-\end{aligned}
-$$
-
-- Parameter Definitions & Engineering Units:
-- $E_{\mathrm{bingo}}(t)$: Dynamic Bingo energy threshold triggering immediate return or divert.
-- $E_{\mathrm{return}}$: Energy required to transit from current coordinate $\mathbf{p}(t)$ to primary recovery point $\mathbf{p}_{\mathrm{dest}}$.
-- $E_{\mathrm{divert}}$: Energy required to divert from primary recovery point to alternate recovery point $\mathbf{p}_{\mathrm{alt}}$.
-- $E_{\mathrm{reserve}}$: Statutory reserve energy (must be $\ge 20\%$ of total storage capacity $E_{\mathrm{capacity}}$).
-- $E_{\mathrm{contingency}}$: Dynamic holding pattern and wind compensation buffer.
+The compiler contains ZERO pre-baked equations.
 
 ---
 
 ## Why
 
-Treating operational concepts and mission intent as informal, ad-hoc prose leads to unverified airspace risks, untraced mission requirements, under-dimensioned safety containment buffers, and catastrophic system failures during contingency events.
+Treating operational concepts and mission intent as informal, ad-hoc prose leads to unverified operational risks, untraced mission requirements, under-dimensioned safety containment buffers, and catastrophic system failures during contingency events.
 
 Enforcing strict schema contracts, open multi-domain threat modeling, mathematical formulations, public clause citations, and deterministic assembly ensures that Level 1B operational concepts are as rigorous and machine-verifiable as low-level source code.
 
@@ -393,7 +372,7 @@ Enforcing strict schema contracts, open multi-domain threat modeling, mathematic
 
 ## Required reads
 
-1. **Agent operating rules** (`.agents/AGENTS.md`) -- project-scoped agent rules, including the **Strict Planning Gate** that governs when file writes are permitted. Read this FIRST, before the constitution. It states the strictest authorization rule in the repository, and omitting it leads agents to act on weaker rules found elsewhere.
+1. **Agent operating rules** (root `AGENTS.md`; `.agents/AGENTS.md` is an optional alias, matching Check 14 in `crates/deap-core/src/workspace.rs`) -- project-scoped agent rules, including the **Strict Planning Gate** that governs when file writes are permitted. Read this FIRST, before the constitution. It states the strictest authorization rule in the repository, and omitting it leads agents to act on weaker rules found elsewhere.
 2. **Functional constitution** (located at the path resolved from configuration, e.g., `.pipeline/constitution.md`) -- domain rules, spec standards, agent behavior, quality gates. Read this before ANY task (specification or implementation).
 3. **Implementation profile** (located under the profiles directory, e.g., `.pipeline/profiles/<platform>.md`) -- platform-specific coding standards, testing mandates, build config. Read this ONLY when implementing features, not during spec generation.
 
@@ -403,8 +382,9 @@ Enforcing strict schema contracts, open multi-domain threat modeling, mathematic
 - If you are implementing a feature and no implementation profile exists for the target platform, HALT and ask the human to create one.
 - If a proposed change conflicts with any constitution document, HALT and escalate to the human.
 - Specification workers/modules MUST NOT read implementation profiles -- they operate on functional specs only.
-- You MUST read `.agents/AGENTS.md` before writing or modifying any file. Its *Strict Planning Gate* requires an approved implementation plan and overrides any rule that treats an authorization keyword alone as sufficient. See `rules/user-authorization-lock.md` § *Precedence*.
-- `.pipeline` and `.agents` are hidden directories and generic glob tools may exclude them. You MUST read `.agents/AGENTS.md`, `.pipeline/constitution.md` and `.pipeline/profiles/` directly by their explicit paths. A file absent from this list and hidden from glob is effectively invisible -- that is how the strictest authorization rule came to be missed.
+- You MUST read root `AGENTS.md` (or its optional alias `.agents/AGENTS.md` where present) before writing or modifying any file. Its *Strict Planning Gate* requires an approved implementation plan and overrides any rule that treats an authorization keyword alone as sufficient. See `rules/user-authorization-lock.md` § *Precedence*.
+- `.pipeline` and `.agents` are hidden directories and generic glob tools may exclude them. You MUST read root `AGENTS.md`, `.pipeline/constitution.md` and `.pipeline/profiles/` directly by their explicit paths. A file absent from this list and hidden from glob is effectively invisible -- that is how the strictest authorization rule came to be missed.
+- Baseline conformance is verified exclusively with the native Rust binary `./target/release/verify-baseline . --no-domain`; the retired `scripts/verify_downstream_baseline.py` MUST NOT be invoked (Check 33).
 
 ## Why
 
@@ -528,7 +508,7 @@ gate, rather than two file-local assertions that no document generalises and no 
 
 These standards govern Tier 1 domain models and clean architecture boundaries across all supported target platforms. They ensure immutability, exhaustive error handling, static type safety, and spec-to-code traceability across downstream application codebases.
 
-Enforced offline by `parity_auditor/validators/profile_compliance_validator.py` and platform profiles (`.pipeline/profiles/<platform>.md`).
+Enforced offline by `./target/release/verify-baseline` (superseding the retired Python validator `profile_compliance_validator.py`) and platform profiles (`.pipeline/profiles/<platform>.md`).
 
 ## The 15 Non-Negotiable Domain Engineering Standards
 
@@ -729,7 +709,7 @@ The Dual-Track MBD Verification Protocol provides the ideal synthesis: uncomprom
 - **Forbidden Bare Alignment Operators**: The alignment operator (`&`) is strictly forbidden outside an explicit alignment/tabular environment (`aligned`, `matrix`, `bmatrix`, `pmatrix`, `cases`, `array`). Bare `&` characters in math mode cause parser crashes in KaTeX.
 - **Prohibition of Top-Level `align` / `align*` in Markdown Math Mode**: Top-level `\begin{align}` and `\begin{align*}` environments are strictly prohibited inside markdown `$$ ... $$` math blocks. Authors MUST use `\begin{aligned} ... \end{aligned}` within `$$ ... $$` instead.
 - **Inline Math Scope and Currency Escaping**: Inline math MUST use single `$...$` or `\(...\)` on a single line and must not span multiple paragraphs. Any literal currency dollar signs or non-math dollar symbols MUST be escaped as `\$`.
-- **Forbidden Delimiters for Alphanumeric Identifiers**: Non-mathematical identifiers, including requirement IDs (`SC-XX`, `REQ-SYS-XX`), hazard identifiers (`H-X`), SORA objective codes (`OSO-XX`), loss identifiers (`L-X`), unsafe control actions (`UCA-X`), and physical unit tags (`m/s`), MUST NOT be enclosed in `$...$` math delimiters. Use standard bold text (`**SC-01**`, `**H-1**`, `**OSO-11**`) or code spans instead.
+- **Forbidden Delimiters for Alphanumeric Identifiers**: Non-mathematical identifiers, including requirement IDs (`SC-XX`, `REQ-SYS-XX`), hazard identifiers (`H-X`), regulatory objective codes (`OBJ-XX`), loss identifiers (`L-X`), unsafe control actions (`UCA-X`), and physical unit tags (`m/s`), MUST NOT be enclosed in `$...$` math delimiters. Use standard bold text (`**SC-01**`, `**H-1**`, `**OSO-11**`) or code spans instead.
 - **Balanced Display Math Delimiters**: Opening and closing `$$` blocks MUST be strictly balanced, and display math delimiters `$$` MUST reside on isolated, dedicated lines.
 
 ## Why
@@ -815,7 +795,7 @@ Ad-hoc browser automation is flaky, environment-dependent, and creates false con
 
 ## Universal Mermaid Diagram Ergonomics & Layout Invariant (Zero Horizontal Sprawl)
 
-To guarantee diagram readability, visual ergonomics, and prevent extreme horizontal aspect-ratio elongation across GitHub, GitLab, and IDE Markdown previewers, all Mermaid diagrams across all specifications, blueprinted interface documents, and architectural overviews MUST adhere to the following four ergonomics rules (E1–E4):
+To guarantee diagram readability, visual ergonomics, and prevent extreme horizontal aspect-ratio elongation across GitHub, GitLab, and IDE Markdown previewers, all Mermaid diagrams across all specifications, blueprinted interface documents, and architectural overviews MUST adhere to the following five ergonomics rules (E1-E5):
 
 - **Rule E1 (Horizontal Flow Prohibition)**: Unconstrained horizontal chaining and horizontal root layouts (`flowchart LR`, `graph LR`, `graph RL`) are strictly prohibited across all specification diagrams. Horizontal layouts force downstream renderers to scale diagrams into unreadable wide ribbons or trigger horizontal scrollbars. All flowcharts and topology graphs MUST use top-down orientation (`flowchart TD` or `graph TD`).
 - **Rule E2 (Mandatory Node Label Line-Wrapping <= 35 chars per line with `<br/>`)**: Long single-line node labels cause Mermaid boxes to stretch horizontally. Node labels MUST NOT exceed 35 characters on any single line. Any multi-word, descriptive, or compound label exceeding 35 characters MUST be broken into multiple lines using explicit `<br/>` tags inside the quoted string (e.g., `Node["Primary Telemetry Stream<br/>and Health Status Monitor"]`).
@@ -829,11 +809,16 @@ To guarantee diagram readability, visual ergonomics, and prevent extreme horizon
       end
   ```
   Topological connections bind directly between subsystem block nodes with descriptive edge labels (e.g. `SubA -->|"CONN-01 (Telemetry)"| SubB`).
+- **Rule E5 (Modularized Subgraph Boundary Edge Routing & Prohibition of Monolithic Cross-Hierarchy Edge Routing)**:
+  To eliminate unreadable visual hairballs and prevent Mermaid Dagre layout engine spline collisions cutting through intermediate nested subgraph boundaries, node text boxes, and port labels:
+  1. **Decoupled Hierarchical Architecture Views**: Architectural models MUST decouple super-system operational context (e.g. DoDAF SV-1 Super-System View `sv1_super_system.mmd` partitioning external actors, ground stations, and primary platform segments) from detailed internal subsystem bus interconnects (e.g. DoDAF SV-1 Platform Subsystems View `sv1_platform_subsystems.mmd`). Attempting to depict all operational segments and multi-tier internal LRU buses in a single monolithic flowchart is strictly prohibited.
+  2. **Boundary Port & Gateway Routing**: Cross-segment and external connection edges (such as supervisory command, telemetry, or auxiliary power) MUST connect to discrete segment boundary ports or designated gateway/controller nodes, and MUST NOT penetrate across multiple nested subgraph boundaries (>= 2 subgraph nesting levels).
+  3. **Zero Nested Subgraphs with Cross-Hierarchy Edges**: If a segment subgraph contains internal nested tier subgraphs, external edges MUST NOT target nodes inside those nested tiers. Segment containers receiving external connections MUST maintain flat node hierarchy (`direction TB`) or route external edges exclusively to segment boundary interfaces (refs #277).
 
 ## Document integrity constraints
 
 These are the non-Mermaid constraints on the same corpus, enforced offline by
-`parity_auditor/validators/docs.py`. They are stated here because each one exists to keep
+`./target/release/verify-baseline` (superseding the retired Python validator `docs.py`). They are stated here because each one exists to keep
 a Tier 1 document functional and standard-agnostic, or to keep it parseable by the tools
 that read it -- the same subject as the rules above. The three fence rules are deliberately
 **distinct** from `mermaid-fence-must-be-closed` in the Mermaid syntax checker: that rule
@@ -874,7 +859,7 @@ to say which checker fired.
 
 **This file is the single normative home for Mermaid syntax constraints.** Skills that emit Mermaid MUST reference this section rather than restating their own subset. These rules were previously fragmented across four files with disjoint subsets, so an author working from one file could breach a constraint documented in another -- see issue #289.
 
-These rules are mechanically enforced, offline, by `parity_auditor/validators/mermaid_syntax_validator.py`. That checker is a rule checker, not a full Mermaid grammar parser: a clean result means no documented rule was violated, which is not proof that a diagram renders. Blocking gates must not call remote renderers -- see `.pipeline/upstream/pipeline-tooling.md` § *Validation Gates*.
+These rules are mechanically enforced, offline, by `./target/release/verify-baseline` (superseding the retired Python validator `mermaid_syntax_validator.py`). That checker is a rule checker, not a full Mermaid grammar parser: a clean result means no documented rule was violated, which is not proof that a diagram renders. Blocking gates must not call remote renderers -- see `.pipeline/upstream/pipeline-tooling.md` § *Validation Gates*.
 
 
 
@@ -904,7 +889,7 @@ A single set of functional specs can drive implementations on React, Flutter, .N
 
 ## Hard constraints
 
-- **Coordinator Direct Writing & Research Lock**: The coordinator agent is strictly forbidden from directly writing or modifying target functional specifications (Epics, Features, User Stories, Use Cases) or codebase source files, and is locked from directly conducting technology stack research (Step 1.5). All codebase write and update operations must be delegated to spawned implementer subagents, and all tech stack research must be delegated to a dedicated research subagent (role: `Codebase Researcher`).
+- **Coordinator Direct Writing & Research Lock**: The coordinator agent is strictly forbidden from directly writing or modifying target functional specifications (Epics, Features, User Stories, Use Cases) or codebase source files, and is locked from directly conducting technology stack research (Step 1.5). All codebase write and update operations must be delegated to spawned implementer subagents, all tech stack research must be delegated to a dedicated research subagent (role: `Codebase Researcher`), and all component-level failure mode research must be delegated to dedicated context-isolated research subagents per `part def` component (role: `Component Failure Mode Researcher` or `Failure Mode Research Worker`).
 - **Specification Phase Boundary**: Spec workers and specification subagents are strictly forbidden from reading, writing, or referencing implementation profiles, implementation plans, or target source code files. They must operate strictly within logical, functional, and platform-independent boundaries.
 - **Implementation Phase Boundary**: Implementation subagents and micro-task implementers are strictly forbidden from generating or directly modifying upstream specification files (Epics, Features, User Stories, Use Cases) unless explicitly authorized via a synchronized backlog reconciliation task.
 - **Strict Subagent Tool Locking**: Spawned subagents must only execute tools that fall within their explicit domain (e.g., spec subagents do not run build/test commands or modify code, and implementation subagents do not edit high-level specifications).
@@ -1151,10 +1136,13 @@ Coordinators are strictly forbidden from injecting leading line-level steering, 
 Every subagent dispatch prompt MUST target at most 1 specification item (max 1 Epic, 1 Feature, 1 User Story, or 1 Use Case) or 1 single bounded micro-task (2-5 minutes). Multi-item or batch execution prompts are strictly prohibited.
 
 ### 6. Mandatory Defect Filing Directives
-Prompts launching workers, auditors, or validators MUST explicitly instruct the subagent to file defects via both `gh issue create` (GitHub) and `glab issue create` (GitLab). Issue auto-closing keywords or issue close commands (`gh issue close`, `glab issue close`) in prompts or commit messages are strictly forbidden.
+Prompts launching workers, auditors, or validators are strictly forbidden from filing raw defects directly. Before filing an upstream defect, an adversarial auditor subagent MUST be dispatched with `skills/adversarial-code-auditor/SKILL.md` to produce a verified 7-section defect dossier with un-falsifiable empirical reproduction, and validate it offline via `./target/release/verify-baseline check-defect` before submitting via `./target/release/reconcile-backlog create-issue --label bug` (or `./target/release/file-defect` / dual `gh issue create` and `glab issue create` with verified `--body-file`). Issue auto-closing keywords or issue close commands (`gh issue close`, `glab issue close`) in prompts or commit messages are strictly forbidden.
 
 ### 7. Trailing Authorization Token
 The coordinator MUST append the authorization token `PROCEED` (case-insensitive) to the end of the subagent prompt payload to authorize tool execution in the subagent's isolated context.
+
+### 8. Component-Level Failure Mode Research Swarm Mandate
+During Step 1.5 Technology Stack & Architecture Research (Phase 0.5), monolithic drafting of component failure modes is strictly forbidden. The coordinator MUST extract all structural `part def` components from the authoritative schema (`.pipeline/schema.sysml`) and dispatch dedicated, context-isolated research subagents per component (role: `Component Failure Mode Researcher` or `Failure Mode Research Worker`). Each subagent prompt MUST target exactly one component AST fragment, instructing the worker to query standard failure mode catalogs (SAE ARP4761, MIL-HDBK-338B, RTCA DO-254, RTCA DO-178C), evaluate the 4 Universal Failure Dimensions (Interface, State, Action, Resource), and document at least 3 distinct failure modes per component with integer S/O/D ratings in [1, 10] for intermediate assembly into `docs/research/FAILURE_MODE_REGISTRY.md` before authorizing downstream STPA/FMECA matrix synthesis.
 
 ## Subagent Pre-Flight Self-Rejection Protocol
 
@@ -1207,22 +1195,24 @@ This project explicitly declares **MATLAB / Simulink / Stateflow / Embedded Code
 Every downstream engineering specification artifact MUST be formally rooted in and mapped to corresponding SysML v2 AST elements:
 
 1. **Epics & Features -> Structural Definitions (`package`, `part def`, `item def`)**:
-   - Every Epic must map to a top-level or architectural `package` defining subsystem boundaries.
-   - Every Feature specification must map to at least one `part def` (structural component/block) or `item def` (data definition/message payload).
+   - Every Epic must map to a top-level or architectural `package` defining subsystem boundaries, linked to ConOps Super-System architecture.
+   - Every Feature specification must map to at least one `part def` (structural component/block) or `item def` (data definition/message payload), bound to component-level failure modes from `docs/research/FAILURE_MODE_REGISTRY.md` and ConOps Subsystem architecture.
    - Component hierarchies, composition relationships, and data item schemas must be formally defined in SysML v2 before Feature elaboration.
 
-2. **User Stories -> Behavioral & Interface Definitions (`action def`, `state def`, `port def`)**:
-   - Every User Story must map to formal behavioral elements: discrete computational operations (`action def`), lifecycle and operational modes (`state def`), or interface boundaries (`port def`).
-   - Given-When-Then BDD scenarios must execute against the actions, states, and ports declared on the parent component's SysML definition.
+2. **User Stories -> Behavioral & Interface Definitions (`part def`, `action def`, `state def`, `port def`)**:
+   - Every User Story must ground in formal structural `part def` components: internal participant lifelines must bind 1:1 to SysML `part def`s.
+   - Behavioral elements map to discrete computational operations (`action def`), lifecycle and operational modes (`state def`), or interface boundaries (`port def`).
+   - Given-When-Then BDD scenarios must execute against the actions, states, and ports declared on the parent component's SysML definition, incorporating failure mode mitigations from `docs/research/FAILURE_MODE_REGISTRY.md` across the 4 Universal Failure Dimensions.
    - Parameter inputs (`in`), outputs (`out`), and flow directions must be explicitly typed.
 
-3. **Use Cases -> Formal Use Case Definitions (`use case def`)**:
+3. **Use Cases -> Formal Use Case Definitions (`use case def`, subject `part def`)**:
    - Every Use Case specification must be declared as a formal `use case def` in the SysML v2 model.
    - Each `use case def` MUST formally specify:
      - `subject`: The system or subsystem part under design (`part def`) providing the capability.
      - `actor`: Primary initiating actors and secondary participating actors (bound via typed ports/interfaces).
      - `objective`: Formal operational goal and success criteria.
      - `include` / `extend`: Formal relationships connecting modular or conditional sub-use-cases.
+   - Alternate and exception flows must address component-level failure modes from `docs/research/FAILURE_MODE_REGISTRY.md` for the subject `part def`.
 
 4. **Safety Invariants -> Formal Requirement Definitions (`requirement def`)**:
    - All safety constraints derived from STPA (System-Theoretic Process Analysis: Unsafe Control Actions, Loss Scenarios) and FMECA (Failure Mode, Effects, and Criticality Analysis) MUST be modeled as formal `requirement def` nodes.
@@ -1271,24 +1261,24 @@ Check 23 enforces absolute physical fidelity, attribute-level AST closure, and f
 
 ### 1. Mandatory SSOT Bill of Materials (BOM) Extraction & Parameter Grounding
 - **Level 0 Ground Truth Extraction**: All physical components, quantities, actuation mechanisms, and environmental/operational boundaries declared in Level 0 OEM specification tables and Bill of Materials (BOM) in `schema/` or `schema/extracted/` form the immutable parametric foundation of the system.
-- **AST Attribute Parameter Grounding**: Extracted physical parameters must be formally declared in SysML v2 as typed attributes (e.g. `attribute actuatorCount : Integer = 4;`, `attribute maxOperatingLimit : Real = 12.0;`) or part definitions.
+- **AST Attribute Parameter Grounding**: Extracted physical parameters must be formally declared in SysML v2 as typed attributes (e.g. `attribute componentCount : Integer = 4;`, `attribute maxOperatingLimit : Real = 12.0;`) or part definitions.
 
 ### 2. Attribute-Level AST Closure
-- **Universal Parameter Alignment**: All numeric limits, actuator and channel counts, structural configurations, electrical/datalink communication protocols, and physical dimensions referenced across downstream specifications must be formally declared in and grounded against the SysML AST and schema ground truth.
+- **Universal Parameter Alignment**: All numeric limits, component quantities, structural configurations, electrical/datalink communication protocols, and physical dimensions referenced across downstream specifications must be formally declared in and grounded against the SysML AST and schema ground truth.
 - **Rejection of Ungrounded Structural Assertions**:
-  - *Structural & Component Drift*: Claiming a dual-redundant topology when the BOM or SysML AST defines 4 quad-redundant channels, or asserting 2 actuators when 4 are defined, is strictly prohibited and rejected under rule `factual-grounding-numeric-drift`.
-  - *Fabricated Operational Limits & Thresholds*: Fabricating operational limits or physical metrics (e.g., asserting an ungrounded 18g/18-bar dynamic load when the schema limit is 12.0 or unsubstantiated) is strictly prohibited under rule `factual-grounding-numeric-drift`.
+  - *Structural Configuration & Cardinality Drift*: Asserting structural topology, configurations, or component counts that contradict the BOM or SysML AST definitions is strictly prohibited and rejected under rule `factual-grounding-numeric-drift`.
+  - *Fabricated Operational Limits*: Fabricating operational metrics or environmental boundaries beyond OEM schema limits is strictly prohibited under rule `factual-grounding-numeric-drift`.
   - *Unverified Communication & Electrical Protocols*: Mentioning ungrounded protocol standards (e.g., STANAG 4586, STANAG 4609, MIL-STD-1553, ARINC 429, CANopen) that are not declared in SysML AST port/item definitions or Level 0 OEM documents is rejected under rule `factual-grounding-unverified-protocol`.
 
 ### 3. Temporal Safety in Sequence Diagrams (Mandatory HITL Authorization)
-- **Prohibition of Autonomous Arming**: Autonomous generation of physical arming, firing, ignition, or weapon/pyrotechnic release signals is strictly forbidden.
-- **Explicit Temporal Precedence**: In any Mermaid sequence diagram (`sequenceDiagram`) across `docs/`, every physical arming, firing, or motor-enable signal targeting safety-critical actuators, pyrotechnics, rocket motors, or fuzing circuits MUST be preceded temporally by an explicit Human-in-the-Loop (HITL) C2 arming command, operator consent, or pilot authorization.
-- **Enforcement Rule**: Any sequence diagram attempting physical arming without prior human operator C2 consent is immediately rejected under rule `factual-grounding-temporal-safety-violation`.
+- **Prohibition of Autonomous Hazardous Actuation**: Autonomous generation of safety-critical irreversible actuation or energization signals without operator authorization is strictly forbidden.
+- **Explicit Temporal Precedence**: In any Mermaid sequence diagram (`sequenceDiagram`) across `docs/`, every irreversible state transition or energization signal targeting safety-critical actuators MUST be preceded temporally by an explicit Human-in-the-Loop (HITL) supervisory authorization command or operator consent.
+- **Enforcement Rule**: Any sequence diagram attempting irreversible actuation without prior human operator consent is immediately rejected under rule `factual-grounding-temporal-safety-violation`.
 
 ### 4. SSOT Citation Contract & Machine-Resolvable Provenance
 - **Traceability Citations**: Any specification claim or parametric assertion derived from OEM baseline data must carry explicit, machine-resolvable citations. Acceptable forms include:
   - HTML citation comments: `<!-- Source: schema/model.sysml -->` or `<!-- SSOT: schema/extracted/oem_bom.md -->`
-  - Markdown links to schema files: `[OEM Airframe Spec](schema/.../oem_spec.md)`
+  - Markdown links to schema files: `[OEM Specification](schema/.../oem_spec.md)`
   - YAML frontmatter metadata: `source_references` or `realized_ast_nodes` declaring the exact source files.
 - **Contextual Non-Normative Filtering**: Non-normative sections (e.g., Glossaries, Acronym lists, MCDA Trade Studies / Alternatives Analysis evaluating rejected design candidates) and Markdown code fences/comments are exempt from positive assertion drift checks.
 
@@ -1354,7 +1344,7 @@ Treating textual specifications and models as separate entities inevitably cause
 A test suite can be green, large, and still assert nothing about the constraints the
 specifications actually state. These are the assertion classes the parity auditor
 requires a downstream test suite to demonstrate, enforced offline by
-`parity_auditor/validators/test_completeness_validator.py`. They are stated here rather
+`./target/release/verify-baseline` (superseding the retired Python validator `test_completeness_validator.py`). They are stated here rather
 than in a platform profile because the checker scans every supported test file type
 (`_test.dart`, `.test.ts`, `.test.tsx`, `.spec.ts`, `.spec.tsx`) and the requirement is
 about what is asserted, not about which framework asserts it.
@@ -1403,16 +1393,17 @@ TDD prevents false confidence. A test written after the code is confirmation bia
 - All issue lifecycle operations (create, close, edit, transition) MUST use the tracker's configured issue management commands -- never modify local files as the primary operation.
 - Every local specification file MUST include the tracker issue ID in its YAML frontmatter (`issue_id: <int>`).
 - When referencing Issue IDs in markdown, use the live tracker Issue number -- never hard-code or assume numbers.
+- **Blocking Registration Gate for Checklist References (#223)**: Only issue numbers returned by live tracker registration commands (`gh issue create`, `glab issue create`) or query commands may enter markdown checklist items. Embedding speculative, predicted, provisional, or assumed future issue numbers is strictly forbidden across all specification tiers. Checklist items for specifications not yet registered must either retain the blocking placeholder `#[IssueID]` or declare non-allocation. Any sync or publish operation MUST abort if a checklist item references an issue number that does not resolve on the live tracker.
 - When constructing links to files in issue descriptions, dynamically determine the remote URL from the repository settings (e.g., `meta.upstream_repository`). Never use relative paths like `../features/...` in issue bodies.
 - **Registered Issues Must Have A Local Specification**: every tracker issue carrying the Epic or Feature label MUST have a corresponding local specification file. A registered issue with no file means the branch baseline is incomplete, and the reconciler will write checklist state back to an issue whose specification nobody can read.
 - **Local Indices Must Not Collide With Registered Issues**: a local specification whose ordinal (`epic-02`, `feat-07`) is already claimed on the tracker by a *differently titled* issue is a collision and MUST be renumbered. Reconciliation addresses specifications by ordinal, so the ambiguity silently retargets updates at the wrong issue.
-- **Local Specification Titles Must Be Unique Within A Spec Type**: no two Epics, no two Features, no two User Stories and no two Use Cases may declare titles that normalise to the same key. Uniqueness is scoped **per spec type, not globally**: an Epic naming a theme and a Feature delivering part of it may legitimately share a subject, and the tracker treats `(spec type, normalised title)` as the identity for exactly that reason. Reconciliation builds its issue lookup on the normalised title, so two specifications of one type sharing a key resolve to whichever issue was seen last -- one body is published over the other and the loser is orphaned. Enforced offline by `parity_auditor/validators/spec_title_uniqueness_validator.py`, using the same normalisation as `reconcile_backlog.py` so the gate collides in exactly the space the reconciler collides in.
+- **Local Specification Titles Must Be Unique Within A Spec Type**: no two Epics, no two Features, no two User Stories and no two Use Cases may declare titles that normalise to the same key. Uniqueness is scoped **per spec type, not globally**: an Epic naming a theme and a Feature delivering part of it may legitimately share a subject, and the tracker treats `(spec type, normalised title)` as the identity for exactly that reason. Reconciliation builds its issue lookup on the normalised title, so two specifications of one type sharing a key resolve to whichever issue was seen last -- one body is published over the other and the loser is orphaned. Enforced offline by `./target/release/verify-baseline` (superseding the retired Python validator `spec_title_uniqueness_validator.py`), using the same normalisation as `./target/release/reconcile-backlog` so the gate collides in exactly the space the reconciler collides in.
 - **Generated Item Titles Must Be Namespaced To Their Source Module**: a subagent drafting one item from one schema node MUST prefix the generated Epic, Feature, User Story and Use Case title with a bracketed short-code identifying the bounded context it came from -- for example `[NI-Location] Geo Location` rather than `Geo Location`. Item subagents draft in isolation and never see one another's output, so a node name that recurs across modules (`geo-location`, `status`, `interface` are the standard cases) produces the same title twice and neither subagent is in a position to notice. The namespace is what makes the item identifiable in a shared backlog without opening it. What is mechanically gated is the *effect* -- the uniqueness rule above; the gate does not check the shape of the prefix, because a prefix-shape check would reject every specification written before this rule and the invariant that actually protects the tracker is uniqueness rather than any particular spelling. That gap is recorded in `tests/rule_contracts.py` under `KNOWN_UNREGISTERED_FAMILIES` rather than left silent.
 
 ## What local files are for
 
 - Local markdown files (`docs/epics/`, `docs/features/`, etc.) are the specification source, but their checklist states may be stale.
-- Always sync local state with the tracker state using the backlog reconciliation script (e.g., `reconcile_backlog.py`).
+- Always sync local state with the tracker state using the native Rust backlog reconciliation binary (`./target/release/reconcile-backlog`).
 - The authoritative "done" state lives in the issue tracker, not in local frontmatter.
 
 ## Multi-Provider Issue Tracker Standards (GitHub & GitLab)
@@ -1501,7 +1492,7 @@ complete, and every UML diagram it carries must be a valid model rather than a p
 ## Scope and normative home
 
 **This file is the single normative home for the model-integrity constraints enforced by
-`parity_auditor/validators/uml.py`.** They span all four backlog document types, so
+`./target/release/verify-baseline` (superseding the retired Python validator `uml.py`).** They span all four backlog document types, so
 stating them in any one worker skill would fragment them across four files with disjoint
 subsets -- the failure issue #289 fixed for the Mermaid rules by designating one home.
 The worker skills own the *templates*; this file owns the *rules* the templates exist to
