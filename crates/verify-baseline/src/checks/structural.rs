@@ -316,7 +316,7 @@ pub use super::domain_cleanliness_gate::check_domain_agnostic_ast_cleanliness;
 /// Scans the repository tree and fails closed if any `.sh` script exists on disk.
 ///
 /// ## 2. Invariants & Mathematical Properties
-/// Zero files in `repo_root` (excluding `target` and `.git`) may have extension `.sh`.
+/// Zero files in `repo_root` (excluding `target`, `.git`, `build`, `Pods`, `ephemeral`, and `.dart_tool`) may have extension `.sh`.
 ///
 /// ## 3. Preconditions
 /// `repo_root` must be an accessible directory path.
@@ -340,7 +340,12 @@ pub fn check_zero_shell_scripts(repo_root: &Path) -> Result<(), Vec<String>> {
         .filter_entry(|e| {
             if e.file_type().is_dir() {
                 let name = e.file_name().to_string_lossy();
-                name != "target" && name != ".git"
+                name != "target"
+                    && name != ".git"
+                    && name != "build"
+                    && name != "Pods"
+                    && name != "ephemeral"
+                    && name != ".dart_tool"
             } else {
                 true
             }
@@ -380,7 +385,7 @@ pub fn check_zero_shell_scripts(repo_root: &Path) -> Result<(), Vec<String>> {
 /// Recursively walks the repository filesystem and fails closed if any `.py` file exists.
 ///
 /// ## 2. Invariants & Mathematical Properties
-/// Zero files in `repo_root` (excluding `target` and `.git`) may have extension `.py` (case-insensitive).
+/// Zero files in `repo_root` (excluding `target`, `.git`, `build`, `Pods`, `ephemeral`, and `.dart_tool`) may have extension `.py` (case-insensitive).
 ///
 /// ## 3. Preconditions
 /// `repo_root` must be an accessible directory path.
@@ -404,7 +409,12 @@ pub fn check_zero_python_scripts(repo_root: &Path) -> Result<(), Vec<String>> {
         .filter_entry(|e| {
             if e.file_type().is_dir() {
                 let name = e.file_name().to_string_lossy();
-                name != "target" && name != ".git"
+                name != "target"
+                    && name != ".git"
+                    && name != "build"
+                    && name != "Pods"
+                    && name != "ephemeral"
+                    && name != ".dart_tool"
             } else {
                 true
             }
@@ -489,7 +499,12 @@ pub fn check_zero_regex(repo_root: &Path) -> Result<(), Vec<String>> {
             .filter_entry(|e| {
                 if e.file_type().is_dir() {
                     let name = e.file_name().to_string_lossy();
-                    name != "target" && name != ".git"
+                    name != "target"
+                        && name != ".git"
+                        && name != "build"
+                        && name != "Pods"
+                        && name != "ephemeral"
+                        && name != ".dart_tool"
                 } else {
                     true
                 }
@@ -1309,11 +1324,55 @@ mod tests {
     }
 
     #[test]
+    fn test_check_32_zero_shell_scripts_exempts_build_dirs_and_rejects_others() {
+        let tmp = TempDir::new("c32_exempt_dirs");
+        for dir in ["build/macos", "macos/Pods", "macos/Flutter/ephemeral", ".dart_tool/build"] {
+            let d = tmp.path.join(dir);
+            fs::create_dir_all(&d).unwrap();
+            File::create(d.join("generated.sh")).unwrap();
+        }
+        assert!(
+            check_zero_shell_scripts(&tmp.path).is_ok(),
+            "Generated .sh files inside build, Pods, ephemeral, and .dart_tool must be exempted"
+        );
+
+        let forbidden_sh = tmp.path.join("scripts").join("deploy.sh");
+        fs::create_dir_all(forbidden_sh.parent().unwrap()).unwrap();
+        File::create(&forbidden_sh).unwrap();
+        let res = check_zero_shell_scripts(&tmp.path);
+        assert!(res.is_err(), "Non-exempt .sh script must fail Check 32");
+        let errs = res.unwrap_err();
+        assert_eq!(errs, vec!["scripts/deploy.sh".to_string()]);
+    }
+
+    #[test]
     fn test_check_33_zero_python_clean() {
         let tmp = TempDir::new("c33_clean");
         let rs_file = tmp.path.join("main.rs");
         File::create(&rs_file).unwrap();
         assert!(check_zero_python_scripts(&tmp.path).is_ok());
+    }
+
+    #[test]
+    fn test_check_33_zero_python_exempts_build_dirs_and_rejects_others() {
+        let tmp = TempDir::new("c33_exempt_dirs");
+        for dir in ["build/macos", "macos/Pods", "macos/Flutter/ephemeral", ".dart_tool/build"] {
+            let d = tmp.path.join(dir);
+            fs::create_dir_all(&d).unwrap();
+            File::create(d.join("helper.py")).unwrap();
+        }
+        assert!(
+            check_zero_python_scripts(&tmp.path).is_ok(),
+            "Generated .py files inside build, Pods, ephemeral, and .dart_tool must be exempted"
+        );
+
+        let forbidden_py = tmp.path.join("scripts").join("legacy.py");
+        fs::create_dir_all(forbidden_py.parent().unwrap()).unwrap();
+        File::create(&forbidden_py).unwrap();
+        let res = check_zero_python_scripts(&tmp.path);
+        assert!(res.is_err(), "Non-exempt .py script must fail Check 33");
+        let errs = res.unwrap_err();
+        assert_eq!(errs, vec!["scripts/legacy.py".to_string()]);
     }
 
     #[test]

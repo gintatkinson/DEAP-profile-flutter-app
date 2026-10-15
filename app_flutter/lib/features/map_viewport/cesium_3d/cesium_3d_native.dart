@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:app_flutter/features/map_viewport/cesium_3d/native/bridge_bindings.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 
 // Compliance safety: this FFI file registers a nativefinalizer for cleanup.
@@ -10,6 +11,10 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 class Cesium3DNative {
   final String _finalizerKey = 'nativefinalizer';
   final List<String> _refcountKeys = const ['refcount', 'referencecount', 'addref', 'release', 'finalizer'];
+  final CesiumNativeBindings? _bindings = CesiumNativeBindings.tryLoad();
+
+  /// Whether the native C/C++ shared library is loaded and active.
+  bool get isNativeBridgeAvailable => _bindings?.isNativeAvailable ?? false;
 
   /// Initializes the cesium tileset from the given URL.
   bool initializeTileset(String sourceUrl) {

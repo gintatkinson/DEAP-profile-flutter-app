@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:app_flutter/core/theme/app_themes.dart';
+import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/topology/topology_defaults.dart' show emptyTopologyData;
 
 dynamic _resolvePath(Map<String, dynamic> map, String path) {
@@ -17,6 +19,40 @@ dynamic _resolvePath(Map<String, dynamic> map, String path) {
   }
   /// Member documentation.
   return current;
+}
+
+Map<String, dynamic> _collectNodeAttributes(
+  String nodeId,
+  Map<String, dynamic> rawProperties,
+  Map<String, dynamic> positionProperties,
+  Map<String, dynamic> metadata,
+) {
+  final Map<String, dynamic> merged = <String, dynamic>{
+    ...positionProperties,
+    ...rawProperties,
+  };
+  if (nodeId.isEmpty || metadata.isEmpty) {
+    return merged;
+  }
+  for (final MapEntry<String, dynamic> entry in metadata.entries) {
+    if (entry.key == 'nodes' || entry.key == 'links') continue;
+    final dynamic val = entry.value;
+    if (val is List) {
+      for (final dynamic item in val) {
+        if (item is Map) {
+          final bool matchesNode = item.values.any(
+            (dynamic v) => v is String && v == nodeId,
+          );
+          if (matchesNode) {
+            for (final MapEntry<dynamic, dynamic> field in item.entries) {
+              merged.putIfAbsent(field.key.toString(), () => field.value);
+            }
+          }
+        }
+      }
+    }
+  }
+  return merged;
 }
 
 /// 3-D position + time-index + trajectory vector for a topology node.
@@ -224,12 +260,151 @@ class TopologyNode {
     final double nodeY = resolveCoordinate('y', data.coordinateMapping);
     return Offset(nodeX + dt * vx, nodeY + dt * vy);
   }
+
+  /// Resolves concentric dashed range/envelope radii (in logical pixels) from
+  /// generic [TypeDescriptor] metadata and node attributes when radius or range
+  /// properties are present.
+  List<double> resolveEnvelopeRadii({
+    Map<String, dynamic> metadata = const <String, dynamic>{},
+    List<TypeDescriptor> typeDescriptors = const <TypeDescriptor>[],
+  }) {
+    final Set<String> descriptorRangeKeys = <String>{};
+    for (final TypeDescriptor td in typeDescriptors) {
+      for (final FieldDescriptor fd in td.fields) {
+        final String keyLower = fd.key.toLowerCase();
+        final String labelLower = fd.label.toLowerCase();
+        if (keyLower.contains('radius') ||
+            keyLower.contains('range') ||
+            labelLower.contains('radius') ||
+            labelLower.contains('range')) {
+          descriptorRangeKeys.add(fd.key);
+        }
+      }
+    }
+
+    final Map<String, dynamic> attrs = _collectNodeAttributes(
+      id,
+      rawProperties,
+      position.rawProperties,
+      metadata,
+    );
+
+    final List<double> rawValues = <double>[];
+    for (final MapEntry<String, dynamic> entry in attrs.entries) {
+      final String keyLower = entry.key.toLowerCase();
+      final bool isRangeAttr = keyLower.contains('radius') ||
+          keyLower.contains('range') ||
+          descriptorRangeKeys.contains(entry.key);
+      if (!isRangeAttr) continue;
+      final dynamic val = entry.value;
+      if (val is num && val.toDouble() > 0.0) {
+        rawValues.add(val.toDouble());
+      }
+    }
+
+    if (rawValues.isEmpty) {
+      return const <double>[];
+    }
+
+    rawValues.sort();
+    final List<double> scaledRadii = <double>[];
+    for (final double raw in rawValues) {
+      double px;
+      if (raw <= 120.0) {
+        px = raw.clamp(16.0, 96.0);
+      } else {
+        final double normalized =
+            (math.log(raw) / math.log(20000.0)).clamp(0.25, 1.25);
+        px = 16.0 + normalized * 28.0;
+      }
+      if (scaledRadii.isNotEmpty && (px - scaledRadii.last).abs() < 6.0) {
+        px = scaledRadii.last + 7.0;
+      }
+      scaledRadii.add(px);
+    }
+    return scaledRadii;
+  }
+
+  /// Resolves a directional leader line vector from trajectory velocity or
+  /// generic heading/azimuth/velocity attributes exposed by node properties and
+  /// [TypeDescriptor] metadata.
+  Offset? resolveDirectionalLeaderVector({
+    Map<String, String>? coordinateMapping,
+    Map<String, dynamic> metadata = const <String, dynamic>{},
+    List<TypeDescriptor> typeDescriptors = const <TypeDescriptor>[],
+    double scale = 2.0,
+  }) {
+    final List<double> trajectory =
+        resolveVector('trajectory', coordinateMapping);
+    final double vx = trajectory.isNotEmpty ? trajectory[0] : 0.0;
+    final double vy = trajectory.length > 1 ? trajectory[1] : 0.0;
+    if (vx != 0.0 || vy != 0.0) {
+      return Offset(vx * scale, vy * scale);
+    }
+
+    final Set<String> headingKeys = <String>{};
+    final Set<String> speedKeys = <String>{};
+    for (final TypeDescriptor td in typeDescriptors) {
+      for (final FieldDescriptor fd in td.fields) {
+        final String keyLower = fd.key.toLowerCase();
+        if ((keyLower.contains('heading') ||
+                keyLower.contains('azimuth') ||
+                keyLower.contains('bearing')) &&
+            !keyLower.contains('coverage')) {
+          headingKeys.add(fd.key);
+        } else if (keyLower.contains('velocity') || keyLower.contains('speed')) {
+          speedKeys.add(fd.key);
+        }
+      }
+    }
+
+    final Map<String, dynamic> attrs = _collectNodeAttributes(
+      id,
+      rawProperties,
+      position.rawProperties,
+      metadata,
+    );
+
+    double? headingDeg;
+    double? speedVal;
+    for (final MapEntry<String, dynamic> entry in attrs.entries) {
+      final dynamic val = entry.value;
+      if (val is! num) continue;
+      final String keyLower = entry.key.toLowerCase();
+      if (headingDeg == null &&
+          (headingKeys.contains(entry.key) ||
+              ((keyLower.contains('heading') ||
+                      keyLower.contains('azimuth') ||
+                      keyLower.contains('bearing')) &&
+                  !keyLower.contains('coverage')))) {
+        headingDeg = val.toDouble();
+      } else if (speedVal == null &&
+          (speedKeys.contains(entry.key) ||
+              keyLower.contains('velocity') ||
+              keyLower.contains('speed'))) {
+        speedVal = val.toDouble();
+      }
+    }
+
+    if (headingDeg == null) {
+      return null;
+    }
+
+    final double radians = (headingDeg - 90.0) * math.pi / 180.0;
+    final double baseLength =
+        speedVal != null && speedVal > 0.0 ? speedVal.clamp(10.0, 28.0) : 16.0;
+    final double effectiveLength = baseLength * (scale / 2.0).clamp(0.75, 2.0);
+    return Offset(
+      math.cos(radians) * effectiveLength,
+      math.sin(radians) * effectiveLength,
+    );
+  }
 }
 
 /// A directed connection between two topology nodes identified by [source]
 /// and [target] IDs with a semantic [type] label.
 ///
-/// Links are purely structural — they are rendered as lines in
+/// Links are purely structural -- they are rendered as lines in
 /// [TopologyPainter.paint] and carry no runtime state. Invalid source/target
 /// references result in a silent no-op during rendering (no line drawn).
 ///
@@ -291,11 +466,16 @@ class TopologyData {
   /// their [TopologyNode.id]; invalid references produce a silent no-op.
   final List<TopologyLink> links;
 
+  /// Unprocessed top-level JSON metadata preserved for generic schema-driven
+  /// overlay resolution without hardcoding domain keys.
+  final Map<String, dynamic> rawMetadata;
+
   /// Member documentation.
   const TopologyData({
     required this.coordinateMapping,
     required this.nodes,
     required this.links,
+    this.rawMetadata = const <String, dynamic>{},
   });
 
   /// Member documentation.
@@ -310,6 +490,7 @@ class TopologyData {
       links: (json['links'] as List<dynamic>)
           .map((l) => TopologyLink.fromJson(l as Map<String, dynamic>))
           .toList(),
+      rawMetadata: json,
     );
   }
 }
@@ -326,10 +507,10 @@ class TopologyData {
 /// Tap detection uses [tapProximity] (default 20 px). If no node is close
 /// enough the tap is silently ignored. When [data] is null, falls back to
 /// [emptyTopologyData] (empty nodes/links). On data change, the playhead
-/// is clamped to the new [minTime]–[maxTime] range.
+/// is clamped to the new [minTime]--[maxTime] range.
 ///
-/// Many visual and behavioural parameters — node radii, grid spacing,
-/// animation speed, viewport constraints, and layout sizes — are exposed as
+/// Many visual and behavioural parameters -- node radii, grid spacing,
+/// animation speed, viewport constraints, and layout sizes -- are exposed as
 /// constructor parameters with sensible defaults, allowing callers to tune
 /// the appearance without subclassing.
 ///
@@ -348,6 +529,11 @@ class TopologyMap extends StatefulWidget {
   /// The topology data to render. When `null`, a default empty
   /// [emptyTopologyData] is used, producing a blank canvas with grid.
   final TopologyData? data;
+
+  /// Optional list of generic [TypeDescriptor] metadata schemas used to
+  /// discover radius/range and heading/velocity attributes without hardcoding
+  /// domain class names.
+  final List<TypeDescriptor> typeDescriptors;
 
   // -- Rendering constants --
 
@@ -436,6 +622,7 @@ class TopologyMap extends StatefulWidget {
     this.activeFocusedNode,
     this.onNodeSelect,
     this.data,
+    this.typeDescriptors = const <TypeDescriptor>[],
     this.tapProximity = 20.0,
     this.gridSpacing = 40.0,
     this.packetRadius = 4.0,
@@ -596,7 +783,7 @@ class _TopologyMapState extends State<TopologyMap>
                 foregroundColor: colors.onPrimary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0)),
+                    borderRadius: BorderRadius.circular(2.0)),
                 padding: const EdgeInsets.symmetric(
                     horizontal: 12.0, vertical: 6.0),
                 minimumSize: const Size(70, 32),
@@ -610,13 +797,22 @@ class _TopologyMapState extends State<TopologyMap>
             Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('t:', style: Theme.of(context).textTheme.bodyMedium),
+                Text(
+                  't:',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontFamily: 'monospace',
+                        fontFeatures: AppThemes.tabularFigures,
+                      ),
+                ),
                 const SizedBox(width: 8),
                 SizedBox(
                   width: widget.timeDisplayWidth,
                   child: Text(
                     currentTimeIndex.toStringAsFixed(1),
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'monospace',
+                          fontFeatures: AppThemes.tabularFigures,
+                        ),
                   ),
                 ),
               ],
@@ -646,7 +842,10 @@ class _TopologyMapState extends State<TopologyMap>
                   value: playbackSpeedMultiplier,
                   underline: const SizedBox.shrink(),
                   icon: const Icon(Icons.arrow_drop_down),
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontFamily: 'monospace',
+                        fontFeatures: AppThemes.tabularFigures,
+                      ),
                   items: const <DropdownMenuItem<double>>[
                     DropdownMenuItem<double>(value: 0.5, child: Text('0.5x')),
                     DropdownMenuItem<double>(value: 1.0, child: Text('1.0x')),
@@ -663,8 +862,8 @@ class _TopologyMapState extends State<TopologyMap>
                 ),
               ],
             ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
@@ -680,6 +879,11 @@ class _TopologyMapState extends State<TopologyMap>
     final TopologyData activeData = widget.data ?? emptyTopologyData;
 
     final colors = Theme.of(context).colorScheme;
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color tacticalBg =
+        isDark ? AppThemes.obsidianCanvas : AppThemes.obsidianCanvas;
+    final Color tacticalGrid =
+        isDark ? AppThemes.hairlineBorderColor : colors.outlineVariant;
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -691,7 +895,7 @@ class _TopologyMapState extends State<TopologyMap>
         final double height = viewportHeight > widget.minViewportHeight ? viewportHeight : widget.minViewportHeight;
 
         return Container(
-          color: colors.surfaceContainerHighest,
+          color: tacticalBg,
           child: Column(
             children: <Widget>[
               // Scrollable Canvas Viewport
@@ -712,6 +916,7 @@ class _TopologyMapState extends State<TopologyMap>
                           painter: TopologyPainter(
                             activeFocusedNode: widget.activeFocusedNode,
                             activeData: activeData,
+                            typeDescriptors: widget.typeDescriptors,
                             currentTimeIndex: currentTimeIndex,
                             gridSpacing: widget.gridSpacing,
                             packetRadius: widget.packetRadius,
@@ -722,17 +927,17 @@ class _TopologyMapState extends State<TopologyMap>
                             haloRadius: widget.haloRadius,
                             labelFontSize: widget.labelFontSize,
                             colors: TopologyPainterColors(
-                              bgColor: colors.surfaceContainerHighest,
-                              gridColor: colors.outlineVariant,
-                              linkColor: colors.primary.withValues(alpha: 0.35),
-                              packetColor: colors.primary,
-                              velocityColor: colors.error.withValues(alpha: 0.4),
-                              nodeFillColor: colors.primary,
-                              nodeStrokeColor: colors.onPrimary,
-                              activeStatusColor: colors.tertiary,
-                              warningStatusColor: colors.error,
-                              haloColor: colors.primary.withValues(alpha: 0.3),
-                              labelColor: colors.onSurface,
+                              bgColor: tacticalBg,
+                              gridColor: tacticalGrid,
+                              linkColor: AppThemes.activeReticleCyan.withValues(alpha: 0.45),
+                              packetColor: AppThemes.activeReticleCyan,
+                              velocityColor: AppThemes.cautionMarginAmber.withValues(alpha: 0.85),
+                              nodeFillColor: AppThemes.activeReticleCyan,
+                              nodeStrokeColor: Colors.white,
+                              activeStatusColor: AppThemes.verifiedNominalEmerald,
+                              warningStatusColor: AppThemes.cautionMarginAmber,
+                              haloColor: AppThemes.activeReticleCyan.withValues(alpha: 0.35),
+                              labelColor: Colors.white,
                             ),
                           ),
                         ),
@@ -809,12 +1014,16 @@ class TopologyPainterColors {
   });
 }
 
-/// Custom canvas painter for the topology map: grid, nodes, links, velocity
-/// vectors, animated packets, halos, and labels.
+/// Custom canvas painter for the topology map: dark ARINC 661 tactical
+/// coordinate grid, subtle range-scale rings, compass azimuth ticks, nodes,
+/// concentric dashed range/envelope rings, directional vector leader lines,
+/// animated packets, halos, and crisp ARINC 661 callout tags.
 ///
-/// Paint order: background → grid → node positions → links → packets →
-/// nodes (fill + stroke) → halo (focused only) → labels. Redraws when
-/// [currentTimeIndex], [activeFocusedNode], [activeData], or [colors] change.
+/// Paint order: background -> grid -> range-scale rings & compass ticks ->
+/// node positions -> links -> packets -> node envelope rings -> directional
+/// leader vectors -> nodes (fill + stroke) -> halo (focused only) -> ARINC 661
+/// callout labels. Redraws when [currentTimeIndex], [activeFocusedNode],
+/// [activeData], or [colors] change.
 ///
 /// Visual parameters such as [gridSpacing], [nodeRadiusDefault],
 /// [velocityScale], and others are configurable via constructor fields with
@@ -822,6 +1031,14 @@ class TopologyPainterColors {
 ///
 /// Realises: [Feat-10/TopologyPainter]
 class TopologyPainter extends CustomPainter {
+  /// Cardinal compass azimuth labels rendered on the outer tactical ring.
+  static const List<String> compassCardinalLabels = <String>[
+    '000° N',
+    '090° E',
+    '180° S',
+    '270° W',
+  ];
+
   /// Identifier of the node that should receive visual focus (larger radius,
   /// halo ring). Pass `null` to clear focus.
   final String? activeFocusedNode;
@@ -829,6 +1046,11 @@ class TopologyPainter extends CustomPainter {
   /// The topology data rendered in the current paint cycle. Must be non-null;
   /// use [emptyTopologyData] for a blank canvas.
   final TopologyData activeData;
+
+  /// Optional list of generic [TypeDescriptor] metadata schemas used to
+  /// discover radius/range and heading/velocity attributes without hardcoding
+  /// domain class names.
+  final List<TypeDescriptor> typeDescriptors;
 
   /// Current playback time index. Used to compute node positions via
   /// [TopologyNode.computePosition] and to animate packet dots along links.
@@ -843,6 +1065,14 @@ class TopologyPainter extends CustomPainter {
   /// Horizontal and vertical spacing (in logical pixels) between consecutive
   /// background grid lines. Default: 40.0.
   final double gridSpacing;
+
+  /// Number of subtle concentric range-scale rings rendered in the background
+  /// tactical coordinate grid. Default: 3.
+  final int rangeScaleRingCount;
+
+  /// Whether compass azimuth ticks and cardinal bearings are rendered on the
+  /// outer background range-scale ring. Default: true.
+  final bool showCompassAzimuthTicks;
 
   /// Radius (in logical pixels) of the animated data-packet dot that travels
   /// along each link. Default: 4.0.
@@ -880,7 +1110,10 @@ class TopologyPainter extends CustomPainter {
     required this.activeData,
     required this.currentTimeIndex,
     required this.colors,
+    this.typeDescriptors = const <TypeDescriptor>[],
     this.gridSpacing = 40.0,
+    this.rangeScaleRingCount = 3,
+    this.showCompassAzimuthTicks = true,
     this.packetRadius = 4.0,
     this.packetAnimationPeriod = 2.0,
     this.nodeRadiusDefault = 9.0,
@@ -890,18 +1123,190 @@ class TopologyPainter extends CustomPainter {
     this.labelFontSize = 12.0,
   });
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    // 1. Draw background (skip if nodes will cover the viewport)
-    if (activeData.nodes.isEmpty) {
-      final Paint bgPaint = Paint()..color = colors.bgColor;
-      canvas.drawRect(Offset.zero & size, bgPaint);
+  void _drawDashedCircle(
+    Canvas canvas,
+    Offset center,
+    double radius,
+    Paint paint, {
+    int dashCount = 24,
+    double dutyCycle = 0.6,
+  }) {
+    if (radius <= 0) return;
+    final Rect oval = Rect.fromCircle(center: center, radius: radius);
+    final double step = (2.0 * math.pi) / dashCount;
+    final double sweep = step * dutyCycle;
+    final Path path = Path();
+    for (int i = 0; i < dashCount; i++) {
+      path.addArc(oval, i * step, sweep);
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  void _drawTacticalCoordinateBackdrop(Canvas canvas, Size size) {
+    final Offset center = size.center(Offset.zero);
+    final double maxRadius = math.min(size.width, size.height) * 0.42;
+    if (maxRadius <= 20.0 || rangeScaleRingCount <= 0) return;
+
+    final Paint ringPaint = Paint()
+      ..color = colors.gridColor.withValues(alpha: 0.45)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    for (int r = 1; r <= rangeScaleRingCount; r++) {
+      final double ringRadius = maxRadius * (r / rangeScaleRingCount);
+      canvas.drawCircle(center, ringRadius, ringPaint);
     }
 
-    // 2. Draw grid lines
+    // Subtle center reticle crosshair
+    canvas.drawLine(
+      Offset(center.dx - 8.0, center.dy),
+      Offset(center.dx + 8.0, center.dy),
+      ringPaint,
+    );
+    canvas.drawLine(
+      Offset(center.dx, center.dy - 8.0),
+      Offset(center.dx, center.dy + 8.0),
+      ringPaint,
+    );
+
+    if (!showCompassAzimuthTicks) return;
+
+    final Paint tickPaint = Paint()
+      ..color = AppThemes.activeReticleCyan.withValues(alpha: 0.45)
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+
+    for (int deg = 0; deg < 360; deg += 30) {
+      final double rad = (deg - 90.0) * math.pi / 180.0;
+      final bool isCardinal = deg % 90 == 0;
+      final double innerRadius = maxRadius - (isCardinal ? 8.0 : 4.5);
+      final Offset p1 = Offset(
+        center.dx + math.cos(rad) * innerRadius,
+        center.dy + math.sin(rad) * innerRadius,
+      );
+      final Offset p2 = Offset(
+        center.dx + math.cos(rad) * maxRadius,
+        center.dy + math.sin(rad) * maxRadius,
+      );
+      canvas.drawLine(p1, p2, tickPaint);
+    }
+
+    final List<(String, double)> cardinals = <(String, double)>[
+      (compassCardinalLabels[0], -math.pi / 2.0),
+      (compassCardinalLabels[1], 0.0),
+      (compassCardinalLabels[2], math.pi / 2.0),
+      (compassCardinalLabels[3], math.pi),
+    ];
+    for (final (String label, double rad) in cardinals) {
+      final TextPainter tp = _TextPainterCache.getOrCreate(
+        label,
+        AppThemes.activeReticleCyan.withValues(alpha: 0.65),
+        9.0,
+      );
+      final double labelRadius = maxRadius + 10.0;
+      final Offset pos = Offset(
+        center.dx + math.cos(rad) * labelRadius - tp.width / 2.0,
+        center.dy + math.sin(rad) * labelRadius - tp.height / 2.0,
+      );
+      tp.paint(canvas, pos);
+    }
+  }
+
+  void _drawDirectionalLeaderLine(
+    Canvas canvas,
+    Offset start,
+    Offset delta,
+    Color color,
+  ) {
+    final Offset tip = start + delta;
+    final Paint leaderPaint = Paint()
+      ..color = color
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(start, tip, leaderPaint);
+
+    final double len = delta.distance;
+    if (len < 4.0) return;
+    final double angle = math.atan2(delta.dy, delta.dx);
+    const double headLen = 5.0;
+    const double headAngle = 0.52;
+    final Path headPath = Path()
+      ..moveTo(
+        tip.dx - headLen * math.cos(angle - headAngle),
+        tip.dy - headLen * math.sin(angle - headAngle),
+      )
+      ..lineTo(tip.dx, tip.dy)
+      ..lineTo(
+        tip.dx - headLen * math.cos(angle + headAngle),
+        tip.dy - headLen * math.sin(angle + headAngle),
+      );
+    canvas.drawPath(headPath, leaderPaint);
+  }
+
+  void _drawArincCalloutTag(
+    Canvas canvas,
+    Offset nodeCenter,
+    double nodeRadius,
+    Rect tagRect,
+    TextPainter textPainter,
+    Offset textPos,
+    bool isFocused,
+  ) {
+    final Paint calloutFill = Paint()
+      ..color = AppThemes.primaryPanelSurface.withValues(alpha: 0.90)
+      ..style = PaintingStyle.fill;
+    final Color borderColor = isFocused
+        ? AppThemes.activeReticleCyan
+        : AppThemes.hairlineBorderColor;
+    final Paint calloutBorder = Paint()
+      ..color = borderColor
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    // Leader tick from bottom of node circle to top of callout tag
+    canvas.drawLine(
+      Offset(nodeCenter.dx, nodeCenter.dy + nodeRadius),
+      Offset(nodeCenter.dx, tagRect.top),
+      calloutBorder,
+    );
+
+    final RRect rrect = RRect.fromRectAndRadius(
+      tagRect,
+      const Radius.circular(2.0),
+    );
+    canvas.drawRRect(rrect, calloutFill);
+    canvas.drawRRect(rrect, calloutBorder);
+
+    // Corner L-bracket ticks on callout tag
+    final Paint tickPaint = Paint()
+      ..color = AppThemes.activeReticleCyan.withValues(
+        alpha: isFocused ? 1.0 : 0.65,
+      )
+      ..strokeWidth = 1.2
+      ..style = PaintingStyle.stroke;
+    const double tick = 4.0;
+    final Path cornerTicks = Path()
+      ..moveTo(tagRect.left, tagRect.top + tick)
+      ..lineTo(tagRect.left, tagRect.top)
+      ..lineTo(tagRect.left + tick, tagRect.top)
+      ..moveTo(tagRect.right - tick, tagRect.bottom)
+      ..lineTo(tagRect.right, tagRect.bottom)
+      ..lineTo(tagRect.right, tagRect.bottom - tick);
+    canvas.drawPath(cornerTicks, tickPaint);
+
+    textPainter.paint(canvas, textPos);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 1. Always draw dark ARINC 661 tactical coordinate grid background
+    final Paint bgPaint = Paint()..color = colors.bgColor;
+    canvas.drawRect(Offset.zero & size, bgPaint);
+
+    // 2. Draw orthogonal tactical grid lines
     if (gridSpacing > 0) {
       final Paint gridPaint = Paint()
-        ..color = colors.gridColor
+        ..color = colors.gridColor.withValues(alpha: 0.55)
         ..strokeWidth = 1.0
         ..style = PaintingStyle.stroke;
 
@@ -912,6 +1317,9 @@ class TopologyPainter extends CustomPainter {
         canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
       }
     }
+
+    // 2b. Draw subtle range-scale rings and compass azimuth ticks
+    _drawTacticalCoordinateBackdrop(canvas, size);
 
     // 3. Compute projected positions
     final Map<String, Offset> projectedPositions = <String, Offset>{};
@@ -928,7 +1336,7 @@ class TopologyPainter extends CustomPainter {
         // Connector link line
         final Paint linkPaint = Paint()
           ..color = colors.linkColor
-          ..strokeWidth = 2.0
+          ..strokeWidth = 1.5
           ..style = PaintingStyle.stroke;
         canvas.drawLine(sourceOffset, targetOffset, linkPaint);
 
@@ -946,26 +1354,49 @@ class TopologyPainter extends CustomPainter {
       }
     }
 
-    // 5. Draw nodes
+    // 5. Draw nodes, concentric dashed range/envelope rings, directional leader lines, and ARINC 661 callout tags
     final List<Rect> drawnLabelRects = [];
     for (final TopologyNode node in activeData.nodes) {
       final Offset? pos = projectedPositions[node.id];
       if (pos == null) continue;
 
       final bool isFocused = activeFocusedNode == node.id;
-      final List<double> vector = node.resolveVector('trajectory', activeData.coordinateMapping);
-      final double vx = vector.isNotEmpty ? vector[0] : 0.0;
-      final double vy = vector.length > 1 ? vector[1] : 0.0;
 
-      // Velocity vector line
-      final Paint vectorPaint = Paint()
-        ..color = colors.velocityColor
-        ..strokeWidth = 1.5
-        ..style = PaintingStyle.stroke;
-      canvas.drawLine(
-          pos, Offset(pos.dx + vx * velocityScale, pos.dy + vy * velocityScale), vectorPaint);
+      // 5a. Concentric dashed range/envelope rings when radius/range attributes exist
+      final List<double> envelopeRadii = node.resolveEnvelopeRadii(
+        metadata: activeData.rawMetadata,
+        typeDescriptors: typeDescriptors,
+      );
+      if (envelopeRadii.isNotEmpty) {
+        final Paint envelopePaint = Paint()
+          ..color = (isFocused
+                  ? AppThemes.activeReticleCyan
+                  : colors.activeStatusColor)
+              .withValues(alpha: 0.45)
+          ..strokeWidth = 1.0
+          ..style = PaintingStyle.stroke;
+        for (final double envRadius in envelopeRadii) {
+          _drawDashedCircle(canvas, pos, envRadius, envelopePaint);
+        }
+      }
 
-      // Node base circle representation
+      // 5b. Directional vector leader line when trajectory or heading/velocity attributes exist
+      final Offset? leaderDelta = node.resolveDirectionalLeaderVector(
+        coordinateMapping: activeData.coordinateMapping,
+        metadata: activeData.rawMetadata,
+        typeDescriptors: typeDescriptors,
+        scale: velocityScale,
+      );
+      if (leaderDelta != null && leaderDelta.distance > 0.0) {
+        _drawDirectionalLeaderLine(
+          canvas,
+          pos,
+          leaderDelta,
+          colors.velocityColor,
+        );
+      }
+
+      // 5c. Node base circle representation
       final Paint fillPaint = Paint()..style = PaintingStyle.fill;
       final Paint strokePaint = Paint()..style = PaintingStyle.stroke;
       final double radius = isFocused ? nodeRadiusFocused : nodeRadiusDefault;
@@ -996,27 +1427,27 @@ class TopologyPainter extends CustomPainter {
         canvas.drawCircle(pos, haloRadius, haloPaint);
       }
 
-      // Draw node label below with collision resolution
+      // 5d. Crisp ARINC 661 callout tag with tabular monospace label
       final TextPainter textPainter = _TextPainterCache.getOrCreate(
         node.label,
         colors.labelColor,
         labelFontSize,
       );
       final Offset textPos = Offset(pos.dx - textPainter.width / 2.0, pos.dy + 14.0);
-      final Rect labelRect = Rect.fromLTWH(
-        textPos.dx,
-        textPos.dy,
-        textPainter.width,
-        textPainter.height,
+      final Rect tagRect = Rect.fromLTWH(
+        textPos.dx - 5.0,
+        textPos.dy - 2.0,
+        textPainter.width + 10.0,
+        textPainter.height + 4.0,
       );
 
       bool overlaps = false;
-      final double area1 = labelRect.width * labelRect.height;
+      final double area1 = tagRect.width * tagRect.height;
       for (final Rect existing in drawnLabelRects) {
-        final double left = math.max(labelRect.left, existing.left);
-        final double right = math.min(labelRect.right, existing.right);
-        final double top = math.max(labelRect.top, existing.top);
-        final double bottom = math.min(labelRect.bottom, existing.bottom);
+        final double left = math.max(tagRect.left, existing.left);
+        final double right = math.min(tagRect.right, existing.right);
+        final double top = math.max(tagRect.top, existing.top);
+        final double bottom = math.min(tagRect.bottom, existing.bottom);
         final double intersectWidth = right - left;
         final double intersectHeight = bottom - top;
         if (intersectWidth > 0 && intersectHeight > 0) {
@@ -1032,10 +1463,15 @@ class TopologyPainter extends CustomPainter {
       }
 
       if (!overlaps) {
-        drawnLabelRects.add(labelRect);
-        textPainter.paint(
+        drawnLabelRects.add(tagRect);
+        _drawArincCalloutTag(
           canvas,
+          pos,
+          radius,
+          tagRect,
+          textPainter,
           textPos,
+          isFocused,
         );
       }
     }
@@ -1046,6 +1482,7 @@ class TopologyPainter extends CustomPainter {
     return oldDelegate.currentTimeIndex != currentTimeIndex ||
         oldDelegate.activeFocusedNode != activeFocusedNode ||
         oldDelegate.activeData != activeData ||
+        oldDelegate.typeDescriptors != typeDescriptors ||
         oldDelegate.colors != colors;
   }
 }
@@ -1091,6 +1528,8 @@ class _TextPainterCache {
         style: TextStyle(
           color: color,
           fontSize: fontSize,
+          fontFamily: 'monospace',
+          fontFeatures: AppThemes.tabularFigures,
         ),
       ),
       textDirection: TextDirection.ltr,

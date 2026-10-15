@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
 /// Represents a column definition in table views.
 ///
 /// Realises: [Feat-10/ColumnModel]
+@immutable
 class ColumnModel {
   /// Unique key matching the schema field identifier.
   final String key;
@@ -18,6 +20,10 @@ class ColumnModel {
   final bool frozen;
   /// Whether the column is visible in the table.
   final bool visible;
+  /// Optional inclusive lower numeric bound from [FieldDescriptor.minValue].
+  final num? minValue;
+  /// Optional inclusive upper numeric bound from [FieldDescriptor.maxValue].
+  final num? maxValue;
 
   /// Creates a [ColumnModel] instance.
   const ColumnModel({
@@ -28,7 +34,22 @@ class ColumnModel {
     this.sortable = true,
     this.frozen = false,
     this.visible = true,
+    this.minValue,
+    this.maxValue,
   });
+
+  /// Whether this column represents an integer zero-ceiling safety/interlock
+  /// invariant (`type == 'int' && minValue == 0 && maxValue == 0`).
+  bool get isZeroCeilingConstraint =>
+      type == 'int' && minValue == 0 && maxValue == 0;
+
+  /// Whether this column defines a bounded numeric range (`maxValue > minValue`)
+  /// suitable for rendering an inline ARINC 661 segmented range gauge.
+  bool get hasSegmentedRangeBounds =>
+      (type == 'int' || type == 'double') &&
+      minValue != null &&
+      maxValue != null &&
+      maxValue! > minValue!;
 
   /// Creates a [ColumnModel] from a [FieldDescriptor].
   ///
@@ -39,6 +60,8 @@ class ColumnModel {
       key: fd.key,
       label: resolveColumnLabel(fd),
       type: fd.type,
+      minValue: fd.minValue,
+      maxValue: fd.maxValue,
     );
   }
 
@@ -80,8 +103,21 @@ class ColumnModel {
       other.width == width &&
       other.sortable == sortable &&
       other.frozen == frozen &&
-      other.visible == visible;
+      other.visible == visible &&
+      other.minValue == minValue &&
+      other.maxValue == maxValue;
 
   @override
-  int get hashCode => Object.hash(key, label, type, width, sortable, frozen, visible);
+  int get hashCode => Object.hash(
+        key,
+        label,
+        type,
+        width,
+        sortable,
+        frozen,
+        visible,
+        minValue,
+        maxValue,
+      );
 }
+

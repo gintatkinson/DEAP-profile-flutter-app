@@ -1,6 +1,7 @@
 // Compliance: NativeFinalizer refcount referencecount addref release finalizer
 import 'dart:ffi';
 import 'dart:io' show Platform;
+import 'dart:math' as math;
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 
@@ -54,7 +55,7 @@ final class BridgeTilesetConfig extends Struct {
 /// Member documentation.
 typedef BridgeHandle = Int32;
 
-// NOTE — THREAD SAFETY:
+// NOTE -- THREAD SAFETY:
 // Native callbacks (BridgeErrorCallback, BridgeTileReadyCallback,
 // BridgeCameraChangedCallback) are registered via Pointer.fromFunction and
 // may be invoked from native worker threads. The Dart VM prohibits calling
@@ -242,7 +243,12 @@ typedef BridgeFreeStringDart = void Function(Pointer<Utf8> str);
 /// Realises: [Feat-10/CesiumBridgeBindings]
 /// Member documentation.
 class CesiumNativeBindings {
-  final DynamicLibrary _lib;
+  static int _nextFallbackHandle = 1;
+
+  final DynamicLibrary? _lib;
+
+  /// True when backed by a loaded native library with resolved C symbols.
+  late final bool isNativeAvailable;
 
   /// Member documentation.
   late final BridgeInitializeDart initialize;
@@ -272,39 +278,202 @@ class CesiumNativeBindings {
   late final BridgeFreeStringDart freeString;
 
   /// Member documentation.
-  CesiumNativeBindings(this._lib) {
-    initialize = _lib.lookupFunction<BridgeInitializeNative, BridgeInitializeDart>('bridge_initialize');
-    shutdown = _lib.lookupFunction<BridgeShutdownNative, BridgeShutdownDart>('bridge_shutdown');
-    terminate = _lib.lookupFunction<BridgeTerminateNative, BridgeTerminateDart>('bridge_terminate');
-    isReady = _lib.lookupFunction<BridgeIsReadyNative, BridgeIsReadyDart>('bridge_is_ready');
-    getLastError = _lib.lookupFunction<BridgeGetLastErrorNative, BridgeGetLastErrorDart>('bridge_get_last_error');
-    updateCamera = _lib.lookupFunction<BridgeUpdateCameraNative, BridgeUpdateCameraDart>('bridge_update_camera');
-    registerCameraCallback = _lib.lookupFunction<BridgeRegisterCameraCallbackNative, BridgeRegisterCameraCallbackDart>('bridge_register_camera_callback');
-    getVisibleTileCount = _lib.lookupFunction<BridgeGetVisibleTileCountNative, BridgeGetVisibleTileCountDart>('bridge_get_visible_tile_count');
-    getVisibleTileId = _lib.lookupFunction<BridgeGetVisibleTileIdNative, BridgeGetVisibleTileIdDart>('bridge_get_visible_tile_id');
-    requestTileData = _lib.lookupFunction<BridgeRequestTileDataNative, BridgeRequestTileDataDart>('bridge_request_tile_data');
-    cartographicToEcef = _lib.lookupFunction<BridgeCartographicToEcefNative, BridgeCartographicToEcefDart>('bridge_cartographic_to_ecef');
-    ecefToCartographic = _lib.lookupFunction<BridgeEcefToCartographicNative, BridgeEcefToCartographicDart>('bridge_ecef_to_cartographic');
-    freeString = _lib.lookupFunction<BridgeFreeStringNative, BridgeFreeStringDart>('bridge_free_string');
+  CesiumNativeBindings(DynamicLibrary lib) : _lib = lib {
+    try {
+      final resolvedInitialize =
+          lib.lookupFunction<BridgeInitializeNative, BridgeInitializeDart>('bridge_initialize');
+      final resolvedShutdown =
+          lib.lookupFunction<BridgeShutdownNative, BridgeShutdownDart>('bridge_shutdown');
+      final resolvedTerminate =
+          lib.lookupFunction<BridgeTerminateNative, BridgeTerminateDart>('bridge_terminate');
+      final resolvedIsReady =
+          lib.lookupFunction<BridgeIsReadyNative, BridgeIsReadyDart>('bridge_is_ready');
+      final resolvedGetLastError =
+          lib.lookupFunction<BridgeGetLastErrorNative, BridgeGetLastErrorDart>('bridge_get_last_error');
+      final resolvedUpdateCamera =
+          lib.lookupFunction<BridgeUpdateCameraNative, BridgeUpdateCameraDart>('bridge_update_camera');
+      final resolvedRegisterCameraCallback =
+          lib.lookupFunction<BridgeRegisterCameraCallbackNative, BridgeRegisterCameraCallbackDart>(
+            'bridge_register_camera_callback',
+          );
+      final resolvedGetVisibleTileCount =
+          lib.lookupFunction<BridgeGetVisibleTileCountNative, BridgeGetVisibleTileCountDart>(
+            'bridge_get_visible_tile_count',
+          );
+      final resolvedGetVisibleTileId =
+          lib.lookupFunction<BridgeGetVisibleTileIdNative, BridgeGetVisibleTileIdDart>(
+            'bridge_get_visible_tile_id',
+          );
+      final resolvedRequestTileData =
+          lib.lookupFunction<BridgeRequestTileDataNative, BridgeRequestTileDataDart>(
+            'bridge_request_tile_data',
+          );
+      final resolvedCartographicToEcef =
+          lib.lookupFunction<BridgeCartographicToEcefNative, BridgeCartographicToEcefDart>(
+            'bridge_cartographic_to_ecef',
+          );
+      final resolvedEcefToCartographic =
+          lib.lookupFunction<BridgeEcefToCartographicNative, BridgeEcefToCartographicDart>(
+            'bridge_ecef_to_cartographic',
+          );
+      final resolvedFreeString =
+          lib.lookupFunction<BridgeFreeStringNative, BridgeFreeStringDart>('bridge_free_string');
+
+      initialize = resolvedInitialize;
+      shutdown = resolvedShutdown;
+      terminate = resolvedTerminate;
+      isReady = resolvedIsReady;
+      getLastError = resolvedGetLastError;
+      updateCamera = resolvedUpdateCamera;
+      registerCameraCallback = resolvedRegisterCameraCallback;
+      getVisibleTileCount = resolvedGetVisibleTileCount;
+      getVisibleTileId = resolvedGetVisibleTileId;
+      requestTileData = resolvedRequestTileData;
+      cartographicToEcef = resolvedCartographicToEcef;
+      ecefToCartographic = resolvedEcefToCartographic;
+      freeString = resolvedFreeString;
+      isNativeAvailable = true;
+    } catch (_) {
+      _bindPureDartFallback();
+      isNativeAvailable = false;
+    }
+  }
+
+  CesiumNativeBindings._fallback()
+      : _lib = null,
+        isNativeAvailable = false {
+    _bindPureDartFallback();
+  }
+
+  /// Creates a safe pure-Dart fallback bindings instance when the native
+  /// dynamic library is not present or fails symbol lookup.
+  factory CesiumNativeBindings.fallback() => CesiumNativeBindings._fallback();
+
+  void _bindPureDartFallback() {
+    initialize = (config, onError, userData) => _nextFallbackHandle++;
+    shutdown = (handle) {};
+    terminate = () => 0;
+    isReady = (handle) => handle > 0 ? 1 : 0;
+    getLastError = (handle, out, size) => 0;
+    updateCamera = (handle, camera) => 0;
+    registerCameraCallback = (handle, callback, userData) => 0;
+    getVisibleTileCount = (handle, outCount) {
+      if (outCount != nullptr) {
+        outCount.value = 0;
+      }
+      return 0;
+    };
+    getVisibleTileId = (handle, index, outTileId) {
+      if (outTileId != nullptr) {
+        outTileId.value = nullptr;
+      }
+      return -1;
+    };
+    requestTileData = (handle, tileId, callback, userData) => -1;
+    cartographicToEcef = _fallbackCartographicToEcef;
+    ecefToCartographic = _fallbackEcefToCartographic;
+    freeString = (str) {};
+  }
+
+  static int _fallbackCartographicToEcef(
+    double latDeg,
+    double lngDeg,
+    double altM,
+    Pointer<Double> outX,
+    Pointer<Double> outY,
+    Pointer<Double> outZ,
+  ) {
+    const double a = 6378137.0;
+    const double f = 1.0 / 298.257223563;
+    const double e2 = f * (2.0 - f);
+    final double latRad = latDeg * math.pi / 180.0;
+    final double lonRad = lngDeg * math.pi / 180.0;
+    final double sinLat = math.sin(latRad);
+    final double cosLat = math.cos(latRad);
+    final double sinLon = math.sin(lonRad);
+    final double cosLon = math.cos(lonRad);
+    final double n = a / math.sqrt(1.0 - e2 * sinLat * sinLat);
+    if (outX != nullptr) {
+      outX.value = (n + altM) * cosLat * cosLon;
+    }
+    if (outY != nullptr) {
+      outY.value = (n + altM) * cosLat * sinLon;
+    }
+    if (outZ != nullptr) {
+      outZ.value = (n * (1.0 - e2) + altM) * sinLat;
+    }
+    return 0;
+  }
+
+  static int _fallbackEcefToCartographic(
+    double x,
+    double y,
+    double z,
+    Pointer<Double> outLatDeg,
+    Pointer<Double> outLngDeg,
+    Pointer<Double> outAltM,
+  ) {
+    const double a = 6378137.0;
+    const double f = 1.0 / 298.257223563;
+    const double e2 = f * (2.0 - f);
+    final double p = math.sqrt(x * x + y * y);
+    final double lonRad = math.atan2(y, x);
+    double latRad = math.atan2(z, p * (1.0 - e2));
+    double altM = 0.0;
+    for (int i = 0; i < 6; i++) {
+      final double sinLat = math.sin(latRad);
+      final double n = a / math.sqrt(1.0 - e2 * sinLat * sinLat);
+      altM = p / math.cos(latRad) - n;
+      latRad = math.atan2(z, p * (1.0 - e2 * (n / (n + altM))));
+    }
+    if (outLatDeg != nullptr) {
+      outLatDeg.value = latRad * 180.0 / math.pi;
+    }
+    if (outLngDeg != nullptr) {
+      outLngDeg.value = lonRad * 180.0 / math.pi;
+    }
+    if (outAltM != nullptr) {
+      outAltM.value = altM;
+    }
+    return 0;
+  }
+
+  /// Attempts to open the native shared library and resolve all C symbols.
+  /// Returns `null` if the shared library or symbols cannot be loaded.
+  static CesiumNativeBindings? tryLoad({String? libraryPath}) {
+    if (kIsWeb) {
+      return null;
+    }
+    try {
+      final DynamicLibrary lib;
+      if (libraryPath != null && libraryPath.isNotEmpty) {
+        lib = DynamicLibrary.open(libraryPath);
+      } else if (Platform.isMacOS) {
+        lib = DynamicLibrary.open('libcesium_native_bridge.dylib');
+      } else if (Platform.isLinux) {
+        lib = DynamicLibrary.open('libcesium_native_bridge.so');
+      } else if (Platform.isWindows) {
+        lib = DynamicLibrary.open('cesium_native_bridge.dll');
+      } else {
+        return null;
+      }
+      final bindings = CesiumNativeBindings(lib);
+      return bindings.isNativeAvailable ? bindings : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Member documentation.
-  static CesiumNativeBindings load() {
+  static CesiumNativeBindings load({String? libraryPath}) {
     if (kIsWeb) {
       throw UnsupportedError('Cesium native bridge is not supported on Web');
     }
-    if (Platform.isMacOS) {
-      final lib = DynamicLibrary.open('libcesium_native_bridge.dylib');
-      return CesiumNativeBindings(lib);
-    } else if (Platform.isLinux) {
-      final lib = DynamicLibrary.open('libcesium_native_bridge.so');
-      return CesiumNativeBindings(lib);
-    } else if (Platform.isWindows) {
-      final lib = DynamicLibrary.open('cesium_native_bridge.dll');
-      return CesiumNativeBindings(lib);
-    }
-    throw UnsupportedError('Cesium native bridge is not available on this platform');
+    return tryLoad(libraryPath: libraryPath) ?? CesiumNativeBindings.fallback();
   }
+
+  /// Returns the underlying [DynamicLibrary] if loaded.
+  DynamicLibrary? get library => _lib;
 }
 
 

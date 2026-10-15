@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:app_flutter/core/theme/app_themes.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/properties/property_grid.dart';
 import 'package:app_flutter/features/properties/view_models/properties_view_model.dart';
+
+export 'package:app_flutter/core/theme/app_themes.dart' show Arinc661ReticleBorder;
+export 'package:app_flutter/features/properties/property_grid.dart'
+    show ProvenanceCitationBadge, ZeroCeilingAnnunciatorBadge;
 
 /// Realises: [Feat-10/PropertiesPanel]
 /// Realises: [UC-03]
@@ -10,7 +15,7 @@ import 'package:app_flutter/features/properties/view_models/properties_view_mode
 /// Realises: [UC-15]
 ///
 /// Workspace panel widget that wraps [PropertyGrid] and renders an Operational
-/// Use Case Action Bar toolbar.
+/// Use Case Action Bar toolbar framed with [Arinc661ReticleBorder].
 ///
 /// Exists to allow operators to trigger high-level operational actions
 /// (`Configure Location`, `Drill Hierarchy`, `Provision NE`) directly from the
@@ -110,70 +115,77 @@ class PropertiesPanel extends StatelessWidget {
         : (vm?.fields ?? const <FieldDescriptor>[]);
     final actionMessage = vm?.state.actionMessage;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Operational Use Case Action Bar
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
-            border: Border(
-              bottom: BorderSide(
-                color: Theme.of(context).dividerColor,
-                width: 1.0,
-              ),
-            ),
-          ),
-          child: Wrap(
-            spacing: 8.0,
-            runSpacing: 8.0,
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              OutlinedButton.icon(
-                key: const Key('uc_03_configure_location_button'),
-                onPressed: () => _triggerConfigureLocation(context),
-                icon: const Icon(Icons.edit_location_alt, size: 16),
-                label: const Text('UC-03: Configure Location'),
-              ),
-              OutlinedButton.icon(
-                key: const Key('uc_10_drill_hierarchy_button'),
-                onPressed: () => _triggerDrillHierarchy(context),
-                icon: const Icon(Icons.account_tree, size: 16),
-                label: const Text('UC-10: Drill Hierarchy'),
-              ),
-              OutlinedButton.icon(
-                key: const Key('uc_15_provision_ne_button'),
-                onPressed: () => _triggerProvisionNe(context),
-                icon: const Icon(Icons.router, size: 16),
-                label: const Text('UC-15: Provision NE'),
-              ),
-            ],
-          ),
-        ),
-        if (actionMessage != null && actionMessage.isNotEmpty)
+    return Container(
+      key: const Key('properties_panel_reticle_frame'),
+      decoration: ShapeDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        shape: const Arinc661ReticleBorder(isActive: true),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Operational Use Case Action Bar framed with Arinc661ReticleBorder
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-            color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
-            child: Text(
-              actionMessage,
-              key: const Key('properties_action_status_message'),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+            key: const Key('use_case_action_bar_container'),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+            decoration: ShapeDecoration(
+              color: Theme.of(context)
+                  .colorScheme
+                  .surfaceContainerHighest
+                  .withOpacity(0.5),
+              shape: const Arinc661ReticleBorder(isActive: true),
+            ),
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                OutlinedButton.icon(
+                  key: const Key('uc_03_configure_location_button'),
+                  onPressed: () => _triggerConfigureLocation(context),
+                  icon: const Icon(Icons.edit_location_alt, size: 16),
+                  label: const Text('UC-03: Configure Location'),
+                ),
+                OutlinedButton.icon(
+                  key: const Key('uc_10_drill_hierarchy_button'),
+                  onPressed: () => _triggerDrillHierarchy(context),
+                  icon: const Icon(Icons.account_tree, size: 16),
+                  label: const Text('UC-10: Drill Hierarchy'),
+                ),
+                OutlinedButton.icon(
+                  key: const Key('uc_15_provision_ne_button'),
+                  onPressed: () => _triggerProvisionNe(context),
+                  icon: const Icon(Icons.router, size: 16),
+                  label: const Text('UC-15: Provision NE'),
+                ),
+              ],
             ),
           ),
-        Expanded(
-          child: child ??
-              PropertyGrid(
-                activeView: activeView,
-                fields: effectiveFields,
-                initialValues: initialValues,
-                onSave: onSave,
+          if (actionMessage != null && actionMessage.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3),
+              child: Text(
+                actionMessage,
+                key: const Key('properties_action_status_message'),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
-        ),
-      ],
+            ),
+          Expanded(
+            child: child ??
+                PropertyGrid(
+                  activeView: activeView,
+                  fields: effectiveFields,
+                  initialValues: initialValues,
+                  onSave: onSave,
+                ),
+          ),
+        ],
+      ),
     );
   }
 }
+

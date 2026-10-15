@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
+import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/layout/breadcrumbs.dart';
 import 'package:app_flutter/features/topology/topology_map.dart';
 import 'package:app_flutter/features/layout/split_workspace.dart';
@@ -16,7 +17,7 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 /// is null, the topology map takes the full area below the header.
 ///
 /// The split pane behaviour can be tuned via [splitDirection],
-/// [splitMinFirstPaneSize], [splitInitialRatio], and [splitterKey] — see
+/// [splitMinFirstPaneSize], [splitInitialRatio], and [splitterKey] -- see
 /// each field's documentation for details.
 ///
 /// Edge cases: empty [treeData] produces no breadcrumbs; unknown
@@ -38,6 +39,9 @@ class TopographicalView extends StatefulWidget {
   final Widget? child;
   /// Member documentation.
   final TopologyData topologyData;
+  /// Optional list of generic [TypeDescriptor] metadata schemas forwarded to
+  /// [TopologyMap] for schema-driven range ring and directional leader rendering.
+  final List<TypeDescriptor> typeDescriptors;
   /// Member documentation.
   final List<TreeNode> treeData;
   /// The axis along which the split panes are laid out.
@@ -65,7 +69,7 @@ class TopographicalView extends StatefulWidget {
   /// After initialization the user can resize the splitter, and the ratio
   /// is clamped by [splitMinFirstPaneSize].
   ///
-  /// Must be in the range 0.0–1.0; values outside are silently
+  /// Must be in the range 0.0--1.0; values outside are silently
   /// constrained by the subsequent clamp.
   ///
   /// Defaults to `0.4`.
@@ -73,7 +77,7 @@ class TopographicalView extends StatefulWidget {
 
   /// The [Key] used to identify the draggable splitter [GestureDetector].
   ///
-  /// Useful for widget testing — pass a unique [ValueKey] or similar so
+  /// Useful for widget testing -- pass a unique [ValueKey] or similar so
   /// the splitter can be found with `find.byKey()`.
   ///
   /// Defaults to `Key('topo_splitter')`.
@@ -86,6 +90,7 @@ class TopographicalView extends StatefulWidget {
     required this.onViewSelected,
     this.child,
     required this.topologyData,
+    this.typeDescriptors = const <TypeDescriptor>[],
     this.treeData = const [],
     this.splitDirection = Axis.vertical,
     this.splitMinFirstPaneSize = 150.0,
@@ -120,6 +125,9 @@ class _TopographicalViewState extends State<TopographicalView> {
         }
       });
     } else if (oldWidget.currentView != widget.currentView) {
+      if (oldWidget.currentView == 'root' && widget.currentView != 'root') {
+        _cachedCamera = _calculateCameraForView(widget.currentView);
+      }
       _lastCurrentView = widget.currentView;
     }
   }
@@ -129,18 +137,31 @@ class _TopographicalViewState extends State<TopographicalView> {
     double longitude;
 
     TopologyNode? activeNode;
-    print("TopographicalView: topologyData has ${widget.topologyData.nodes.length} nodes");
+    final String lookupId = viewId == 'root' ? 'SECTOR-ALPHA-01' : viewId;
     for (final node in widget.topologyData.nodes) {
-      if (node.id == viewId) {
+      if (node.id == lookupId) {
         activeNode = node;
         break;
       }
     }
+    if (activeNode == null && lookupId != 'SECTOR-ALPHA-01') {
+      for (final node in widget.topologyData.nodes) {
+        if (node.id == 'SECTOR-ALPHA-01') {
+          activeNode = node;
+          break;
+        }
+      }
+    }
 
     if (activeNode != null) {
-      final double latVal = activeNode.resolveCoordinate('y', widget.topologyData.coordinateMapping);
-      final double lngVal = activeNode.resolveCoordinate('x', widget.topologyData.coordinateMapping);
-      print("TopographicalView: resolved $viewId to lat=$latVal, lng=$lngVal");
+      final double latVal = activeNode.resolveCoordinate(
+        'y',
+        widget.topologyData.coordinateMapping,
+      );
+      final double lngVal = activeNode.resolveCoordinate(
+        'x',
+        widget.topologyData.coordinateMapping,
+      );
       if (latVal == 0.0 && lngVal == 0.0) {
         latitude = 35.6074;
         longitude = 140.1063;
@@ -149,15 +170,20 @@ class _TopographicalViewState extends State<TopographicalView> {
         longitude = lngVal;
       }
     } else {
-      print("TopographicalView: $viewId not found in topologyData");
-      latitude = 35.6074;
-      longitude = 140.1063;
+      final dynamic sectorMeta =
+          widget.topologyData.rawMetadata['sector_coordinates'];
+      if (sectorMeta is Map) {
+        latitude = (sectorMeta['center_y'] as num?)?.toDouble() ?? 35.6074;
+        longitude = (sectorMeta['center_x'] as num?)?.toDouble() ?? 140.1063;
+      } else {
+        latitude = 35.6074;
+        longitude = 140.1063;
+      }
     }
 
     latitude = latitude.clamp(-90.0, 90.0);
     longitude = longitude.clamp(-180.0, 180.0);
 
-    print("TopographicalView: final camera lat=$latitude, lng=$longitude");
     return VirtualCamera(
       dim_0: latitude,
       dim_1: longitude,
@@ -194,6 +220,7 @@ class _TopographicalViewState extends State<TopographicalView> {
             activeFocusedNode: widget.currentView,
             onNodeSelect: widget.onViewSelected,
             data: widget.topologyData,
+            typeDescriptors: widget.typeDescriptors,
           );
 
     final body = widget.child != null

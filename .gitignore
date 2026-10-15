@@ -43,3 +43,10 @@ node_modules/
 package-lock.json
 scratch/
 venv/
+
+/target/
+
+app_flutter/build/
+app_flutter/.dart_tool/
+app_flutter/macos/Pods/
+app_flutter/macos/Flutter/ephemeral/

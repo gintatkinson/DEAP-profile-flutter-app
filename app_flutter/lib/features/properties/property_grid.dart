@@ -701,6 +701,7 @@ class _PropertyGridState extends State<PropertyGrid> {
       inputFormatters = _resolveInputFormatters(field);
 
       return _buildTextField(
+        field: field,
         label: effectiveLabel,
         controller: _controllers[field.key]!,
         focusNode: _focusNodes[field.key]!,
@@ -756,6 +757,7 @@ class _PropertyGridState extends State<PropertyGrid> {
   /// [TextField] unchanged; pass null for [inputFormatters] when no
   /// formatting is required.
   Widget _buildTextField({
+    required FieldDescriptor field,
     required String label,
     required TextEditingController controller,
     required FocusNode focusNode,
@@ -766,6 +768,46 @@ class _PropertyGridState extends State<PropertyGrid> {
     required double panelOpacity,
   }) {
     final cs = Theme.of(context).colorScheme;
+    final bool isZeroCeiling =
+        field.type == 'int' && field.minValue == 0 && field.maxValue == 0;
+    final bool hasPatternSchemaRef =
+        field.type == 'string' && (field.pattern?.contains('schema/') ?? false);
+    final bool isProvenanceField = field.type == 'string' &&
+        (hasPatternSchemaRef || controller.text.contains('schema/'));
+
+    final Widget textFieldWidget = TextField(
+      controller: controller,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      style: isProvenanceField
+          ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontFamily: 'monospace',
+              )
+          : Theme.of(context).textTheme.bodyMedium,
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+        filled: true,
+        fillColor: cs.surface.withOpacity(panelOpacity),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: widget.inputBorderRadius,
+          borderSide: BorderSide(
+            color: errorText != null
+                ? Theme.of(context).colorScheme.error
+                : Theme.of(context).dividerColor,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: widget.inputBorderRadius,
+          borderSide: BorderSide(
+            color: errorText != null ? Theme.of(context).colorScheme.error : brandPrimary,
+            width: 1.5,
+          ),
+        ),
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -774,34 +816,51 @@ class _PropertyGridState extends State<PropertyGrid> {
           style: Theme.of(context).textTheme.labelSmall,
         ),
         SizedBox(height: widget.gapSize),
-        TextField(
-          controller: controller,
-          focusNode: focusNode,
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          style: Theme.of(context).textTheme.bodyMedium,
-          decoration: InputDecoration(
-            isDense: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-            filled: true,
-            fillColor: cs.surface.withOpacity(panelOpacity),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: widget.inputBorderRadius,
-              borderSide: BorderSide(
-                color: errorText != null
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).dividerColor,
+        if (isZeroCeiling)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: textFieldWidget),
+              const SizedBox(width: 8.0),
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: controller,
+                builder: (context, editingValue, _) {
+                  final raw = editingValue.text.trim();
+                  final parsed = raw.isEmpty ? 0 : int.tryParse(raw);
+                  final isVerified = parsed != null && parsed == 0;
+                  return ZeroCeilingAnnunciatorBadge(
+                    key: Key('zero_ceiling_badge_${field.key}'),
+                    isVerified: isVerified,
+                  );
+                },
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: widget.inputBorderRadius,
-              borderSide: BorderSide(
-                color: errorText != null ? Theme.of(context).colorScheme.error : brandPrimary,
-                width: 1.5,
-              ),
-            ),
+            ],
+          )
+        else
+          textFieldWidget,
+        if (field.type == 'string')
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller,
+            builder: (context, editingValue, _) {
+              final text = editingValue.text;
+              final matchesSchema =
+                  hasPatternSchemaRef || text.contains('schema/');
+              if (!matchesSchema) {
+                return const SizedBox.shrink();
+              }
+              final citation = ProvenanceCitationBadge.extractCitation(
+                value: text,
+                pattern: field.pattern,
+              );
+              return Padding(
+                padding: const EdgeInsets.only(top: 6.0),
+                child: ProvenanceCitationBadge(
+                  key: Key('provenance_badge_${field.key}'),
+                  citation: citation,
+                ),
+              );
+            },
           ),
-        ),
         if (errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
@@ -813,6 +872,7 @@ class _PropertyGridState extends State<PropertyGrid> {
       ],
     );
   }
+
 
   /// Builds a labelled [DropdownButtonFormField] bound to [focusNode].
   ///
@@ -966,3 +1026,130 @@ class _PropertyGridState extends State<PropertyGrid> {
     return chunksA.length.compareTo(chunksB.length);
   }
 }
+
+/// High-contrast ARINC 661 status annunciator pill (`VERIFIED` in `#00E676`
+/// when value is `0`, or `VIOLATION` in `#FF334B` when `!= 0`) rendered
+/// alongside integer fields whose `FieldDescriptor` defines
+/// `minValue == 0 && maxValue == 0`.
+///
+/// Realises: [UC-06/ZeroCeilingAnnunciatorBadge]
+@immutable
+class ZeroCeilingAnnunciatorBadge extends StatelessWidget {
+  /// Creates a [ZeroCeilingAnnunciatorBadge].
+  const ZeroCeilingAnnunciatorBadge({
+    super.key,
+    required this.isVerified,
+  });
+
+  /// Whether the zero-ceiling safety/interlock invariant holds (`value == 0`).
+  final bool isVerified;
+
+  /// Verified nominal emerald color (`#00E676`).
+  static const Color verifiedColor = Color(0xFF00E676);
+
+  /// Violation warning crimson color (`#FF334B`).
+  static const Color violationColor = Color(0xFFFF334B);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isVerified ? verifiedColor : violationColor;
+    final statusText = isVerified ? 'VERIFIED' : 'VIOLATION';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.16),
+        borderRadius: BorderRadius.circular(2.0),
+        border: Border.all(color: color, width: 1.0),
+      ),
+      child: Text(
+        statusText,
+        style: TextStyle(
+          fontFamily: 'monospace',
+          fontSize: 10.0,
+          fontWeight: FontWeight.w700,
+          color: color,
+          letterSpacing: 0.6,
+        ),
+      ),
+    );
+  }
+}
+
+/// High-contrast monospace provenance citation badge rendered for string
+/// fields whose `FieldDescriptor.pattern` or value references `schema/`.
+///
+/// Realises: [Feat-10/ProvenanceCitationBadge]
+@immutable
+class ProvenanceCitationBadge extends StatelessWidget {
+  /// Creates a [ProvenanceCitationBadge].
+  const ProvenanceCitationBadge({
+    super.key,
+    required this.citation,
+  });
+
+  /// Extracted `schema/` citation path and clause string.
+  final String citation;
+
+  /// Active reticle cyan border/text accent (`#00D4FF`).
+  static const Color provenanceCyan = Color(0xFF00D4FF);
+
+  /// Elevated HUD surface background (`#141D2B`).
+  static const Color hudSurface = Color(0xFF141D2B);
+
+  static final RegExp _schemaExtractRegex = RegExp(
+    r'schema/[^\s>]+(?:\s*\u00A7[0-9.]+)?',
+  );
+
+  /// Extracts a concise `schema/...` provenance citation from [value] or
+  /// [pattern].
+  static String extractCitation({required String value, String? pattern}) {
+    final match = _schemaExtractRegex.firstMatch(value);
+    if (match != null) {
+      return match.group(0)!.trim();
+    }
+    if (pattern != null && pattern.contains('schema/')) {
+      final pMatch = _schemaExtractRegex.firstMatch(pattern);
+      if (pMatch != null) {
+        return pMatch.group(0)!.trim();
+      }
+      return pattern;
+    }
+    return value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
+      decoration: BoxDecoration(
+        color: hudSurface,
+        borderRadius: BorderRadius.circular(2.0),
+        border: Border.all(color: provenanceCyan.withOpacity(0.75), width: 1.0),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.verified_outlined,
+            size: 12.0,
+            color: provenanceCyan,
+          ),
+          const SizedBox(width: 4.0),
+          Flexible(
+            child: Text(
+              citation,
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 10.0,
+                fontWeight: FontWeight.w700,
+                color: provenanceCyan,
+                letterSpacing: 0.4,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+

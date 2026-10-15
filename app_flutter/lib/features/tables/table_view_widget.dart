@@ -507,11 +507,46 @@ class _DataCell extends StatelessWidget {
     switch (columnModel.type) {
       case 'int':
       case 'double':
-        cellContent = Text(
+        final textWidget = Text(
           value,
           style: numericTextStyle ?? theme.textTheme.bodySmall,
           textAlign: TextAlign.right,
         );
+        if (columnModel.isZeroCeilingConstraint && value.trim().isNotEmpty) {
+          final parsedInt = int.tryParse(value.trim());
+          final isVerified = parsedInt != null && parsedInt == 0;
+          cellContent = Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TableZeroCeilingBadge(isVerified: isVerified),
+              const SizedBox(width: 6.0),
+              Flexible(child: textWidget),
+            ],
+          );
+        } else if (columnModel.hasSegmentedRangeBounds &&
+            value.trim().isNotEmpty) {
+          final parsedNum = double.tryParse(value.trim());
+          if (parsedNum != null) {
+            cellContent = Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ArincSegmentedRangeGauge(
+                  value: parsedNum,
+                  minValue: columnModel.minValue!.toDouble(),
+                  maxValue: columnModel.maxValue!.toDouble(),
+                ),
+                const SizedBox(width: 6.0),
+                Flexible(child: textWidget),
+              ],
+            );
+          } else {
+            cellContent = textWidget;
+          }
+        } else {
+          cellContent = textWidget;
+        }
         break;
       case 'enum':
         cellContent = Container(
@@ -561,3 +596,142 @@ class _DataCell extends StatelessWidget {
     }
   }
 }
+
+/// Compact inline ARINC 661 segmented progress bar for numeric fields that
+/// define both `minValue` and `maxValue`.
+///
+/// Colors active segments emerald (`#00E676`) in the nominal range, amber
+/// (`#FFB020`) within 15% of the lower or upper limit, and crimson (`#FF334B`)
+/// when out of bounds.
+///
+/// Realises: [Feat-10/ArincSegmentedRangeGauge]
+@immutable
+class ArincSegmentedRangeGauge extends StatelessWidget {
+  /// Creates an [ArincSegmentedRangeGauge].
+  const ArincSegmentedRangeGauge({
+    super.key,
+    required this.value,
+    required this.minValue,
+    required this.maxValue,
+    this.segmentCount = 5,
+  });
+
+  /// Current numeric value to visualize.
+  final double value;
+
+  /// Lower inclusive bound from `FieldDescriptor.minValue`.
+  final double minValue;
+
+  /// Upper inclusive bound from `FieldDescriptor.maxValue`.
+  final double maxValue;
+
+  /// Number of discrete ARINC 661 segments rendered in the bar.
+  final int segmentCount;
+
+  /// Nominal range emerald color (`#00E676`).
+  static const Color nominalEmerald = Color(0xFF00E676);
+
+  /// Caution margin amber color (`#FFB020`) within 15% of lower/upper limit.
+  static const Color cautionAmber = Color(0xFFFFB020);
+
+  /// Out-of-bounds violation crimson color (`#FF334B`).
+  static const Color violationCrimson = Color(0xFFFF334B);
+
+  /// Inactive segment track color (`#1E293B`).
+  static const Color inactiveTrackSlate = Color(0xFF1E293B);
+
+  /// Resolves the ARINC 661 threshold color for [value] relative to
+  /// [minValue] and [maxValue].
+  Color get activeColor {
+    if (value < minValue || value > maxValue) {
+      return violationCrimson;
+    }
+    final span = maxValue - minValue;
+    if (span <= 0) {
+      return nominalEmerald;
+    }
+    final margin = span * 0.15;
+    if ((value - minValue) <= margin || (maxValue - value) <= margin) {
+      return cautionAmber;
+    }
+    return nominalEmerald;
+  }
+
+  /// Normalized fill ratio clamped to `[0.0, 1.0]`.
+  double get normalizedFill {
+    final span = maxValue - minValue;
+    if (span <= 0) return 1.0;
+    return ((value - minValue) / span).clamp(0.0, 1.0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final color = activeColor;
+    final filledSegments = value < minValue
+        ? 1
+        : math.max(1, (normalizedFill * segmentCount).ceil());
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(segmentCount, (idx) {
+        final isLit = idx < filledSegments;
+        return Container(
+          width: 4.0,
+          height: 8.0,
+          margin: EdgeInsets.only(right: idx < segmentCount - 1 ? 1.5 : 0.0),
+          decoration: BoxDecoration(
+            color: isLit ? color : inactiveTrackSlate,
+            borderRadius: BorderRadius.circular(1.0),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+/// High-contrast ARINC 661 zero-ceiling status annunciator pill rendered in
+/// tabular cells when an integer column defines `minValue == 0 && maxValue == 0`.
+///
+/// Realises: [Feat-10/TableZeroCeilingBadge]
+@immutable
+class TableZeroCeilingBadge extends StatelessWidget {
+  /// Creates a [TableZeroCeilingBadge].
+  const TableZeroCeilingBadge({
+    super.key,
+    required this.isVerified,
+  });
+
+  /// Whether the zero-ceiling invariant is satisfied (`value == 0`).
+  final bool isVerified;
+
+  /// Verified emerald color (`#00E676`).
+  static const Color verifiedColor = Color(0xFF00E676);
+
+  /// Violation crimson color (`#FF334B`).
+  static const Color violationColor = Color(0xFFFF334B);
+
+  @override
+  Widget build(BuildContext context) {
+    final badgeColor = isVerified ? verifiedColor : violationColor;
+    final label = isVerified ? 'VERIFIED' : 'VIOLATION';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 1.0),
+      decoration: BoxDecoration(
+        color: badgeColor.withOpacity(0.16),
+        borderRadius: BorderRadius.circular(2.0),
+        border: Border.all(color: badgeColor, width: 1.0),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontFamily: 'monospace',
+          fontSize: 9.0,
+          fontWeight: FontWeight.w700,
+          color: badgeColor,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+}
+

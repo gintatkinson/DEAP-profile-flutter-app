@@ -10,7 +10,7 @@ import 'package:app_flutter/core/di/repository_resolver.dart';
 import 'package:app_flutter/core/string_resources.dart';
 import 'package:app_flutter/app/app.dart';
 
-// Benchmark access hooks — set after initialization
+// Benchmark access hooks -- set after initialization
 /// Member documentation.
 ThemeController? globalThemeController;
 /// Member documentation.
@@ -22,13 +22,27 @@ const _dataSource = String.fromEnvironment('DATA_SOURCE', defaultValue: 'sqlite'
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+    debugPrint('Uncaught platform error: $error\n$stack');
+    return true;
+  };
+
   try {
     final isTest = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST') ||
         WidgetsBinding.instance.runtimeType.toString().contains('Test');
-    final dataSource = await RepositoryResolver.resolve(
-      dataSourceType: _dataSource,
-      sqliteInMemory: isTest,
-    );
+    DataSource dataSource;
+    try {
+      dataSource = await RepositoryResolver.resolve(
+        dataSourceType: _dataSource,
+        sqliteInMemory: isTest,
+      );
+    } catch (e) {
+      debugPrint('Primary repository resolution failed ($e); falling back to in-memory SQLite.');
+      dataSource = await RepositoryResolver.resolve(
+        dataSourceType: 'sqlite',
+        sqliteInMemory: true,
+      );
+    }
 
     // Theme
     final themeService = SharedPreferencesThemeService();

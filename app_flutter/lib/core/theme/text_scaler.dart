@@ -25,8 +25,81 @@ class TextScalerController extends ChangeNotifier {
   bool _explicitlySet = false;
   int _writeCount = 0;
 
+  /// Enforces fixed-width tabular glyphs so high-frequency numeric updates
+  /// render with zero horizontal pixel jitter.
+  static const List<FontFeature> tabularFigures = [
+    FontFeature.tabularFigures(),
+  ];
+
+  /// Uppercase-tracked section group header style (`letterSpacing: 1.4`,
+  /// `fontSize: 11.0`, `fontWeight: FontWeight.w600`).
+  static const TextStyle sectionGroup = TextStyle(
+    fontSize: 11.0,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 1.4,
+    fontFeatures: tabularFigures,
+  );
+
+  /// Numeric telemetry readout style with mandatory tabular figures.
+  static const TextStyle numericTelemetry = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w500,
+    fontFeatures: tabularFigures,
+  );
+
+  /// Spatial and geodetic coordinate readout style with mandatory tabular figures.
+  static const TextStyle coordinate = TextStyle(
+    fontSize: 11.0,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.4,
+    fontFeatures: tabularFigures,
+  );
+
+  /// High-density table cell style with mandatory tabular figures.
+  static const TextStyle tableCell = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeight.w400,
+    fontFeatures: tabularFigures,
+  );
+
+  /// Compact tactical status badge style with mandatory tabular figures.
+  static const TextStyle badge = TextStyle(
+    fontSize: 10.0,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.6,
+    fontFeatures: tabularFigures,
+  );
+
+  /// Formats a section header label in uppercase for `sectionGroup` rendering.
+  static String formatSectionGroup(String label) => label.toUpperCase();
+
   /// The current text scale factor, always in [0.7, 1.5].
   double get scale => _scale;
+
+  /// Scales [style] by the current [scale] factor while enforcing
+  /// [tabularFigures] to prevent horizontal pixel jitter.
+  TextStyle scaleStyle(TextStyle style) {
+    final baseFontSize = style.fontSize ?? 12.0;
+    return style.copyWith(
+      fontSize: baseFontSize * _scale,
+      fontFeatures: tabularFigures,
+    );
+  }
+
+  /// Scaled `sectionGroup` header text style.
+  TextStyle get scaledSectionGroup => scaleStyle(sectionGroup);
+
+  /// Scaled numeric telemetry text style.
+  TextStyle get scaledNumericTelemetry => scaleStyle(numericTelemetry);
+
+  /// Scaled coordinate readout text style.
+  TextStyle get scaledCoordinate => scaleStyle(coordinate);
+
+  /// Scaled table cell text style.
+  TextStyle get scaledTableCell => scaleStyle(tableCell);
+
+  /// Scaled status badge text style.
+  TextStyle get scaledBadge => scaleStyle(badge);
 
   /// Loads the persisted scale factor from [ThemeService].
   ///
@@ -46,7 +119,7 @@ class TextScalerController extends ChangeNotifier {
   ///
   /// Notifies listeners immediately and schedules persistence
   /// asynchronously. Persistence errors are caught and logged via
-  /// [debugPrint] — they never propagate to the caller.
+  /// [debugPrint] -- they never propagate to the caller.
   void setScale(double value) {
     _explicitlySet = true;
     _writeCount++;
