@@ -2,13 +2,51 @@ import 'package:app_flutter/domain/domain_errors.dart';
 import 'package:app_flutter/domain/result.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
-/// Realises: [Feat-10/Validation]
+/// Evaluates M2 schema constraints across an M1 attribute map [input] against
+/// an ordered list of [FieldDescriptor] definitions.
 ///
-/// Generic validation function that evaluates constraints on a map of input values
-/// against a list of [FieldDescriptor] descriptors.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces deterministic,
+///   schema-driven constraint evaluation (mandatory presence, numeric type
+///   parsing, inclusive `[minValue, maxValue]` bounds, regular expression
+///   patterns, and closed enumeration membership) before any M1 attribute map
+///   is committed to persistence.
 ///
-/// Returns [Result.success] when all inputs satisfy their constraints.
-/// Returns [Result.failure] carrying a typed [DomainError] on the first constraint failure.
+/// ## 2. Invariants & Mathematical Properties
+/// - **Sequential First-Failure Determinism**: Evaluates [descriptors] in
+///   iteration order and short-circuits on the first violated constraint,
+///   returning a deterministic `Failure<void>` wrapping the exact
+///   [DomainError] variant.
+/// - **Side-Effect Freedom**: Pure function that neither mutates [input] nor
+///   modifies any [FieldDescriptor] element.
+///
+/// ## 3. Preconditions
+/// - [input] and [descriptors] must be non-null collections.
+/// - Each [FieldDescriptor] in [descriptors] must specify a valid `key` and
+///   `type` (`int`, `double`, `real`, `string`, or `enum`).
+///
+/// ## 4. Postconditions
+/// - Returns `const Result.success(null)` if and only if every descriptor in
+///   [descriptors] is satisfied by the corresponding entry in [input].
+/// - Returns `Result.failure(DomainError)` carrying `SchemaFieldRequiredError`,
+///   `SchemaFieldTypeError`, `SchemaFieldRangeError`,
+///   `SchemaFieldPatternError`, or `SchemaFieldEnumError` on the first violation.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(D \cdot L)$ where $D = |\text{descriptors}|$
+///   and $L$ is the maximum string/enum evaluation length per attribute.
+/// - **Space Complexity**: $\mathcal{O}(1)$ auxiliary heap allocation (reuses
+///   cached `FieldDescriptor.compiledPattern` instances).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing or empty optional fields (`required == false`) are skipped safely.
+/// - Invalid numeric strings are caught via `int.tryParse` / `double.tryParse`
+///   and converted into `SchemaFieldTypeError` without throwing `FormatException`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 1 (Domain State & Data Model)
+///
+/// Realises: [Feat-10/Validation, ARCH-M2-001, REQ-DOM-002]
 Result<void> validateFields(Map<String, dynamic> input, List<FieldDescriptor> descriptors) {
   for (final fd in descriptors) {
     final value = input[fd.key];

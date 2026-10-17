@@ -55,16 +55,30 @@ Map<String, dynamic> _collectNodeAttributes(
   return merged;
 }
 
-/// 3-D position + time-index + trajectory vector for a topology node.
+/// ## 1. Safety Intent & Regulatory Scope
+/// 3-D spatial coordinate, time-index, and trajectory velocity vector model
+/// for a topology node under DO-178C Level A / ARINC 661 display contracts.
 ///
-/// Parsed from JSON via [TopologyNodePosition.fromJson]. Coordinates are
-/// resolved lazily through [resolveCoordinate] which checks an optional
-/// [coordinateMapping] before falling back to the baked-in dim fields.
-/// Raw properties are preserved for arbitrary downstream lookups.
+/// ## 2. Invariants & Mathematical Properties
+/// - Parsed from JSON via [TopologyNodePosition.fromJson]. Coordinates are
+///   resolved lazily through [resolveCoordinate] which checks an optional
+///   `coordinateMapping` before falling back to the baked-in `dim` fields.
+/// - Raw properties are preserved for arbitrary schema-driven downstream lookups.
 ///
-/// Edge cases: missing dimensions default to 0.0; empty vector yields zero
-/// velocity in [TopologyNode.computePosition].
+/// ## 3. Preconditions
+/// - JSON payload or constructor parameters must provide finite numeric coordinates.
 ///
+/// ## 4. Postconditions
+/// - Immutable [TopologyNodePosition] instance with deterministic coordinate and vector resolution.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(D) path segments for mapped lookup; O(1) fallback to baked-in fields.
+/// - Space Complexity: O(K) where K is the number of raw property keys.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing dimensions default to `0.0`; empty vector yields zero velocity in [TopologyNode.computePosition].
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyNodePosition]
 class TopologyNodePosition {
   /// First spatial coordinate (x-axis). Parsed from JSON key `dim_0`.
@@ -167,18 +181,29 @@ class TopologyNodePosition {
   }
 }
 
-/// A node in the topology visualisation with position, status, and arbitrary
-/// raw properties.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Represents a node entity in the topology visualization with position,
+/// status, and arbitrary schema-driven properties under ARINC 661 rules.
 ///
-/// Created from JSON via [TopologyNode.fromJson]. The [computePosition] method
-/// projects the node's position at a given [timeIndex] by applying its
-/// trajectory vector. Status is used solely for colour selection in
-/// [TopologyPainter] ("Active" gets the active colour; everything else gets
-/// the warning colour).
+/// ## 2. Invariants & Mathematical Properties
+/// - [computePosition] projects the node's position at `timeIndex` via linear
+///   kinematics: `P(t) = P(t_0) + (t - t_0) * V`.
+/// - Envelope radii and directional leader vectors are resolved generically via [TypeDescriptor] metadata.
 ///
-/// Edge cases: missing id/label default to empty string; an empty trajectory
-/// vector is treated as zero velocity (static position).
+/// ## 3. Preconditions
+/// - Constructed via [TopologyNode.fromJson] or explicit constructor parameters.
 ///
+/// ## 4. Postconditions
+/// - Provides deterministic 2D canvas offsets, concentric range radii, and velocity vectors.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) for position computation; O(F + A) for descriptor-based attribute discovery.
+/// - Space Complexity: O(A) where A is the number of node attributes.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing `id` or `label` default to empty string; empty trajectory vector is treated as zero velocity.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyNode]
 class TopologyNode {
   /// Unique identifier for this node. Used as a key for link source/target
@@ -401,13 +426,27 @@ class TopologyNode {
   }
 }
 
-/// A directed connection between two topology nodes identified by [source]
-/// and [target] IDs with a semantic [type] label.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Directed structural connection between two topology nodes identified by
+/// [source] and [target] IDs with a semantic [type] label.
 ///
-/// Links are purely structural -- they are rendered as lines in
-/// [TopologyPainter.paint] and carry no runtime state. Invalid source/target
-/// references result in a silent no-op during rendering (no line drawn).
+/// ## 2. Invariants & Mathematical Properties
+/// - Links are immutable value descriptors rendered as line segments in [TopologyPainter.paint].
 ///
+/// ## 3. Preconditions
+/// - [source] and [target] should reference valid [TopologyNode.id] entries in the parent [TopologyData].
+///
+/// ## 4. Postconditions
+/// - Holds structural edge connectivity metadata for topology graph rendering.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) construction and field access.
+/// - Space Complexity: O(1) three string references.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Invalid [source] or [target] references result in a silent no-op during rendering (no line drawn).
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyLink]
 class TopologyLink {
   /// ID of the source node for this directed link.
@@ -441,15 +480,28 @@ class TopologyLink {
   }
 }
 
-/// The full topology descriptor: coordinate mapping, node list, and link list.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Encapsulates the complete topology graph descriptor: coordinate mapping,
+/// node list, link list, and raw metadata under DO-178C Level A data integrity.
 ///
-/// Deserialised from JSON via [TopologyData.fromJson]. The [coordinateMapping]
-/// maps logical axes ("x", "y", "z", "t", "trajectory") to paths in the node's
-/// raw properties, allowing flexible schema evolution without code changes.
+/// ## 2. Invariants & Mathematical Properties
+/// - [coordinateMapping] maps logical axes (`x`, `y`, `z`, `t`, `trajectory`) to paths in node properties.
+/// - Preserves unprocessed top-level JSON metadata in [rawMetadata] for schema-driven overlay resolution.
 ///
-/// Edge cases: empty nodes/links lists are valid and produce a blank canvas;
-/// a missing mapping key falls back to the baked-in position fields.
+/// ## 3. Preconditions
+/// - JSON input to [TopologyData.fromJson] must contain `coordinate_mapping`, `nodes`, and `links`.
 ///
+/// ## 4. Postconditions
+/// - Returns an immutable [TopologyData] graph model ready for 2D/3D viewport rendering.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V + E) deserialization where V is node count and E is link count.
+/// - Space Complexity: O(V + E) storage for nodes and links.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty `nodes` or `links` lists are valid and produce a blank canvas; missing mapping keys fall back to baked-in position fields.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyData]
 class TopologyData {
   /// Maps logical axis names ("x", "y", "z", "t", "trajectory") to
@@ -495,25 +547,28 @@ class TopologyData {
   }
 }
 
-/// Interactive topology map with animated playback, node selection, and
-/// scrollable canvas.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Interactive 2D topology map widget with animated timeline playback, node
+/// hit-testing, and scrollable tactical canvas under ARINC 661 display rules.
 ///
-/// Realises UML::TopologyMap and UML::PlaybackController. Renders nodes at
-/// their (x, y) positions with trajectory velocity vectors, links with
-/// animated data-packet dots, a pulsing halo on the focused node, and labels.
-/// A playback panel at the bottom provides play/pause, time slider, and speed
-/// control.
+/// ## 2. Invariants & Mathematical Properties
+/// - Tap hit-testing selects the closest node within [tapProximity] (default `20.0` logical pixels).
+/// - On data change, the playback time index is clamped to `[minTime, maxTime]`.
 ///
-/// Tap detection uses [tapProximity] (default 20 px). If no node is close
-/// enough the tap is silently ignored. When [data] is null, falls back to
-/// [emptyTopologyData] (empty nodes/links). On data change, the playhead
-/// is clamped to the new [minTime]--[maxTime] range.
+/// ## 3. Preconditions
+/// - Optional [data] or fallback [emptyTopologyData] provides the rendered graph model.
 ///
-/// Many visual and behavioural parameters -- node radii, grid spacing,
-/// animation speed, viewport constraints, and layout sizes -- are exposed as
-/// constructor parameters with sensible defaults, allowing callers to tune
-/// the appearance without subclassing.
+/// ## 4. Postconditions
+/// - Renders the interactive topology canvas and bottom playback control bar.
 ///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V + E) per frame paint cycle; O(V) per tap hit-test.
+/// - Space Complexity: O(1) widget configuration state.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - When [data] is null, falls back to [emptyTopologyData]; taps outside [tapProximity] are safely ignored.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyMap]
 class TopologyMap extends StatefulWidget {
   /// Identifier of the node that should be visually focused (halo + larger
@@ -955,11 +1010,27 @@ class _TopologyMapState extends State<TopologyMap>
   }
 }
 
-/// Colour palette consumed by [TopologyPainter] for all rendered elements.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Immutable colour palette consumed by [TopologyPainter] for all rendered
+/// tactical topology elements under ARINC 661 display contrast compliance.
 ///
-/// Immutable; should be constructed once per paint cycle from the current
-/// [ColorScheme] to stay in sync with theme changes.
+/// ## 2. Invariants & Mathematical Properties
+/// - Constructed per paint cycle from the active [ColorScheme] to remain synchronized with theme switches.
 ///
+/// ## 3. Preconditions
+/// - All colour fields must be non-null [Color] instances.
+///
+/// ## 4. Postconditions
+/// - Provides deterministic colour bindings for background, grid, links, packets, nodes, halos, and labels.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) const construction and field lookup.
+/// - Space Complexity: O(1) 11 [Color] fields.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Compile-time non-nullable fields prevent missing colour attributes at paint time.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyPainterColors]
 class TopologyPainterColors {
   /// Canvas background colour. Fills the entire paint area before any other
@@ -1014,21 +1085,31 @@ class TopologyPainterColors {
   });
 }
 
-/// Custom canvas painter for the topology map: dark ARINC 661 tactical
-/// coordinate grid, subtle range-scale rings, compass azimuth ticks, nodes,
-/// concentric dashed range/envelope rings, directional vector leader lines,
-/// animated packets, halos, and crisp ARINC 661 callout tags.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Custom canvas painter for the 2D topology map rendering ARINC 661 tactical
+/// coordinate grids, range-scale rings, compass azimuth ticks, nodes, links,
+/// animated packet indicators, and callout tags.
 ///
-/// Paint order: background -> grid -> range-scale rings & compass ticks ->
-/// node positions -> links -> packets -> node envelope rings -> directional
-/// leader vectors -> nodes (fill + stroke) -> halo (focused only) -> ARINC 661
-/// callout labels. Redraws when [currentTimeIndex], [activeFocusedNode],
-/// [activeData], or [colors] change.
+/// ## 2. Invariants & Mathematical Properties
+/// - Paint order is strictly deterministic: background -> grid -> range-scale rings & compass ticks ->
+///   node positions -> links -> packets -> node envelope rings -> directional leader vectors ->
+///   nodes (fill + stroke) -> halo (focused only) -> ARINC 661 callout labels.
+/// - Redraws whenever [currentTimeIndex], [activeFocusedNode], [activeData], or [colors] change.
 ///
-/// Visual parameters such as [gridSpacing], [nodeRadiusDefault],
-/// [velocityScale], and others are configurable via constructor fields with
-/// sensible defaults, allowing callers to tune rendering without subclassing.
+/// ## 3. Preconditions
+/// - [activeData] and [colors] must be non-null; use [emptyTopologyData] for a blank canvas.
 ///
+/// ## 4. Postconditions
+/// - Renders the complete 2D tactical topology visualization within the canvas bounds.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(G + V + E) where G is grid line count, V is node count, and E is link count.
+/// - Space Complexity: O(V) for transient per-frame projected node position map.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Links referencing unknown source or target node IDs are safely skipped without throwing.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/TopologyPainter]
 class TopologyPainter extends CustomPainter {
   /// Cardinal compass azimuth labels rendered on the outer tactical ring.

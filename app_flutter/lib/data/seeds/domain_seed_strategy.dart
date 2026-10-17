@@ -4,23 +4,46 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:app_flutter/data/database_initializer.dart';
 
-/// Concrete implementation of [SeedStrategy] that seeds the database with domain-specific mock data.
-///
-/// This includes base type definitions, attributes, space nodes, real NTT exchanges,
-/// cable landing stations, and their interconnectivity links.
+/// Internal spatial coordinate tuple associating a node identifier with geodetic latitude and longitude degrees.
 class _NodePos {
-  /// Member documentation.
+  /// Unique topological node identifier.
   final String id;
-  /// Member documentation.
+  /// Geodetic latitude in decimal degrees.
   final double lat;
-  /// Member documentation.
+  /// Geodetic longitude in decimal degrees.
   final double lon;
 
   const _NodePos(this.id, this.lat, this.lon);
 }
 
+/// Batch-buffered [SeedStrategy] implementation that populates relational M2 type schemas, M1 instance records, and nearest-neighbor topological link graphs.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Executes bounded-memory SQLite batch commits (flushing every 1,000 operations) to deterministically populate M2 metamodel descriptors (`type_definitions`, `type_attributes`, `type_relations`) and M1 topological instances (`properties`, `instances`) without unbounded transaction log growth.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Batch buffer bound invariant: $0 \le \text{\_pendingOps} < 1000$ at the completion of every `_insertAndFlush` invocation, and $\text{\_pendingOps} == 0$ upon completion of `_flushBatch`.
+/// - Bidirectional link deduplication invariant: For any undirected node pair $(u, v)$, `addedLinks` records both `'${u}_$v'` and `'${v}_$u'`, guaranteeing at most one `'interface'` instance link between any two distinct nodes.
+/// - Nearest-neighbor link topology is computed deterministically via squared Euclidean geodetic distance $\Delta \phi^2 + \Delta \lambda^2$.
+///
+/// ## 3. Preconditions
+/// - The target [Database] passed to [seed] must have all 5 canonical M2/M1 tables created by [DatabaseInitializer.create], and seed JSON asset files must be readable from disk or `rootBundle`.
+///
+/// ## 4. Postconditions
+/// - All pending batch operations are committed (`_pendingOps == 0`), and the target SQLite database contains complete base type definitions, 50 attributes per type, hierarchical node properties with ellipsoid coordinates, child instance records, and nearest-neighbor interface links.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(N_1^2 + N_2 \cdot N_1 + M \cdot A)$ where $N_1, N_2$ are the primary and secondary topological node counts for nearest-neighbor distance pairing, $M$ is total seeded nodes, and $A = 50$ is the attribute count per node.
+/// - **Space Complexity**: $\mathcal{O}(N_1 + N_2 + |E|)$ for node coordinate vectors and the `addedLinks` deduplication set of $|E|$ edges, plus $\mathcal{O}(B_{\max})$ where $B_{\max} = 1000$ is the bounded SQLite batch buffer.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing or non-numeric coordinate fields in seed JSON records default safely to `0.0` via `_extractLat`, `_extractLon`, and `_extractHeight`.
+/// - Duplicate primary keys are handled deterministically via `ConflictAlgorithm.ignore` for base types and `ConflictAlgorithm.replace` for node and instance upserts.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Relational Batch Seeding Strategy)
+///
 /// Realises: [Feat-000/DomainSeedStrategy]
-/// Concrete implementation of [SeedStrategy] that seeds the database with domain-specific mock data.
 class DomainSeedStrategy implements SeedStrategy {
   late Batch _currentBatch;
   late Database _currentDb;
@@ -350,8 +373,32 @@ class DomainSeedStrategy implements SeedStrategy {
   }
 }
 
+/// Orchestrates idempotent relational seed migrations and M2 schema population checks.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Verifies whether the local relational database requires initial M2/M1 population ([isMigrationNeeded]) and executes the configured [SeedStrategy] deterministically via [runMigration].
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Migration readiness predicate: $\text{isMigrationNeeded}(db) \iff (\text{COUNT}(\text{type\_definitions}) == 0 \lor \text{queryError})$.
+/// - Strategy binding invariant: [seedStrategy] is guaranteed non-null (defaulting to [DomainSeedStrategy] when omitted at construction).
+///
+/// ## 3. Preconditions
+/// - The [Database] handle supplied to [runMigration] or [isMigrationNeeded] must be open and writable.
+///
+/// ## 4. Postconditions
+/// - [runMigration] awaits [SeedStrategy.seed] completion and returns `true` when all seed batches commit cleanly.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for [isMigrationNeeded] via SQLite `COUNT(*)` table scan/index check; $\mathcal{O}(T_{\text{seed}})$ for [runMigration] delegated to [seedStrategy].
+/// - **Space Complexity**: $\mathcal{O}(1)$ auxiliary state for migration check queries.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - If `type_definitions` does not yet exist or `rawQuery` throws a database exception during [isMigrationNeeded], the exception is caught and `true` is returned so that initialization/migration proceeds safely rather than leaving an unpopulated store.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Database Seed Migration Runner)
+///
 /// Realises: [Feat-000/SeedMigrationRunner]
-/// Handles running database seed migrations and schema upgrades for domain seed data.
 class SeedMigrationRunner {
   /// The [SeedStrategy] used to execute seed operations.
   final SeedStrategy seedStrategy;

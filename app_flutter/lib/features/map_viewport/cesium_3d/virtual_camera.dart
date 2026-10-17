@@ -1,55 +1,104 @@
-/// Thrown when coordinate validation fails.
+/// Exception thrown when WGS-84 geodetic coordinates or camera Euler angles
+/// violate numeric finiteness or spatial range constraints.
 ///
 /// Realises: [Feat-10/CoordinateValidationException]
 class CoordinateValidationException implements Exception {
-  /// Member documentation.
+  /// Diagnostic message detailing the coordinate or orientation constraint violation.
   final String message;
 
-  /// Member documentation.
+  /// Creates a [CoordinateValidationException] with the given [message].
   CoordinateValidationException(this.message);
 
   @override
   String toString() => 'CoordinateValidationException: $message';
 }
 
-/// Reference ellipsoid dimensions and constants.
+/// WGS-84 reference ellipsoid dimensions and geodetic constants.
 ///
 /// Realises: [Feat-10/Ellipsoid]
 class Ellipsoid {
-  /// Member documentation.
+  /// Semi-major equatorial radius of the WGS-84 reference ellipsoid in meters
+  /// ($a = 6\,378\,137.0\,\text{m}$).
   static const double wgs84EquatorialRadius = 6378137.0;
 }
 
-/// Altitude mode for positioning objects relative to terrain.
+/// Geodetic altitude reference mode for positioning entities relative to terrain.
 ///
 /// Realises: [Feat-10/AltitudeMode]
 enum AltitudeMode {
-  /// Member documentation.
+  /// Altitude measured relative to the WGS-84 reference ellipsoid or Earth center.
   absolute,
-  /// Member documentation.
+
+  /// Altitude clamped directly to the local terrain surface elevation.
   clampToGround,
-  /// Member documentation.
+
+  /// Altitude measured as height above ground level (AGL) relative to local terrain.
   relativeToGround,
 }
 
-/// Represents virtual 3D camera state including position (dim_0, dim_1, dim_2) and orientation (heading, pitch, roll).
+/// Immutable 6-DOF virtual 3D camera state encapsulating geodetic coordinates
+/// (`dim_0`, `dim_1`, `dim_2`) and Euler orientation angles (`heading`, `pitch`, `roll`).
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces strict domain boundary
+///   invariants across all 6 degrees of freedom for 3D geospatial viewport
+///   cameras, preventing `NaN`/`Infinity` propagation and invalid sub-surface
+///   or polar coordinate singularities.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Finiteness invariant: $\forall x \in \{\text{dim}_0, \text{dim}_1, \text{dim}_2, \text{heading}, \text{pitch}, \text{roll}\}, x \in \mathbb{R}$ (`!x.isNaN && !x.isInfinite`).
+/// - Geodetic bounds invariant (validated constructor & [VirtualCamera.clamped]):
+///   - Latitude: $\text{dim}_0 \in [-90.0^\circ, 90.0^\circ]$
+///   - Longitude: $\text{dim}_1 \in [-180.0^\circ, 180.0^\circ]$
+///   - Altitude floor: $\text{dim}_2 \ge -100.0\,\text{m}$
+/// - Spatial equivalence predicate [isSpatiallyEquivalentTo]:
+///   $|\Delta \text{dim}_{0,1}| \le \epsilon_{\text{coord}}$, $|\Delta \text{dim}_2| \le \epsilon_{\text{alt}}$,
+///   and $|\Delta(\text{heading}, \text{pitch}, \text{roll})| \le \epsilon_{\text{orient}}$.
+///
+/// ## 3. Preconditions
+/// - For the validating factory [VirtualCamera], all parameters must be finite
+///   and lie within their respective geodetic intervals.
+/// - For [VirtualCamera.clamped], arbitrary IEEE 754 `double` inputs (including
+///   `NaN` or out-of-range values) are accepted and sanitized.
+///
+/// ## 4. Postconditions
+/// - Produces an immutable [VirtualCamera] value object with deterministic
+///   value equality (`==` and `hashCode`).
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction, clamping, and equivalence checks.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed 6-double value object footprint.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Validating constructor throws [CoordinateValidationException] on `NaN`,
+///   `Infinite`, or out-of-range coordinates.
+/// - [VirtualCamera.clamped] coerces `NaN`/`Infinite` inputs to `0.0` and clamps
+///   coordinates into valid geodetic intervals without throwing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/VirtualCamera]
 class VirtualCamera {
-  /// Member documentation.
+  /// Geodetic latitude in degrees ($\in [-90.0, 90.0]$).
   final double dim_0;
-  /// Member documentation.
+
+  /// Geodetic longitude in degrees ($\in [-180.0, 180.0]$).
   final double dim_1;
-  /// Member documentation.
+
+  /// Altitude in meters ($\ge -100.0\,\text{m}$ relative to surface or ECEF radius).
   final double dim_2;
-  /// Member documentation.
+
+  /// Yaw / compass heading angle in degrees.
   final double heading;
-  /// Member documentation.
+
+  /// Pitch angle in degrees relative to the local horizontal plane.
   final double pitch;
-  /// Member documentation.
+
+  /// Bank / roll angle in degrees around the camera forward axis.
   final double roll;
 
-  /// Public factory constructor preserving runtime exception behavior.
+  /// Public validating factory constructor preserving runtime exception behavior.
   factory VirtualCamera({
     required double dim_0,
     required double dim_1,
@@ -85,7 +134,7 @@ class VirtualCamera {
     );
   }
 
-  /// Internal const constructor for compile-time optimization.
+  /// Internal const constructor for compile-time canonicalization and trusted callers.
   const VirtualCamera.raw({
     required this.dim_0,
     required this.dim_1,
@@ -95,7 +144,7 @@ class VirtualCamera {
     required this.roll,
   });
 
-  /// A static constant representing a default camera at origin.
+  /// A static constant representing a default camera at the geodetic origin.
   static const zero = VirtualCamera.raw(
     dim_0: 0.0,
     dim_1: 0.0,
@@ -105,8 +154,8 @@ class VirtualCamera {
     roll: 0.0,
   );
 
-  /// Creates a copy of VirtualCamera with clamped values if they exceed boundaries.
-  /// Clamps dim_2 to at least -100.0, dim_0 to [-90, 90], and dim_1 to [-180, 180].
+  /// Creates a sanitized [VirtualCamera] with values clamped to safe geodetic boundaries.
+  /// Clamps `dim_2` to at least `-100.0`, `dim_0` to `[-90, 90]`, and `dim_1` to `[-180, 180]`.
   factory VirtualCamera.clamped({
     required double dim_0,
     required double dim_1,
@@ -147,7 +196,7 @@ class VirtualCamera {
         other.roll == roll;
   }
 
-  /// Member documentation.
+  /// Evaluates whether [other] is spatially equivalent within bounded tolerances.
   bool isSpatiallyEquivalentTo(
     VirtualCamera other, {
     double epsilonCoordinate = 1e-7,

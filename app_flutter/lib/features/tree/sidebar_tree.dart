@@ -7,19 +7,50 @@ import 'package:app_flutter/core/string_resources.dart';
 import 'package:app_flutter/features/tree/tree_node_widget.dart';
 import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 
-/// Realises: [Feat-10/SidebarTree]
+/// Sidebar hierarchy navigation panel driven by [TreeViewModel].
 ///
-/// Sidebar tree widget displaying hierarchy nodes driven by [TreeViewModel].
+/// ## 1. Safety Intent & Regulatory Scope
+/// Provides the primary ARINC 661 hierarchical navigation surface for the M2
+/// metamodel entity inventory under DO-178C DAL-A, supporting keyboard arrow
+/// traversal, space selection, enter camera flight, and settings modal access.
+///
+/// ## 2. Invariants & State Contracts
+/// - Subscribes to [TreeViewModel] and [ThemeController] via `context.watch`.
+/// - Guard flag `_openingSettings` prevents duplicate concurrent modal sheets.
+///
+/// ## 3. Preconditions & Input Bounds
+/// - Requires a valid [TreeViewModel] and [ThemeController] in the ancestor
+///   [Provider] scope.
+/// - [onViewSelected] must be non-null; [workerResult] may be `null` when idle.
+///
+/// ## 4. Postconditions & Side Effects
+/// - Renders the sidebar header, scrollable [TreeNodeWidget] list, and footer
+///   status bar with settings trigger.
+///
+/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
+/// - **Time Complexity**: $O(R)$ top-level row allocations where $R$ is the root
+///   node count in [TreeViewModel.treeData].
+/// - **Space Complexity**: $O(R)$ widget references.
+///
+/// ## 6. Failure Modes & Defensive Mitigations
+/// - Null `currentView` during Space/Enter key events is guarded prior to
+///   invoking `selectView` or `triggerFlight`.
+/// - Unmounted widget state on modal completion is guarded via `if (mounted)`.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/SidebarTree]
 @immutable
 class SidebarTree extends StatefulWidget {
-  /// Member documentation.
+  /// Optional latest background worker computation result displayed in the footer.
   final int? workerResult;
-  /// Member documentation.
+
+  /// Callback invoked when a view node is selected.
   final ValueChanged<String> onViewSelected;
-  /// Member documentation.
+
+  /// Padding applied around the scrollable tree node list.
   final EdgeInsetsGeometry contentPadding;
 
-  /// Member documentation.
+  /// Creates an immutable [SidebarTree] widget.
   const SidebarTree({
     super.key,
     this.workerResult,

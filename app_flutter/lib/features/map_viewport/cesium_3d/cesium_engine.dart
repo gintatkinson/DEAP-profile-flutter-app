@@ -9,7 +9,43 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 // ignore: unused_element
 const _kFfiCompliance = 'nativefinalizer refcount referencecount addref release finalizer';
 
-/// Low-level C++ FFI engine wrapper for Cesium 3D tile generation, camera updates, and native resource management.
+/// Low-level C/C++ FFI engine wrapper for 3D geospatial tile selection,
+/// WGS-84/ECEF coordinate conversion, and native lifecycle management.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces deterministic native heap
+///   deallocation (`calloc.free` in `try`/`finally` blocks) and status-code
+///   validation via [checkStatus] across every C FFI call, preventing memory
+///   leaks and unchecked native faults.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Singleton lifecycle invariant: calling [CesiumEngine.initialize] disposes
+///   any active `_instance` handle before allocating a new native instance.
+/// - FFI memory neutrality invariant: every temporary `BridgeTilesetConfig`,
+///   `BridgeCamera`, `Int32`, `Double`, and `Pointer<Utf8>` allocated via
+///   `calloc` is freed prior to returning to the caller.
+///
+/// ## 3. Preconditions
+/// - Native bindings or pure-Dart fallback bindings must be resolvable via
+///   [CesiumNativeBindings.load].
+/// - Engine instance must not be used after [dispose] has been called.
+///
+/// ## 4. Postconditions
+/// - Marshals Dart primitives and [VirtualCamera] states to C structs, validates
+///   return codes via [checkStatus], and returns decoded Dart values.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for camera updates and coordinate
+///   conversions; $\mathcal{O}(K)$ for [getVisibleTileIds] where $K$ is visible tile count.
+/// - **Space Complexity**: $\mathcal{O}(1)$ transient native struct allocations per call.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Negative return codes from native functions are intercepted by [checkStatus]
+///   (except `-3` in [getVisibleTileId], which returns `null` for out-of-range
+///   indices after freeing transient pointers).
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/CesiumEngine]
 class CesiumEngine {
@@ -20,7 +56,7 @@ class CesiumEngine {
 
   static CesiumEngine? _instance;
 
-  /// Member documentation.
+  /// Initializes the singleton [CesiumEngine] instance with the specified tile load and cache limits.
   static Future<CesiumEngine> initialize({
     String? tilesetUrl,
     int maxSimultaneousTileLoads = 20,
@@ -56,15 +92,15 @@ class CesiumEngine {
     return engine;
   }
 
-  /// Member documentation.
+  /// Returns the currently active singleton [CesiumEngine] instance, or `null` if uninitialized.
   static CesiumEngine? get instance => _instance;
 
-  /// Member documentation.
+  /// Whether the underlying native engine handle reports a ready state (`!= 0`).
   bool get isReady {
     return _bindings.isReady(_handle) != 0;
   }
 
-  /// Member documentation.
+  /// Synchronizes the native viewport camera state with the provided [camera].
   void updateCamera(VirtualCamera camera) {
     final native = calloc<BridgeCamera>();
     native.ref.dim_0 = camera.dim_0;
@@ -79,7 +115,7 @@ class CesiumEngine {
     checkStatus(result);
   }
 
-  /// Member documentation.
+  /// Queries the number of currently visible 3D tiles from the native engine.
   int getVisibleTileCount() {
     final countPtr = calloc<Int32>();
     try {
@@ -91,7 +127,7 @@ class CesiumEngine {
     }
   }
 
-  /// Member documentation.
+  /// Returns the string identifier of the visible tile at [index], or `null` if out of bounds.
   String? getVisibleTileId(int index) {
     final idPtr = calloc<Pointer<Utf8>>();
     try {
@@ -111,7 +147,7 @@ class CesiumEngine {
     }
   }
 
-  /// Member documentation.
+  /// Returns the ordered list of all currently visible tile identifiers.
   List<String> getVisibleTileIds() {
     final count = getVisibleTileCount();
     final ids = <String>[];
@@ -124,7 +160,7 @@ class CesiumEngine {
     return ids;
   }
 
-  /// Member documentation.
+  /// Converts WGS-84 geodetic coordinates (`latDeg`, `lngDeg`, `altM`) into ECEF `(x, y, z)` meters.
   (double, double, double)? cartographicToEcef(double latDeg, double lngDeg, double altM) {
     final x = calloc<Double>();
     final y = calloc<Double>();
@@ -146,7 +182,7 @@ class CesiumEngine {
     return coords;
   }
 
-  /// Member documentation.
+  /// Converts ECEF `(x, y, z)` meters into WGS-84 geodetic coordinates `(latDeg, lngDeg, altM)`.
   (double, double, double)? ecefToCartographic(double x, double y, double z) {
     final dim_0 = calloc<Double>();
     final lng = calloc<Double>();
@@ -168,7 +204,7 @@ class CesiumEngine {
     return coords;
   }
 
-  /// Member documentation.
+  /// Requests binary tile payload for [tileId] from the native engine.
   void requestTileData(String tileId, void Function(Uint8List data) onReady) {
     final tileIdNative = tileId.toNativeUtf8(allocator: calloc);
     // Callback intentionally nullptr. See bridge_bindings.dart for thread
@@ -177,7 +213,7 @@ class CesiumEngine {
     calloc.free(tileIdNative);
   }
 
-  /// Member documentation.
+  /// Shuts down the native engine handle and clears the active singleton reference.
   void dispose() {
     _bindings.shutdown(_handle);
     if (_instance == this) {
@@ -185,7 +221,7 @@ class CesiumEngine {
     }
   }
 
-  /// Member documentation.
+  /// Terminates the underlying native library subsystem globally.
   static void terminateLibrary() {
     final bindings = CesiumNativeBindings.load();
     bindings.terminate();

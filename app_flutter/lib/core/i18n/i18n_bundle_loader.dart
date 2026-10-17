@@ -1,25 +1,52 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-/// Multi-language internationalisation bundle loader.
+/// Multi-language internationalisation string bundle loader and lookup service.
+///
+/// Loads locale-specific JSON string bundles (`assets/i18n/<locale>.json`) from
+/// the application's asset bundle and exposes deterministic key-value string
+/// resolution while retaining only a single active locale in memory.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides deterministic, non-throwing
+///   label retrieval for cockpit display widgets and bounds memory consumption by
+///   retaining at most one active locale dictionary at any time.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Lookup resolution is a total function:
+///   $\text{getString}(k, f) = \text{strings}[k] \ ?? \ f \ ?? \ k$.
+/// - Prior to any successful [loadBundle] or [loadBundleFromJson] call,
+///   $\text{currentLocale} = \text{null} \land \text{length} = 0$.
+///
+/// ## 3. Preconditions
+/// - [loadBundle] requires `assets/i18n/<locale>.json` to exist in [rootBundle]
+///   and contain a flat JSON object of string key-value pairs.
+/// - [loadBundleFromJson] requires a valid JSON object string and non-empty
+///   `locale` tag.
+///
+/// ## 4. Postconditions
+/// - Upon successful completion of [loadBundle] or [loadBundleFromJson],
+///   [currentLocale] equals the loaded `locale` and `_strings` exclusively
+///   contains that locale's entries.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ average-case lookup for [getString],
+///   [containsKey], and [length]; $\mathcal{O}(N)$ deserialization time for $N$
+///   entries during [loadBundle] or [loadBundleFromJson].
+/// - **Space Complexity**: $\mathcal{O}(N)$ bounded to the single active locale's
+///   $N$ key-value entries.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing translation keys in [getString] never throw; they return `fallback`
+///   when provided or the raw `key` string.
+/// - If [loadBundle] or [loadBundleFromJson] encounters a missing asset or
+///   malformed JSON, an exception is thrown before mutating `_strings` or
+///   `_currentLocale`, preserving the previously loaded locale state.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [string-externalization-plan.md/I18nBundleLoader]
-///
-/// Loads locale-specific JSON string bundles from the application's asset
-/// directory and exposes them through a simple key-value lookup.
-///
-/// Usage:
-/// ```dart
-/// final loader = I18nBundleLoader();
-/// await loader.loadBundle('en');
-/// final greeting = loader.getString('hello'); // "Hello"
-/// ```
-///
-/// Bundles are expected at `assets/i18n/<locale>.json`, where each file is a
-/// flat JSON object mapping string keys to translated values.
-///
-/// The loader keeps only one locale in memory at a time.  Calling
-/// [loadBundle] with a different locale replaces the previous strings.
 class I18nBundleLoader {
   /// Internal string map for the currently loaded locale.
   Map<String, String> _strings = <String, String>{};
@@ -36,7 +63,7 @@ class I18nBundleLoader {
   /// Loads the string bundle for [locale] from application assets.
   ///
   /// Reads `assets/i18n/<locale>.json` via [rootBundle], parses it as a
-  /// flat JSON object, and caches the resulting key-value map.  Any
+  /// flat JSON object, and caches the resulting key-value map. Any
   /// previously loaded strings are replaced.
   ///
   /// Throws a [FlutterError] if the asset cannot be found, or a
@@ -50,10 +77,10 @@ class I18nBundleLoader {
     _currentLocale = locale;
   }
 
-  /// Loads a bundle from a raw JSON string — intended for testing.
+  /// Loads a bundle from a raw JSON string -- intended for testing.
   ///
   /// Replaces any previously cached strings and sets [currentLocale] to
-  /// [locale].  Does **not** touch [rootBundle] or the filesystem.
+  /// [locale]. Does **not** touch [rootBundle] or the filesystem.
   void loadBundleFromJson(String json, {required String locale}) {
     _strings = Map<String, String>.from(
       jsonDecode(json) as Map<String, dynamic>,

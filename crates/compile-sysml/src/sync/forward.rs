@@ -489,17 +489,30 @@ fn generate_epic_statechart(p: &PackageDef) -> String {
     }
 
     if p.name == "ConOps" {
-        return r#"stateDiagram-v2
-    [*] --> IngestOEMArtifacts
-    IngestOEMArtifacts --> ParseSysMLAST : tokens_streamed
-    ParseSysMLAST --> ValidateModelSemantics : ast_built
-    ValidateModelSemantics --> SynthesizeICDInterconnects : semantics_verified
-    SynthesizeICDInterconnects --> EmitDownstreamArtifacts : icd_synthesized
-    EmitDownstreamArtifacts --> [*]"#.to_string();
+        if !p.action_defs.is_empty() {
+            let mut lines = vec!["stateDiagram-v2".to_string(), "    [*] --> Standby".to_string()];
+            let mut prev = "Standby".to_string();
+            for act in &p.action_defs {
+                let act_id = sanitize_id(&act.name);
+                lines.push(format!("    {} --> {} : execute_{}", prev, act_id, to_snake_case(&act.name)));
+                prev = act_id;
+            }
+            lines.push(format!("    {} --> [*]", prev));
+            return lines.join("\n");
+        } else {
+            return r#"stateDiagram-v2
+    [*] --> Standby
+    Standby --> Operational : mission_authorized
+    Operational --> Verification : evaluate_mission
+    Verification --> NominalComplete : mission_complete
+    Verification --> SafeFallback : contingency_abort
+    NominalComplete --> [*]
+    SafeFallback --> [*]"#.to_string();
+        }
     }
 
     let pkg_prefix = sanitize_id(&p.name);
-    if !pkg_prefix.is_empty() && p.name != "DEAP_Compiler_System" && (!p.part_defs.is_empty() || !p.action_defs.is_empty()) {
+    if !pkg_prefix.is_empty() && (!p.part_defs.is_empty() || !p.action_defs.is_empty()) {
         let primary_part = p
             .part_defs
             .first()
@@ -536,15 +549,19 @@ fn generate_epic_statechart(p: &PackageDef) -> String {
     }
 
     // Default canonical lifecycle state machine for root / system
-    r#"stateDiagram-v2
-    [*] --> SystemColdStart
-    SystemColdStart --> SubsystemDiscovery : initialize_compiler
-    SubsystemDiscovery --> PipelineOrchestration : subsystems_bound
-    PipelineOrchestration --> HealthDiagnosticsEvaluation : pipeline_completed
-    HealthDiagnosticsEvaluation --> SystemReady : diagnostics_clear
-    HealthDiagnosticsEvaluation --> DegradedFailure : errors_reported
-    SystemReady --> [*]
-    DegradedFailure --> [*]"#.to_string()
+    let sys_label = if pkg_prefix.is_empty() { "System".to_string() } else { pkg_prefix };
+    format!(
+        "stateDiagram-v2\n\
+         \x20   [*] --> {sys_label}ColdStart\n\
+         \x20   {sys_label}ColdStart --> {sys_label}Initialization : initialize\n\
+         \x20   {sys_label}Initialization --> {sys_label}Operational : system_ready\n\
+         \x20   {sys_label}Operational --> {sys_label}Verification : evaluate_state\n\
+         \x20   {sys_label}Verification --> {sys_label}Operational : nominal\n\
+         \x20   {sys_label}Verification --> {sys_label}DegradedRecovery : fault_detected\n\
+         \x20   {sys_label}DegradedRecovery --> {sys_label}Operational : fault_cleared\n\
+         \x20   {sys_label}DegradedRecovery --> {sys_label}SafeShutdown : critical_fault\n\
+         \x20   {sys_label}SafeShutdown --> [*]"
+    )
 }
 
 /// Generates an expanded Mermaid class diagram for an Epic including constituent part defs,
@@ -554,10 +571,11 @@ fn generate_epic_class_diagram(p: &PackageDef, primary_engine: &str, is_root: bo
     lines.push("classDiagram".to_string());
 
     if is_root {
-        if let Some(root_part) = p.part_defs.iter().find(|part| part.name == "DEAPCompilerSystem") {
+        let root_label = sanitize_id(&p.name);
+        if let Some(root_part) = p.part_defs.iter().find(|part| part.name == root_label) {
             let has_members = !root_part.ports.is_empty() || !root_part.attributes.is_empty() || !root_part.operations.is_empty();
             if has_members {
-                lines.push("    class DEAPCompilerSystem {".to_string());
+                lines.push(format!("    class {} {{", root_label));
                 for port in &root_part.ports {
                     let dir_prefix = if port.direction == "in" {
                         "in"
@@ -575,21 +593,24 @@ fn generate_epic_class_diagram(p: &PackageDef, primary_engine: &str, is_root: bo
                 }
                 lines.push("    }".to_string());
             } else {
-                lines.push("    class DEAPCompilerSystem".to_string());
+                lines.push(format!("    class {}", root_label));
             }
         } else {
-            lines.push("    class DEAPCompilerSystem".to_string());
+            lines.push(format!("    class {}", root_label));
         }
         for subpart in &p.part_defs {
-            if subpart.name != "DEAPCompilerSystem" {
+            if subpart.name != root_label {
                 lines.push(format!("    class {}", subpart.name));
-                lines.push(format!("    DEAPCompilerSystem --> {} : contains", subpart.name));
+                lines.push(format!("    {} --> {} : contains", root_label, subpart.name));
             }
         }
         return lines.join("\n");
     }
 
-    lines.push("    class DEAPCompilerSystem".to_string());
+    let parent_label = p.parent_package.as_deref().map(sanitize_id).unwrap_or_default();
+    if !parent_label.is_empty() {
+        lines.push(format!("    class {}", parent_label));
+    }
 
     for part in &p.part_defs {
         let has_members = !part.ports.is_empty() || !part.attributes.is_empty() || !part.operations.is_empty();
@@ -620,10 +641,12 @@ fn generate_epic_class_diagram(p: &PackageDef, primary_engine: &str, is_root: bo
         }
     }
 
-    lines.push(format!("    DEAPCompilerSystem --> {} : contains", primary_engine));
+    if !parent_label.is_empty() && !primary_engine.is_empty() {
+        lines.push(format!("    {} --> {} : contains", parent_label, primary_engine));
+    }
 
     for part in &p.part_defs {
-        if part.name != primary_engine {
+        if part.name != primary_engine && !primary_engine.is_empty() {
             lines.push(format!("    {} --> {} : coordinates", primary_engine, part.name));
         }
         for subpart in &part.parts {
@@ -741,9 +764,9 @@ pub fn forward_sync_sysml_to_specs(
     // Collect ordered packages: Root first, then ConOps, then imported packages in AST order, then remaining packages
     let root_pkg = all_packages
         .iter()
-        .find(|p| p.name != "SysML_Model" && p.name == pkg.name)
-        .or_else(|| all_packages.iter().find(|p| p.name == "DEAP_Compiler_System"))
-        .or_else(|| all_packages.iter().find(|p| p.name == "SysML_Model"));
+        .find(|p| p.name == pkg.name)
+        .or_else(|| all_packages.iter().find(|p| p.name == "SysML_Model"))
+        .or_else(|| all_packages.first());
 
     let conops_pkg = all_packages.iter().find(|p| p.name == "ConOps");
 
@@ -796,14 +819,14 @@ pub fn forward_sync_sysml_to_specs(
     }
 
     for p in &part_packages {
-        let subsys_dir = if p.name == "DEAP_Compiler_System" || p.name == "SysML_Model" {
+        let subsys_dir = if p.name == pkg.name || p.name == "SysML_Model" {
             "architecture".to_string()
         } else if p.name == "ConOps" {
             "conops".to_string()
         } else {
             to_snake_case(&p.name)
         };
-        let subsys_display = if p.name == "DEAP_Compiler_System" || p.name == "SysML_Model" {
+        let subsys_display = if p.name == pkg.name || p.name == "SysML_Model" {
             "System Architecture".to_string()
         } else {
             to_display_name(&p.name)
@@ -836,82 +859,86 @@ pub fn forward_sync_sysml_to_specs(
 
     let mut story_metas: Vec<StoryMeta> = Vec::new();
     for p in &ordered_packages {
-        if p.name == "DEAP_Compiler_System" || p.name == "ConOps" || p.name == "SysML_Model" || p.name == pkg.name {
+        if p.name == "ConOps" {
             continue;
         }
-        let action_name = match p.action_defs.first() {
-            Some(a) => a.name.clone(),
-            None => continue,
+        let subsys_display = if p.name == pkg.name || p.name == "SysML_Model" {
+            "System Architecture".to_string()
+        } else {
+            to_display_name(&p.name)
         };
-        let subsys_display = to_display_name(&p.name);
-        let subsys_dir = to_snake_case(&p.name);
-        let default_engine_name = p
-            .part_defs
-            .iter()
-            .find(|part| part.name.ends_with("Engine"))
-            .map(|part| part.name.clone())
-            .unwrap_or_else(|| {
-                p.part_defs
-                    .first()
-                    .map(|part| part.name.clone())
-                    .unwrap_or_else(|| "DEAPCompilerSystem".to_string())
+        let subsys_dir = if p.name == pkg.name || p.name == "SysML_Model" {
+            "architecture".to_string()
+        } else {
+            to_snake_case(&p.name)
+        };
+
+        for (a_idx, action_def) in p.action_defs.iter().enumerate() {
+            let action_name = action_def.name.clone();
+            let default_engine_name = p
+                .part_defs
+                .iter()
+                .find(|part| part.name.ends_with("Engine"))
+                .or_else(|| p.part_defs.first())
+                .map(|part| part.name.clone())
+                .unwrap_or_else(|| sanitize_id(&p.name));
+
+            let mut caller_engine = sanitize_id(&pkg.name);
+            let mut target_engine = default_engine_name.clone();
+            let mut reply_msg = "OperationComplete".to_string();
+            let mut interaction_name = action_name.clone();
+
+            if let Some(inter) = p.interaction_defs.get(a_idx).or_else(|| p.interaction_defs.first()) {
+                interaction_name = inter.name.clone();
+                if let [l0, l1, ..] = inter.lifelines.as_slice() {
+                    if let Some((_, type_name)) = l0.split_once(':') {
+                        caller_engine = type_name.trim().to_string();
+                    }
+                    if let Some((_, type_name)) = l1.split_once(':') {
+                        target_engine = type_name.trim().to_string();
+                    }
+                }
+                if let Some(m1) = inter.messages.get(1) {
+                    if let Some(first_word) = m1.split_whitespace().next() {
+                        reply_msg = first_word.to_string();
+                    }
+                }
+            }
+
+            let default_engine_feat_num = part_contexts
+                .iter()
+                .position(|ctx| ctx.pkg_name == p.name && ctx.part.name == default_engine_name)
+                .or_else(|| part_contexts.iter().position(|ctx| ctx.part.name == default_engine_name))
+                .map(|pos| pos + 1)
+                .unwrap_or(1);
+
+            let engine_feat_num = part_contexts
+                .iter()
+                .position(|ctx| ctx.pkg_name == p.name && ctx.part.name == target_engine)
+                .or_else(|| part_contexts.iter().position(|ctx| ctx.part.name == target_engine))
+                .map(|pos| pos + 1)
+                .unwrap_or(default_engine_feat_num);
+
+            let caller_feat_num = part_contexts
+                .iter()
+                .position(|ctx| ctx.part.name == caller_engine)
+                .map(|pos| pos + 1);
+
+            let s_num = story_metas.len() + 1;
+            story_metas.push(StoryMeta {
+                action_name,
+                engine_name: target_engine,
+                caller_engine,
+                reply_msg,
+                interaction_name,
+                subsys_display: subsys_display.clone(),
+                pkg_name: p.name.clone(),
+                subsys_dir: subsys_dir.clone(),
+                engine_feat_num,
+                caller_feat_num,
+                s_num,
             });
-
-        let mut caller_engine = "DEAPCompilerSystem".to_string();
-        let mut target_engine = default_engine_name.clone();
-        let mut reply_msg = "OperationComplete".to_string();
-        let mut interaction_name = action_name.clone();
-
-        if let Some(inter) = p.interaction_defs.first() {
-            interaction_name = inter.name.clone();
-            if let [l0, l1, ..] = inter.lifelines.as_slice() {
-                if let Some((_, type_name)) = l0.split_once(':') {
-                    caller_engine = type_name.trim().to_string();
-                }
-                if let Some((_, type_name)) = l1.split_once(':') {
-                    target_engine = type_name.trim().to_string();
-                }
-            }
-            if let Some(m1) = inter.messages.get(1) {
-                if let Some(first_word) = m1.split_whitespace().next() {
-                    reply_msg = first_word.to_string();
-                }
-            }
         }
-
-        let default_engine_feat_num = part_contexts
-            .iter()
-            .position(|ctx| ctx.pkg_name == p.name && ctx.part.name == default_engine_name)
-            .or_else(|| part_contexts.iter().position(|ctx| ctx.part.name == default_engine_name))
-            .map(|pos| pos + 1)
-            .unwrap_or(1);
-
-        let engine_feat_num = part_contexts
-            .iter()
-            .position(|ctx| ctx.pkg_name == p.name && ctx.part.name == target_engine)
-            .or_else(|| part_contexts.iter().position(|ctx| ctx.part.name == target_engine))
-            .map(|pos| pos + 1)
-            .unwrap_or(default_engine_feat_num);
-
-        let caller_feat_num = part_contexts
-            .iter()
-            .position(|ctx| ctx.part.name == caller_engine)
-            .map(|pos| pos + 1);
-
-        let s_num = story_metas.len() + 1;
-        story_metas.push(StoryMeta {
-            action_name,
-            engine_name: target_engine,
-            caller_engine,
-            reply_msg,
-            interaction_name,
-            subsys_display,
-            pkg_name: p.name.clone(),
-            subsys_dir,
-            engine_feat_num,
-            caller_feat_num,
-            s_num,
-        });
     }
 
     struct UseCaseMeta<'a> {
@@ -926,13 +953,11 @@ pub fn forward_sync_sysml_to_specs(
 
     let mut uc_metas: Vec<UseCaseMeta> = Vec::new();
     for p in &ordered_packages {
-        if p.name == "DEAP_Compiler_System" || p.name == "ConOps" || p.name == "SysML_Model" || p.name == pkg.name {
+        if p.name == "ConOps" {
             continue;
         }
-        let subsys_dir = if p.name == "DEAP_Compiler_System" || p.name == "SysML_Model" {
+        let subsys_dir = if p.name == pkg.name || p.name == "SysML_Model" {
             "architecture".to_string()
-        } else if p.name == "ConOps" {
-            "conops".to_string()
         } else {
             to_snake_case(&p.name)
         };
@@ -945,7 +970,7 @@ pub fn forward_sync_sysml_to_specs(
                 p.part_defs
                     .first()
                     .map(|part| part.name.clone())
-                    .unwrap_or_else(|| "DEAPCompilerSystem".to_string())
+                    .unwrap_or_else(|| sanitize_id(&p.name))
             });
 
         let default_engine_feat_num = part_contexts
@@ -998,13 +1023,18 @@ pub fn forward_sync_sysml_to_specs(
     // 1. Epics (EPIC-*.md) dynamically lowered from PackageDef nodes
     for (idx, p) in ordered_packages.iter().enumerate() {
         let epic_num = idx + 1;
-        let is_root = p.name == "DEAP_Compiler_System" || p.name == "SysML_Model" || p.name == pkg.name;
+        let is_root = p.name == "SysML_Model" || p.name == pkg.name;
         let is_conops = p.name == "ConOps";
 
         let (title, rel_path, default_issue_id) = if is_root {
+            let root_title = if p.name == "DEAP_Compiler_System" {
+                "Epic 01: System Architecture and Compiler Primacy".to_string()
+            } else {
+                format!("Epic {:02}: {} System Architecture", epic_num, to_display_name(&p.name))
+            };
             (
-                "Epic 01: System Architecture and Compiler Primacy".to_string(),
-                "epics/EPIC-01-SysML_Model.md".to_string(),
+                root_title,
+                format!("epics/EPIC-{:02}-{}.md", epic_num, p.name),
                 101,
             )
         } else if is_conops {
@@ -1046,7 +1076,7 @@ pub fn forward_sync_sysml_to_specs(
                 p.part_defs
                     .first()
                     .map(|part| part.name.clone())
-                    .unwrap_or_else(|| "DEAPCompilerSystem".to_string())
+                    .unwrap_or_else(|| sanitize_id(&p.name))
             });
 
         // Collect feature checklist for this epic
@@ -1055,14 +1085,27 @@ pub fn forward_sync_sysml_to_specs(
             let f_num = f_idx + 1;
             let f_path = format!("features/FEAT-{:02}-{}.md", f_num, ctx.part.name);
             let f_issue = resolve_issue_id(&target_out_dir, &f_path, f_num + 9);
-            let is_conops_or_root_part = ctx.pkg_name == "ConOps" || ctx.part.name == "DEAPCompilerSystem";
-            if (is_root && is_conops_or_root_part)
-                || (is_conops && is_conops_or_root_part)
-                || (!is_root && !is_conops && ctx.pkg_name == p.name)
-            {
+            let is_match = ctx.pkg_name == p.name
+                || (is_conops && ctx.pkg_name == "ConOps")
+                || (is_root && (ctx.pkg_name == pkg.name || ctx.pkg_name == "SysML_Model"));
+            if is_match {
+                let feat_title = format!("Feature {:02}: [{}] {}", f_num, ctx.subsys_display, ctx.part.name);
+                let feat_url = format!("../features/FEAT-{:02}-{}.md", f_num, ctx.part.name);
+                let mut mapped = Vec::new();
+                for req in &ctx.part.requirements {
+                    mapped.push(req.name.clone());
+                }
+                for c in &ctx.part.constraints {
+                    mapped.push(c.name.clone());
+                }
+                let mapped_clauses = if mapped.is_empty() {
+                    format!("{}.sysml", ctx.subsys_dir)
+                } else {
+                    mapped.join(", ")
+                };
                 feat_checklist.push(format!(
-                    "- [ ] #{} - Feature {:02}: [{}] {}",
-                    f_issue, f_num, ctx.subsys_display, ctx.part.name
+                    "- [ ] #{} - [{}]({}) ({})",
+                    f_issue, feat_title, feat_url, mapped_clauses
                 ));
             }
         }
@@ -1248,8 +1291,8 @@ Safety-critical invariant satisfaction, formal trace matrix closure, and zero ha
             )
         };
 
-        let parent_epic_link = if ctx.pkg_name == "DEAP_Compiler_System" || ctx.pkg_name == "SysML_Model" || ctx.pkg_name == pkg.name {
-            "[EPIC-01-SysML_Model](../epics/EPIC-01-SysML_Model.md)".to_string()
+        let parent_epic_link = if ctx.pkg_name == "SysML_Model" || ctx.pkg_name == pkg.name {
+            format!("[EPIC-01-{p_name}](../epics/EPIC-01-{p_name}.md)", p_name = pkg.name)
         } else if ctx.pkg_name == "ConOps" {
             "[EPIC-02-ConOps](../epics/EPIC-02-ConOps.md)".to_string()
         } else {
@@ -1362,28 +1405,53 @@ Component behavior and interface definitions derive from `schema/model.sysml` pu
         let subsys_display = &s_meta.subsys_display;
         let subsys_dir = &s_meta.subsys_dir;
 
+        let default_actor = all_packages
+            .iter()
+            .flat_map(|p| p.use_case_defs.iter())
+            .flat_map(|uc| {
+                let parsed = parse_use_case_doc(uc.doc.as_deref());
+                if !parsed.actors.is_empty() {
+                    parsed.actors
+                } else if !uc.actors.is_empty() {
+                    uc.actors.clone()
+                } else if let Some(ref a) = uc.actor {
+                    vec![a.clone()]
+                } else {
+                    Vec::new()
+                }
+            })
+            .next()
+            .unwrap_or_else(|| "Operator".to_string());
+
         let seq_diagram = format!(
             r#"sequenceDiagram
     autonumber
-    actor HumanEngineer
+    actor {default_actor}
     participant {caller_engine}
     participant {engine_name}
-    HumanEngineer->>{caller_engine}: {action_name}()
+    {default_actor}->>{caller_engine}: {action_name}()
     {caller_engine}->>{engine_name}: {action_name}()
     {engine_name}-->>{caller_engine}: {reply_msg}
-    {caller_engine}-->>HumanEngineer: StatusReport"#
+    {caller_engine}-->>{default_actor}: StatusReport"#
         );
 
         let mut req_features_list = Vec::new();
-        req_features_list.push("- [ ] [Feature 01: [ConOps] Human Engineer Interface](../features/FEAT-01-HumanEngineer.md)".to_string());
-        if let Some(c_num) = s_meta.caller_feat_num {
-            let c_subsys = part_contexts.get(c_num - 1).map(|c| c.subsys_display.as_str()).unwrap_or("Architecture");
+        if let Some(first_ctx) = part_contexts.first() {
             req_features_list.push(format!(
-                "- [ ] [Feature {:02}: [{}] {}](../features/FEAT-{:02}-{}.md)",
-                c_num, c_subsys, caller_engine, c_num, caller_engine
+                "- [ ] [Feature 01: [{}] {}](../features/FEAT-01-{}.md)",
+                first_ctx.subsys_display, first_ctx.part.name, first_ctx.part.name
             ));
         }
-        if caller_engine != engine_name {
+        if let Some(c_num) = s_meta.caller_feat_num {
+            if c_num != 1 {
+                let c_subsys = part_contexts.get(c_num - 1).map(|c| c.subsys_display.as_str()).unwrap_or("Architecture");
+                req_features_list.push(format!(
+                    "- [ ] [Feature {:02}: [{}] {}](../features/FEAT-{:02}-{}.md)",
+                    c_num, c_subsys, caller_engine, c_num, caller_engine
+                ));
+            }
+        }
+        if caller_engine != engine_name && engine_feat_num != 1 && Some(engine_feat_num) != s_meta.caller_feat_num {
             req_features_list.push(format!(
                 "- [ ] [Feature {:02}: [{}] {}](../features/FEAT-{:02}-{}.md)",
                 engine_feat_num, subsys_display, engine_name, engine_feat_num, engine_name
@@ -1501,10 +1569,10 @@ Operational concept definitions and system sequence interaction models:
         } else if let Some(ref a) = uc_m.uc.actor {
             vec![a.clone()]
         } else {
-            vec!["HumanEngineer".to_string()]
+            vec!["Operator".to_string()]
         };
 
-        let primary_actor = actors.first().cloned().unwrap_or_else(|| "HumanEngineer".to_string());
+        let primary_actor = actors.first().cloned().unwrap_or_else(|| "Operator".to_string());
         let _actors_yaml = actors
             .iter()
             .map(|a| format!("  - \"{}\"", a))
@@ -2247,6 +2315,7 @@ mod tests {
 
         let mut pkg = PackageDef {
             name: "SpatioTemporalStateSolvers".to_string(),
+            parent_package: Some("SystemModel".to_string()),
             ..Default::default()
         };
         let mut st_def = StateDef {
@@ -2297,7 +2366,7 @@ mod tests {
         assert!(class_diag.contains("class StateMachineSolverEngine {"));
         assert!(class_diag.contains("+ASTStreamPort stream_in (in)"));
         assert!(class_diag.contains("+Integer recursion_depth"));
-        assert!(class_diag.contains("DEAPCompilerSystem --> StateMachineSolverEngine : contains"));
+        assert!(class_diag.contains("SystemModel --> StateMachineSolverEngine : contains"));
         assert!(class_diag.contains("StateMachineSolverEngine --> StateHierarchyFlattener : coordinates"));
         Ok(())
     }
@@ -2367,6 +2436,154 @@ mod tests {
             us.contains("`StateSolverInteraction`"),
             "SysML Interaction must match interaction name"
         );
+        Ok(())
+    }
+
+    #[test]
+    fn test_issue_442_forward_sync_zero_compiler_contamination_in_specs() -> Result<(), Box<dyn std::error::Error>> {
+        use deap_core::sysml_ast::ActionDef;
+
+        let mut root = PackageDef {
+            name: "Satellite_System".to_string(),
+            ..Default::default()
+        };
+        let mut sub = PackageDef {
+            name: "Attitude_Control".to_string(),
+            ..Default::default()
+        };
+        sub.part_defs.push(PartDef {
+            name: "AttitudeController".to_string(),
+            ..Default::default()
+        });
+        sub.action_defs.push(ActionDef {
+            name: "OrientSolarArraysAction".to_string(),
+            ..Default::default()
+        });
+        root.packages.push(sub);
+
+        let opts = ForwardSyncOptions {
+            schema_path: PathBuf::from("schema/test.sysml"),
+            docs_dir: PathBuf::from("docs"),
+            out_dir: None,
+            dry_run: true,
+            force: true,
+        };
+
+        let generated = forward_sync_sysml_to_specs(&root, &opts)?;
+        for (path, content) in &generated {
+            assert!(
+                !content.contains("DEAPCompilerSystem"),
+                "File '{}' contains contaminated class DEAPCompilerSystem",
+                path
+            );
+            assert!(
+                !content.contains("Compiler Primacy"),
+                "File '{}' contains contaminated 'Compiler Primacy' title",
+                path
+            );
+            assert!(
+                !content.contains("actor HumanEngineer"),
+                "File '{}' contains contaminated 'actor HumanEngineer'",
+                path
+            );
+            assert!(
+                !content.contains("FEAT-01-HumanEngineer.md"),
+                "File '{}' contains contaminated 'FEAT-01-HumanEngineer.md'",
+                path
+            );
+            assert!(
+                !content.contains("initialize_compiler"),
+                "File '{}' contains contaminated statechart transition 'initialize_compiler'",
+                path
+            );
+            assert!(
+                !content.contains("IngestOEMArtifacts"),
+                "File '{}' contains contaminated statechart 'IngestOEMArtifacts'",
+                path
+            );
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn test_issue_447_forward_sync_root_package_specs_actions_and_linked_checklists() -> Result<(), Box<dyn std::error::Error>> {
+        use deap_core::sysml_ast::{ActionDef, PartDef, UseCaseDef};
+
+        let mut root = PackageDef {
+            name: "SysML_Model".to_string(),
+            ..Default::default()
+        };
+        root.part_defs.push(PartDef {
+            name: "TrackingRadar".to_string(),
+            ..Default::default()
+        });
+        root.part_defs.push(PartDef {
+            name: "MitigationEffector".to_string(),
+            ..Default::default()
+        });
+        root.action_defs.push(ActionDef {
+            name: "DetectTrackAction".to_string(),
+            ..Default::default()
+        });
+        root.action_defs.push(ActionDef {
+            name: "EngageThreatAction".to_string(),
+            ..Default::default()
+        });
+        root.use_case_defs.push(UseCaseDef {
+            name: "DetectTargetUseCase".to_string(),
+            ..Default::default()
+        });
+
+        let opts = ForwardSyncOptions {
+            schema_path: PathBuf::from("schema/cuas_coa.sysml"),
+            docs_dir: PathBuf::from("docs"),
+            out_dir: None,
+            dry_run: true,
+            force: true,
+        };
+
+        let generated = forward_sync_sysml_to_specs(&root, &opts)?;
+
+        // 1. Root package User Stories must NOT be omitted, and all action_defs must be lowered (no truncation to .first())
+        let has_us01 = generated.keys().any(|k| k.contains("US-01") && k.contains("DetectTrackAction"));
+        let has_us02 = generated.keys().any(|k| k.contains("US-02") && k.contains("EngageThreatAction"));
+        assert!(has_us01, "User Story 01 for root package action must be generated");
+        assert!(has_us02, "User Story 02 for root package second action must be generated without truncation");
+
+        // 2. Root package Use Cases must NOT be omitted
+        let has_uc01 = generated.keys().any(|k| k.contains("UC-01") && k.contains("DetectTargetUseCase"));
+        assert!(has_uc01, "Use Case 01 for root package use case def must be generated");
+
+        // 3. Epic feature checklist must be linked markdown, not unlinked plain text or degenerate fallback
+        let epic_content = generated
+            .iter()
+            .find(|(k, _)| k.contains("EPIC-01") && k.contains("SysML_Model"))
+            .map(|(_, v)| v)
+            .ok_or("EPIC-01-SysML_Model.md must be generated")?;
+
+        assert!(
+            !epic_content.contains("Feature 01: Subsystem capability implementation for System Architecture."),
+            "Epic must not emit degenerate unlinked placeholder feature checklist"
+        );
+        assert!(
+            epic_content.contains("[Feature 01: [System Architecture] TrackingRadar](../features/FEAT-01-TrackingRadar.md)"),
+            "Epic feature checklist must contain linked Feature 01"
+        );
+        assert!(
+            epic_content.contains("[Feature 02: [System Architecture] MitigationEffector](../features/FEAT-02-MitigationEffector.md)"),
+            "Epic feature checklist must contain linked Feature 02"
+        );
+
+        // 4. Associated user stories and use cases must be linked in Epic
+        assert!(
+            epic_content.contains("[User Story 01: Detect Track Action](../user-stories/US-01-DetectTrackAction.md)"),
+            "Epic must associate generated User Story 01"
+        );
+        assert!(
+            epic_content.contains("[Use Case 01: Detect Target Use Case](../use-cases/UC-01-DetectTargetUseCase.md)"),
+            "Epic must associate generated Use Case 01"
+        );
+
         Ok(())
     }
 }

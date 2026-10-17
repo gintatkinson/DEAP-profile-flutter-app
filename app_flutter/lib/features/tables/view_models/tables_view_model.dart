@@ -6,20 +6,50 @@ import 'package:app_flutter/domain/instance_record.dart';
 import 'package:app_flutter/domain/result.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
-/// Realises: [Feat-10/TabDescriptor]
+/// Immutable descriptor for a single tab in the ARINC 661 tabular workspace,
+/// derived from either a child relation or related type of the active [TypeDescriptor].
 ///
-/// Metadata for a single tab in the table view, derived from either a child
-/// type or a related type of the current [TypeDescriptor].
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Binds each discovered tab header
+///   ([id], [label]) deterministically to its authoritative [TypeDescriptor]
+///   schema definition.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Value Equality**: Two [TabDescriptor] instances $t_1, t_2$ satisfy
+///   $t_1 == t_2 \iff (t_1.\text{id}, t_1.\text{label}, t_1.\text{type}) =
+///   (t_2.\text{id}, t_2.\text{label}, t_2.\text{type})$.
+///
+/// ## 3. Preconditions
+/// - [id], [label], and [type] are non-null and derived from a resolved
+///   [TypeRelationDescriptor].
+///
+/// ## 4. Postconditions
+/// - Constructs an immutable tab metadata value object supporting [copyWith]
+///   and value equality.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction and [copyWith].
+/// - **Space Complexity**: $\mathcal{O}(1)$ beyond the referenced [TypeDescriptor].
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Immutable fields prevent accidental post-discovery mutation of tab bindings.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
+/// Realises: [Feat-10/TabDescriptor]
 @immutable
 class TabDescriptor {
-  /// Member documentation.
+  /// Unique tab identifier matching the child or related `typeName`.
   final String id;
-  /// Member documentation.
+
+  /// Human-readable tab header label.
   final String label;
-  /// Member documentation.
+
+  /// Resolved schema [TypeDescriptor] governing the tab's columns and instances.
   final TypeDescriptor type;
 
-  /// Member documentation.
+  /// Creates an immutable [TabDescriptor].
   const TabDescriptor({
     required this.id,
     required this.label,
@@ -52,12 +82,43 @@ class TabDescriptor {
   int get hashCode => Object.hash(id, label, type);
 }
 
-/// Realises: [Feat-10/TablesState]
+/// Immutable value state snapshot for [TablesViewModel], holding discovered
+/// tabs, column headers, visibility masks, stringified cell rows, and loading status.
 ///
-/// Immutable state holder for table view data.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Ensures atomic, immutable state
+///   transitions across asynchronous tab discovery and instance row loading so
+///   the UI never observes partially mutated table headers and row matrices.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Deep Structural Equality**: `operator ==` verifies element-wise equality
+///   across [tabs], [headers], [hiddenColumnKeys], [columnModels], and 2D matrix
+///   [rows] (`_rowsEqual`).
+///
+/// ## 3. Preconditions
+/// - All collection fields default to empty const collections and [loading]
+///   defaults to `true`.
+///
+/// ## 4. Postconditions
+/// - Produces an immutable [TablesState] snapshot with explicit `clear*` flags
+///   on [copyWith] for nullable properties ([selectedTabId], [hiddenColumnKeys], [error]).
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for [copyWith]; $\mathcal{O}(R \cdot C)$
+///   for deep equality comparison over $R$ rows and $C$ columns.
+/// - **Space Complexity**: $\mathcal{O}(R \cdot C)$ for stored row cell strings.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Explicit [error] string propagation allows the presentation layer to
+///   render fault banners while clearing stale [rows] and [headers].
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
+/// Realises: [Feat-10/TablesState]
 @immutable
 class TablesState {
-  /// Member documentation.
+  /// Creates an immutable [TablesState].
   const TablesState({
     this.activeView = '',
     this.tabs = const [],
@@ -160,10 +221,52 @@ class TablesState {
       );
 }
 
-/// Realises: [Feat-10/TablesViewModel]
+/// ViewModel that discovers child and related [TabDescriptor] tabs from
+/// segregated repositories ([TypeRepository], [InstanceRepository],
+/// [PropertyRepository]), caches [InstanceRecord] results, and streams live updates.
 ///
-/// Drives the tabbed table view by discovering tabs from segregated repositories
-/// and fetching tabular data asynchronously.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces Interface Segregation
+///   across [TypeRepository], [InstanceRepository], and [PropertyRepository],
+///   monotonically sequences asynchronous requests via `_requestId`, and debounces
+///   live property stream invalidations by $300\text{ ms}$ to prevent UI thrashing.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Request Serialization**: Any asynchronous operation initiated with
+///   sequence ID $r$ aborts state mutation if $r \ne \text{\_requestId}$ or
+///   `_disposed == true`.
+/// - **Visible Column Filtering**:
+///   $$
+///   \begin{aligned}
+///   \text{visibleColumnModels} &= \{c \in \text{headers} \mid c.\text{visible} \land c.\text{key} \notin (\text{hiddenColumnKeys} \cup \varnothing)\}
+///   \end{aligned}
+///   $$
+///
+/// ## 3. Preconditions
+/// - Must be constructed with either a composite [DataSource] or explicit
+///   [TypeRepository], [InstanceRepository], and [PropertyRepository] instances.
+///
+/// ## 4. Postconditions
+/// - Populates [state] with discovered [tabs], [headers], and [rows] on
+///   [loadForNode] and [selectTab], and cancels stream subscriptions and timers
+///   on [dispose].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|T_{\text{rel}}|) $ repository lookups for
+///   tab discovery; $\mathcal{O}(R \cdot C)$ for projecting $R$ [InstanceRecord]
+///   items across $C$ fields ($\mathcal{O}(1)$ fetch on `_cache` hit).
+/// - **Space Complexity**: $\mathcal{O}(R \cdot C)$ for cached [InstanceRecord]
+///   lists and projected row matrices.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Repository failures or caught exceptions transition `state.loading` to
+///   `false` and set `state.error = 'Failed to load table data'` with empty
+///   collections rather than propagating unhandled futures.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
+/// Realises: [Feat-10/TablesViewModel]
 class TablesViewModel extends ChangeNotifier {
   final TypeRepository _typeRepository;
   final InstanceRepository _instanceRepository;

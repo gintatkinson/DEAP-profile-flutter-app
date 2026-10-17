@@ -4,13 +4,56 @@ import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/core/theme/app_themes.dart';
 import 'package:app_flutter/core/theme/text_scaler.dart';
 
-/// Realises: [Feat-10/SettingsPanel]
+/// Interactive cockpit display configuration panel for theme mode, workspace
+/// split axis, overlay opacity, colour scheme, and typography scale.
 ///
-/// A bottom-sheet-style settings panel for theme mode, colour scheme, and
-/// text size.
+/// Binds operator controls ([SegmentedButton], [Slider], and palette swatches)
+/// directly to [ThemeController] and [TextScalerController] via reactive
+/// `context.watch` bindings.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Restricts operator display
+///   adjustments to bounded, pre-validated ranges (opacity $\in [0.0, 1.0]$,
+///   text scale $\in [0.7, 1.5]$, and enumerated [AppThemes.customSchemes]
+///   palettes) so manual cockpit customization cannot place the HMI into an
+///   illegible state.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Opacity slider domain: $\alpha_{\text{panel}} \in [0.0, 1.0]$ quantized
+///   across $10$ discrete divisions.
+/// - Text scale slider domain: $s_{\text{text}} \in [0.7, 1.5]$ quantized
+///   across $8$ discrete divisions ($10\%$ increments).
+/// - Swatch contrast check selects foreground icon colour via relative
+///   luminance threshold $L > 0.5$.
+///
+/// ## 3. Preconditions
+/// - Widget subtree must be wrapped in `Provider` bindings supplying active
+///   [ThemeController] and [TextScalerController] instances in [BuildContext].
+///
+/// ## 4. Postconditions
+/// - User interactions immediately dispatch bounded update commands to
+///   [ThemeController] or [TextScalerController] and rebuild the panel
+///   reactively on state change notifications.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(S)$ widget build time where
+///   $S = |\text{AppThemes.customSchemes}| = 6$ colour swatches.
+/// - **Space Complexity**: $\mathcal{O}(S)$ stateless widget tree nodes.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Slider and segmented button inputs are constrained by widget domain limits
+///   (`min`/`max` and non-empty selection sets) before reaching controller
+///   mutation methods.
+/// - Overflow on compact viewports is prevented by wrapping the column in a
+///   [SingleChildScrollView].
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/SettingsPanel]
 @immutable
 class SettingsPanel extends StatelessWidget {
-  /// Member documentation.
+  /// Creates an immutable [SettingsPanel] widget.
   const SettingsPanel({super.key});
 
   @override

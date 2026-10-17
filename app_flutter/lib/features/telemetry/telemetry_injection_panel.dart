@@ -1,12 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:app_flutter/data/remote/gnmi_telemetry_client.dart';
 
-/// Realises: [UC-05/TelemetryInjectionPanel]
-/// UI widget for monitoring and manually injecting gNMI telemetry metrics.
+/// Interactive ARINC 661 operator panel for monitoring and manually injecting
+/// streaming telemetry updates via [GnmiTelemetryClient].
 ///
-/// Exists to provide operators and developers with an interactive panel to simulate
-/// live telemetry updates, test stream listeners, and verify UI responsiveness under
-/// dynamic network updates.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides deterministic operator
+///   control over telemetry stream connection state (`connectStream` /
+///   `disconnectStream`) and bounded in-memory ring-buffer retention of injected
+///   [GnmiTelemetryUpdate] frames.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Bounded History Buffer**: The recent telemetry log list `_recentUpdates`
+///   is strictly bounded to at most $20$ entries:
+///   $$
+///   \begin{aligned}
+///   |\text{\_recentUpdates}| &\le 20
+///   \end{aligned}
+///   $$
+/// - **Connection-Gated Dispatch**: `GnmiTelemetryClient.injectUpdate` is
+///   invoked on the underlying stream if and only if `_client.isConnected` is `true`.
+///
+/// ## 3. Preconditions
+/// - Must be mounted inside a [MaterialApp] / [Scaffold] hierarchy providing
+///   [Theme] and [TextField] focus support.
+///
+/// ## 4. Postconditions
+/// - Renders stream connection controls, path/value input fields, and a bounded
+///   chronological list of the 20 most recent [GnmiTelemetryUpdate] records.
+/// - Disposes internal [TextEditingController] instances upon unmount.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ per telemetry injection (bounded
+///   20-element list insertion/eviction).
+/// - **Space Complexity**: $\mathcal{O}(1)$ bounded to $N_{\max} = 20$ retained
+///   telemetry update records.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty path strings default safely to `'/telemetry/metric'`.
+/// - Non-numeric metric values fall back to raw string payloads (`num.tryParse(rawValue) ?? rawValue`)
+///   without throwing format exceptions.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [UC-05/TelemetryInjectionPanel]
 class TelemetryInjectionPanel extends StatefulWidget {
   /// Optional [GnmiTelemetryClient] instance. If omitted, a default client is created.
   final GnmiTelemetryClient? client;

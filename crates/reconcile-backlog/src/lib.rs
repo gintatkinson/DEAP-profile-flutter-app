@@ -1,13 +1,45 @@
 //! Pure Rust Backlog Reconciler for DEAP MBSE Framework.
 //!
-//! Realises: [Issue Tracker as Canonical SSOT, Zero Fallback Placeholders, Automated Spec Reconciliation]
+//! ## 1. Safety Intent & Regulatory Scope
+//! Provides deterministic, zero-placeholder backlog and specification synchronization
+//! across Epics, Features, User Stories, Use Cases, ConOps, and WBS artifacts in
+//! compliance with DO-178C Level A and ISO 26262 ASIL D configuration management mandates.
+//!
+//! ## 2. Invariants & Mathematical Properties
+//! - Bijective mapping between local Markdown specification YAML frontmatter (`github_issue`)
+//!   and canonical issue tracker identifiers.
+//! - Idempotent placeholder purging: applying reconciliation twice yields zero additional
+//!   mutations ($f(f(x)) = f(x)$).
+//! - Deterministic `BTreeMap` ordering across all synthesized hierarchy checklists.
+//!
+//! ## 3. Preconditions
+//! - Workspace root contains valid UTF-8 Markdown specification documents under `docs/`.
+//! - Issue tracker client is either authenticated or explicitly configured in offline/dry-run mode.
+//!
+//! ## 4. Postconditions
+//! - All unpopulated template placeholders are replaced with deterministic structural allocations.
+//! - Hierarchical checklists and Mermaid traceability diagrams reflect live tracker state.
+//! - YAML frontmatter `github_issue` fields are synchronized with created or matched tracker issues.
+//!
+//! ## 5. Algorithmic Complexity Bounds
+//! - Time Complexity: $O(N \log N + M)$ where $N$ is the number of specification documents and
+//!   $M$ is the total byte length of Markdown content scanned linearly without backtracking regex.
+//! - Space Complexity: $O(N + M)$ bounded by the in-memory `LoadedSpec` collection and `IssueIndex`.
+//!
+//! ## 6. Failure Modes & Fault Tolerance
+//! - Missing or malformed YAML frontmatter is skipped safely or reported via `Result::Err` without panicking.
+//! - Tracker CLI subprocess failures return explicit diagnostic errors preserving local file integrity.
+//!
+//! ## 7. Realization & Traceability
+//! Realises: [REQ-RECONCILE-BACKLOG-LIB, Issue Tracker as Canonical SSOT, Zero Fallback Placeholders, Automated Spec Reconciliation]
 
 pub mod checklist;
 pub mod create_issue;
 pub mod frontmatter;
 pub mod tracker;
 
-use checklist::{clean_unpopulated_placeholders, contains_unpopulated_placeholders, reconcile_checklist_content};
+use checklist::{clean_unpopulated_placeholders_counted, contains_unpopulated_placeholders, reconcile_checklist_content};
+pub use checklist::{synthesize_and_reconcile_hierarchy, SpecDocument};
 use frontmatter::{parse_frontmatter, update_frontmatter_issue_id, SpecFrontmatter};
 use tracker::{IssueIndex, TrackerClient};
 
@@ -115,19 +147,48 @@ pub fn run_reconciliation<T: TrackerClient>(
     };
     let issue_index = IssueIndex::build(issues);
 
-    // Step 2: Frontmatter reconciliation and placeholder purge
+    // Step 2: Hierarchy synthesis, frontmatter reconciliation, and placeholder purge
+    let repo_slug = options.repo.clone()
+        .or_else(|| detect_git_repo(&options.workspace_root))
+        .unwrap_or_default();
+    let default_branch = options.default_branch.clone()
+        .or_else(|| detect_git_branch(&options.workspace_root))
+        .unwrap_or_else(|| "main".to_string());
+
+    let all_specs_snapshot = specs.clone();
+
     for spec in &mut specs {
         let mut modified = false;
 
+        let synthesized = checklist::synthesize_and_reconcile_hierarchy(
+            spec,
+            &all_specs_snapshot,
+            &repo_slug,
+            &default_branch,
+            &issue_index,
+        );
+        if synthesized != spec.content {
+            spec.content = synthesized;
+            modified = true;
+            summary.checklists_updated += 1;
+        }
+
         // Check for prohibited unpopulated placeholders
         if contains_unpopulated_placeholders(&spec.content) {
-            spec.content = clean_unpopulated_placeholders(&spec.content);
-            modified = true;
-            summary.placeholders_purged += 1;
+            let (cleaned_content, purged_count) = clean_unpopulated_placeholders_counted(&spec.content);
+            if purged_count > 0 {
+                spec.content = cleaned_content;
+                modified = true;
+                summary.placeholders_purged += purged_count;
+            }
         }
 
         // Match spec to tracker issue
-        if let Some(issue) = issue_index.find_issue(spec.frontmatter.issue_id, &spec.frontmatter.title) {
+        if let Some(issue) = issue_index.find_issue_for_type(
+            spec.frontmatter.issue_id,
+            Some(&spec.frontmatter.spec_type),
+            &spec.frontmatter.title,
+        ) {
             if spec.frontmatter.issue_id != Some(issue.number) {
                 spec.content = update_frontmatter_issue_id(&spec.content, issue.number);
                 spec.frontmatter.issue_id = Some(issue.number);
@@ -238,6 +299,32 @@ pub fn validate_checklist_publish_integrity(
                 ));
             }
         }
+
+        // Also scan item.full_line for any #<digits> references and verify that each number exists in issue_index.by_number
+        let bytes = item.full_line.as_bytes();
+        let mut i = 0;
+        while i < bytes.len() {
+            if bytes[i] == b'#' {
+                let start = i + 1;
+                let mut end = start;
+                while end < bytes.len() && bytes[end].is_ascii_digit() {
+                    end += 1;
+                }
+                if end > start {
+                    if let Ok(num) = item.full_line[start..end].parse::<u64>() {
+                        if !issue_index.by_number.contains_key(&num) {
+                            return Err(format!(
+                                "Publish gate blocked: specification '{}' contains unresolvable checklist issue reference '#{}'. Sibling must be registered on live tracker before publishing.",
+                                spec_rel_path, num
+                            ));
+                        }
+                    }
+                    i = end;
+                    continue;
+                }
+            }
+            i += 1;
+        }
     }
     Ok(())
 }
@@ -318,8 +405,154 @@ pub fn detect_git_branch(workspace_root: &Path) -> Option<String> {
     None
 }
 
+fn rewrite_projected_links(
+    body: &str,
+    repo: Option<&str>,
+    default_branch: &str,
+    spec_path_to_issue: &BTreeMap<String, u64>,
+) -> String {
+    let mut result = String::with_capacity(body.len());
+    let mut rest = body;
+
+    while let Some(sep_idx) = rest.find("](") {
+        // Scan backwards from sep_idx to find matching opening '['
+        let before_sep = &rest[..sep_idx];
+        let mut depth = 1;
+        let mut open_b = None;
+
+        for (idx, ch) in before_sep.char_indices().rev() {
+            if ch == ']' {
+                depth += 1;
+            } else if ch == '[' {
+                depth -= 1;
+                if depth == 0 {
+                    open_b = Some(idx);
+                    break;
+                }
+            } else if ch == '\n' {
+                // Do not span across lines for a single link
+                break;
+            }
+        }
+
+        if let Some(open_idx) = open_b {
+            let after_paren = &rest[sep_idx + 2..];
+            if let Some(close_p_rel) = after_paren.find(')') {
+                let target = &after_paren[..close_p_rel];
+                let text = &rest[open_idx + 1..sep_idx];
+                let total_end = sep_idx + 2 + close_p_rel + 1;
+
+                result.push_str(&rest[..open_idx]);
+
+                if target.starts_with("http://") || target.starts_with("https://") {
+                    result.push_str(&rest[open_idx..total_end]);
+                    rest = &rest[total_end..];
+                    continue;
+                }
+
+                let fname = Path::new(target).file_name().and_then(|f| f.to_str()).unwrap_or("");
+                let stripped = target.trim_start_matches('.').trim_start_matches('/');
+
+                let matching_issue = spec_path_to_issue.get(target)
+                    .or_else(|| spec_path_to_issue.get(stripped))
+                    .or_else(|| {
+                        if !fname.is_empty() {
+                            spec_path_to_issue.get(fname)
+                        } else {
+                            None
+                        }
+                    })
+                    .or_else(|| {
+                        if !fname.is_empty() {
+                            spec_path_to_issue.iter().find_map(|(k, v)| {
+                                if k.ends_with(fname) {
+                                    Some(v)
+                                } else {
+                                    None
+                                }
+                            })
+                        } else {
+                            None
+                        }
+                    })
+                    .copied();
+
+                if let Some(issue_num) = matching_issue {
+                    let cur_line_start = result.rfind('\n').map(|idx| idx + 1).unwrap_or(0);
+                    let cur_line_prefix = &result[cur_line_start..];
+                    let already_has_issue = cur_line_prefix.contains(&format!("#{}", issue_num));
+
+                    let canonical_target = if let Some(r) = repo {
+                        let clean_repo = clean_repo_name(r);
+                        let branch = if default_branch.trim().is_empty() { "main" } else { default_branch.trim() };
+                        let doc_path = if target.contains("docs/") {
+                            target[target.find("docs/").unwrap()..].to_string()
+                        } else if target.contains("epics/") {
+                            format!("docs/epics/{}", fname)
+                        } else if target.contains("features/") {
+                            format!("docs/features/{}", fname)
+                        } else if target.contains("user-stories/") {
+                            format!("docs/user-stories/{}", fname)
+                        } else if target.contains("use-cases/") {
+                            format!("docs/use-cases/{}", fname)
+                        } else {
+                            format!("docs/{}", stripped)
+                        };
+                        format!("https://github.com/{}/blob/{}/{}", clean_repo, branch, doc_path)
+                    } else {
+                        target.to_string()
+                    };
+
+                    if already_has_issue {
+                        result.push_str(&format!("[{}]({})", text, canonical_target));
+                    } else {
+                        result.push_str(&format!("#{} - [{}]({})", issue_num, text, canonical_target));
+                    }
+
+                    rest = &rest[total_end..];
+                    continue;
+                } else if let Some(r) = repo {
+                    let clean_repo = clean_repo_name(r);
+                    if !clean_repo.is_empty() {
+                        let branch = if default_branch.trim().is_empty() { "main" } else { default_branch.trim() };
+                        if target.contains("schema/") {
+                            let s_path = &target[target.find("schema/").unwrap()..];
+                            let blob = format!("https://github.com/{}/blob/{}/{}", clean_repo, branch, s_path);
+                            result.push_str(&format!("[{}]({})", text, blob));
+                            rest = &rest[total_end..];
+                            continue;
+                        } else if target.contains("docs/") {
+                            let d_path = &target[target.find("docs/").unwrap()..];
+                            let blob = format!("https://github.com/{}/blob/{}/{}", clean_repo, branch, d_path);
+                            result.push_str(&format!("[{}]({})", text, blob));
+                            rest = &rest[total_end..];
+                            continue;
+                        } else if let Some(subdir) = ["epics/", "features/", "user-stories/", "use-cases/"].iter().find(|s| target.contains(*s)) {
+                            let s_path = &target[target.find(subdir).unwrap()..];
+                            let blob = format!("https://github.com/{}/blob/{}/docs/{}", clean_repo, branch, s_path);
+                            result.push_str(&format!("[{}]({})", text, blob));
+                            rest = &rest[total_end..];
+                            continue;
+                        }
+                    }
+                }
+
+                result.push_str(&rest[open_idx..total_end]);
+                rest = &rest[total_end..];
+                continue;
+            }
+        }
+
+        result.push_str(&rest[..sep_idx + 2]);
+        rest = &rest[sep_idx + 2..];
+    }
+
+    result.push_str(rest);
+    result
+}
+
 /// Translates relative filesystem markdown links in a spec body to tracker-compatible links:
-/// - Relative spec links (`../epics/EPIC-03-*.md`) -> Issue references (`#<id>` or canonical issue links)
+/// - Relative spec links (`../epics/EPIC-03-*.md`) -> Canonical repo blob URLs prefixed by `#<id>` without intra-page anchors
 /// - Relative schema links (`../../schema/...`) -> GitHub blob URLs (`https://github.com/<repo>/blob/<branch>/schema/...`)
 /// - Relative docs links (`../../docs/...`) -> GitHub blob URLs (`https://github.com/<repo>/blob/<branch>/docs/...`)
 pub fn project_body_for_tracker(
@@ -328,52 +561,9 @@ pub fn project_body_for_tracker(
     default_branch: &str,
     spec_path_to_issue: &BTreeMap<String, u64>,
 ) -> String {
-    let mut projected = body.to_string();
+    let mut projected = rewrite_projected_links(body, repo, default_branch, spec_path_to_issue);
 
-    // 1. Translate relative spec links to issue citations
-    let mut replacements: Vec<(String, String)> = Vec::new();
-
-    for (spec_path, issue_num) in spec_path_to_issue {
-        let issue_ref = format!("#{}", issue_num);
-
-        let file_name = Path::new(spec_path)
-            .file_name()
-            .and_then(|f| f.to_str())
-            .unwrap_or("");
-
-        replacements.push((format!("../../{}", spec_path), issue_ref.clone()));
-        replacements.push((format!("../{}", spec_path), issue_ref.clone()));
-
-        if let Some(stripped) = spec_path.strip_prefix("docs/") {
-            replacements.push((format!("../../{}", stripped), issue_ref.clone()));
-            replacements.push((format!("../{}", stripped), issue_ref.clone()));
-        } else {
-            replacements.push((format!("../../docs/{}", spec_path), issue_ref.clone()));
-            replacements.push((format!("../docs/{}", spec_path), issue_ref.clone()));
-        }
-
-        if !file_name.is_empty() {
-            replacements.push((format!("../epics/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../features/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../user-stories/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../use-cases/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../../epics/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../../features/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../../user-stories/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("../../use-cases/{}", file_name), issue_ref.clone()));
-            replacements.push((format!("./{}", file_name), issue_ref.clone()));
-        }
-    }
-
-    // Sort by pattern length descending to avoid partial matches
-    replacements.sort_by_key(|r| std::cmp::Reverse(r.0.len()));
-    replacements.dedup_by(|a, b| a.0 == b.0);
-
-    for (pattern, replacement) in replacements {
-        projected = projected.replace(&pattern, &replacement);
-    }
-
-    // 2. Translate relative schema and docs links to absolute GitHub blob URLs
+    // Translate any remaining relative schema and docs links outside markdown link targets to absolute GitHub blob URLs
     if let Some(r) = repo {
         let clean_repo = clean_repo_name(r);
         if !clean_repo.is_empty() {
@@ -391,6 +581,13 @@ pub fn project_body_for_tracker(
             projected = projected.replace("../../../docs/", &docs_blob_base);
             projected = projected.replace("../../docs/", &docs_blob_base);
             projected = projected.replace("../docs/", &docs_blob_base);
+
+            for subdir in ["epics", "features", "user-stories", "use-cases"] {
+                let blob_base = format!("https://github.com/{}/blob/{}/docs/{}/", clean_repo, branch, subdir);
+                projected = projected.replace(&format!("../../../{}/", subdir), &blob_base);
+                projected = projected.replace(&format!("../../{}/", subdir), &blob_base);
+                projected = projected.replace(&format!("../{}/", subdir), &blob_base);
+            }
         }
     }
 
@@ -479,12 +676,25 @@ type: user-story
             "Projected issue body still contains relative filesystem link '../epics/EPIC-03-SystemVision.md'!"
         );
         assert!(
+            !body.contains("../features/FEAT-01-HumanEngineer.md"),
+            "Projected issue body still contains relative filesystem link '../features/FEAT-01-HumanEngineer.md'!"
+        );
+        assert!(
             !body.contains("../../schema/model.sysml"),
             "Projected issue body still contains relative filesystem link '../../schema/model.sysml'!"
         );
         assert!(
-            body.contains("[EPIC-03-SystemVision](#80)"),
-            "Projected body should contain translated citation '[EPIC-03-SystemVision](#80)', found:\n{}",
+            !body.contains("](#80)"),
+            "Projected body must NOT contain broken intra-page anchor link '](#80)'!"
+        );
+        assert!(
+            body.contains("#80 - [EPIC-03-SystemVision](https://github.com/gintatkinson/dumpiler-01/blob/main/docs/epics/EPIC-03-SystemVision.md)"),
+            "Projected body should contain translated citation '#80 - [EPIC-03-SystemVision](...)', found:\n{}",
+            body
+        );
+        assert!(
+            body.contains("[Feature 01: [ConOps] Human Engineer Interface](https://github.com/gintatkinson/dumpiler-01/blob/main/docs/features/FEAT-01-HumanEngineer.md)"),
+            "Projected body should contain translated blob URL for unmapped feature link, found:\n{}",
             body
         );
         assert!(
@@ -528,11 +738,44 @@ type: user-story
         assert!(!projected.contains("../../docs/features/FEAT-02-Verifier.md"));
         assert!(!projected.contains("../../docs/architecture/"));
 
-        assert!(projected.contains("[EPIC-03-SystemVision](#80)"));
-        assert!(projected.contains("[Feature 01: [ConOps] Human Engineer Interface](#75)"));
-        assert!(projected.contains("[Feature 02: [Core] Baseline Verifier](#76)"));
+        assert!(!projected.contains("](#80)"));
+        assert!(!projected.contains("](#75)"));
+        assert!(!projected.contains("](#76)"));
+        assert!(projected.contains("#80 - [EPIC-03-SystemVision](https://github.com/gintatkinson/dumpiler-01/blob/main/docs/epics/EPIC-03-SystemVision.md)"));
+        assert!(projected.contains("#75 - [Feature 01: [ConOps] Human Engineer Interface](https://github.com/gintatkinson/dumpiler-01/blob/main/docs/features/FEAT-01-HumanEngineer.md)"));
+        assert!(projected.contains("#76 - [Feature 02: [Core] Baseline Verifier](https://github.com/gintatkinson/dumpiler-01/blob/main/docs/features/FEAT-02-Verifier.md)"));
         assert!(projected.contains("https://github.com/gintatkinson/dumpiler-01/blob/main/schema/subsystems/system_vision/behavior.sysml"));
         assert!(projected.contains("https://github.com/gintatkinson/dumpiler-01/blob/main/docs/architecture/DEAP_MASTER_ARCHITECTURE.md"));
+    }
+
+    #[test]
+    fn test_unmapped_relative_spec_links_project_to_github_blob_urls() {
+        let raw_body = r#"
+- [Epic](../epics/EPIC-01.md)
+- [Feature](../../features/FEAT-02.md)
+- [Story](../../../user-stories/US-03.md)
+- [Use Case](../use-cases/UC-04.md)
+- Direct link: ../../../features/FEAT-05.md
+"#;
+        let empty_map = BTreeMap::new();
+        let projected = project_body_for_tracker(
+            raw_body,
+            Some("owner/myrepo"),
+            "develop",
+            &empty_map,
+        );
+
+        assert!(!projected.contains("../epics/EPIC-01.md"));
+        assert!(!projected.contains("../../features/FEAT-02.md"));
+        assert!(!projected.contains("../../../user-stories/US-03.md"));
+        assert!(!projected.contains("../use-cases/UC-04.md"));
+        assert!(!projected.contains("../../../features/FEAT-05.md"));
+
+        assert!(projected.contains("[Epic](https://github.com/owner/myrepo/blob/develop/docs/epics/EPIC-01.md)"));
+        assert!(projected.contains("[Feature](https://github.com/owner/myrepo/blob/develop/docs/features/FEAT-02.md)"));
+        assert!(projected.contains("[Story](https://github.com/owner/myrepo/blob/develop/docs/user-stories/US-03.md)"));
+        assert!(projected.contains("[Use Case](https://github.com/owner/myrepo/blob/develop/docs/use-cases/UC-04.md)"));
+        assert!(projected.contains("https://github.com/owner/myrepo/blob/develop/docs/features/FEAT-05.md"));
     }
 
     #[test]
@@ -563,7 +806,7 @@ type: user-story
         map.insert("epics/EPIC-01.md".to_string(), 10);
 
         let projected = project_body_for_tracker(raw_body, None, "main", &map);
-        assert_eq!(projected, "[EPIC-01](#10) and [schema](../../schema/model.sysml)");
+        assert_eq!(projected, "#10 - [EPIC-01](../epics/EPIC-01.md) and [schema](../../schema/model.sysml)");
     }
 
     #[test]
@@ -628,6 +871,178 @@ type: user-story
 
         let res = validate_checklist_publish_integrity("docs/epics/EPIC-01.md", content, &issue_index);
         assert!(res.is_ok());
+    }
+
+    #[test]
+    fn test_publish_gate_blocks_unregistered_inline_issue_numbers() -> Result<(), Box<dyn std::error::Error>> {
+        let content = r#"# Epic: Test
+## 2. Requirements & Checklist
+- [ ] [Feature 99: Ghost Feature](../features/FEAT-99.md) (#999)
+"#;
+        let mut issue_index = IssueIndex::default();
+        issue_index.by_number.insert(
+            10,
+            tracker::TrackerIssue {
+                number: 10,
+                title: "Feature 01".to_string(),
+                labels: vec![],
+                state: "OPEN".to_string(),
+                body: None,
+                url: None,
+            },
+        );
+
+        let err = validate_checklist_publish_integrity("docs/epics/EPIC-01.md", content, &issue_index)
+            .err()
+            .ok_or("expected publish gate to reject unregistered inline issue #999")?;
+        assert!(err.contains("Publish gate blocked"));
+        assert!(err.contains("contains unresolvable checklist issue reference '#999'"));
+        Ok(())
+    }
+
+    #[test]
+    fn test_publish_gate_passes_for_registered_inline_issue_numbers() {
+        let content = r#"# Epic: Test
+## 2. Requirements & Checklist
+- [ ] [Feature 01: Real Feature](../features/FEAT-01.md) (#10)
+"#;
+        let mut issue_index = IssueIndex::default();
+        issue_index.by_number.insert(
+            10,
+            tracker::TrackerIssue {
+                number: 10,
+                title: "Feature 01".to_string(),
+                labels: vec![],
+                state: "OPEN".to_string(),
+                body: None,
+                url: None,
+            },
+        );
+
+        let res = validate_checklist_publish_integrity("docs/epics/EPIC-01.md", content, &issue_index);
+        assert!(res.is_ok());
+    }
+
+    #[test]
+    fn test_reconciliation_workflow_reconciles_markdown_linked_and_inline_issues() -> Result<(), Box<dyn std::error::Error>> {
+        let temp_dir = std::env::temp_dir().join(format!("reconcile_md_links_{}", chrono::Utc::now().timestamp_nanos_opt().unwrap_or(0)));
+        let stories_dir = temp_dir.join("docs/user-stories");
+        fs::create_dir_all(&stories_dir)?;
+
+        let story_content = r#"---
+issue_id: 100
+title: "User Story 01: Core"
+type: user-story
+---
+# User Story 01: Core
+
+## Required Features
+- [ ] [Feature 01: Human Engineer Interface](../features/FEAT-01.md)
+- [ ] [Feature 02: CI Runner](../features/FEAT-02.md) (#20)
+"#;
+        let story_path = stories_dir.join("US-01-Core.md");
+        fs::write(&story_path, story_content)?;
+
+        let issues = vec![
+            TrackerIssue {
+                number: 100,
+                title: "User Story 01: Core".to_string(),
+                state: "OPEN".to_string(),
+                labels: vec![TrackerLabel::String("user-story".to_string())],
+                body: None,
+                url: None,
+            },
+            TrackerIssue {
+                number: 10,
+                title: "Feature 01: Human Engineer Interface".to_string(),
+                state: "CLOSED".to_string(), // resolved!
+                labels: vec![TrackerLabel::String("feature".to_string())],
+                body: None,
+                url: None,
+            },
+            TrackerIssue {
+                number: 20,
+                title: "Feature 02: CI Runner".to_string(),
+                state: "CLOSED".to_string(), // resolved!
+                labels: vec![TrackerLabel::String("feature".to_string())],
+                body: None,
+                url: None,
+            },
+        ];
+
+        let tracker = OfflineTracker::with_issues(issues);
+        let options = ReconcileOptions {
+            workspace_root: temp_dir.clone(),
+            offline: false,
+            dry_run: false,
+            provider: "offline".to_string(),
+            sync_bodies: false,
+            repo: None,
+            default_branch: None,
+        };
+
+        let summary = run_reconciliation(&tracker, &options)?;
+        assert_eq!(summary.checklists_updated, 2, "Expected both checklist items to be updated to [x]");
+
+        let updated = fs::read_to_string(&story_path)?;
+        assert!(updated.contains("- [x] [Feature 01: Human Engineer Interface](../features/FEAT-01.md)"));
+        assert!(updated.contains("- [x] [Feature 02: CI Runner](../features/FEAT-02.md) (#20)"));
+
+        let _ = fs::remove_dir_all(&temp_dir);
+        Ok(())
+    }
+
+    #[test]
+    fn test_issue_439_reconcile_workflow_placeholder_telemetry() -> Result<(), Box<dyn std::error::Error>> {
+        let temp_dir = std::env::temp_dir().join(format!("reconcile_telemetry_test_{}", chrono::Utc::now().timestamp_nanos_opt().unwrap_or(0)));
+        let epics_dir = temp_dir.join("docs/epics");
+        fs::create_dir_all(&epics_dir)?;
+
+        let epic_content = r#"---
+issue_id: 10
+title: "Epic 01: Test"
+type: epic
+---
+# Epic 01: Test
+
+#### Phase 1 Placeholders
+*To be populated after Phase 1*
+
+#### Phase 2 Placeholders
+*To be populated after Phase 2*
+
+#### Phase 3 Placeholders
+*To be populated after Phase 3*
+"#;
+        let epic_path = epics_dir.join("EPIC-01-Test.md");
+        fs::write(&epic_path, epic_content)?;
+
+        let tracker = OfflineTracker::with_issues(vec![]);
+        let options = ReconcileOptions {
+            workspace_root: temp_dir.clone(),
+            offline: true,
+            dry_run: false,
+            provider: "offline".to_string(),
+            sync_bodies: false,
+            repo: None,
+            default_branch: None,
+        };
+
+        // Pass 1: should purge all 3 blocks and increment telemetry by 3
+        let summary1 = run_reconciliation(&tracker, &options)?;
+        assert_eq!(summary1.placeholders_purged, 3, "Expected 3 placeholders purged in pass 1");
+
+        let updated_content = fs::read_to_string(&epic_path)?;
+        assert!(!contains_unpopulated_placeholders(&updated_content));
+        let count_none = updated_content.matches("- None allocated (structural subsystem component)").count();
+        assert_eq!(count_none, 3, "Expected 3 allocations in updated spec");
+
+        // Pass 2 (Idempotency): running reconciliation again over same spec should purge 0
+        let summary2 = run_reconciliation(&tracker, &options)?;
+        assert_eq!(summary2.placeholders_purged, 0, "Expected 0 placeholders purged on pass 2");
+
+        let _ = fs::remove_dir_all(&temp_dir);
+        Ok(())
     }
 }
 

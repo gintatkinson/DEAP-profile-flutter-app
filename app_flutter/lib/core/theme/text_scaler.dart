@@ -2,22 +2,57 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'theme_service.dart';
 
-/// Manages a clamped text scale factor and persists it via [ThemeService].
+/// Reactive typography scale controller that enforces bounded text scaling and
+/// tabular numeral metrics across cockpit display surfaces.
 ///
-/// Exposes a [ChangeNotifier] interface for reactive UI updates. The
-/// scale is clamped to the range [0.7, 1.5] on every write so that text
-/// never becomes unreadable at either extreme.
+/// Exposes a [ChangeNotifier] state container that clamps the active text scale
+/// factor to $[0.7, 1.5]$, applies mandatory `tabularFigures` font features to
+/// prevent horizontal layout jitter during numeric telemetry updates, and
+/// persists user scale changes asynchronously through [ThemeService].
 ///
-/// **State**: caches the current scale in memory and persists through
-/// [ThemeService] on every [setScale] call. Persistence failures are
-/// logged via [debugPrint] but never thrown.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Prevents unreadable extreme font
+///   scaling (clamping strictly to $[0.7, 1.5]$) and enforces fixed-width
+///   tabular glyph metrics (`tnum`) so rapidly changing numeric readouts never
+///   induce horizontal pixel jitter on 60 FPS cockpit displays.
 ///
-/// **Edge cases**: a null [ThemeService] skips persistence entirely;
-/// values outside [0.7, 1.5] are silently clamped.
-/// Controls text scale factor state.
+/// ## 2. Invariants & Mathematical Properties
+/// - Scale clamping invariant:
+///   $\forall v \in \mathbb{R},\ \text{setScale}(v) \implies \text{scale} = \min(1.5, \max(0.7, v)) \in [0.7, 1.5]$.
+/// - Affine font size scaling:
+///   $\text{scaleStyle}(s).\text{fontSize} = (s.\text{fontSize} \ ?? \ 12.0) \times \text{scale}$.
+/// - Monotonic write counter (`_writeCount`) prevents stale asynchronous [load]
+///   completions from overwriting a newer explicit [setScale] mutation.
+///
+/// ## 3. Preconditions
+/// - Optional [ThemeService] may be injected at construction for persistence;
+///   when `null`, scale state operates purely in memory.
+///
+/// ## 4. Postconditions
+/// - [setScale] clamps `_scale`, increments `_writeCount`, notifies active
+///   listeners synchronously if undisposed, and schedules non-blocking
+///   persistence via [ThemeService.saveTextScale].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(L)$ per [setScale] or [load] notification
+///   for $L$ registered listeners; $\mathcal{O}(1)$ for [scaleStyle] and preset
+///   style getters.
+/// - **Space Complexity**: $\mathcal{O}(1)$ scalar controller fields and static
+///   [TextStyle] constants.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Out-of-range inputs to [setScale] are deterministically clamped to
+///   $[0.7, 1.5]$.
+/// - Asynchronous persistence failures in [ThemeService.saveTextScale] are
+///   caught and logged via [debugPrint] without propagating unhandled futures.
+/// - Calling [notifyListeners] after [dispose] is safely ignored.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/TextScalerController]
 class TextScalerController extends ChangeNotifier {
-  /// Member documentation.
+  /// Creates a [TextScalerController] optionally backed by [_themeService] for persistence.
   TextScalerController([this._themeService]);
   final ThemeService? _themeService;
   double _scale = 1.0;

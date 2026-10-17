@@ -21,12 +21,55 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Abstract rendering layer contract for the 3D scene viewport compositor
+/// under DO-178C Level A / ARINC 661 display layer separation rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Each layer paints deterministically from pre-calculated [SceneViewState] without mutating model state.
+///
+/// ## 3. Preconditions
+/// - [canvas], [size], and [state] must be initialized for the active paint cycle.
+///
+/// ## 4. Postconditions
+/// - Emits layer-specific vector and raster primitives onto [canvas].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: Defined by concrete layer implementation.
+/// - Space Complexity: O(1) per layer invocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing geometry in [state] results in a safe no-op for the affected layer.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/SceneLayer]
 abstract class SceneLayer {
   /// Member documentation.
   void paint(Canvas canvas, Size size, SceneViewState state);
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Renders the deterministic starfield background and atmospheric horizon glow
+/// for the 3D scene viewport under ARINC 661 display layer partitioning.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Starfield positions are deterministically seeded (`math.Random(42)`) with 100 fixed points.
+/// - Atmospheric radial glow scales relative to `state.projectedRadius`.
+///
+/// ## 3. Preconditions
+/// - [size] must have finite positive dimensions.
+///
+/// ## 4. Postconditions
+/// - Draws starfield points and optional atmospheric glow onto [canvas].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) fixed 100-star loop plus single path transform.
+/// - Space Complexity: O(1) static pre-allocated star tuple list.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Returns early after starfield rendering if `state.horizonPath` is null.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/BackgroundLayer]
 class BackgroundLayer extends SceneLayer {
   static final List<(double, double, double, double)> _stars = () {
@@ -82,6 +125,28 @@ class BackgroundLayer extends SceneLayer {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Renders the planetary ellipsoid fill, meridian/parallel graticule, latitude
+/// bands, and slippy raster tiles on the 3D globe layer.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Renders 12 meridians (30 steps each) and 6 parallels (60 steps each) culled to front-hemisphere (`z >= 0`).
+/// - Delegates raster tile quad warping to [GlobeTileRenderer.renderTiles] when enabled.
+///
+/// ## 3. Preconditions
+/// - `state.horizonPath` must be non-null to render planetary geometry.
+///
+/// ## 4. Postconditions
+/// - Draws planetary disc, graticule lines, optional raster tiles, and spherical shading overlay.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(G + T) where G is fixed graticule segments and T is visible tile count.
+/// - Space Complexity: O(1) reused [Paint] instances.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Safely skips rendering when `state.horizonPath` is null or tile renderer is disabled.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/GlobeLayer]
 class GlobeLayer extends SceneLayer {
   final Paint _gridPaint = Paint()..style = PaintingStyle.stroke..strokeWidth = 0.8;
@@ -269,6 +334,28 @@ class GlobeLayer extends SceneLayer {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Renders projected 3D topology nodes, inter-node links, packet markers, and
+/// vertical altitude drop lines onto the 3D scene viewport.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Renders only front-hemisphere nodes (`proj.z >= 0`) when `state.showDevices` is true.
+/// - Uses batched `Canvas.drawPoints` calls for ground points, link segments, and packet markers.
+///
+/// ## 3. Preconditions
+/// - `state.projectedNodes` and point lists must be synchronized via [SceneViewState.recalculate].
+///
+/// ## 4. Postconditions
+/// - Draws visible topology nodes, links, and drop-line segments onto [canvas].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V + E) where V is visible node count and E is visible link count.
+/// - Space Complexity: O(1) reused [Paint] instances.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Returns immediately as a no-op when `state.showDevices` is false.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/TopologyLayer]
 class TopologyLayer extends SceneLayer {
   final Paint _linkPaint = Paint()..color = const Color(0xFFFF6D00)..style = PaintingStyle.stroke..strokeWidth = 1.5;
@@ -355,6 +442,28 @@ class TopologyLayer extends SceneLayer {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Renders the ARINC 661 heads-up display (HUD) center reticle and de-overlapped
+/// node callout capsules on the top layer of the 3D viewport.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Center reticle is anchored at `state.transformer.screenCenter`.
+/// - Label callout positions are consumed from `state.finalLabelPositions` computed during layout.
+///
+/// ## 3. Preconditions
+/// - `state.textPainterCache` and `state.finalLabelPositions` must be populated for visible labels.
+///
+/// ## 4. Postconditions
+/// - Draws reticle crosshairs and non-overlapping node callout badges onto [canvas].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V) where V is the number of visible labeled nodes.
+/// - Space Complexity: O(1) reused [Paint] instances.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing cached [TextPainter] or label offset entries are safely skipped without throwing.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/HUDLayer]
 class HUDLayer extends SceneLayer {
   final Paint _reticleDotPaint = Paint()..color = const Color(0xFF00E5FF)..style = PaintingStyle.fill;
@@ -404,6 +513,28 @@ class HUDLayer extends SceneLayer {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Orchestrates multi-layer custom canvas painting and geodetic projection
+/// verification helpers for the 3D scene viewport under DO-178C Level A rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Clips canvas strictly to `Offset.zero & size` before iterating through [layers].
+/// - Tile LOD calculation clamps zoom levels to `[0, 18]`.
+///
+/// ## 3. Preconditions
+/// - [state] must be initialized and passed as the repaint listenable.
+///
+/// ## 4. Postconditions
+/// - Sequentially invokes `layer.paint(canvas, size, state)` across all configured [SceneLayer]s.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(L) layer dispatch where L = 4 (`BackgroundLayer`, `GlobeLayer`, `TopologyLayer`, `HUDLayer`).
+/// - Space Complexity: O(1) painter state.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Non-positive altitudes in `calculateTileLOD` default to `100.0` meters before logarithmic calculation.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/Scene3DViewportPainter]
 class Scene3DViewportPainter extends CustomPainter {
   (double, double, double) getEcefCoordinatesForTesting(double lat, double lng, double height) {
@@ -616,6 +747,28 @@ class Scene3DViewportPainter extends CustomPainter {
   bool shouldRepaint(covariant Scene3DViewportPainter oldDelegate) => true; 
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// ARINC 661 telemetry overlay panel displaying real-time 6-DOF camera
+/// geodetic coordinates, orientation angles, and frame drop count.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Subscribes to [cameraController] via `ListenableBuilder` for reactive telemetry updates.
+/// - Displays altitude relative to `Ellipsoid.wgs84EquatorialRadius`.
+///
+/// ## 3. Preconditions
+/// - [cameraController] and [onClose] must be non-null.
+///
+/// ## 4. Postconditions
+/// - Renders a positioned translucent HUD telemetry card in the top-left viewport corner.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) widget subtree construction per camera notification.
+/// - Space Complexity: O(1) stateless widget configuration.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Safely formats extreme coordinate values using fixed-precision string conversion.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/CameraStatsPanel]
 @immutable
 class CameraStatsPanel extends StatelessWidget {
@@ -673,6 +826,28 @@ class CameraStatsPanel extends StatelessWidget {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// ARINC 661 configuration overlay panel for selecting astronomical body,
+/// coordinate datum, base layer style, terrain elevation, and layer visibility.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Highlights active selection buttons via deterministic state comparison.
+/// - Dispatches user configuration changes exclusively through typed callbacks.
+///
+/// ## 3. Preconditions
+/// - Required style, body, visibility flags, and toggle callbacks must be non-null.
+///
+/// ## 4. Postconditions
+/// - Renders a positioned configuration drawer on the right edge of the 3D viewport.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) fixed control tree build.
+/// - Space Complexity: O(1) stateless widget fields.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Optional [onDatumChanged] callback is safely guarded with null-aware invocation (`?.call`).
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/MapConfigPanel]
 @immutable
 class MapConfigPanel extends StatelessWidget {
@@ -896,6 +1071,27 @@ class MapConfigPanel extends StatelessWidget {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Primary 3D globe and tactical topology viewport widget under DO-178C Level A
+/// and ARINC 661 cockpit display partitioning rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Encapsulates 6-DOF [camera] state, [topologyData], and [verticalExaggeration] configuration.
+///
+/// ## 3. Preconditions
+/// - [camera] must be a valid [VirtualCamera] instance.
+///
+/// ## 4. Postconditions
+/// - Instantiates [Scene3DViewportState] to manage interactive 6-DOF navigation and multi-layer canvas rendering.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) widget instantiation.
+/// - Space Complexity: O(1) immutable widget fields.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Null [topologyData] renders the 3D globe without node/link overlays.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/Scene3DViewport]
 class Scene3DViewport extends StatefulWidget {
   /// Member documentation.
@@ -922,6 +1118,28 @@ class Scene3DViewport extends StatefulWidget {
   State<Scene3DViewport> createState() => Scene3DViewportState();
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// State controller for [Scene3DViewport] managing 6-DOF camera navigation,
+/// gesture/keyboard bindings, tile streaming, and layout persistence under ARINC 661.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Synchronizes [CameraController], [GlobeTileRenderer], and [SceneViewState] across animation ticks.
+/// - Persists and restores viewport layout configuration through `TreeViewModel` layout serialization.
+///
+/// ## 3. Preconditions
+/// - Mounted within a valid Flutter `BuildContext` with finite viewport constraints.
+///
+/// ## 4. Postconditions
+/// - Renders the interactive 3D globe canvas, HUD controls, and optional telemetry/configuration panels.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V^2 + E + T) per recalculated frame across V nodes, E links, and T tiles.
+/// - Space Complexity: O(V + E + T) for [SceneViewState] and tile cache state.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Returns `Offset.zero` from [getProjectedPosition] if widget `context.size` is not yet laid out.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/Scene3DViewportState]
 class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProviderStateMixin {
   late CameraController _cameraController;

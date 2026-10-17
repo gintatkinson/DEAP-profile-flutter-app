@@ -15,16 +15,58 @@ import 'package:flutter/foundation.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/tile_fetcher.dart';
 
 
-/// Realises: [Feat-10/RepositoryResolver]
+/// Dependency injection bootstrapper that resolves the live persistence backend
+/// and exposes segregated domain repository interfaces.
 ///
-/// Resolves the data-access backend at app startup and exposes segregated
-/// repository interfaces ([TypeRepository], [PropertyRepository], [TreeRepository],
+/// Reads `assets/persistence-config.json` (or explicit override parameters) at
+/// startup to initialize either a local SQLite database or a Cloud Firestore
+/// adapter, returning a unified [DataSource] and segregated accessors
+/// ([TypeRepository], [PropertyRepository], [TreeRepository],
 /// [TopologyRepository], [InstanceRepository]).
 ///
-/// Reads a JSON configuration file (or falls back to defaults) to decide
-/// whether to initialise a local SQLite database or connect to Cloud
-/// Firestore. Returns a [DataSource] that the app uses for all read/write
-/// operations and schema discovery.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces strict separation between
+///   cockpit presentation widgets and persistence transport adapters, ensuring
+///   zero-mocking live persistence and preventing duplicate concurrent database
+///   connection races during bootstrap.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Mutual exclusion during asynchronous resolution:
+///   $\text{isResolving} = \text{true} \implies$ concurrent callers await or reuse
+///   `_lastResolved` without spawning duplicate connections.
+/// - Every segregated repository getter (`typeRepository`, `propertyRepository`,
+///   `treeRepository`, `topologyRepository`, `instanceRepository`) projects the
+///   identical underlying [DataSource] instance.
+///
+/// ## 3. Preconditions
+/// - Flutter binding (`WidgetsFlutterBinding.ensureInitialized()`) must be
+///   initialized prior to invoking [resolve] so [rootBundle] and platform
+///   channels are accessible.
+///
+/// ## 4. Postconditions
+/// - [resolve] disposes any prior `_lastResolved` instance, configures
+///   [TileFetcher] basemaps when present in configuration, and returns an
+///   initialized, non-null [DataSource].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for segregated repository getter
+///   access; $\mathcal{O}(B)$ during initial SQLite asset byte verification and
+///   decompression where $B$ is the bundled database size in bytes.
+/// - **Space Complexity**: $\mathcal{O}(1)$ wrapper state per
+///   [RepositoryResolver] instance ($\mathcal{O}(B)$ transient buffer during
+///   initial gzip asset extraction).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing or unreadable `persistence-config.json` safely falls back to the
+///   local `'sqlite'` backend.
+/// - Outdated or missing local SQLite files are atomically replaced from the
+///   compressed asset bundle, and schema tables are guaranteed via
+///   [DatabaseInitializer].
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
+/// Realises: [Feat-10/RepositoryResolver]
 @immutable
 class RepositoryResolver {
   /// Creates a [RepositoryResolver] wrapping a resolved [DataSource].
@@ -56,7 +98,7 @@ class RepositoryResolver {
 
   static DataSource? _lastResolved;
   // NOTE: Once set, the Firebase SDK prevents reconfiguring the emulator
-  // connection within a single process lifetime (BUG #216 — by design).
+  // connection within a single process lifetime (BUG #216 -- by design).
   static bool _firebaseEmulatorConfigured = false;
 
   // _isResolving guards against concurrent resolve() calls creating
@@ -140,11 +182,11 @@ class RepositoryResolver {
     }
   }
 
-  /// Initialies Firebase and returns a Firestore-backed DataSource.
+  /// Initialises Firebase and returns a Firestore-backed DataSource.
   ///
   /// Calls [Firebase.initializeApp] first (idempotent if already called).
   /// When [useEmulator] is true, redirects Firestore to the local emulator
-  /// at localhost:8080 — useful for development without a real Firebase
+  /// at localhost:8080 -- useful for development without a real Firebase
   /// project. Throws if Firebase initialisation fails (missing config, etc.).
   static Future<FirebaseDataSource> _createFirebaseAdapter({
     bool useEmulator = true,

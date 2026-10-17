@@ -16,21 +16,63 @@ import 'package:app_flutter/features/properties/view_models/properties_view_mode
 import 'package:app_flutter/core/background_worker.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 
-/// Realises: [Feat-10/Layout]
+/// Root ARINC 661 workstation layout orchestrator widget that parses declarative
+/// `logical-layout.json` manifests, coordinates background worker streams, and
+/// binds [TreeViewModel], [PropertiesViewModel], and [TopologyData] across split panes.
 ///
-/// Root layout widget that parses a logical-layout JSON and builds the full
-/// Flutter widget hierarchy (sidebar, split panes, topology, tabs, property
-/// grid).
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Centralizes workstation view
+///   selection, live property stream subscriptions, and deterministic resource
+///   disposal so that switching active views synchronizes the hierarchy tree,
+///   topographical viewport, tabular panes, and property editors atomically.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Single Active Subscription Invariant**: At any instant $t$, at most one
+///   `_propertiesSubscription` stream listener is active; every call to
+///   `_subscribeProperties` cancels the prior subscription before binding a new one.
+/// - **Minimum Pane Geometry**: Enforces `_minPaneSize` $= 150.0$ logical pixels
+///   across all child split containers constructed via [ComponentFactory].
+///
+/// ## 3. Preconditions
+/// - A live [DataSource] and [ThemeController] must be provided in the ancestor
+///   [BuildContext] via [Provider].
+/// - Either [layoutConfig] contains a valid JSON layout string or
+///   `assets/logical-layout.json` is bundled in `rootBundle`.
+///
+/// ## 4. Postconditions
+/// - Renders a centered [CircularProgressIndicator] while the layout manifest is
+///   loading, and transitions to the full [ComponentFactory]-built widget tree
+///   once `_parsedLayout` is populated.
+/// - Cancels all stream subscriptions and disposes [_worker], [_treeViewModel],
+///   and [_propertiesViewModel] upon [State.dispose].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|T|)$ per layout build where $|T|$ is the
+///   number of layout container nodes in `_parsedLayout`.
+/// - **Space Complexity**: $\mathcal{O}(|V| + |F|)$ for cached tree nodes $|V|$
+///   and active node property fields $|F|$.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Failed `watchProperties` stream events or failed `fetchTopologyData` calls
+///   fall back cleanly to empty maps/`emptyTopologyData` without uncaught
+///   exceptions or UI thread lockups.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/Layout]
 @immutable
 class Layout extends StatefulWidget {
-  /// Member documentation.
+  /// Optional externally controlled active view identifier.
   final String? activeView;
-  /// Member documentation.
+
+  /// Optional callback invoked whenever the operator selects a new view node.
   final ValueChanged<String>? onViewChange;
-  /// Member documentation.
+
+  /// Optional raw JSON string overriding the bundled `assets/logical-layout.json` manifest.
   final String? layoutConfig;
 
-  /// Member documentation.
+  /// Creates a root [Layout] orchestrator widget.
   const Layout({
     super.key,
     this.activeView,

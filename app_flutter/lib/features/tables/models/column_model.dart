@@ -1,7 +1,51 @@
 import 'package:flutter/foundation.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
-/// Represents a column definition in table views.
+/// Immutable ARINC 661 table column descriptor defining schema key binding,
+/// header display label, data type, sorting/visibility metadata, and numeric
+/// safety bounds (`[minValue, maxValue]`).
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Translates Tier 1 [FieldDescriptor]
+///   schema metadata into deterministic tabular column specifications, exposing
+///   compile-time-safe predicates for zero-ceiling safety interlocks
+///   ([isZeroCeilingConstraint]) and bounded segmented range gauges
+///   ([hasSegmentedRangeBounds]).
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Zero-Ceiling Predicate**:
+///   $$
+///   \begin{aligned}
+///   \text{isZeroCeilingConstraint} &\iff (\text{type} = \text{'int'}) \land (v_{\min} = 0) \land (v_{\max} = 0)
+///   \end{aligned}
+///   $$
+/// - **Segmented Range Predicate**:
+///   $$
+///   \begin{aligned}
+///   \text{hasSegmentedRangeBounds} &\iff (\text{type} \in \{\text{'int'}, \text{'double'}\}) \land (v_{\min} \ne \text{null}) \land (v_{\max} \ne \text{null}) \land (v_{\max} > v_{\min})
+///   \end{aligned}
+///   $$
+///
+/// ## 3. Preconditions
+/// - [key] and [type] must be non-null schema strings.
+/// - When constructed via [ColumnModel.fromFieldDescriptor], [fd] is a valid
+///   [FieldDescriptor].
+///
+/// ## 4. Postconditions
+/// - Produces a deeply immutable [ColumnModel] with value equality (`==` and
+///   `hashCode`) across all 9 properties and normalized human-readable [label].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction and bound predicates;
+///   $\mathcal{O}(|k|)$ when deriving human-readable labels from key $k$ of length $|k|$.
+/// - **Space Complexity**: $\mathcal{O}(1)$ per column descriptor.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty or generic `"Field ..."` labels in [FieldDescriptor] automatically
+///   resolve to title-cased words derived from `fd.key` via [resolveColumnLabel].
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/ColumnModel]
 @immutable

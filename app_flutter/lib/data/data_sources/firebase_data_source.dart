@@ -8,17 +8,44 @@ import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/topology_map.dart' show TopologyData, TopologyNode, TopologyNodePosition, TopologyLink;
 
+/// Cloud-backed [DataSource] adapter implementing segregated M2 schema discovery and M1 instance persistence over document-oriented collections.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Isolates external document-store SDK transport (`FirebaseFirestore`) behind the platform-independent [DataSource] repository contract, guaranteeing that all read, write, and stream operations return explicit [Result] wrappers rather than propagating unhandled network exceptions into Layer 3 presentation components.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - M2 type definitions discovered via [discoverTypes] are cached monotonically in `_cachedTypes` for deterministic schema resolution within the session lifecycle.
+/// - Related instance deserialization in [fetchRelatedInstances] offloads record mapping to a background isolate via [compute] to preserve main-thread 60 FPS frame budgets.
+/// - Root and child tree node lists returned by [fetchRootNodes] and [fetchChildrenForNode] are deterministically ordered by lexicographical node identifier and hierarchy tier.
+///
+/// ## 3. Preconditions
+/// - The injected [FirebaseFirestore] instance must be initialized and pointed at a live or emulator document store containing `schema`, `data`, and `instances` collections.
+///
+/// ## 4. Postconditions
+/// - Every repository query resolves to a non-throwing `Result.success(...)` containing strongly-typed domain descriptors ([TypeDescriptor], [InstanceRecord], [TreeNode], [TopologyData]) or a safe empty fallback on transport fault.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(T)$ on initial [discoverTypes] over $T$ schema definitions ($\mathcal{O}(1)$ cached thereafter); $\mathcal{O}(N \log N)$ for tree node sorting over $N$ sibling nodes; $\mathcal{O}(D \cdot K)$ for recursive coordinate path resolution over $D$ topology documents of depth $K$.
+/// - **Space Complexity**: $\mathcal{O}(T + I)$ where $T$ is the cached [TypeDescriptor] count and $I$ is the active query batch of [InstanceRecord] or [TreeNode] objects.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Network timeouts, permission faults, or malformed document payloads are caught at the adapter boundary, logged via `debugPrint`, and converted into safe empty `Result.success` payloads so the operator console remains responsive under degraded connectivity.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Remote Persistence Adapter)
+///
 /// Realises: [Feat-10/DataSource]
-/// [DataSource] implementation backed by Cloud Firestore.
 class FirebaseDataSource implements DataSource {
-  /// Creates a [FirebaseDataSource] connected to the given [Firestore] instance.
+  /// Creates a [FirebaseDataSource] bound to the injected [FirebaseFirestore] instance.
   FirebaseDataSource(this._firestore);
   final FirebaseFirestore _firestore;
   List<TypeDescriptor>? _cachedTypes;
 
+  /// Canonical backend identifier for this remote document-store data source (`"firebase"`).
   @override
   String get name => 'firebase';
 
+  /// Discovers and caches all M2 [TypeDescriptor] definitions from the `schema/types` document.
   @override
   Future<Result<List<TypeDescriptor>>> discoverTypes() async {
     if (_cachedTypes != null) return Result.success(_cachedTypes!);

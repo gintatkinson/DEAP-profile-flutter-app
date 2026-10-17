@@ -13,10 +13,49 @@ import 'package:app_flutter/features/topology/topographical_view.dart';
 import 'package:app_flutter/features/topology/topology_map.dart';
 import 'package:app_flutter/features/properties/properties_panel.dart';
 import 'package:app_flutter/features/properties/view_models/properties_view_model.dart';
-/// Realises: [Feat-10/ComponentFactory]
+/// Schema-driven ARINC 661 layout interpreter that translates a parsed
+/// `logical-layout.json` AST node hierarchy into concrete Flutter presentation widgets.
 ///
-/// Interprets a parsed logical-layout JSON tree and builds the corresponding
-/// Flutter widget hierarchy.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces strict separation between
+///   Tier 2 declarative layout manifests (`logical-layout.json`) and Tier 3
+///   platform widget instantiation, ensuring deterministic cockpit/workstation
+///   pane composition without hardcoded view hierarchies.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Total Node Dispatch**: Every AST node map $n$ with `type` $\in$
+///   $\{\text{SidebarLayout}, \text{HierarchyTreeSelector}, \text{SplitWorkspace},
+///   \text{TopographicalView}, \text{TabbedContainer}, \text{TableView},
+///   \text{PropertiesPanel}\}$ maps deterministically to a bounded widget subtree;
+///   all unrecognized node types map to [SizedBox.shrink] ($0 \times 0$ extent).
+/// - **Minimum Split Bound Propagation**: Every instantiated [SplitWorkspace]
+///   and [TopographicalView] receives $s_{\min} = \text{minPaneSize}$.
+///
+/// ## 3. Preconditions
+/// - [minPaneSize] must be non-negative ($\text{minPaneSize} \ge 0$).
+/// - [defaultRatio] must return a normalized split ratio $r \in (0, 1)$.
+/// - [BuildContext] passed to [build] must provide [ThemeController] and [DataSource]
+///   when building data-bound child containers.
+///
+/// ## 4. Postconditions
+/// - [build] returns a fully constructed [Widget] hierarchy matching the declarative
+///   layout tree rooted at `node`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|T|)$ where $|T|$ is the number of layout
+///   container nodes in the `logical-layout.json` subtree.
+/// - **Space Complexity**: $\mathcal{O}(D_T)$ recursion depth where $D_T$ is the
+///   height of the declarative layout tree.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unknown or omitted `type` keys render [SizedBox.shrink] without throwing.
+/// - Missing child descriptors inside `SidebarLayout` or `SplitWorkspace` fall back
+///   independently to [SizedBox.shrink] for the omitted pane.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/ComponentFactory]
 @immutable
 class ComponentFactory {
   /// The identifier of the currently selected view, used to select tabs,
@@ -59,7 +98,7 @@ class ComponentFactory {
 
   /// The [TreeViewModel] for the hierarchy tree sidebar. `null` when the
   /// current layout does not include a sidebar, in which case
-  /// [HierarchyTreeSelector] is skipped entirely.
+  /// [SidebarTree] is rendered without an local provider wrapper.
   final TreeViewModel? treeViewModel;
 
   /// The preferred split axis orientation for resizable workspaces.
@@ -68,8 +107,8 @@ class ComponentFactory {
 
   /// Creates a [ComponentFactory] with the required dependency resolvers.
   ///
-  /// All parameters are required except [treeViewModel] which may be null when
-  /// the sidebar is not part of the current layout.
+  /// All parameters are required except [treeViewModel] and [preferredSplitAxis],
+  /// which may be null when not overridden by the caller.
   ComponentFactory({
     required this.currentView,
     required this.workerResult,
@@ -83,12 +122,37 @@ class ComponentFactory {
     this.preferredSplitAxis,
   });
 
-  /// Builds a widget subtree from a layout [node] with the given constraints.
+  /// Builds a widget subtree from a declarative layout [node] within
+  /// [parentWidth] and [parentHeight].
   ///
-  /// Recursively processes child nodes for container types (`SidebarLayout`,
-  /// `SplitWorkspace`). Unknown node types render [SizedBox.shrink] instead
-  /// of throwing, allowing graceful handling of future or optional layout
-  /// entries.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// - **DO-178C DAL-A / ARINC 661 Standard**: Guarantees total, exception-free
+  ///   widget synthesis for all declarative layout node definitions.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - **Total Function Over Node Maps**: For any `Map<String, dynamic>` $node$,
+  ///   `build` returns a non-null [Widget].
+  ///
+  /// ## 3. Preconditions
+  /// - [node] is a parsed JSON object map from `logical-layout.json`.
+  /// - [parentWidth] and [parentHeight] represent the available layout bounds.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns the composed Flutter [Widget] subtree for [node], or
+  ///   [SizedBox.shrink] when `node['type']` is unrecognized.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - **Time Complexity**: $\mathcal{O}(|T|)$ over the declarative node subtree $T$.
+  /// - **Space Complexity**: $\mathcal{O}(D_T)$ call-stack depth.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Gracefully degrades to [SizedBox.shrink] on unknown node types or missing
+  ///   child entries.
+  ///
+  /// ## 7. Realization & Traceability
+  /// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+  ///
+  /// Realises: [Feat-10/ComponentFactory]
   Widget build(
     Map<String, dynamic> node,
     double parentWidth,
@@ -209,7 +273,7 @@ class ComponentFactory {
 /// [Provider] is available. Reloads tabs when [currentView] changes.
 /// Disposes the view model on unmount to prevent memory leaks.
 class _TabbedContainerHost extends StatefulWidget {
-  /// Member documentation.
+  /// Active view node identifier.
   final String currentView;
 
   const _TabbedContainerHost({required this.currentView});
@@ -260,12 +324,12 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
 /// Host widget that creates a [TablesViewModel] for a single table tab and
 /// provides it to [TableViewWidget].
 ///
-/// Same lifecycle pattern as [_TabbedContainerHost] — lazy initialisation,
+/// Same lifecycle pattern as [_TabbedContainerHost] -- lazy initialisation,
 /// reload on view change, dispose on unmount.
 class _TableViewContainer extends StatefulWidget {
-  /// Member documentation.
+  /// Tab identifier string.
   final String tabId;
-  /// Member documentation.
+  /// Active view node identifier.
   final String currentView;
 
   const _TableViewContainer({

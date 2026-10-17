@@ -9,41 +9,72 @@ import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/scene_3d_viewport.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 
-/// The top-level topology view: breadcrumb header + split workspace
-/// (topology map + detail child) or standalone topology map.
+/// Top-level ARINC 661 topographical workspace view combining a breadcrumb
+/// navigation header, 2D/3D viewport mode switcher, and an optional split
+/// detail pane.
 ///
-/// If [child] is non-null, the view uses [SplitWorkspace] to show the
-/// topology map alongside a detail pane (e.g. property grid). When [child]
-/// is null, the topology map takes the full area below the header.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces deterministic camera focus
+///   resolution and split-pane layout isolation between the primary geospatial
+///   viewport ([Scene3DViewport] or [TopologyMap]) and the trailing detail
+///   inspector ([SplitWorkspace]).
 ///
-/// The split pane behaviour can be tuned via [splitDirection],
-/// [splitMinFirstPaneSize], [splitInitialRatio], and [splitterKey] -- see
-/// each field's documentation for details.
+/// ## 2. Invariants & Mathematical Properties
+/// - Geodetic focus clamping invariant: resolved node or sector coordinates are
+///   clamped to $\phi \in [-90.0^\circ, 90.0^\circ]$ and
+///   $\lambda \in [-180.0^\circ, 180.0^\circ]$ before constructing the
+///   [VirtualCamera] (`dim_2 = 500.0`, `pitch = -89.9`).
+/// - View-transition guard: camera updates emitted while `widget.currentView != _lastCurrentView`
+///   are suppressed to prevent stale callback race conditions during drill-down.
 ///
-/// Edge cases: empty [treeData] produces no breadcrumbs; unknown
-/// [currentView] IDs still render the header label as-is. When total
-/// available size is less than [splitMinFirstPaneSize], the first pane
-/// takes its minimum and the trailing pane fills the remainder (which
-/// may be smaller than [splitMinFirstPaneSize]).
+/// ## 3. Preconditions
+/// - Must be mounted inside a widget tree providing a [ThemeController] via
+///   `Provider` for panel opacity binding.
+/// - [topologyData] must be a valid [TopologyData] instance.
+///
+/// ## 4. Postconditions
+/// - Renders the 64 px header bar (active view label, `2D Map` / `3D Globe`
+///   toggle buttons, and [NavigationBreadcrumbs]) above either a standalone
+///   viewport or a resizable [SplitWorkspace].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|V| + |T|)$ where $|V|$ is topology node
+///   count for camera target lookup and $|T|$ is tree node count for breadcrumb
+///   path resolution.
+/// - **Space Complexity**: $\mathcal{O}(D)$ where $D$ is breadcrumb hierarchy depth.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing target node IDs or zeroed `(0.0, 0.0)` coordinates fall back
+///   gracefully to `rawMetadata['sector_coordinates']` or canonical default
+///   geodetic coordinates `(35.6074, 140.1063)`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/TopographicalView]
 class TopographicalView extends StatefulWidget {
-  /// Member documentation.
+  /// Global key for accessing the top-level topographical view state.
   static final GlobalKey<_TopographicalViewState> globalKey = GlobalKey<_TopographicalViewState>();
 
-  /// Member documentation.
+  /// Identifier of the currently focused view or node.
   final String currentView;
-  /// Member documentation.
+
+  /// Callback invoked when the operator selects a node or breadcrumb item.
   final ValueChanged<String> onViewSelected;
-  /// Member documentation.
+
+  /// Optional detail pane widget rendered in the trailing pane of [SplitWorkspace].
   final Widget? child;
-  /// Member documentation.
+
+  /// Graph topology dataset rendered in both 2D and 3D modes.
   final TopologyData topologyData;
+
   /// Optional list of generic [TypeDescriptor] metadata schemas forwarded to
   /// [TopologyMap] for schema-driven range ring and directional leader rendering.
   final List<TypeDescriptor> typeDescriptors;
-  /// Member documentation.
+
+  /// Hierarchical navigation tree nodes used to construct [NavigationBreadcrumbs].
   final List<TreeNode> treeData;
+
   /// The axis along which the split panes are laid out.
   ///
   /// [Axis.vertical] stacks panes vertically (top = map, bottom = child);
@@ -83,7 +114,7 @@ class TopographicalView extends StatefulWidget {
   /// Defaults to `Key('topo_splitter')`.
   final Key splitterKey;
 
-  /// Member documentation.
+  /// Creates a [TopographicalView] widget.
   const TopographicalView({
     super.key,
     required this.currentView,

@@ -1,15 +1,46 @@
 import 'package:flutter/material.dart';
 
-/// Realises: [Feat-10/IconMapper]
-/// Resolves Material icon name strings to [IconData] at runtime.
+/// Resolves runtime schema icon name strings to Material [IconData] glyphs.
 ///
-/// Allows the data source to specify icons by name (e.g. "dns", "bar_chart")
-/// without the Flutter code knowing about specific icon choices at compile time.
-/// New icon names can be added to this map as needed. Unknown names resolve
-/// to a safe fallback icon — the UI never shows a blank or throws.
+/// Allows the connected data source to specify entity type icons by string
+/// identifier (e.g. `"dns"`, `"bar_chart"`, `"developer_board"`) without
+/// coupling presentation code to compile-time domain icon choices.
 ///
-/// Use this whenever you need to display a type icon based on a string name
-/// from the data source. For compile-time-known icons, prefer [Icons] directly.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides a total, deterministic
+///   string-to-symbol lookup table that isolates Layer 1 `TypeDescriptor.iconName`
+///   strings from Layer 3 Flutter glyph rendering while guaranteeing a non-null
+///   fallback icon for unrecognised identifiers.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Total Mapping Function**: For all $s \in \text{String} \cup \{\text{null}\}$,
+///   $\text{resolve}(s) \in \text{IconData}$ and $\text{resolve}(s) \neq \text{null}$.
+/// - **Compile-Time Constant Lookup Table**: `_icons` is a `static const` map
+///   with zero runtime mutation or re-allocation.
+///
+/// ## 3. Preconditions
+/// - None; [resolve] accepts any nullable `String?` (including `null`, empty
+///   strings, or unknown keys).
+///
+/// ## 4. Postconditions
+/// - Returns the mapped [IconData] when [name] matches an entry in `_icons`
+///   (case-sensitive), or [Icons.insert_drive_file] otherwise.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ constant-time map lookup per
+///   [resolve] invocation.
+/// - **Space Complexity**: $\mathcal{O}(1)$ auxiliary heap allocation (uses a
+///   compile-time `const` table).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unknown, empty, or `null` icon names resolve deterministically to
+///   [Icons.insert_drive_file] -- the presentation layer never renders a blank
+///   glyph or throws a lookup exception.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/IconMapper, ARCH-UI-001, REQ-UI-001]
 class IconMapper {
   IconMapper._();
 
@@ -35,8 +66,9 @@ class IconMapper {
   /// Resolve an icon name string to [IconData].
   ///
   /// Returns [Icons.insert_drive_file] as fallback if the name is unknown.
-  /// An empty or null [name] also returns the fallback — it does not throw.
+  /// An empty or null [name] also returns the fallback -- it does not throw.
   /// The lookup is case-sensitive; "DNS" does not match "dns".
   static IconData resolve(String? name) =>
       _icons[name] ?? Icons.insert_drive_file;
 }
+

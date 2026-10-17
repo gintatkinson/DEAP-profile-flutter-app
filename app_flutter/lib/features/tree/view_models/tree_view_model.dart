@@ -6,12 +6,39 @@ import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/tree/tree_defaults.dart';
 
-/// Realises: [Feat-10/TreeState]
+/// Immutable state holder for the sidebar hierarchy [TreeViewModel].
 ///
-/// Immutable state holder for sidebar tree view model.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Encapsulates a deterministic, immutable snapshot of sidebar hierarchy nodes,
+/// active view selection, expansion map, lazy-loading indicators, and camera
+/// flight targets under DO-178C DAL-A and ARINC 661.
+///
+/// ## 2. Invariants & State Contracts
+/// - All fields are `final` and compared structurally in [operator ==] via
+///   `listEquals` and `mapEquals`.
+/// - Passing `clearFlightTarget: true` to [copyWith] resets [flightTarget] to
+///   `null`.
+///
+/// ## 3. Preconditions & Input Bounds
+/// - Collection arguments default to empty `const` literals when omitted.
+///
+/// ## 4. Postconditions & Side Effects
+/// - Pure value object; [copyWith] returns a new [TreeState] without mutating
+///   the receiver.
+///
+/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
+/// - **Time Complexity**: $O(1)$ for construction and [copyWith]; $O(N + E)$
+///   for equality comparison across $N$ root nodes and $E$ expansion entries.
+/// - **Space Complexity**: $O(1)$ wrapper overhead beyond collection references.
+///
+/// ## 6. Failure Modes & Defensive Mitigations
+/// - Null `flightTarget` is safely preserved or cleared via `clearFlightTarget`.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/TreeState]
 @immutable
 class TreeState {
-  /// Member documentation.
+  /// Creates an immutable [TreeState] snapshot.
   const TreeState({
     this.treeData = const [],
     this.currentView = '',
@@ -74,10 +101,35 @@ class TreeState {
       );
 }
 
-/// Realises: [Feat-10/TreeViewModel]
-///
 /// Determines if a [node] represents a primitive leaf attribute descriptor
 /// that should be filtered out from root tree navigation.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Filters scalar M2 metamodel attribute types from top-level ARINC 661
+/// hierarchy navigation under DO-178C DAL-A so only composite container
+/// entities populate the root sidebar tree.
+///
+/// ## 2. Invariants & State Contracts
+/// - Case-insensitively matches `node.label` and `node.id` against the closed
+///   constant set of 23 scalar attribute names.
+///
+/// ## 3. Preconditions & Input Bounds
+/// - [node] must be a valid non-null [TreeNode].
+///
+/// ## 4. Postconditions & Side Effects
+/// - Pure predicate returning `true` if [node] is a primitive scalar attribute
+///   descriptor, or `false` otherwise.
+///
+/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
+/// - **Time Complexity**: $O(L)$ where $L$ is the string length of `node.label`
+///   and `node.id` for lowercase conversion and constant-set hash lookup.
+/// - **Space Complexity**: $O(L)$ for temporary lowercase strings.
+///
+/// ## 6. Failure Modes & Defensive Mitigations
+/// - Empty or unknown labels safely evaluate to `false`.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/TreeViewModel]
 bool isPrimitiveAttribute(TreeNode node) {
   final _labelLower = node.label.toLowerCase();
   final _idLower = node.id.toLowerCase();
@@ -92,19 +144,75 @@ bool isPrimitiveAttribute(TreeNode node) {
   return _primitives.contains(_labelLower) || _primitives.contains(_idLower);
 }
 
-/// Realises: [Feat-10/TreeViewModel]
+/// Determines if a [node] is a container entity eligible for root tree
+/// navigation.
 ///
-/// Determines if a [node] is a container entity eligible for root tree navigation.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Complements [isPrimitiveAttribute] under DO-178C DAL-A to retain composite
+/// M2 metamodel container entities in the ARINC 661 sidebar tree.
+///
+/// ## 2. Invariants & State Contracts
+/// - Always returns `!isPrimitiveAttribute(node)`.
+///
+/// ## 3. Preconditions & Input Bounds
+/// - [node] must be a valid non-null [TreeNode].
+///
+/// ## 4. Postconditions & Side Effects
+/// - Pure predicate without side effects.
+///
+/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
+/// - **Time Complexity**: $O(L)$ delegated to [isPrimitiveAttribute].
+/// - **Space Complexity**: $O(L)$ delegated to [isPrimitiveAttribute].
+///
+/// ## 6. Failure Modes & Defensive Mitigations
+/// - Cannot throw for any valid [TreeNode].
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/TreeViewModel]
 bool isContainerEntity(TreeNode node) {
   return !isPrimitiveAttribute(node);
 }
 
-/// Realises: [Feat-10/TreeViewModel]
+/// View model driving the sidebar hierarchy tree: data loading, natural sorting,
+/// lazy child expansion, focus management, and keyboard traversal.
 ///
-/// View model driving the sidebar tree: data loading, navigation, focus,
-/// and keyboard-driven expansion/selection.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Governs deterministic M2 metamodel hierarchy loading, natural alphanumeric
+/// sorting, ancestor path auto-expansion, and keyboard arrow traversal under
+/// DO-178C DAL-A and ARINC 661.
+///
+/// ## 2. Invariants & State Contracts
+/// - Filters root nodes via [isContainerEntity] and falls back to
+///   [defaultTreeData] when the repository returns an empty root list.
+/// - Suppresses `notifyListeners()` calls once `_disposed` is `true`.
+/// - Natural sort orders parent/root nodes ahead of `_Child_` and `_Grandchild_`
+///   suffixed nodes and compares numeric chunks by integer value.
+///
+/// ## 3. Preconditions & Input Bounds
+/// - Requires a valid [TreeRepository] dependency injected at construction.
+/// - `initialView` defaults to `''` and resolves to the first root node ID upon
+///   [loadTree] completion when empty.
+///
+/// ## 4. Postconditions & Side Effects
+/// - Mutates internal [TreeState], registers per-node [GlobalKey] instances for
+///   auto-scrolling, and invokes [onViewSelected] when [selectView] changes the
+///   active view.
+///
+/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
+/// - **Time Complexity**: $O(N \log N)$ per level for natural sorting; $O(N)$
+///   tree traversal for node lookup, ancestor path expansion, and visible-node
+///   linearization across $N$ loaded nodes.
+/// - **Space Complexity**: $O(N)$ for [TreeNode] hierarchy and `_nodeKeys` map.
+///
+/// ## 6. Failure Modes & Defensive Mitigations
+/// - Repository failures in [loadTree] fall back to [defaultTreeData].
+/// - Exceptions or `Failure` results during [expandNode] clear the node's
+///   `loadingNodes` entry and preserve the existing tree structure.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/TreeViewModel]
 class TreeViewModel extends ChangeNotifier {
-  /// Member documentation.
+  /// Creates a [TreeViewModel] bound to [_treeRepository].
   TreeViewModel(this._treeRepository, {
     String initialView = '',
     this.onViewSelected,
@@ -112,7 +220,7 @@ class TreeViewModel extends ChangeNotifier {
 
   final TreeRepository _treeRepository;
 
-  /// Member documentation.
+  /// Optional external callback invoked when [selectView] transitions to a new view ID.
   final ValueChanged<String>? onViewSelected;
 
   TreeState _state;
@@ -123,25 +231,25 @@ class TreeViewModel extends ChangeNotifier {
   /// Current immutable state.
   TreeState get state => _state;
 
-  /// Member documentation.
+  /// Current root-level hierarchy nodes.
   List<TreeNode> get treeData => _state.treeData;
 
-  /// Member documentation.
+  /// Identifier of the currently selected view node.
   String get currentView => _state.currentView;
 
-  /// Member documentation.
+  /// Map of node IDs to their current expansion state.
   Map<String, bool> get expanded => _state.expanded;
 
-  /// Member documentation.
+  /// Map of node IDs currently undergoing asynchronous child loading.
   Map<String, bool> get loadingNodes => _state.loadingNodes;
 
-  /// Member documentation.
+  /// Keyboard focus node bound to the sidebar tree container.
   FocusNode get focusNode => _treeFocusNode;
 
-  /// Member documentation.
+  /// Returns the [GlobalKey] registered for the node with [id], if any.
   GlobalKey? nodeKey(String id) => _nodeKeys[id];
 
-  /// Member documentation.
+  /// Optional node ID targeted for 3D viewport camera flight.
   String? get flightTarget => _state.flightTarget;
 
   /// Loads the type hierarchy from the data source and initialises tree data,
@@ -212,13 +320,13 @@ class TreeViewModel extends ChangeNotifier {
     onViewSelected?.call(viewId);
   }
 
-  /// Member documentation.
+  /// Sets [flightTarget] to [nodeId] and notifies listeners to initiate camera flight.
   void triggerFlight(String nodeId) {
     _state = _state.copyWith(flightTarget: nodeId);
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Clears the active [flightTarget] without notifying listeners.
   void clearFlightTarget() {
     _state = _state.copyWith(clearFlightTarget: true);
   }

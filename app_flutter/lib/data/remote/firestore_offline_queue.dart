@@ -1,10 +1,31 @@
 import 'dart:async';
 
-/// Realises: [UC-03/FirestoreOperation]
-/// Represents a queued offline Firestore write or mutation operation.
+/// Immutable command envelope representing a deferred document-store mutation queued during offline operation.
 ///
-/// Encapsulates operation type (e.g. create, update, delete), target collection/path,
-/// payload data, and timestamp for execution during reconciliation.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Encapsulates an atomic Layer 2 persistence mutation (`id`, `action`, `path`, `data`, `timestamp`) with deterministic ISO-8601 serialization so disconnected operator edits are preserved without data loss until link restoration.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Every [FirestoreOperation] instance binds a non-null UTC/wall-clock [timestamp] at construction time (defaulting to `DateTime.now()`) to establish a total chronological ordering across queued mutations.
+/// - Round-trip serialization via [toMap] and [FirestoreOperation.fromMap] preserves operation identity, target collection path, payload map, and ISO-8601 timestamp fidelity.
+///
+/// ## 3. Preconditions
+/// - Callers must supply a non-empty operation [id], valid mutation verb [action] (such as `'create'`, `'update'`, or `'delete'`), target document [path], and serializable [data] map.
+///
+/// ## 4. Postconditions
+/// - Produces a self-contained, serializable mutation record ready for insertion into [FirestoreOfflineQueue].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(K)$ for [fromMap] shallow map copy over $K$ top-level payload keys; $\mathcal{O}(1)$ for [toMap] envelope construction.
+/// - **Space Complexity**: $\mathcal{O}(K)$ proportional to the number of entries in [data].
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing map keys in [FirestoreOperation.fromMap] default safely to empty strings, `'update'`, empty maps, or `DateTime.now()`; malformed ISO-8601 timestamp strings throw a [FormatException] to prevent silent temporal corruption.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Offline Mutation Envelope)
+///
+/// Realises: [UC-03/FirestoreOperation]
 class FirestoreOperation {
   /// Unique identifier for this operation.
   final String id;
@@ -55,11 +76,34 @@ class FirestoreOperation {
   }
 }
 
-/// Realises: [UC-03/FirestoreOfflineQueue]
-/// Offline queue implementation for batching and reconciling Firestore operations.
+/// FIFO offline mutation buffer and reconciliation engine for deferred remote document-store operations.
 ///
-/// Stores operations performed while offline and flushes/reconciles them with the
-/// remote Firestore backend when connectivity is restored.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides fault-tolerant write-ahead queueing during remote link loss and deterministic sequential replay ([reconcileQueue]) when transport connectivity returns, retaining failed operations in order without silent drops.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Queue order is strictly First-In-First-Out (FIFO): $\forall i < j$, operation $q_i$ is dispatched to `executor` before $q_j$.
+/// - Partition conservation invariant during [reconcileQueue]: $Q_{\text{initial}} = Q_{\text{reconciled}} \sqcup Q_{\text{remaining}}$, where $|Q_{\text{reconciled}}| + |Q_{\text{remaining}}| = |Q_{\text{initial}}|$.
+/// - [pendingOperations] returns an unmodifiable list view (`List.unmodifiable`) so external callers cannot mutate internal queue state directly.
+///
+/// ## 3. Preconditions
+/// - Payloads passed to [enqueueOperation] must be either a typed [FirestoreOperation] instance or a `Map<String, dynamic>` convertible via [FirestoreOperation.fromMap].
+///
+/// ## 4. Postconditions
+/// - After [reconcileQueue] completes, `_queue` contains exclusively the subset of operations for which `executor` returned `false` or threw an exception, in their original relative FIFO order, and returns the exact count of reconciled operations.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ amortized for [enqueueOperation]; $\mathcal{O}(M)$ for [reconcileQueue] across $M$ queued operations.
+/// - **Space Complexity**: $\mathcal{O}(M)$ where $M$ is the number of pending [FirestoreOperation] items in `_queue`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Invalid argument types passed to [enqueueOperation] immediately throw an [ArgumentError] (fail-closed validation).
+/// - Exceptions thrown by the asynchronous `executor` callback inside [reconcileQueue] are caught per-operation, marking that specific operation as `success = false` so it remains safely queued in `remaining` while subsequent operations continue processing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Offline Queue & Reconciliation Engine)
+///
+/// Realises: [UC-03/FirestoreOfflineQueue]
 class FirestoreOfflineQueue {
   final List<FirestoreOperation> _queue = [];
 

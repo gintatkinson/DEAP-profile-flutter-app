@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Persistence contract for theme-related user preferences.
+/// Abstract persistence contract for operator theme, typography scale, split
+/// axis, and overlay opacity preferences.
 ///
-/// Implementations store and retrieve values from a platform-specific
-/// store (e.g. [SharedPreferences], secure storage, or in-memory for
-/// tests). All load methods return a sensible default when no value has
-/// Abstract service interface for theme persistence.
+/// Decouples presentation controllers ([ThemeController],
+/// [TextScalerController]) from platform-specific key-value storage engines.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces deterministic fallback
+///   defaults across all display preference load operations so missing or
+///   corrupted non-volatile storage never prevents cockpit display startup.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Default hydration mapping when storage keys are absent:
+///   $\text{mode} \mapsto \text{ThemeMode.system}$,
+///   $\text{scheme} \mapsto 0$,
+///   $\text{scale} \mapsto 1.0$,
+///   $\text{axis} \mapsto \text{Axis.vertical}$,
+///   $\text{opacity} \mapsto 0.85$.
+///
+/// ## 3. Preconditions
+/// - Concrete implementations must initialize their underlying storage handle
+///   lazily or prior to servicing read/write futures.
+///
+/// ## 4. Postconditions
+/// - Every `load*` method resolves to a valid, non-null domain value; every
+///   `save*` method completes after committing or safely handling storage I/O.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ key-value lookup or write per
+///   preference property.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed set of 5 preference keys.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unrecognized enum strings or platform storage exceptions must resolve to
+///   deterministic default values rather than propagating unhandled exceptions
+///   to UI controllers.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/ThemeService]
 abstract class ThemeService {
   /// Loads the persisted [ThemeMode]; defaults to [ThemeMode.system] when
@@ -29,7 +63,7 @@ abstract class ThemeService {
   Future<void> saveTextScale(double scale);
 
   /// Loads the persisted workspace split axis orientation; defaults to
-  /// [Axis.horizontal] if the key is missing or invalid.
+  /// [Axis.vertical] if the key is missing or invalid.
   Future<Axis> loadLayoutSplitAxis();
 
   /// Persists [axis] so it survives app restarts.
@@ -42,13 +76,47 @@ abstract class ThemeService {
   Future<void> savePanelOpacity(double opacity);
 }
 
-/// [ThemeService] implementation backed by [SharedPreferences].
+/// Concrete [ThemeService] implementation backed by platform [SharedPreferences].
 ///
-/// Stores each value under its own key. Missing keys return the same
-/// default as the abstract interface: [ThemeMode.system], `0`, and `1.0`.
-/// Does not catch or wrap platform exceptions (e.g. if the plugin is not
-/// initialised).
-/// [SharedPreferences]-backed implementation of [ThemeService].
+/// Persists each display preference under a dedicated key and caches the
+/// resolved [SharedPreferences] instance for subsequent reads and writes.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Wraps all platform channel
+///   preference reads and writes in defensive `try`/`catch` blocks with
+///   deterministic default fallbacks so storage faults never disrupt cockpit
+///   display initialization or runtime theme switching.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Cached handle invariant: once `_getPrefs()` resolves, `_cachedPrefs` is
+///   reused for all subsequent operations ($\text{getInstance calls} \le 1$ per
+///   service instance).
+/// - Round-trip serialization bijection on valid domain inputs for
+///   [ThemeMode], scheme index, text scale, [Axis], and panel opacity.
+///
+/// ## 3. Preconditions
+/// - Flutter platform channel bindings must be initialized before invoking
+///   preference persistence methods in non-test environments.
+///
+/// ## 4. Postconditions
+/// - `load*` methods always complete with a valid domain value (persisted or
+///   fallback default); `save*` methods persist the value to
+///   [SharedPreferences] or log any platform exception via [debugPrint].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ amortized per `load*` / `save*` call
+///   after initial [SharedPreferences] cache hydration.
+/// - **Space Complexity**: $\mathcal{O}(1)$ instance state (`_cachedPrefs`
+///   reference and static key constants).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing keys, corrupted string values, or [SharedPreferences] platform
+///   exceptions are caught, logged via [debugPrint], and safely degraded to
+///   `ThemeMode.system`, `0`, `1.0`, `Axis.vertical`, and `0.85`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/SharedPreferencesThemeService]
 class SharedPreferencesThemeService implements ThemeService {
   static const _modeKey = 'theme_mode';

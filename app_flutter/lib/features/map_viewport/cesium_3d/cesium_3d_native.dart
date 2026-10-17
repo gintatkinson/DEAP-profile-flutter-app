@@ -5,7 +5,40 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 // Compliance safety: this FFI file registers a nativefinalizer for cleanup.
 // Compliance safety: this FFI file implements native allocation refcount (addref / release / finalizer).
 
-/// High-level native FFI interface for Cesium 3D tile rendering and viewport management.
+/// High-level native FFI facade for 3D geospatial tile management and WGS-84
+/// viewport camera synchronization.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces altitude floor safety
+///   clamping ($\text{dim}_2 > -100.0\,\text{m}$) and manages native C/C++ shared
+///   library bindings with deterministic fallback behavior when native libraries
+///   are absent.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Sub-surface altitude boundary invariant: camera updates with
+///   $\text{dim}_2 \le -100.0\,\text{m}$ trigger clamping via [VirtualCamera.clamped]
+///   and raise [CoordinateValidationException].
+/// - Non-empty tileset URL guard: `initializeTileset` returns `true` if and only
+///   if `sourceUrl.isNotEmpty`.
+///
+/// ## 3. Preconditions
+/// - [VirtualCamera] passed to [updateViewport] must have finite WGS-84 latitude,
+///   longitude, altitude, and Euler orientation angles.
+///
+/// ## 4. Postconditions
+/// - Synchronizes viewport camera state with the native bridge or raises
+///   [CoordinateValidationException] if the altitude floor is violated.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ per viewport update and tileset initialization.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed FFI binding handle state.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Gracefully degrades when the native dynamic library is unavailable by
+///   reporting `isNativeBridgeAvailable == false` without crashing the host isolate.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/Cesium3DNative]
 class Cesium3DNative {

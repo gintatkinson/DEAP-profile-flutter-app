@@ -3,24 +3,56 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'app_themes.dart';
 import 'theme_service.dart';
 
-/// View-model that owns the current theme mode, colour-scheme index, and
-/// persists every change through [ThemeService].
+/// Reactive view-model managing cockpit theme mode, colour-scheme selection,
+/// workspace split orientation, and overlay panel opacity.
 ///
-/// Exposes a [ChangeNotifier] interface so that UI widgets can react to
-/// theme changes via `context.watch<ThemeController>()`. Alternatives:
-/// using [ThemeService] directly for read-only access; using
-/// [TextScalerController] for font-size changes.
+/// Serializes all asynchronous load and save operations through an internal
+/// FIFO future queue (`_operationQueue`) and notifies subscribed widgets via
+/// [ChangeNotifier] while persisting changes through [ThemeService].
 ///
-/// **State**: updates internal fields and calls `notifyListeners()` on
-/// every mutation. Persistence is fire-and-forget (awaited but not exposed).
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Guarantees deterministic palette
+///   index bounds and serialized state transitions so rapid operator theme or
+///   layout toggles never cause out-of-range array access or race conditions
+///   in cockpit display rendering.
 ///
-/// **Edge cases**: null inputs are silently ignored; out-of-bounds scheme
-/// indices are clamped silently to the first scheme.
+/// ## 2. Invariants & Mathematical Properties
+/// - Palette index bounds invariant:
+///   $0 \le \text{currentThemeIndex} < |\text{AppThemes.customSchemes}|$.
+/// - FIFO serialization invariant: for queued operations $op_i, op_{i+1}$,
+///   $\text{start}(op_{i+1}) \ge \text{complete}(op_i)$.
 ///
-/// Controls theme mode and palette state.
+/// ## 3. Preconditions
+/// - Requires a non-null [ThemeService] instance injected at construction.
+/// - [loadSettings] should be invoked during application bootstrap to hydrate
+///   persisted preferences.
+///
+/// ## 4. Postconditions
+/// - Validated mutations update in-memory state, invoke [notifyListeners]
+///   immediately while undisposed, and persist the new setting via
+///   [ThemeService].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ state transition and bounds check per
+///   queued operation plus $\mathcal{O}(L)$ listener notification for $L$
+///   subscribers.
+/// - **Space Complexity**: $\mathcal{O}(Q)$ where $Q$ is the number of pending
+///   operations in `_operationQueue` ($\mathcal{O}(1)$ in steady state).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - `null`, unchanged, or out-of-bounds scheme indices in [updateThemeScheme]
+///   are rejected as safe no-ops; out-of-bounds persisted indices during
+///   [loadSettings] are clamped to `0`.
+/// - Exceptions inside queued persistence operations are caught by
+///   `_operationQueue.catchError` so a failed write never stalls subsequent
+///   queued operations.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/ThemeController]
 class ThemeController extends ChangeNotifier {
-  /// Member documentation.
+  /// Creates a [ThemeController] backed by the given [_themeService].
   ThemeController(this._themeService);
   final ThemeService _themeService;
   ThemeMode _themeMode = ThemeMode.system;

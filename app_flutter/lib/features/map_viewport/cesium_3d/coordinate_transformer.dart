@@ -2,7 +2,39 @@ import 'dart:typed_data';
 
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 
-/// Utility for transforming ECEF 3D spatial coordinates to local coordinate systems.
+/// Deterministic Earth-Centered, Earth-Fixed (ECEF) to local coordinate frame
+/// transformation utility with zero-allocation buffer output support.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces strict numeric finiteness
+///   validation (`!isNaN && !isInfinite`) across all 3D ECEF spatial coordinate
+///   inputs prior to local viewport scaling, preventing undefined floating-point
+///   propagation into display rendering pipelines.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Linear scaling invariant: $\mathbf{p}_{\text{local}} = 0.01 \cdot \mathbf{p}_{\text{ecef}}$
+///   for all finite $\mathbf{p}_{\text{ecef}} \in \mathbb{R}^3$.
+/// - Finiteness guard: any coordinate component satisfying `isNaN || isInfinite`
+///   is deterministically rejected with [CoordinateValidationException].
+///
+/// ## 3. Preconditions
+/// - `ecefX`, `ecefY`, and `ecefZ` must be finite IEEE 754 double-precision values.
+/// - For [transformEcefToLocalOut], caller-supplied `out` buffer must have `length >= 3`.
+///
+/// ## 4. Postconditions
+/// - Writes scaled local coordinates `(out[0], out[1], out[2])` without heap
+///   allocation when using [transformEcefToLocalOut].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ constant-time arithmetic transformation.
+/// - **Space Complexity**: $\mathcal{O}(1)$ (zero heap allocation in [transformEcefToLocalOut]).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Throws [CoordinateValidationException] immediately if any input coordinate
+///   is `NaN` or `Infinite`, leaving the caller output buffer unmodified.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/CoordinateTransformer]
 class CoordinateTransformer {

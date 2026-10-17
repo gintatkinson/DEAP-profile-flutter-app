@@ -3,12 +3,46 @@ import 'package:app_flutter/domain/data_source.dart';
 import 'package:app_flutter/domain/result.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 
+/// Immutable value state container holding the active [TypeDescriptor] and most
+/// recent operational action status for the ARINC 661 properties panel.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Guarantees value-immutable state
+///   snapshots across asynchronous schema type loads and operator use case
+///   actuations (`UC-03`, `UC-10`, `UC-15`).
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Value Equality**: Two [PropertiesState] instances $s_1, s_2$ satisfy
+///   $s_1 == s_2 \iff (s_1.\text{currentType}, s_1.\text{lastAction},
+///   s_1.\text{actionMessage}, s_1.\text{activeNodeId}) = (s_2.\text{currentType},
+///   s_2.\text{lastAction}, s_2.\text{actionMessage}, s_2.\text{activeNodeId})$.
+/// - **Explicit Null Clearing**: [copyWith] only clears nullable fields when the
+///   corresponding `clear*` boolean flag is explicitly set to `true`.
+///
+/// ## 3. Preconditions
+/// - All parameters are optional and default to `null` representing an
+///   unloaded initial state.
+///
+/// ## 4. Postconditions
+/// - Produces a deeply immutable state snapshot with deterministic `==` and
+///   `hashCode` semantics.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction, [copyWith], and
+///   hash calculation; $\mathcal{O}(|F|)$ for equality when comparing
+///   [TypeDescriptor] field lists.
+/// - **Space Complexity**: $\mathcal{O}(1)$ beyond the referenced [TypeDescriptor].
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Null [currentType] safely indicates no loaded schema type without throwing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/PropertiesState]
 /// Realises: [UC-03]
 /// Realises: [UC-10]
 /// Realises: [UC-15]
-///
-/// Immutable state holder for property panel data and operational use case actions.
 @immutable
 class PropertiesState {
   /// Creates a [PropertiesState].
@@ -64,17 +98,46 @@ class PropertiesState {
   int get hashCode => Object.hash(currentType, lastAction, actionMessage, activeNodeId);
 }
 
+/// ViewModel managing asynchronous [TypeDescriptor] resolution from [TypeRepository]
+/// and operational use case state transitions for [PropertiesPanel].
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces monotonic request-ID
+///   sequencing (`_requestId`) so out-of-order asynchronous repository responses
+///   cannot overwrite the active node's schema field descriptors, and guards
+///   listener notifications after disposal.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Monotonic Stale-Response Guard**: For concurrent `loadType` invocations
+///   with sequence numbers $r_1 < r_2$, response $r_1$ is discarded whenever
+///   $r_1 \ne \text{\_requestId}$ at completion time.
+/// - **Post-Disposal Silence**: Once `dispose()` sets `_disposed = true`,
+///   `notifyListeners()` is a strict no-op.
+///
+/// ## 3. Preconditions
+/// - Must be constructed with a valid [TypeRepository] implementation.
+///
+/// ## 4. Postconditions
+/// - Exposes current [state], resolved [fields] list (empty when unloaded), and
+///   [hasType] indicator, notifying registered UI listeners on each valid transition.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ state transitions per repository
+///   response or action dispatch.
+/// - **Space Complexity**: $\mathcal{O}(|F|)$ where $|F|$ is the number of
+///   [FieldDescriptor] entries in the loaded [TypeDescriptor].
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - When `_typeRepository.typeFor` returns a [Failure] or `Success(null)`,
+///   clears `currentType` cleanly so [fields] returns `const []` without throwing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
+///
 /// Realises: [Feat-10/PropertiesViewModel]
 /// Realises: [UC-03]
 /// Realises: [UC-10]
 /// Realises: [UC-15]
-///
-/// Loads a [TypeDescriptor] from the data source and exposes its fields to the
-/// property grid widget.
-///
-/// Exists to decouple the property grid from the data-fetching logic. Use this
-/// view model whenever the property panel needs to display a node's fields or
-/// dispatch operational use case actions.
 class PropertiesViewModel extends ChangeNotifier {
   /// Creates a [PropertiesViewModel] with injected [TypeRepository].
   PropertiesViewModel(this._typeRepository);

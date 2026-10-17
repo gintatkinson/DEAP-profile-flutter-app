@@ -5,19 +5,43 @@ import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:provider/provider.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 
+/// Deterministic [TextInputFormatter] that converts all operator character input
+/// to uppercase for schema fields declaring the `"uppercase"` formatter directive.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces canonical uppercase string
+///   normalization on every keystroke so case-sensitive asset identifiers and
+///   register codes cannot be entered in mixed case.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Idempotent Projection**: For any input string $s$,
+///   $\text{upper}(\text{upper}(s)) = \text{upper}(s)$ while preserving cursor
+///   selection offsets on ASCII character sequences.
+///
+/// ## 3. Preconditions
+/// - Attached to a [TextField] whose [FieldDescriptor.inputFormatters] contains
+///   `"uppercase"`.
+///
+/// ## 4. Postconditions
+/// - Returns a [TextEditingValue] whose `text` is `newValue.text.toUpperCase()`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|s|)$ where $|s|$ is the length of `newValue.text`.
+/// - **Space Complexity**: $\mathcal{O}(|s|)$ for the transformed string allocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty strings and non-alphabetic characters pass through unchanged without
+///   exceptions.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [Feat-10/UpperCaseTextFormatter]
-///
-/// Converts all input characters to uppercase in a text field.
-///
-/// Exists to enforce a consistent uppercase display format for fields whose
-/// [FieldDescriptor.inputFormatters] contains the `"uppercase"` literal. Use
-/// this when the data source expects uppercase identifiers (e.g., asset codes,
-/// serial numbers).
-///
-/// Edge cases: operates on every keystroke via [TextEditingValue]; an empty
-/// string remains empty. Non-letter characters are unaffected.
 @immutable
 class UpperCaseTextFormatter extends TextInputFormatter {
+  /// Creates an [UpperCaseTextFormatter].
+  UpperCaseTextFormatter();
+
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -27,15 +51,57 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   }
 }
 
+/// Schema-driven ARINC 661 editable property grid that groups [FieldDescriptor]
+/// items by section, enforces numeric/regex/schema constraints on blur, and
+/// renders inline safety annunciators ([ZeroCeilingAnnunciatorBadge] and
+/// [ProvenanceCitationBadge]).
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Prevents invalid parameter commits
+///   by gating `onSave` behind multi-stage field validation (required check,
+///   numeric coercion, regex pattern match, $[v_{\min}, v_{\max}]$ bounds check,
+///   and dynamic schema validation) and supports explicit transaction commit/rollback.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Validated Commit Gate**: A modified field value $v$ for key $k$ is written
+///   to `committedData[k]` and emitted via [onSave] if and only if
+///   $\text{isValid}(k, v) = \text{true}$.
+/// - **Responsive Column Clamping**: Given available width $W$, the section grid
+///   column count $C$ satisfies:
+///   $$
+///   \begin{aligned}
+///   C &= \min(4, \max(1, \lfloor W / 350.0 \rfloor))
+///   \end{aligned}
+///   $$
+///
+/// ## 3. Preconditions
+/// - Must be rendered inside a [BuildContext] providing [ThemeController] via
+///   [Provider].
+///
+/// ## 4. Postconditions
+/// - Renders section cards sorted in natural alphanumeric order, a transaction
+///   control bar (`Save`, optional `Commit` and `Rollback`), and a read-only
+///   committed-state JSON inspection panel.
+/// - Disposes all [TextEditingController] and [FocusNode] instances on unmount
+///   or field-list replacement.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|F| \log |F|)$ to group and natural-sort
+///   $|F|$ field descriptors; $\mathcal{O}(1)$ layout memoization on unchanged
+///   column count and width.
+/// - **Space Complexity**: $\mathcal{O}(|F|)$ controllers, focus nodes, and
+///   committed key-value entries.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Invalid numeric strings or out-of-range inputs record human-readable error
+///   messages in `_errors[key]` without mutating `committedData` or invoking [onSave].
+/// - Unfocused fields automatically synchronize when `initialValues` updates
+///   externally, while focused fields preserve in-flight operator keystrokes.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [UC-06/PropertyGrid]
-///
-/// Editable property grid that displays [FieldDescriptor] fields grouped by
-/// section and emits validated data on blur.
-///
-/// Exists to provide a generic, schema-driven form for editing typed objects
-/// whose structure is not known at compile time (e.g., nodes from an external
-/// data source). Use this widget whenever you need inline editing of structured
-/// properties with validation, enum dropdowns, and blur-based commit.
 @immutable
 class PropertyGrid extends StatefulWidget {
   /// The list of field descriptors to display. When empty the grid renders
@@ -77,19 +143,6 @@ class PropertyGrid extends StatefulWidget {
   /// `BorderRadius.circular(6.0)`.
   final BorderRadius inputBorderRadius;
 
-  /// Creates a [PropertyGrid] with the given field descriptors, initial values,
-  /// and visual configuration.
-  ///
-  /// All visual parameters have sensible defaults so that a basic grid works
-  /// out of the box. Override them to match a specific design system:
-  ///
-  ///   - [wideLayoutBreakpoint] — when the available width exceeds this value,
-  ///     the first two sections render side-by-side; below it they stack.
-  ///   - [sectionPadding] — whitespace inside each section's card container.
-  ///   - [gapSize] — vertical spacing between fields and sections.
-  ///   - [cardBorderRadius] — corner rounding for section cards.
-  ///   - [inputBorderRadius] — corner rounding for text field and dropdown
-  ///     input borders.
   /// Optional dynamic schema validation callback.
   ///
   /// Receives the property key and value. Returns an error message string
@@ -112,12 +165,12 @@ class PropertyGrid extends StatefulWidget {
   /// All visual parameters have sensible defaults so that a basic grid works
   /// out of the box. Override them to match a specific design system:
   ///
-  ///   - [wideLayoutBreakpoint] — when the available width exceeds this value,
+  ///   - [wideLayoutBreakpoint] -- when the available width exceeds this value,
   ///     the first two sections render side-by-side; below it they stack.
-  ///   - [sectionPadding] — whitespace inside each section's card container.
-  ///   - [gapSize] — vertical spacing between fields and sections.
-  ///   - [cardBorderRadius] — corner rounding for section cards.
-  ///   - [inputBorderRadius] — corner rounding for text field and dropdown
+  ///   - [sectionPadding] -- whitespace inside each section's card container.
+  ///   - [gapSize] -- vertical spacing between fields and sections.
+  ///   - [cardBorderRadius] -- corner rounding for section cards.
+  ///   - [inputBorderRadius] -- corner rounding for text field and dropdown
   ///     input borders.
   const PropertyGrid({
     super.key,
@@ -377,8 +430,8 @@ class _PropertyGridState extends State<PropertyGrid> {
   /// Resolves the list of [TextInputFormatter]s declared on [field].
   ///
   /// Supported [FieldDescriptor.inputFormatters] directives:
-  ///   - `"uppercase"` — applies [UpperCaseTextFormatter].
-  ///   - `"maxLength:N"` — applies [LengthLimitingTextInputFormatter] with
+  ///   - `"uppercase"` -- applies [UpperCaseTextFormatter].
+  ///   - `"maxLength:N"` -- applies [LengthLimitingTextInputFormatter] with
   ///     limit N.
   ///
   /// Returns null when no formatters are configured, which allows callers to
@@ -1029,8 +1082,42 @@ class _PropertyGridState extends State<PropertyGrid> {
 
 /// High-contrast ARINC 661 status annunciator pill (`VERIFIED` in `#00E676`
 /// when value is `0`, or `VIOLATION` in `#FF334B` when `!= 0`) rendered
-/// alongside integer fields whose `FieldDescriptor` defines
+/// alongside integer fields whose [FieldDescriptor] defines
 /// `minValue == 0 && maxValue == 0`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides immediate, unambiguous
+///   cockpit visual annunciation for zero-ceiling safety invariants (e.g., error
+///   counters or fault tallies that must equal $0$ in nominal operation).
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Bi-State Annunciation Mapping**:
+///   $$
+///   \begin{aligned}
+///   \text{status}(\text{isVerified}) &= \begin{cases}
+///   (\text{'VERIFIED'}, \text{\#00E676}) & \text{if } \text{isVerified} = \text{true} \\
+///   (\text{'VIOLATION'}, \text{\#FF334B}) & \text{if } \text{isVerified} = \text{false}
+///   \end{cases}
+///   \end{aligned}
+///   $$
+///
+/// ## 3. Preconditions
+/// - [isVerified] reflects whether the parsed integer field value equals $0$.
+///
+/// ## 4. Postconditions
+/// - Renders a bordered monospace pill badge displaying either `'VERIFIED'` or
+///   `'VIOLATION'`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ widget build.
+/// - **Space Complexity**: $\mathcal{O}(1)$ leaf widget allocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Non-integer or unparseable text inputs evaluate `isVerified = false` in the
+///   parent listener, defaulting fail-safe to the crimson `'VIOLATION'` state.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [UC-06/ZeroCeilingAnnunciatorBadge]
 @immutable
@@ -1076,7 +1163,36 @@ class ZeroCeilingAnnunciatorBadge extends StatelessWidget {
 }
 
 /// High-contrast monospace provenance citation badge rendered for string
-/// fields whose `FieldDescriptor.pattern` or value references `schema/`.
+/// fields whose [FieldDescriptor.pattern] or value references `schema/`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Surfaces machine-verifiable
+///   schema provenance citations (`schema/...`) directly beneath bound string
+///   inputs to preserve end-to-end operator traceability to the SSOT schema.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Deterministic Citation Extraction**: [extractCitation] returns the first
+///   substring matching `schema/[^\s>]+(?:\s*§[0-9.]+)?` from `value`, falling
+///   back to `pattern` or raw `value` when no regex match is found.
+///
+/// ## 3. Preconditions
+/// - [citation] is a non-null string resolved via [extractCitation].
+///
+/// ## 4. Postconditions
+/// - Renders a cyan-bordered HUD badge (`#141D2B` surface, `#00D4FF` accent)
+///   with a verification icon and monospace citation label.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|s|)$ for regex extraction over string $s$;
+///   $\mathcal{O}(1)$ for widget rendering.
+/// - **Space Complexity**: $\mathcal{O}(1)$ widget tree footprint.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - If neither `value` nor `pattern` matches the structured `schema/` pattern,
+///   [extractCitation] safely returns `value` verbatim without throwing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/ProvenanceCitationBadge]
 @immutable

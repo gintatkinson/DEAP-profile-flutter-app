@@ -9,19 +9,46 @@ import 'package:app_flutter/domain/data_source.dart';
 import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/topology_map.dart' show TopologyData, TopologyNode, TopologyLink, TopologyNodePosition;
 
+/// Relational SQLite [DataSource] adapter providing deterministic local persistence, dot-path JSON flattening, and reactive property broadcasting.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Implements the segregated Layer 2 [DataSource] repository contract over a local WAL-enabled SQLite database, ensuring zero-mocking persistence, off-main-thread bulk deserialization, and non-throwing [Result] return types across all schema, tree, property, and topology queries.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Hierarchical JSON property maps are bijectively flattened (`_flatten`) on read and unflattened (`_unflatten`) on write (`ON CONFLICT(node_id) DO UPDATE`) so nested schema paths map deterministically to dot-delimited keys.
+/// - Every successful [saveProperties] mutation emits a synchronous broadcast event on `_propertiesController` to keep subscribed [watchProperties] streams consistent with committed SQLite state.
+/// - Bulk [fetchRelatedInstances] and [fetchTopologyData] parsing are executed in background isolates via [compute] to prevent UI frame jitter.
+///
+/// ## 3. Preconditions
+/// - The injected [Database] instance (`_db`) must be open and initialized with the canonical M2 relational schema tables created by `DatabaseInitializer.create`.
+///
+/// ## 4. Postconditions
+/// - All repository queries return `Result.success(...)` with strongly-typed domain entities; [dispose] clears cached type descriptors, closes the broadcast stream controller, and closes the underlying SQLite [Database] connection.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(T + A + R)$ on first [discoverTypes] across $T$ types, $A$ attributes, and $R$ relations ($\mathcal{O}(1)$ cached thereafter); $\mathcal{O}(K)$ property key flattening/unflattening over $K$ leaf keys; $\mathcal{O}(I)$ background isolate deserialization over $I$ instance rows.
+/// - **Space Complexity**: $\mathcal{O}(T + A + R)$ for cached [TypeDescriptor] metadata plus $\mathcal{O}(I)$ per active query result set.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - SQLite query faults or malformed JSON payloads are trapped inside each repository method, logged via `debugPrint`, and degraded gracefully to empty `Result.success` collections without crashing the display runtime.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Local Relational Persistence Adapter)
+///
 /// Realises: [Feat-10/DataSource]
-/// [DataSource] implementation backed by the local SQLite database.
 class SqliteDataSource implements DataSource {
-  /// Member documentation.
+  /// Creates a [SqliteDataSource] backed by the open SQLite [Database] handle `_db`.
   SqliteDataSource(this._db);
   final Database _db;
   final StreamController<Map<String, dynamic>> _propertiesController =
       StreamController<Map<String, dynamic>>.broadcast();
   List<TypeDescriptor>? _cachedTypes;
 
+  /// Canonical backend identifier for this local relational data source (`"sqlite"`).
   @override
   String get name => 'sqlite';
 
+  /// Clears cached schema descriptors, closes the property broadcast stream, and closes the SQLite database connection.
   @override
   Future<Result<void>> dispose() async {
     _cachedTypes = null;
@@ -30,6 +57,7 @@ class SqliteDataSource implements DataSource {
     return const Result.success(null);
   }
 
+  /// Queries `type_definitions`, `type_attributes`, and `type_relations` to assemble and cache all M2 [TypeDescriptor] models.
   @override
   Future<Result<List<TypeDescriptor>>> discoverTypes() async {
     if (_cachedTypes != null) return Result.success(_cachedTypes!);

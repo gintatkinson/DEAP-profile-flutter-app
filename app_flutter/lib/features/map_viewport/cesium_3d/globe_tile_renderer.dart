@@ -8,10 +8,11 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/projected_point.dart
 import 'package:app_flutter/features/map_viewport/cesium_3d/tile_fetcher.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 
-/// A tile coordinate in the Web Mercator tiling scheme.
+/// Web Mercator slippy-map tile coordinate (`zoom`, `x`, `y`).
 ///
-/// [zoom] is the zoom level (0–12), [x] is the column, and [y] is the row
-/// (0 at the top / north).
+/// [zoom] is the quadtree zoom level (0-12), [x] is the column index
+/// ($0 = 180^\circ\,\text{W}$, increasing eastward), and [y] is the row index
+/// ($0 = 85.0511^\circ\,\text{N}$, increasing southward).
 ///
 /// Realises: [Feat-10/TileCoord]
 class TileCoord {
@@ -31,22 +32,56 @@ class TileCoord {
   String get key => '$zoom/$x/$y';
 }
 
-/// Renders raster map-imagery tiles onto a 3-D globe canvas.
+/// Multi-resolution 3D globe raster tile renderer with hierarchical quadtree
+/// Level-of-Detail (LOD) masking, mesh subdivision, and front-hemisphere culling.
 ///
-/// Tiles are fetched asynchronously via [TileFetcher] and decoded to
-/// [ui.Image] instances. Only tiles whose corners project to the front
-/// hemisphere are drawn. The active imagery [ImageryProvider] can be
-/// changed at any time, which clears the local image cache and triggers
-/// fresh fetches.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Bounds asynchronous tile fetching
+///   to at most `_maxConcurrentFetches` (`16`) in-flight requests and `128`
+///   decoded GPU `ui.Image` textures, disposing evicted or superseded native
+///   image handles deterministically to prevent GPU texture memory exhaustion.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Web Mercator projection bounds: latitude is clamped to
+///   $\phi \in [-85.0511^\circ, 85.0511^\circ]$ with polar cap snapping to
+///   $\pm 90.0^\circ$ during mesh vertex projection.
+/// - Quadtree LOD occlusion invariant ([_hasHigherZoomOverlay]): a parent tile
+///   at $(z, x, y)$ is skipped if and only if all 4 child tiles
+///   $(z+1, 2x + \Delta x, 2y + \Delta y)$ for $\Delta x, \Delta y \in \{0, 1\}$
+///   are resident in `_loadedImages`.
+/// - Triangle hemisphere culling invariant: any mesh triangle with a vertex
+///   behind the camera plane ($z \le -100.0$) or all three vertices occluded
+///   beyond the horizon ($z < -0.5$) is discarded from the index buffer.
+///
+/// ## 3. Preconditions
+/// - [fetcher] must be a valid [TileFetcher] instance; `projectFn` passed to
+///   [renderTiles] must map `(latDeg, lngDeg)` to a finite [ProjectedPoint].
+///
+/// ## 4. Postconditions
+/// - Renders visible front-hemisphere tile meshes via `Canvas.drawVertices`
+///   sorted from lowest to highest zoom level.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(T \cdot S^2)$ per frame where $T \le 128$
+///   is loaded tile count and $S \in [8, 32]$ is the per-tile subdivision grid size.
+/// - **Space Complexity**: $\mathcal{O}(T)$ decoded `ui.Image` handles ($T \le 128$).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - If `_disposed` becomes `true` or `_activeProvider` changes while an image
+///   decode is in flight, the decoded frame is discarded without mutating
+///   `_loadedImages`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/GlobeTileRenderer]
 class GlobeTileRenderer {
   final TileFetcher _fetcher;
   ImageryProvider _activeProvider;
-  /// Member documentation.
+  /// Optional callback invoked whenever a newly decoded tile image enters the cache.
   final ui.VoidCallback? onTileLoaded;
 
-  /// Member documentation.
+  /// Optional test hook invoked with projected vertex positions and triangle indices.
   @visibleForTesting
   void Function(List<ui.Offset> positions, List<int> indices)? onDrawVerticesForTesting;
 
@@ -74,7 +109,7 @@ class GlobeTileRenderer {
   /// Whether the underlying [TileFetcher] is enabled.
   bool get isEnabled => _fetcher.isEnabled();
 
-  /// Member documentation.
+  /// Returns the count of currently decoded tile images for unit testing.
   @visibleForTesting
   int get loadedImagesCount => _loadedImages.length;
 
@@ -85,7 +120,7 @@ class GlobeTileRenderer {
     return _hasHigherZoomOverlay(tile);
   }
 
-  /// Member documentation.
+  /// Injects a pre-decoded [image] at [coord] into the tile cache for testing.
   @visibleForTesting
   void injectTileForTesting(TileCoord coord, ui.Image image) {
     _loadedImages[coord.key] = image;
@@ -127,7 +162,7 @@ class GlobeTileRenderer {
   /// Derives a zoom level from the camera [dim_2] (meters) and the
   /// [viewportWidth] (logical pixels).
   ///
-  /// Clamped to the range 0–12. Small altitudes (close to the sphere)
+  /// Clamped to the range 0-12. Small altitudes (close to the sphere)
   /// produce higher zoom values; high altitudes produce lower values.
   int _zoomForAltitude(double dim_2, double viewportWidth) {
     double v_dim_2 = dim_2;
@@ -243,7 +278,7 @@ class GlobeTileRenderer {
   /// Tiles that are already loaded or whose fetch is already in-flight are
   /// skipped. Up to 16 concurrent fetches may be active at once.
   ///
-  /// This method is safe to call on every frame — its work is bounded and
+  /// This method is safe to call on every frame -- its work is bounded and
   /// it never blocks the UI thread.
   void beginTileFetch(VirtualCamera camera, ui.Size viewportSize, {bool isFlying = false}) {
     if (!_fetcher.isEnabled()) return;

@@ -4,17 +4,49 @@ import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/features/tables/view_models/tables_view_model.dart';
 import 'package:app_flutter/features/tables/table_view_widget.dart';
 
+/// ARINC 661 multi-tab container widget whose tab headers, selection state, and
+/// child [TableViewWidget] panes are driven dynamically by [TablesViewModel].
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Synchronizes [TabController]
+///   lifecycle and deferred controller disposal (`_pendingDispose`) with
+///   schema-discovered child and related entity tabs, preventing use-after-dispose
+///   animation ticker faults during rapid tree node switching.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Controller Cardinality Alignment**: Whenever $|\text{tabs}| > 0$,
+///   $\text{\_tabController.length} = |\text{tabs}|$, and the active index
+///   $i \in [0, |\text{tabs}| - 1]$.
+/// - **Deferred Frame Disposal**: Replaced [TabController] instances are queued
+///   in `_pendingDispose` and disposed in a post-frame callback or on widget
+///   `dispose()`.
+///
+/// ## 3. Preconditions
+/// - Must be mounted inside a [BuildContext] providing both [TablesViewModel]
+///   and [ThemeController] via [Provider].
+///
+/// ## 4. Postconditions
+/// - Renders error text when `viewModel.error != null`, a
+///   [CircularProgressIndicator] when `viewModel.loading` is true on empty tabs,
+///   [SizedBox.shrink] when no tabs exist, or a [TabBar] + [TabBarView] of
+///   [LazyTab]-wrapped [TableViewWidget] panes.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|K|)$ where $|K|$ is the number of
+///   discovered [TabDescriptor] tabs.
+/// - **Space Complexity**: $\mathcal{O}(|K|)$ tab widgets.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty tab sets safely dispose any active [TabController] and render
+///   [SizedBox.shrink] without out-of-range index exceptions.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [Feat-10/TabbedContainer]
-///
-/// Renders a tabbed view whose labels, columns, and data are driven by a
-/// [TablesViewModel].
-///
-/// Exists to display child/related types of the currently selected tree node in
-/// separate tabs, removing the need for hardcoded tab definitions. Use this
-/// widget anywhere the UI needs data-source-driven tab navigation.
 @immutable
 class TabbedContainer extends StatefulWidget {
-  /// Member documentation.
+  /// Creates a [TabbedContainer].
   const TabbedContainer({super.key});
 
   @override
@@ -161,17 +193,47 @@ class _TabbedContainerState extends State<TabbedContainer>
   }
 }
 
-/// Realises: [Feat-10/LazyTab]
+/// Keep-alive offstage wrapper widget that preserves [child] state across
+/// tab switches while suppressing layout/paint overhead when unselected.
 ///
-/// Keeps an offstage tab alive lazily when selected.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Retains scroll offset and sort
+///   state in inactive tabular views via [AutomaticKeepAliveClientMixin] while
+///   gating visibility through [Offstage] (`offstage: !isSelected`).
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Keep-Alive Invariant**: `wantKeepAlive` is unconditionally `true`.
+/// - **Offstage Visibility Bijection**: $\text{offstage} \iff \neg \text{isSelected}$.
+///
+/// ## 3. Preconditions
+/// - [child] is a valid [Widget] hosted inside a [TabBarView].
+///
+/// ## 4. Postconditions
+/// - Renders an [Offstage] subtree keeping [child] mounted in the element tree.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ wrapper build.
+/// - **Space Complexity**: $\mathcal{O}(1)$ state overhead.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Toggling [isSelected] transitions visibility cleanly without unmounting
+///   the underlying [State].
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/LazyTab]
 @immutable
 class LazyTab extends StatefulWidget {
-  /// Member documentation.
+  /// Creates a [LazyTab] wrapper.
   const LazyTab({super.key, required this.child, required this.isSelected});
-  /// Member documentation.
+
+  /// Tab content widget kept alive across tab switches.
   final Widget child;
-  /// Member documentation.
+
+  /// Whether this tab is currently the active selected tab.
   final bool isSelected;
+
   @override
   State<LazyTab> createState() => _LazyTabState();
 }

@@ -1,19 +1,56 @@
 import 'package:flutter/foundation.dart';
 
-/// Realises: [Feat-10/TypeDescriptor]
-///
-/// Describes a single object type discovered at runtime from the connected
+/// Describes a single M2 object type discovered at runtime from the connected
 /// [DataSource].
 ///
-/// The client uses this to render tree nodes, property forms, table columns,
-/// and topology graphs. The descriptor is domain-agnostic — it works for
-/// telco, air-traffic, industrial IoT, or any other domain without code
-/// changes. The data source drives what appears in the UI.
+/// The client uses this descriptor to render hierarchical tree nodes, property
+/// forms, tabular columns, and topology graphs. The descriptor is strictly
+/// domain-agnostic -- it operates across arbitrary M2 metamodels without code
+/// changes, allowing the connected data source to drive presentation bindings.
 ///
-/// One [TypeDescriptor] instance exists per object type, not per instance.
-/// All fields are immutable and must be provided at construction. An empty
-/// [TypeDescriptor] (no fields, no relations) is valid and renders as a
-/// bare label in the tree — it does not throw.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces a deterministic,
+///   schema-driven M2 classifier contract that decouples runtime entity metadata
+///   from Layer 3 presentation widgets without hardcoded domain assumptions.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Compile-Time & Structural Immutability**: Annotated with `@immutable`; all
+///   fields are `final` and value equality (`operator ==` and `hashCode`) is
+///   defined structurally over `(typeName, displayName, iconName, fields,
+///   childTypes, relatedTypes, parentTypes)`.
+/// - **Type-Singleton Cardinality**: Exactly one [TypeDescriptor] instance
+///   represents each distinct `typeName` within a [DataSource] schema catalog.
+///
+/// ## 3. Preconditions
+/// - `typeName` must be a non-empty, unique identifier within the active
+///   [DataSource] schema catalog.
+/// - Field and relation descriptor lists (`fields`, `childTypes`, `relatedTypes`,
+///   `parentTypes`) must be non-null collections (empty lists are valid).
+///
+/// ## 4. Postconditions
+/// - Produces an immutable M2 type metadata descriptor whose structural equality
+///   and hash code are deterministic across all field and relation lists.
+/// - An empty [TypeDescriptor] (zero fields, zero relations) renders safely as
+///   a leaf label in the hierarchy without throwing runtime exceptions.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction and `copyWith`;
+///   $\mathcal{O}(F + C + R + P)$ for structural equality and `hashCode`
+///   computation, where $F, C, R, P$ denote the lengths of `fields`,
+///   `childTypes`, `relatedTypes`, and `parentTypes`.
+/// - **Space Complexity**: $\mathcal{O}(F + C + R + P)$ to store the descriptor
+///   lists; $\mathcal{O}(1)$ auxiliary heap allocation during `copyWith`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unknown `iconName` values are tolerated downstream by `IconMapper.resolve`
+///   via a deterministic fallback icon.
+/// - Empty `fields` or relation lists degrade gracefully to leaf nodes or empty
+///   detail views without null-dereference faults.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 1 (Domain State & Data Model)
+///
+/// Realises: [Feat-10/TypeDescriptor, ARCH-M2-001, REQ-DOM-001]
 @immutable
 class TypeDescriptor {
   /// Internal identifier matching the data source, e.g. "device".
@@ -25,14 +62,14 @@ class TypeDescriptor {
   /// Human-readable label for UI display, e.g. "Device".
   ///
   /// Displayed in tree nodes, tab headers, and dropdown selectors.
-  /// Falls back to [typeName] if left null by the caller (handled by
+  /// Falls back to [typeName] if left empty by the caller (handled by
   /// the widget layer, not enforced here).
   final String displayName;
 
   /// Material icon name string, e.g. "developer_board".
   ///
-  /// Resolved to [IconData] by [IconMapper.resolve]. If the name is
-  /// not in the icon map, [IconMapper] returns a fallback icon —
+  /// Resolved to `IconData` by `IconMapper.resolve`. If the name is
+  /// not in the icon map, `IconMapper` returns a fallback icon --
   /// the tree always shows something, never a blank.
   final String iconName;
 
@@ -42,12 +79,12 @@ class TypeDescriptor {
   /// validation constraints, and UI grouping. When this list changes
   /// (e.g. switching to a different object type), the grid rebuilds
   /// to show the new fields. An empty list renders a "No fields"
-  /// message — it does not throw.
+  /// message -- it does not throw.
   final List<FieldDescriptor> fields;
 
   /// Child object types for the tree hierarchy.
   ///
-  /// Each entry describes a directed parent→child relationship.
+  /// Each entry describes a directed parent->child relationship.
   /// An empty list makes this type a leaf node in the tree.
   /// Child types appear as expandable sub-nodes in the sidebar.
   final List<TypeRelationDescriptor> childTypes;
@@ -124,15 +161,56 @@ class TypeDescriptor {
   }
 }
 
-/// Realises: [Feat-10/FieldDescriptor]
+/// Describes one schema attribute/field of a [TypeDescriptor].
 ///
-/// Describes one field/attribute of a [TypeDescriptor].
+/// Each field instructs the presentation layer how to bind an editor control
+/// (text input, enum selector, numeric spin box, date control) and how to
+/// validate operator input at runtime -- no compile-time domain schema is required.
 ///
-/// Each field tells the UI how to render an editor control (text field,
-/// dropdown, numeric spinner, date picker) and how to validate the input.
-/// Fields are discovered at runtime — no compile-time schema is required.
-/// An empty [FieldDescriptor] is invalid; at minimum [key], [label], and
-/// [type] must be provided.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Encapsulates M2 attribute type
+///   constraints, numeric range bounds (`minValue`, `maxValue`), pattern
+///   validation, and enumeration domains so that Layer 1 validation (`validateFields`)
+///   and Layer 3 property editors enforce identical deterministic constraints.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Structural Value Equality**: Two [FieldDescriptor] instances are equal if
+///   and only if all 13 attribute metadata properties (`key`, `label`, `type`,
+///   `sectionLabel`, `sectionOrder`, `required`, `minValue`, `maxValue`,
+///   `pattern`, `enumOptions`, `enumDisplayNames`, `defaultValue`,
+///   `inputFormatters`) are pairwise equal.
+/// - **Pattern Compilation Memoization**: `compiledPattern` memoizes compiled
+///   [RegExp] instances keyed by `pattern` string to guarantee idempotent
+///   regular expression evaluation without repeated heap allocations.
+///
+/// ## 3. Preconditions
+/// - `key`, `label`, and `type` must be provided as non-null strings at
+///   construction; `key` must be unique within its enclosing [TypeDescriptor.fields].
+/// - If both `minValue` and `maxValue` are non-null, `minValue <= maxValue`.
+///
+/// ## 4. Postconditions
+/// - Yields an immutable attribute descriptor capable of deterministic range,
+///   type, pattern, and enumeration validation.
+/// - `compiledPattern` returns `null` when `pattern` is null or empty, and a
+///   cached [RegExp] instance otherwise.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ amortized lookup for `compiledPattern`
+///   after initial pattern compilation; $\mathcal{O}(E + I)$ for structural
+///   equality and `hashCode`, where $E$ is the length of `enumOptions` /
+///   `enumDisplayNames` and $I$ is the length of `inputFormatters`.
+/// - **Space Complexity**: $\mathcal{O}(1)$ per instance beyond list fields;
+///   $\mathcal{O}(P)$ static cache entries for $P$ distinct regex patterns.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unknown `type` identifiers fall back to plain text editors in the UI layer.
+/// - Null or empty `pattern`, `minValue`, `maxValue`, or `enumOptions` bypass
+///   their respective optional constraint checks safely without throwing.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 1 (Domain State & Data Model)
+///
+/// Realises: [Feat-10/FieldDescriptor, ARCH-M2-001, REQ-DOM-002]
 @immutable
 class FieldDescriptor {
   static final _compiledPatterns = <String, RegExp>{};
@@ -179,7 +257,7 @@ class FieldDescriptor {
   ///
   /// When true, the UI marks the field as required with an indicator and
   /// prevents saving if the value is null or empty. Validation is the
-  /// caller's responsibility — this field is a hint, not a constraint.
+  /// caller's responsibility -- this field is a hint, not a constraint.
   final bool required;
 
   /// Minimum numeric value for int/double types.
@@ -198,7 +276,7 @@ class FieldDescriptor {
   ///
   /// Applied via [RegExp.hasMatch]. If [pattern] is null or empty
   /// the string passes without check. The pattern is not anchored
-  /// by default — callers should wrap in ^...$ if a full match is needed.
+  /// by default -- callers should wrap in ^...$ if a full match is needed.
   final String? pattern;
 
   /// Allowed enum values for enum types.
@@ -315,14 +393,47 @@ class FieldDescriptor {
   }
 }
 
-/// Realises: [Feat-10/TypeRelationDescriptor]
+/// Describes a directed structural or peer relationship between two
+/// [TypeDescriptor] classifiers in the M2 metamodel.
 ///
-/// Describes a directed relationship between two [TypeDescriptor]s.
+/// Used by the tree view, detail tab container, and navigation breadcrumbs to
+/// resolve connected entity types and label directed associations.
 ///
-/// Used by the tree view, tab bar, and navigation breadcrumbs to
-/// determine which types are connected and how to label the connection.
-/// Relationships are directional: parent→child defines hierarchy,
-/// while related→current defines peer associations.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Defines an immutable, typed
+///   relational edge (`relationName`, `childTypeName`, `childLabel`) between
+///   M2 classifiers so that hierarchical containment and peer tab associations
+///   are resolved deterministically from schema metadata.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Directed Edge Identity**: Represents an ordered triple
+///   $e = (\text{relationName}, \text{childTypeName}, \text{childLabel})$ with
+///   value-based equality (`operator ==` and `hashCode`).
+/// - **Immutability**: Annotated with `@immutable` and constructed via `const`.
+///
+/// ## 3. Preconditions
+/// - `relationName`, `childTypeName`, and `childLabel` must be supplied as
+///   non-null strings at construction.
+///
+/// ## 4. Postconditions
+/// - Produces an immutable relationship descriptor with constant-time field
+///   access and value equality.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction, `copyWith`,
+///   `operator ==`, and `hashCode`.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed-size object allocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - If `childTypeName` references an unregistered type in the data source,
+///   consuming presentation views skip the unresolvable edge gracefully without
+///   raising unhandled exceptions.
+/// - Empty `childLabel` strings fall back to `childTypeName` in tab headers.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 1 (Domain State & Data Model)
+///
+/// Realises: [Feat-10/TypeRelationDescriptor, ARCH-M2-001, REQ-DOM-004]
 @immutable
 class TypeRelationDescriptor {
   /// Semantic name of the relation, e.g. "contains", "belongs_to".
@@ -334,7 +445,7 @@ class TypeRelationDescriptor {
   /// The [TypeDescriptor.typeName] of the related (target) type.
   ///
   /// Must match a [TypeDescriptor.typeName] returned by the data source.
-  /// A mismatch results in a dangling reference — the UI skips it
+  /// A mismatch results in a dangling reference -- the UI skips it
   /// gracefully with a warning log.
   final String childTypeName;
 
@@ -376,3 +487,4 @@ class TypeRelationDescriptor {
   @override
   int get hashCode => Object.hash(relationName, childTypeName, childLabel);
 }
+

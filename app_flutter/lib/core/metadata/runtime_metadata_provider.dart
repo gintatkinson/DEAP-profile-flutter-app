@@ -1,17 +1,46 @@
-/// Provides runtime key-value metadata storage and retrieval.
+/// Lightweight in-memory key-value metadata registry for runtime configuration
+/// and diagnostic context.
+///
+/// Enables application subsystems to publish, query, and remove runtime
+/// metadata, capability flags, and diagnostic attributes without direct
+/// cross-module coupling.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides deterministic, synchronous
+///   in-memory metadata lookup with zero blocking I/O so diagnostic and
+///   capability queries never stall the 60 FPS display loop.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - For any key $k \in \Sigma^*$ and value $v$:
+///   $\text{registerMetadata}(k, v) \implies \text{containsKey}(k) = \text{true} \land \text{getMetadata}(k) = v$.
+/// - Removal restores absence:
+///   $\text{removeMetadata}(k) \implies \text{containsKey}(k) = \text{false}$.
+///
+/// ## 3. Preconditions
+/// - Callers must supply a non-null `String` key to [getMetadata],
+///   [registerMetadata], [containsKey], and [removeMetadata].
+///
+/// ## 4. Postconditions
+/// - Mutations via [registerMetadata] and [removeMetadata] take effect
+///   immediately in `_store` and update [length] and [keys] synchronously.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ average hash-table time for
+///   [getMetadata], [registerMetadata], [containsKey], [removeMetadata], and
+///   [length].
+/// - **Space Complexity**: $\mathcal{O}(M)$ where $M$ is the number of
+///   distinct registered metadata keys.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Querying or removing an unregistered key safely returns `null` without
+///   throwing exceptions.
+/// - Re-registering an existing key deterministically overwrites the prior
+///   entry without leaking duplicate keys.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [runtime-metadata-blueprint.md/RuntimeMetadataProvider]
-///
-/// A lightweight in-memory metadata registry that allows application
-/// subsystems to publish and consume runtime configuration, feature flags,
-/// and diagnostic context without tight coupling.
-///
-/// Usage:
-/// ```dart
-/// final provider = RuntimeMetadataProvider();
-/// provider.registerMetadata('build.version', '1.0.0');
-/// final version = provider.getMetadata('build.version'); // '1.0.0'
-/// ```
 class RuntimeMetadataProvider {
   /// Internal metadata store.
   final Map<String, dynamic> _store = <String, dynamic>{};

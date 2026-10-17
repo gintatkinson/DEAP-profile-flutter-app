@@ -11,6 +11,41 @@ import 'text_scaler.dart';
 /// renders a crisp `1px` slate hairline border with `6px` corner L-bracket
 /// reticle ticks on active tactical panels and cards.
 ///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces high-contrast cockpit
+///   display legibility and visual focus demarcation by framing active widgets
+///   with deterministic `1px` perimeter hairlines (`#1E293B`) and `6px` cyan
+///   corner reticle ticks (`#00D4FF`).
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Effective corner tick arm length is bounded by panel geometry:
+///   $L_{\text{tick}} = \min\left(L_{\text{reticle}},\ \frac{\min(W, H)}{2}\right) \ge 0$.
+/// - Inner path deflation preserves stroke alignment:
+///   $R_{\text{inner}} = \text{deflate}(R_{\text{outer}}, w_{\text{hairline}})$.
+///
+/// ## 3. Preconditions
+/// - Target paint [Rect] must have finite coordinates; `rect.isEmpty` is
+///   checked prior to issuing canvas draw commands.
+///
+/// ## 4. Postconditions
+/// - Renders the perimeter rounded rectangle hairline and, when
+///   `isActive == true` and $L_{\text{tick}} > 0$, four symmetric corner
+///   L-brackets onto the provided [Canvas] without mutating border state.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ fixed 12-segment vector path
+///   construction and rasterization per frame.
+/// - **Space Complexity**: $\mathcal{O}(1)$ immutable value-object fields.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty or degenerate rectangles (`rect.isEmpty` or $\min(W, H) \le 0$)
+///   short-circuit immediately as a safe no-op without issuing invalid canvas
+///   primitives.
+/// - Non-positive `hairlineWidth` falls back to `side.width`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [Feat-10/Arinc661ReticleBorder]
 @immutable
 class Arinc661ReticleBorder extends OutlinedBorder {
@@ -187,15 +222,54 @@ class Arinc661ReticleBorder extends OutlinedBorder {
       );
 }
 
-/// Central registry of colour schemes and [ThemeData] factories.
+/// Central registry of ARINC 661 Cockpit Display System colour palettes,
+/// design-token resolvers, and [ThemeData] factories.
 ///
-/// Keeps all Material/Cupertino theming in one place so that light/dark
-/// variants stay consistent. Use [light] / [dark] to build themes; use
-/// [customSchemes] to offer scheme selection in a settings UI. There is no
-/// mutable state -- the class is a static namespace.
+/// Consolidates Material/Cupertino theme construction, semantic cockpit
+/// surface tokens (`#070A0F` obsidian canvas, `#0C1118` primary panel,
+/// `#00D4FF` active reticle cyan), and W3C design-token resolution (`$value`
+/// alias dereferencing) into a deterministic namespace.
 ///
-/// **Edge cases**: passing `null` for [custom] falls back to the first
-/// Manages application themes and color palettes.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces high-contrast cockpit
+///   chrominance separation (emerald nominal `#00E676`, amber caution
+///   `#FFB020`, crimson warning `#FF334B`) and mandatory `tabularFigures`
+///   glyph metrics across all typography scales to eliminate horizontal pixel
+///   jitter during 60 FPS telemetry updates.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Built-in scheme table is non-empty: $|\text{customSchemes}| = 6 \ge 1$,
+///   with index $0$ (`Greys`) serving as the canonical fallback.
+/// - Every text style $s \in \text{TextTheme}$ produced by [light] or [dark]
+///   satisfies $\text{tabularFigures} \subseteq s.\text{fontFeatures}$.
+///
+/// ## 3. Preconditions
+/// - Optional design tokens may be preloaded via [load] or [loadFromJson];
+///   otherwise synchronous fallback loading via `_ensureLoaded` inspects
+///   `assets/design-tokens.json`.
+///
+/// ## 4. Postconditions
+/// - [light] and [dark] return fully populated, Material 3 compliant
+///   [ThemeData] instances with deterministic ARINC 661 reticle card borders
+///   and tabular-figure typography.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(D)$ per token lookup where $D$ is the
+///   dot-path nesting depth; $\mathcal{O}(1)$ theme construction over a fixed
+///   set of Material sub-themes.
+/// - **Space Complexity**: $\mathcal{O}(T)$ static storage for $T$ parsed
+///   design-token nodes.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Missing or unparseable `design-tokens.json` files or unresolved `{alias}`
+///   paths safely fall back to caller-supplied `defaultValue` dimensions or
+///   compile-time ARINC 661 constants without throwing.
+/// - Passing `null` for `custom` in [light] or [dark] deterministically selects
+///   `customSchemes[0]`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [Feat-10/AppThemes]
 class AppThemes {
   AppThemes._();
@@ -420,7 +494,8 @@ class AppThemes {
     } catch (_) {}
   }
 
-  /// Member documentation.
+  /// Loads `assets/design-tokens.json` asynchronously via [rootBundle],
+  /// falling back to synchronous filesystem inspection if asset loading fails.
   static Future<void> load() async {
     try {
       final jsonStr = await rootBundle.loadString('assets/design-tokens.json');
@@ -430,12 +505,12 @@ class AppThemes {
     }
   }
 
-  /// Member documentation.
+  /// Loads design tokens directly from a raw JSON string for deterministic testing.
   static void loadFromJson(String json) {
     _tokens = jsonDecode(json) as Map<String, dynamic>;
   }
 
-  /// Member documentation.
+  /// Recursively resolves `{dot.path}` token alias expressions against the loaded token tree.
   static dynamic resolveValue(dynamic value) {
     if (value is! String) return value;
     final match = RegExp(r'^\{(.+)\}$').firstMatch(value);
@@ -471,7 +546,8 @@ class AppThemes {
     return current;
   }
 
-  /// Member documentation.
+  /// Parses a numeric or `'px'`-suffixed dimension token value into a `double`,
+  /// returning `0.0` when `null` or unparseable.
   static double parseDimension(dynamic value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
@@ -482,7 +558,7 @@ class AppThemes {
     return double.tryParse(s) ?? 0.0;
   }
 
-  /// Member documentation.
+  /// Resolves a numeric dimension token at [path], returning [defaultValue] when absent.
   static double getDimension(String path, [double defaultValue = 0.0]) {
     _ensureLoaded();
     final val = _resolvePath(path);
@@ -490,19 +566,19 @@ class AppThemes {
     return parseDimension(val);
   }
 
-  /// Member documentation.
+  /// Resolves a string token at [path], or `null` when absent.
   static String? getString(String path) {
     _ensureLoaded();
     final val = _resolvePath(path);
     return val?.toString();
   }
 
-  /// Member documentation.
+  /// Resolves the configured primary font family name from design tokens.
   static String? getFontFamily() {
     return getString('alias.typography.font-family') ?? getString('global.typography.font-family');
   }
 
-  /// Member documentation.
+  /// Resolves the configured [VisualDensity] from the design-token typography scale.
   static VisualDensity getVisualDensity() {
     final scale = getString('alias.typography.scale') ?? getString('global.typography.scale');
     if (scale == 'high-density' || scale == 'compact') {

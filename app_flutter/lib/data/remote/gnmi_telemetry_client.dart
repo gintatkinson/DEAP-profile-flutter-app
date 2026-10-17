@@ -1,7 +1,31 @@
 import 'dart:async';
 
+/// Immutable telemetry sample frame associating a canonical schema path with a measured value and sample timestamp.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides a deterministic, timestamped telemetry data transfer object (`path`, `value`, `timestamp`) for Layer 2 streaming subscription pipelines and Layer 3 display indicator bindings.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - [timestamp] is guaranteed non-null at instantiation (defaulting to `DateTime.now()`) and serializes deterministically to ISO-8601 format in [toMap].
+/// - [path] and [value] fields are immutable (`final`) once constructed.
+///
+/// ## 3. Preconditions
+/// - [path] must be a valid hierarchical telemetry path string (such as `'/components/component/state/telemetry'`).
+///
+/// ## 4. Postconditions
+/// - Yields an immutable [GnmiTelemetryUpdate] instance convertible to a key-value map via [toMap].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ for construction and [toMap] serialization.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed 3-entry map envelope in [toMap].
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Omitted [timestamp] parameter safely falls back to the current system clock (`DateTime.now()`), preventing null-timestamp exceptions in downstream time-series consumers.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Streaming Telemetry Frame)
+///
 /// Realises: [UC-04/GnmiTelemetryUpdate]
-/// Telemetry metric update received from a gNMI stream.
 class GnmiTelemetryUpdate {
   /// The gNMI path target.
   final String path;
@@ -29,11 +53,34 @@ class GnmiTelemetryUpdate {
   }
 }
 
-/// Realises: [UC-04/GnmiTelemetryClient]
-/// gNMI telemetry client for streaming real-time network and device telemetry.
+/// Streaming telemetry transport client managing subscription lifecycles, path registrations, and broadcast frame dispatch.
 ///
-/// Provides methods to establish streaming telemetry sessions ([connectStream]) and
-/// teardown active connections ([disconnectStream]).
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces strict session state-machine discipline (`_isConnected`, `_activeTarget`, `_activePaths`) for real-time telemetry streaming, ensuring prior sessions are cleanly torn down before re-subscription and rejecting out-of-state frame injections.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Connection state bi-implication: `_isConnected == true` $\iff$ (`_streamController != null` $\land$ `_activeTarget != null` $\land$ `_activePaths != null`).
+/// - [activePaths] exposes an unmodifiable view (`List.unmodifiable`) of the defensive copy created during [connectStream], preventing external mutation of active subscription paths.
+///
+/// ## 3. Preconditions
+/// - [connectStream] must be invoked to transition [isConnected] to `true` before calling [injectUpdate].
+///
+/// ## 4. Postconditions
+/// - [connectStream] tears down any pre-existing session, initializes a fresh broadcast [StreamController], records [activeTarget] and [activePaths], and returns the active broadcast [Stream].
+/// - [disconnectStream] closes `_streamController`, clears target and path metadata, and sets [isConnected] to `false`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(P)$ for [connectStream] to copy $P$ subscribed path strings; $\mathcal{O}(1)$ for [injectUpdate] and [disconnectStream].
+/// - **Space Complexity**: $\mathcal{O}(P)$ for storing subscribed path strings plus $\mathcal{O}(L)$ broadcast listener registrations.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Calling [injectUpdate] while disconnected (`!_isConnected || _streamController == null`) fails closed by throwing an explicit [StateError].
+/// - Calling [disconnectStream] when already disconnected is a safe idempotent no-op.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management -- Streaming Telemetry Transport Client)
+///
+/// Realises: [UC-04/GnmiTelemetryClient]
 class GnmiTelemetryClient {
   StreamController<GnmiTelemetryUpdate>? _streamController;
   bool _isConnected = false;

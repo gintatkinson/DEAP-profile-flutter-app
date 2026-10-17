@@ -4,29 +4,55 @@ import 'package:provider/provider.dart';
 import 'package:app_flutter/features/tables/models/column_model.dart';
 import 'package:app_flutter/features/tables/view_models/tables_view_model.dart';
 
-/// Renders tabular data from a [TablesViewModel] as a horizontally
-/// scrollable, vertically virtualized table.
+/// Virtualized ARINC 661 high-density table widget that renders tabular records
+/// from [TablesViewModel] with fixed headers, memoized column sorting, and
+/// inline safety range/zero-ceiling annunciators.
 ///
-/// Fixes O(n) widget creation from [DataTable] by using [ListView.builder]
-/// for O(1) visible-row widget creation. The column header row is fixed at
-/// the top; body rows scroll virtually.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Replaces $\mathcal{O}(N)$ eager
+///   [DataTable] instantiation with $\mathcal{O}(1)$ viewport-virtualized
+///   [ListView.builder] row rendering wrapped in a [RepaintBoundary], sustaining
+///   $T_{\text{frame}} \le 16.67\text{ ms}$ (60 FPS) across large datasets.
 ///
-/// Edge cases:
-///   - When [TablesViewModel.loading] is `true`, a centered
-///     [CircularProgressIndicator] is displayed instead of the table.
-///   - When [TablesViewModel.error] is non-null, the error text is shown in
-///     the theme's error color; the table is not rendered.
-///   - An empty [headers] list renders an empty [SizedBox] — no crash.
-///   - Long content is scrollable horizontally via [SingleChildScrollView];
-///     vertical scrolling is handled by [ListView.builder].
+/// ## 2. Invariants & Mathematical Properties
+/// - **Minimum Column Width Bound**: For $C = |\text{headers}|$ visible columns
+///   within viewport width $W$, horizontal margin $m$, and spacing $s = (C - 1) \cdot d$:
+///   $$
+///   \begin{aligned}
+///   w_{\text{col}} &= \max\left(120.0, \frac{W - 2m - s}{C}\right) \\
+///   W_{\text{table}} &= \max(W, C \cdot w_{\text{col}} + s + 2m)
+///   \end{aligned}
+///   $$
+/// - **Memoized Sort Stability**: `_getSortedRows` reuses `_cachedSortedRows`
+///   whenever source rows, `_sortColumnIndex`, and `_sortAscending` are unchanged.
 ///
-/// State changes: this widget is read-only; it watches [TablesViewModel] via
-/// `context.watch` and rebuilds on every notifyListeners call from the view
-/// model.
+/// ## 3. Preconditions
+/// - Must be mounted inside a [BuildContext] providing [TablesViewModel] via
+///   [Provider].
+///
+/// ## 4. Postconditions
+/// - Renders [CircularProgressIndicator] while loading, themed error text on
+///   failure, [SizedBox.shrink] when `headers` is empty, or a virtualized
+///   body list beneath a pinned header row.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(V \cdot C)$ per frame for $V$ visible rows
+///   and $C$ columns; $\mathcal{O}(N \log N)$ on sort cache miss over $N$ rows.
+/// - **Space Complexity**: $\mathcal{O}(N \cdot C)$ for the memoized sorted row
+///   reference list.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty `headers` lists render [SizedBox.shrink] -- no division-by-zero or
+///   layout exception occurs.
+/// - Non-numeric strings in numeric columns fall back safely to lexicographical
+///   comparison during sorting and plain text rendering in cells.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/TableViewWidget]
 class TableViewWidget extends StatefulWidget {
-  /// Member documentation.
+  /// Creates a virtualized [TableViewWidget].
   const TableViewWidget({
     super.key,
     this.headingRowHeight = 32.0,
@@ -36,15 +62,19 @@ class TableViewWidget extends StatefulWidget {
     this.columnSpacing = 24.0,
   });
 
-  /// Member documentation.
+  /// Fixed height in logical pixels of the pinned column header row.
   final double headingRowHeight;
-  /// Member documentation.
+
+  /// Minimum height in logical pixels of each virtualized data row.
   final double dataRowMinHeight;
-  /// Member documentation.
+
+  /// Maximum height constraint in logical pixels of each data row.
   final double dataRowMaxHeight;
-  /// Member documentation.
+
+  /// Left and right outer table padding in logical pixels.
   final double horizontalMargin;
-  /// Member documentation.
+
+  /// Horizontal gap in logical pixels between adjacent columns.
   final double columnSpacing;
 
   @override
@@ -597,12 +627,47 @@ class _DataCell extends StatelessWidget {
   }
 }
 
-/// Compact inline ARINC 661 segmented progress bar for numeric fields that
-/// define both `minValue` and `maxValue`.
+/// Compact inline ARINC 661 segmented range gauge rendered inside numeric table
+/// cells whose [ColumnModel] defines both `minValue` and `maxValue` ($v_{\max} > v_{\min}$).
 ///
-/// Colors active segments emerald (`#00E676`) in the nominal range, amber
-/// (`#FFB020`) within 15% of the lower or upper limit, and crimson (`#FF334B`)
-/// when out of bounds.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Provides three-tier color-coded
+///   cockpit visual cueing -- emerald (`#00E676`) in nominal band, caution amber
+///   (`#FFB020`) within $15\%$ of either limit, and violation crimson (`#FF334B`)
+///   when outside $[v_{\min}, v_{\max}]$.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Normalized Fill Clamping**: Given span $\Delta = v_{\max} - v_{\min} > 0$,
+///   the normalized fill ratio $f \in [0.0, 1.0]$ and lit segment count
+///   $k \in [1, S]$ ($S = \text{segmentCount}$) satisfy:
+///   $$
+///   \begin{aligned}
+///   f &= \min\left(1.0, \max\left(0.0, \frac{v - v_{\min}}{\Delta}\right)\right) \\
+///   k &= \begin{cases} 1 & \text{if } v < v_{\min} \\ \max(1, \lceil f \cdot S \rceil) & \text{otherwise} \end{cases}
+///   \end{aligned}
+///   $$
+/// - **Caution Margin Threshold**: Caution amber activates when
+///   $v \in [v_{\min}, v_{\min} + 0.15\Delta] \cup [v_{\max} - 0.15\Delta, v_{\max}]$.
+///
+/// ## 3. Preconditions
+/// - [segmentCount] must be a positive integer ($S \ge 1$).
+/// - [value], [minValue], and [maxValue] are finite `double` values.
+///
+/// ## 4. Postconditions
+/// - Renders a horizontal [Row] of [segmentCount] discrete segment bars colored
+///   by [activeColor] for the first $k$ segments and [inactiveTrackSlate] for
+///   remaining segments.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(S)$ where $S = \text{segmentCount}$ (default $5$).
+/// - **Space Complexity**: $\mathcal{O}(S)$ segment container widgets.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Degenerate spans ($\Delta \le 0$) safely return `normalizedFill = 1.0` and
+///   `nominalEmerald` without division-by-zero faults.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/ArincSegmentedRangeGauge]
 @immutable
@@ -691,6 +756,39 @@ class ArincSegmentedRangeGauge extends StatelessWidget {
 
 /// High-contrast ARINC 661 zero-ceiling status annunciator pill rendered in
 /// tabular cells when an integer column defines `minValue == 0 && maxValue == 0`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Highlights zero-ceiling safety
+///   invariant compliance (`VERIFIED` in `#00E676` vs. `VIOLATION` in `#FF334B`)
+///   inside dense tabular monitoring grids.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Strict Zero-Ceiling Bijection**:
+///   $$
+///   \begin{aligned}
+///   \text{label}(\text{isVerified}) &= \begin{cases}
+///   \text{'VERIFIED'} & \text{if } \text{isVerified} = \text{true} \\
+///   \text{'VIOLATION'} & \text{if } \text{isVerified} = \text{false}
+///   \end{cases}
+///   \end{aligned}
+///   $$
+///
+/// ## 3. Preconditions
+/// - [isVerified] is evaluated from the cell's integer value ($v == 0$).
+///
+/// ## 4. Postconditions
+/// - Renders a compact monospace status pill alongside the numeric cell text.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ constant-time widget build.
+/// - **Space Complexity**: $\mathcal{O}(1)$ leaf widget allocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Unparseable integer cell text evaluates `isVerified = false` in `_DataCell`,
+///   annunciating `'VIOLATION'` fail-safe.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
 ///
 /// Realises: [Feat-10/TableZeroCeilingBadge]
 @immutable

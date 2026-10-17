@@ -1079,6 +1079,11 @@ pub fn check_handoff_and_backlog_integrity(repo_root: &Path) -> Result<(), Vec<S
         violations.extend(errs);
     }
 
+    // 4. Check zero retired script references in documentation (refs #441)
+    if let Err(errs) = check_zero_retired_scripts_in_documentation(repo_root) {
+        violations.extend(errs);
+    }
+
     if violations.is_empty() {
         Ok(())
     } else {
@@ -1178,6 +1183,255 @@ pub fn check_no_master_handover_checkpoint(repo_root: &Path) -> Result<(), Vec<S
                 }
             }
         }
+    }
+
+    if violations.is_empty() {
+        Ok(())
+    } else {
+        violations.sort();
+        violations.dedup();
+        Err(violations)
+    }
+}
+
+/// Check documentation for references to retired Python and shell scripts (refs #441).
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A and ECSS-E-ST-40C documentation integrity controls.
+/// Enforces Pure-Rust Toolchain Invariant by preventing documentation drift that references
+/// deleted Python or shell scripts or non-existent binaries.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// Documentation markdown files under `docs/`, `skills/`, and `README.md` must contain zero
+/// references to retired scripts: `create_issue.sh`, `verify_downstream_baseline.py`,
+/// `install_pipeline.sh`, `generate-wbs-suite`, `compile_yang.py`, `compile_sysml.py`,
+/// `assemble_conops.py`, `parity_auditor`, `setup_git_hooks.py`, `file_defect.py`,
+/// `verify_commit_messages.py`, `verify_subagent_output.py`, `reconcile_backlog.py`.
+///
+/// ## 3. Preconditions
+/// `repo_root` must be an accessible directory path.
+///
+/// ## 4. Postconditions
+/// Returns `Ok(())` on compliance, or `Err(Vec<String>)` with sorted detected violations.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// Time Complexity: O(N * L) where N is file count and L is line count. Space Complexity: O(V).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// Fails closed on any discovered reference to retired scripts.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-CHECK-ZERO-RETIRED-SCRIPTS-IN-DOCS].
+pub fn check_zero_retired_scripts_in_documentation(repo_root: &Path) -> Result<(), Vec<String>> {
+    let mut violations = Vec::new();
+
+    let mut retired_needles: Vec<String> = Vec::new();
+    retired_needles.push("create_issue.sh".to_string());
+    retired_needles.push("verify_downstream_baseline.py".to_string());
+    retired_needles.push("install_pipeline.sh".to_string());
+    retired_needles.push("generate-wbs-suite".to_string());
+    retired_needles.push("compile_yang.py".to_string());
+    retired_needles.push("compile_sysml.py".to_string());
+    retired_needles.push("assemble_conops.py".to_string());
+    retired_needles.push("parity_auditor".to_string());
+    retired_needles.push("setup_git_hooks.py".to_string());
+    retired_needles.push("file_defect.py".to_string());
+    retired_needles.push("verify_commit_messages.py".to_string());
+    retired_needles.push("verify_subagent_output.py".to_string());
+    retired_needles.push("reconcile_backlog.py".to_string());
+    retired_needles.push("spec_validator.py".to_string());
+
+    let target_dirs = vec![repo_root.join("docs"), repo_root.join("skills")];
+
+    for dir in &target_dirs {
+        if !dir.is_dir() {
+            continue;
+        }
+        for entry_res in WalkDir::new(dir)
+            .into_iter()
+            .filter_entry(|e| {
+                if e.file_type().is_dir() {
+                    let name = e.file_name().to_string_lossy();
+                    !EXCLUDED_DIRS.iter().any(|ex| name == ex)
+                        && name != "designs"
+                        && name != "audits"
+                        && name != "blueprints"
+                        && name != "decisions"
+                } else {
+                    true
+                }
+            })
+        {
+            let entry = match entry_res {
+                Ok(e) => e,
+                Err(_) => continue,
+            };
+            if entry.file_type().is_file() {
+                let path = entry.path();
+                let is_md = path.extension().map(|ext| ext == "md").unwrap_or(false);
+                if is_md {
+                    let rel = path.strip_prefix(repo_root).unwrap_or(path).display().to_string();
+                    if rel.ends_with("_HANDOFF.md") || rel.ends_with("_HANDOVER.md") {
+                        continue;
+                    }
+                    if let Ok(content) = fs::read_to_string(path) {
+                        for (idx, line) in content.lines().enumerate() {
+                            for needle in &retired_needles {
+                                if line.contains(needle) {
+                                    violations.push(format!("{}:{}: references retired script '{}'", rel, idx + 1, needle));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let target_single_files = vec![
+        repo_root.join("README.md"),
+        repo_root.join(".pipeline/constitution.md"),
+        repo_root.join(".pipeline/upstream/pipeline-tooling.md"),
+    ];
+
+    for file in &target_single_files {
+        if file.is_file() {
+            let rel = file.strip_prefix(repo_root).unwrap_or(file).display().to_string();
+            if let Ok(content) = fs::read_to_string(file) {
+                for (idx, line) in content.lines().enumerate() {
+                    for needle in &retired_needles {
+                        if line.contains(needle) {
+                            violations.push(format!("{}:{}: references retired script '{}'", rel, idx + 1, needle));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if violations.is_empty() {
+        Ok(())
+    } else {
+        violations.sort();
+        violations.dedup();
+        Err(violations)
+    }
+}
+
+/// Verify FEAT-42 design blueprint compliance (refs #459).
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A and ECSS-E-ST-40C architectural integrity controls.
+/// Enforces single-source-of-truth alignment between `FEAT-42` design blueprint,
+/// the workspace AST crate architecture (`deap-core`), the `ingest-sysml` CLI contract,
+/// and Check 34 `seen_docblocks` docstring uniqueness invariants.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Zero occurrences of phantom crate `sysml-core` across `docs/designs/FEAT-42_*.md`.
+/// - Section 2.1 specifies `ingest-sysml [OPTIONS] [--source <DIR> | --schema <PATH>]`,
+///   preserves optional `--source`, documents `--schema`, and sets `--format` default `auto`.
+/// - Section 3.2 mandates Check 34 `seen_docblocks` uniqueness via per-function AST
+///   interpolation across Sections 1 through 6.
+///
+/// ## 3. Preconditions
+/// `repo_root` must be an accessible directory path.
+///
+/// ## 4. Postconditions
+/// Returns `Ok(())` on full compliance, or `Err(Vec<String>)` enumerating contract violations.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// Time Complexity: O(L) where L is the byte length of the design document. Space Complexity: O(V).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// Fails closed if the blueprint is missing, unreadable, or violates any architectural contract.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-CHECK-34-FEAT42-BLUEPRINT-COMPLIANCE].
+pub fn check_feat42_design_blueprint_compliance(repo_root: &Path) -> Result<(), Vec<String>> {
+    let mut violations = Vec::new();
+    let feat42_path = repo_root.join("docs/designs/FEAT-42_source_code_ast_ingestion_and_docstring_synthesizer.md");
+    if !feat42_path.is_file() {
+        violations.push(format!(
+            "Missing mandatory design blueprint: {}",
+            feat42_path.display()
+        ));
+        return Err(violations);
+    }
+
+    let content = match fs::read_to_string(&feat42_path) {
+        Ok(c) => c,
+        Err(e) => {
+            violations.push(format!(
+                "Failed to read design blueprint {}: {e}",
+                feat42_path.display()
+            ));
+            return Err(violations);
+        }
+    };
+
+    // 1. Assert zero occurrences of phantom crate 'sysml-core'
+    if content.contains("sysml-core") {
+        violations.push(
+            "FEAT-42 contains forbidden reference to non-existent 'sysml-core' crate (must reference 'deap-core')"
+                .to_string(),
+        );
+    }
+
+    // 2. Assert Section 2.1 specifies CLI syntax and backwards compatibility
+    if !content.contains("ingest-sysml [OPTIONS] [--source <DIR> | --schema <PATH>]") {
+        violations.push(
+            "FEAT-42 Section 2.1 must specify CLI syntax: ingest-sysml [OPTIONS] [--source <DIR> | --schema <PATH>]"
+                .to_string(),
+        );
+    }
+    let has_optional_source = content.contains("| `--source`")
+        && (content.contains("| No (mutually exclusive with `--schema`)")
+            || content.contains("| Path (`<DIR>`) | No"));
+    if !has_optional_source {
+        violations.push(
+            "FEAT-42 Section 2.1 must declare --source as optional (No), preserving backward compatibility"
+                .to_string(),
+        );
+    }
+    if !content.contains("| `--schema`") {
+        violations.push(
+            "FEAT-42 Section 2.1 must specify --schema in CLI option definitions table"
+                .to_string(),
+        );
+    }
+    let has_format_auto = content.lines().any(|l| l.contains("--format") && l.contains("`auto`"));
+    if !has_format_auto {
+        violations.push(
+            "FEAT-42 Section 2.1 must specify --format default value as `auto`"
+                .to_string(),
+        );
+    }
+
+    // 3. Assert Section 3.2 mandates per-function AST interpolation across Sections 1-6 for Check 34 uniqueness
+    if !content.contains("seen_docblocks") {
+        violations.push(
+            "FEAT-42 Section 3.2 must mandate docstring uniqueness under 'seen_docblocks'"
+                .to_string(),
+        );
+    }
+    if !content.contains("Check 34") {
+        violations.push(
+            "FEAT-42 Section 3.2 must cite Check 34 uniqueness contract"
+                .to_string(),
+        );
+    }
+    let has_interpolation = (content.contains("interpolate") || content.contains("Interpolate"))
+        && content.contains("Section 1")
+        && content.contains("Section 2")
+        && content.contains("Section 3")
+        && content.contains("Section 4")
+        && content.contains("Section 5")
+        && content.contains("Section 6");
+    if !has_interpolation {
+        violations.push(
+            "FEAT-42 Section 3.2 must mandate per-function AST signature interpolation across Sections 1 through 6"
+                .to_string(),
+        );
     }
 
     if violations.is_empty() {
@@ -1844,5 +2098,81 @@ pub fn check_audit() -> Result<(), Vec<String>> {
             res_handoff.err()
         );
     }
+
+    #[test]
+    fn test_issue_441_documentation_contains_no_retired_script_references() {
+        let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .and_then(|p| p.parent())
+            .expect("repo root");
+        let res = check_zero_retired_scripts_in_documentation(repo_root);
+        assert!(
+            res.is_ok(),
+            "Documentation must not reference retired scripts (refs #441): {:?}",
+            res.err()
+        );
+    }
+
+    #[test]
+    fn test_defect_441_mutation_rejects_retired_script_in_markdown() {
+        let tmp = TempDir::new("c441_script_rejection");
+        let docs = tmp.path.join("docs").join("operations");
+        fs::create_dir_all(&docs).unwrap();
+        let guide = docs.join("install-guide.md");
+        let mut f = File::create(&guide).unwrap();
+        let needle = "create_issue.sh";
+        writeln!(f, "# Guide\nRun {needle} now").unwrap();
+
+        let res = check_zero_retired_scripts_in_documentation(&tmp.path);
+        assert!(res.is_err(), "Must reject retired script reference in docs");
+        let errs = res.err().unwrap();
+        assert!(errs.iter().any(|e| e.contains(needle)));
+    }
+
+    #[test]
+    fn test_defect_450_retired_python_in_pipeline_docs_fails() {
+        let tmp = TempDir::new("c450_pipeline_retired");
+        let pipeline_dir = tmp.path.join(".pipeline");
+        fs::create_dir_all(&pipeline_dir).unwrap();
+        let const_file = pipeline_dir.join("constitution.md");
+        let mut f = File::create(&const_file).unwrap();
+        writeln!(f, "# Constitution\nRuns validators/spec_validator.py for quality gate").unwrap();
+
+        let res = check_zero_retired_scripts_in_documentation(&tmp.path);
+        assert!(res.is_err(), "Must reject retired Python validator in .pipeline/constitution.md");
+        let errs = res.err().unwrap();
+        assert!(errs.iter().any(|e| e.contains("spec_validator.py")));
+    }
+
+    #[test]
+    fn test_defect_459_feat42_design_blueprint_compliance() {
+        let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .and_then(|p| p.parent())
+            .expect("repo root");
+
+        let res = check_feat42_design_blueprint_compliance(repo_root);
+        assert!(
+            res.is_ok(),
+            "FEAT-42 design blueprint must comply with deap-core references, CLI backwards compatibility, and Check 34 uniqueness (refs #459): {:?}",
+            res.err()
+        );
+    }
+
+    #[test]
+    fn test_defect_459_mutation_rejects_sysml_core_in_design() {
+        let tmp = TempDir::new("c459_sysml_core_mutation");
+        let designs = tmp.path.join("docs").join("designs");
+        fs::create_dir_all(&designs).unwrap();
+        let feat = designs.join("FEAT-42_source_code_ast_ingestion_and_docstring_synthesizer.md");
+        let mut f = File::create(&feat).unwrap();
+        writeln!(f, "# FEAT-42\nparticipant Core as sysml-core Parser").unwrap();
+
+        let res = check_feat42_design_blueprint_compliance(&tmp.path);
+        assert!(res.is_err(), "Must reject sysml-core in FEAT-42 design blueprint");
+        let errs = res.err().unwrap();
+        assert!(errs.iter().any(|e| e.contains("sysml-core")));
+    }
 }
+
 

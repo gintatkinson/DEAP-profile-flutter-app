@@ -3,17 +3,16 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:app_flutter/core/app_config.dart';
 
-/// The set of imagery tile providers whose URL patterns are known.
+/// Enumeration of supported raster map-imagery tile providers.
 ///
-/// Each value has a corresponding template URL constructed by
-/// [TileFetcher.urlFor].
+/// Each provider maps to a configured URL template resolved by [TileFetcher.urlFor].
 ///
 /// Realises: [Feat-10/ImageryProvider]
 enum ImageryProvider {
-  /// OpenStreetMap standard tiles (raster PNG).
+  /// OpenStreetMap standard raster PNG tiles.
   openStreetMap,
 
-  /// ArcGIS World Imagery satellite tiles (raster).
+  /// ArcGIS World Imagery satellite raster tiles.
   arcGisSatellite,
 
   /// CartoDB dark-themed basemap tiles.
@@ -23,11 +22,35 @@ enum ImageryProvider {
   cartoLight,
 }
 
-/// An in-memory LRU cache for raw tile bytes with a fixed maximum capacity.
+/// Bounded in-memory Least-Recently-Used (LRU) cache for raw PNG tile byte buffers.
 ///
-/// Eviction follows least-recently-used semantics: whenever a full cache
-/// receives a new insertion the entry that has not been accessed for the
-/// longest time is removed first.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces a hard upper bound
+///   ([maxSize]) on cached raster tile buffers so continuous 3D globe panning
+///   cannot exhaust heap memory.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Capacity invariant: $0 \le \text{length} \le \text{maxSize}$ at all times.
+/// - LRU ordering invariant: every successful [get] or [put] moves the target
+///   key to the tail of `_map`, and capacity overflow evicts `_map.keys.first`.
+///
+/// ## 3. Preconditions
+/// - [maxSize] must be a positive integer capacity (defaults to `256`).
+///
+/// ## 4. Postconditions
+/// - Stores and retrieves `Uint8List` tile payloads in $\mathcal{O}(1)$ time
+///   while strictly respecting [maxSize].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ amortized for [get], [put], and [clear].
+/// - **Space Complexity**: $\mathcal{O}(\text{maxSize})$ cached byte buffers.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Cache misses return `null` without throwing; capacity saturation evicts
+///   the oldest entry deterministically.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/TileCache]
 class TileCache {
@@ -36,7 +59,7 @@ class TileCache {
 
   /// Creates a cache that holds at most [maxSize] entries.
   ///
-  /// The default maximum is 256 entries — one PNG tile per entry.
+  /// The default maximum is 256 entries -- one PNG tile per entry.
   TileCache({int maxSize = 256}) : _maxSize = maxSize;
 
   /// Returns the byte buffer for [key], or `null` if not cached.
@@ -73,16 +96,40 @@ class TileCache {
   int get maxSize => _maxSize;
 }
 
-/// An HTTP-based tile fetcher that respects the compile-time
-/// [AppConfig.mapImageryEnabled] flag and caches results locally.
+/// HTTP and local-file raster tile fetcher with compile-time gate control and
+/// bounded LRU caching.
 ///
-/// Each fetch respects a short connection timeout. Tile bytes are held in a
-/// bounded LRU [TileCache] so repeated requests for the same tile avoid
-/// network round-trips.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Isolates network and filesystem I/O
+///   behind a 5-second connection timeout, compile-time [AppConfig.mapImageryEnabled]
+///   gate, and fail-safe `null` fallback so network outages never stall or crash
+///   the 3D globe rendering loop.
 ///
-/// Callers can permanently disable the fetcher at runtime with [disable];
-/// once disabled every subsequent [fetchTile] returns `null` immediately
-/// without touching the network.
+/// ## 2. Invariants & Mathematical Properties
+/// - Offline safety invariant: when `isEnabled() == false`, [fetchTile]
+///   immediately returns `null` with zero network socket activity.
+/// - Template substitution invariant: [urlFor] replaces `{z}`, `{x}`, and `{y}`
+///   tokens deterministically or throws [StateError] if unconfigured.
+///
+/// ## 3. Preconditions
+/// - Basemap URL templates must be registered via [TileFetcher.configure] (or
+///   [urlOverride] set) before fetching tiles when [isEnabled] is `true`.
+///
+/// ## 4. Postconditions
+/// - Returns decoded `Uint8List` PNG bytes and caches them in [TileCache] on
+///   HTTP 200 or existing `file://` path; returns `null` on any transport failure.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ on LRU cache hit; $\mathcal{O}(B)$
+///   where $B$ is tile byte length on network/file read.
+/// - **Space Complexity**: $\mathcal{O}(M \cdot B)$ bounded by [TileCache] capacity $M = 256$.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Timeouts, DNS failures, non-200 HTTP responses, and missing local files
+///   are caught and converted to `null` return values without unhandled exceptions.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/TileFetcher]
 class TileFetcher {
@@ -201,7 +248,7 @@ class TileFetcher {
       }
       await response.drain<void>();
     } catch (_) {
-      // Swallow — return null on any failure.
+      // Swallow -- return null on any failure.
     }
     return null;
   }

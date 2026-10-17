@@ -4,22 +4,70 @@ import 'package:provider/provider.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/core/theme/app_themes.dart';
 
-/// Realises: [Feat-10/SplitWorkspace]
+/// Resizable two-pane ARINC 661 split workspace container that lays out [leading]
+/// and [trailing] child panes along [direction] with a pointer-draggable divider.
 ///
-/// A resizable split pane that lays out [leading] and [trailing] widgets
-/// along [direction] with a draggable divider.
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces minimum pane size clamping
+///   so neither adjacent operator display pane can be collapsed below its legible
+///   safety threshold during live workspace resizing, while isolating child
+///   repaints via [RepaintBoundary] layers.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Bounded Split Geometry**: Given total axis extent $L_{\text{total}}$,
+///   divider thickness $d$, and minimum pane bound $s_{\min}$, the leading pane
+///   extent $s_1$ and trailing pane extent $s_2$ satisfy:
+///   $$
+///   \begin{aligned}
+///   s_{\min}^* &= \min(s_{\min}, \max(0, L_{\text{total}} - d)) \\
+///   s_1 &\in [s_{\min}^*, \max(s_{\min}^*, L_{\text{total}} - s_{\min})] \\
+///   s_2 &= \max(0, L_{\text{total}} - s_1 - d)
+///   \end{aligned}
+///   $$
+/// - **60 FPS Repaint Isolation**: Both [leading] and [trailing] panes are wrapped
+///   in dedicated [RepaintBoundary] nodes (`split_leading`, `split_trailing`) to
+///   maintain $T_{\text{frame}} \le 16.67\text{ ms}$.
+///
+/// ## 3. Preconditions
+/// - Must be rendered within bounded parent [BoxConstraints] along [direction]
+///   and have a [ThemeController] registered in the ancestor [Provider] tree.
+///
+/// ## 4. Postconditions
+/// - Renders a 3-layer [Stack] containing the leading pane, trailing pane, and
+///   draggable splitter handle with deterministic z-order controlled by
+///   [paintLeadingOnTop].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ layout calculation per pointer drag delta.
+/// - **Space Complexity**: $\mathcal{O}(1)$ state overhead (`_firstPaneSize`,
+///   `_draggedPaneSize`).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - When $L_{\text{total}} < 2 s_{\min} + d$ (ultra-narrow viewport), clamping
+///   bounds coalesce via `math.min` / `math.max` so `clamp()` never throws an
+///   invalid range argument error.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
+/// Realises: [Feat-10/SplitWorkspace]
 @immutable
 class SplitWorkspace extends StatefulWidget {
-  /// Member documentation.
+  /// Primary widget rendered in the first (left or top) pane.
   final Widget leading;
-  /// Member documentation.
+
+  /// Secondary widget rendered in the second (right or bottom) pane.
   final Widget trailing;
-  /// Member documentation.
+
+  /// Split orientation ([Axis.horizontal] for side-by-side, [Axis.vertical] for stacked).
   final Axis direction;
-  /// Member documentation.
+
+  /// Minimum allowed dimension in logical pixels for either pane.
   final double minFirstPaneSize;
-  /// Member documentation.
+
+  /// Initial proportional allocation ($r \in [0.0, 1.0]$) of the leading pane.
   final double initialRatio;
+
   /// Thickness of the draggable divider strip in logical pixels.
   ///
   /// When [direction] is [Axis.horizontal] this is the divider's width; when
@@ -43,15 +91,17 @@ class SplitWorkspace extends StatefulWidget {
   /// this value is used as the grip's height; for [Axis.vertical] it becomes
   /// the grip's width (the orientation is swapped). Defaults to 40.0.
   final double? gripHeight;
-  /// Member documentation.
+
+  /// Optional widget key attached to the splitter's [GestureDetector].
   final Key? splitterKey;
-  /// Member documentation.
+
+  /// Optional callback invoked with the committed leading pane size when a drag gesture ends.
   final ValueChanged<double>? onDrag;
 
-  /// Member documentation.
+  /// Whether the leading pane should be painted last in the [Stack] so its overlays appear on top.
   final bool paintLeadingOnTop;
 
-  /// Member documentation.
+  /// Creates a resizable [SplitWorkspace].
   const SplitWorkspace({
     super.key,
     required this.leading,

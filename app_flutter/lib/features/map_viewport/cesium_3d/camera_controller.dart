@@ -4,7 +4,42 @@ import 'package:flutter/foundation.dart';
 import 'package:clock/clock.dart';
 import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart';
 
-/// Controls virtual camera movements, flight animations, and user interactions for 3D map viewports.
+/// Reactive 6-DOF virtual camera controller governing geodesic flight animations,
+/// terrain-clearance altitude clamping, and interactive pan/tilt/zoom gestures.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Enforces minimum terrain clearance
+///   ([minAltitude] $= 100.0\,\text{m}$ above WGS-84 ellipsoid + local terrain
+///   elevation), antimeridian angle wrapping ($\pm 180^\circ$), and bounded
+///   great-circle parabolic flight trajectories.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Terrain clearance invariant: $\text{dim}_2 \ge R_{\text{WGS84}} + h_{\text{terrain}}(\text{lat}, \text{lng}) + \text{minAltitude}$.
+/// - Great-circle angular distance (Haversine):
+///   $\Delta\sigma = 2\arcsin\left(\sqrt{\sin^2(\Delta\phi/2) + \cos\phi_1\cos\phi_2\sin^2(\Delta\lambda/2)}\right) \in [0, \pi]$.
+/// - Parabolic flight altitude boost: $h(t) = h_{\text{lerp}}(t) + \sin(\pi t)\cdot \frac{\Delta\sigma}{\pi}\cdot 5\times 10^6\,\text{m}$
+///   under cubic ease-in-out progress $t \in [0, 1]$.
+///
+/// ## 3. Preconditions
+/// - Initial and target [VirtualCamera] states must provide finite geodetic
+///   coordinates; relative altitudes ($< R_{\text{WGS84}}$) are automatically
+///   normalized to absolute ECEF radii upon construction and update.
+///
+/// ## 4. Postconditions
+/// - Emits [ChangeNotifier] notifications on every state transition and clamps
+///   all resulting camera states via [VirtualCamera.clamped].
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(1)$ per [tick], [pan], [tilt], [zoom],
+///   [zoomInteractive], and [flyTo] invocation.
+/// - **Space Complexity**: $\mathcal{O}(1)$ fixed controller state.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Non-finite or zero viewport dimensions in [pan] fall back to `800.0` logical
+///   pixels; `NaN`/`Infinite` angle inputs in wrapping helpers normalize to `0.0`.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 2 (Logic & State Management)
 ///
 /// Realises: [Feat-10/CameraController]
 class CameraController extends ChangeNotifier {
@@ -15,22 +50,26 @@ class CameraController extends ChangeNotifier {
   DateTime? _animationStart;
   Duration _flightDuration = const Duration(milliseconds: 500);
 
-  /// Member documentation.
+  /// Exposes the computed geodesic flight duration for deterministic unit testing.
   @visibleForTesting
   Duration get flightDurationForTesting => _flightDuration;
 
-  /// Member documentation.
+  /// Angular drag sensitivity in degrees per logical pixel.
   static const double dragSensitivity = 0.15;
-  /// Member documentation.
+
+  /// Linear scroll zoom sensitivity multiplier.
   static const double scrollSensitivity = 0.5;
-  /// Member documentation.
+
+  /// Angular step in degrees per keyboard arrow key press.
   static const double keyboardStep = 5.0;
-  /// Member documentation.
+
+  /// Minimum camera altitude above local terrain in meters.
   static const double minAltitude = 100.0;
-  /// Member documentation.
+
+  /// Maximum camera altitude above local terrain in meters.
   static const double maxAltitude = 40000000.0;
 
-  /// Member documentation.
+  /// Optional callback returning terrain elevation in meters at `(latDeg, lngDeg)`.
   double Function(double dim_0, double lng)? elevationProvider;
 
   double _getTerrainHeight(double dim_0, double lng) {
@@ -44,7 +83,7 @@ class CameraController extends ChangeNotifier {
     return targetAlt < minAlt ? minAlt : targetAlt;
   }
 
-  /// Member documentation.
+  /// Creates a [CameraController] initialized with [camera] normalized to absolute ECEF altitude.
   CameraController(VirtualCamera camera) : _camera = camera.dim_2 < Ellipsoid.wgs84EquatorialRadius ? VirtualCamera.clamped(
     dim_0: camera.dim_0,
     dim_1: camera.dim_1,
@@ -54,13 +93,13 @@ class CameraController extends ChangeNotifier {
     roll: camera.roll,
   ) : camera;
 
-  /// Member documentation.
+  /// The current active [VirtualCamera] state.
   VirtualCamera get current => _camera;
 
-  /// Member documentation.
+  /// Whether a geodesic [flyTo] animation is currently in progress.
   bool get isFlying => _targetCamera != null;
 
-  /// Member documentation.
+  /// Immediately updates the camera state, clamping altitude above terrain and cancelling active flights.
   void updateCamera(VirtualCamera camera) {
     final absoluteCamera = camera.dim_2 < Ellipsoid.wgs84EquatorialRadius ? VirtualCamera.clamped(
       dim_0: camera.dim_0,

@@ -20,6 +20,28 @@ import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Provides DO-178C Level A / ARINC 661 coordinate normalization and linear
+/// velocity extrapolation extensions on [VirtualCamera] for 3D viewport state.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Absolute WGS84 normalization shifts altitude by `Ellipsoid.wgs84EquatorialRadius` when `dim_2 < R_eq`.
+/// - Extrapolated latitude is clamped to `[-90.0, 90.0]` and longitude to `[-180.0, 180.0]`.
+///
+/// ## 3. Preconditions
+/// - `deltaSeconds` and velocity components must be finite IEEE 754 doubles.
+///
+/// ## 4. Postconditions
+/// - Returns a new immutable [VirtualCamera] instance with normalized or extrapolated coordinates.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) constant-time arithmetic.
+/// - Space Complexity: O(1) single [VirtualCamera] allocation.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Sub-surface altitude extrapolation is bounded to a minimum of `-100.0` meters.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/VirtualCameraNormalization]
 extension VirtualCameraNormalization on VirtualCamera {
   /// Ensures the camera altitude is normalized to absolute ECEF coordinates 
@@ -59,6 +81,28 @@ extension VirtualCameraNormalization on VirtualCamera {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Computes deterministic procedural terrain elevation samples for the 3D
+/// viewport under DO-178C Level A / ARINC 661 rendering determinism constraints.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Returns `0.0` whenever [isElevationActive] is `false`.
+/// - Scales synthesized elevation linearly by [verticalExaggeration].
+///
+/// ## 3. Preconditions
+/// - `latDeg` and `lngDeg` must be finite geodetic coordinates in degrees.
+///
+/// ## 4. Postconditions
+/// - Returns a deterministic non-negative elevation offset in meters.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) constant-time trigonometric evaluation.
+/// - Space Complexity: O(1) zero heap allocations.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Negative procedural terrain noise is clamped to `0.0` via `math.max`.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/ElevationProvider]
 class ElevationProvider {
   /// Member documentation.
@@ -81,7 +125,7 @@ class ElevationProvider {
     final double distSq = dLat * dLat + dLng * dLng;
     final double fujiDist = math.sqrt(distSq);
     
-    // Mount Fuji geographic simulation
+    // Reference elevation peak simulation
     if (fujiDist < 0.25) {
       elev += 3776.0 * math.exp(-fujiDist * fujiDist / (0.04 * 0.04));
     }
@@ -97,6 +141,28 @@ class ElevationProvider {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Projects geodetic WGS84 coordinates and horizon contours onto 2D viewport
+/// canvas coordinates for the 3D scene viewport under ARINC 661 display rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Pre-caches orthonormal camera basis vectors (`_ux`, `_ex`, `_nx`) once upon construction.
+/// - Horizon path generation samples 72 angular steps around the tangent cone when `d2 > r2`.
+///
+/// ## 3. Preconditions
+/// - [camera], [viewportSize], and [screenCenter] must be valid finite values.
+///
+/// ## 4. Postconditions
+/// - Produces deterministic [ProjectedPoint] and horizon [Path] geometry for the active camera frame.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) per point projection; O(1) fixed 72-step loop for horizon path generation.
+/// - Space Complexity: O(1) cached basis scalars.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Clamps horizon tangency calculations when camera radius approaches ellipsoid surface radius.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/CoordinateTransformer]
 class CoordinateTransformer {
   /// Member documentation.
@@ -339,9 +405,52 @@ class CoordinateTransformer {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Immutable composite cache key tuple for memoizing node terrain elevation
+/// samples in [SceneViewState] under ARINC 661 frame-rate determinism rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Value equality holds across `(id, latDeg, lngDeg, astronomicalBody, elevationActive)`.
+///
+/// ## 3. Preconditions
+/// - Tuple components must be valid non-null values.
+///
+/// ## 4. Postconditions
+/// - Serves as an O(1) hash key in `SceneViewState.nodeElevationCache`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) hash and equality check.
+/// - Space Complexity: O(1) 5-field Dart record.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Stale node entries are purged when node IDs leave the active topology set.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/ElevationCacheKey]
 typedef ElevationCacheKey = (String id, double latDeg, double lngDeg, String astronomicalBody, bool elevationActive);
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Observable layout and projection state store for the 3D scene viewport
+/// under DO-178C Level A / ARINC 661 deterministic display update rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - [recalculate] short-circuits when camera, topology identity, and flying state are spatially equivalent.
+/// - De-overlaps node callout rectangles with up to 5 vertical offset iterations (`+16 px` per step).
+///
+/// ## 3. Preconditions
+/// - [recalculate] requires a valid [VirtualCamera] and viewport [Size].
+///
+/// ## 4. Postconditions
+/// - Populates projected node offsets, batched point arrays, horizon path, and label layout positions, then notifies listeners.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(V^2 + E) worst-case for label overlap resolution across V nodes and E links.
+/// - Space Complexity: O(V + E) cached projection and point buffers.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Malformed JSON fields in [SceneViewState.fromJson] fall back to deterministic default camera and layer states.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/SceneViewState]
 class SceneViewState extends ChangeNotifier {
   /// Member documentation.
@@ -692,6 +801,27 @@ class SceneViewState extends ChangeNotifier {
   }
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Composite value key `(text, color)` for caching laid-out [TextPainter]
+/// instances in [SceneViewState] under ARINC 661 HUD rendering rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Value equality and `hashCode` depend strictly on `text` and `color`.
+///
+/// ## 3. Preconditions
+/// - [text] and [color] must be non-null.
+///
+/// ## 4. Postconditions
+/// - Enables O(1) lookup of pre-laid-out [TextPainter] objects across frames.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) hash and equality check.
+/// - Space Complexity: O(1) two field references.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - None; immutable value key.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/TextPainterKey]
 class TextPainterKey {
   /// Member documentation.
@@ -703,9 +833,52 @@ class TextPainterKey {
   @override int get hashCode => Object.hash(text, color);
 }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Lifecycle state enumeration for asynchronous 3D glTF model asset loading
+/// in [Network3DScene].
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - State transitions follow `unloaded -> loading -> {loaded | error}`.
+///
+/// ## 3. Preconditions
+/// - None.
+///
+/// ## 4. Postconditions
+/// - Identifies whether a node's 3D asset is ready for rendering or fallback symbology.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) enum comparison.
+/// - Space Complexity: O(1) enum singleton.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - `error` state triggers deterministic 2D fallback symbol rendering in [TopologyLayer].
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-10/ModelRenderState]
 enum ModelRenderState { unloaded, loading, loaded, error }
 
+/// ## 1. Safety Intent & Regulatory Scope
+/// Manages asynchronous glTF binary asset loading and PBR material state for
+/// a 3D topology node under DO-178C Level A / ARINC 661 asset safety rules.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - `state == ModelRenderState.loaded` implies `gltfData != null && gltfData!.isNotEmpty`.
+/// - [applyPbrMaterials] enables translucency only when `state == ModelRenderState.loaded`.
+///
+/// ## 3. Preconditions
+/// - `modelPath` passed to [loadModel] must be a valid asset bundle key.
+///
+/// ## 4. Postconditions
+/// - Transitions [state] to `loaded` or `error` and returns boolean success status.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(B) where B is the asset byte length loaded from [rootBundle].
+/// - Space Complexity: O(B) for [gltfData] buffer storage.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Empty path, empty asset buffer, or bundle load exception transitions [state] to `ModelRenderState.error` and returns `false`.
+///
+/// ## 7. Realization & Traceability
 /// Realises: [Feat-002/Network3DScene]
 class Network3DScene {
   Uint8List? gltfData;

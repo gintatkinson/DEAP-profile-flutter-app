@@ -9,17 +9,49 @@ export 'package:app_flutter/core/theme/app_themes.dart' show Arinc661ReticleBord
 export 'package:app_flutter/features/properties/property_grid.dart'
     show ProvenanceCitationBadge, ZeroCeilingAnnunciatorBadge;
 
+/// ARINC 661 reticle-framed workspace panel that wraps [PropertyGrid] and renders
+/// an Operational Use Case Action Bar for high-level entity command dispatch.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// - **DO-178C DAL-A / ARINC 661 Standard**: Frames operator property editing
+///   and operational command actuation (`UC-03: Configure Location`,
+///   `UC-10: Drill Hierarchy`, `UC-15: Provision NE`) inside a high-contrast
+///   [Arinc661ReticleBorder] with explicit status feedback messaging.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - **Target Node Fallback Resolution**: Every operational action resolves its
+///   target node identifier via $\text{targetId} = \text{currentNodeId} ?? \text{activeView}$,
+///   guaranteeing non-null target dispatch.
+/// - **Reactive ViewModel Binding**: When a [PropertiesViewModel] is supplied
+///   either directly or via [Provider], the panel rebuilds deterministically via
+///   [ListenableBuilder] on every state transition.
+///
+/// ## 3. Preconditions
+/// - Must be mounted inside a [MaterialApp] / [Theme] hierarchy providing
+///   [ColorScheme] and [TextTheme] tokens.
+///
+/// ## 4. Postconditions
+/// - Renders the `properties_panel_reticle_frame` container housing the
+///   `use_case_action_bar_container`, optional `properties_action_status_message`
+///   banner, and an expanded [PropertyGrid] (or custom [child]).
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - **Time Complexity**: $\mathcal{O}(|F|)$ where $|F|$ is the number of
+///   [FieldDescriptor] items delegated to [PropertyGrid].
+/// - **Space Complexity**: $\mathcal{O}(1)$ panel wrapper state overhead.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - If no [PropertiesViewModel] is registered in the ancestor [Provider] context,
+///   `_resolveViewModel` catches the lookup exception and falls back cleanly to
+///   local [fields] and [initialValues] props.
+///
+/// ## 7. Realization & Traceability
+/// - **Layer**: Layer 3 (Presentation & Actuator Interface Binding)
+///
 /// Realises: [Feat-10/PropertiesPanel]
 /// Realises: [UC-03]
 /// Realises: [UC-10]
 /// Realises: [UC-15]
-///
-/// Workspace panel widget that wraps [PropertyGrid] and renders an Operational
-/// Use Case Action Bar toolbar framed with [Arinc661ReticleBorder].
-///
-/// Exists to allow operators to trigger high-level operational actions
-/// (`Configure Location`, `Drill Hierarchy`, `Provision NE`) directly from the
-/// properties panel while viewing or editing property fields.
 @immutable
 class PropertiesPanel extends StatelessWidget {
   /// Creates a [PropertiesPanel].
