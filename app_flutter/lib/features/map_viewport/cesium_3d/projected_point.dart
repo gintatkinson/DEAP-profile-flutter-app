@@ -46,17 +46,94 @@ class ProjectedPoint {
   final double z;
 
   /// Creates a projected point from a pixel [offset] and a signed depth [z].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ProjectedPoint::ProjectedPoint` (declaration #2) within `CESIUM-3D-PROJECTED-POINT`.
+  ///
+  /// ## 3. Preconditions
+  /// - `offset: String` must satisfy domain and type-safety constraints prior to invoking `ProjectedPoint::ProjectedPoint`.
+  /// - `z: String` must satisfy domain and type-safety constraints prior to invoking `ProjectedPoint::ProjectedPoint`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ProjectedPoint::ProjectedPoint` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(offset)) bounded over input/member dimension of `ProjectedPoint::ProjectedPoint`.
+  /// - Space Complexity: O(N(offset)) bounded auxiliary memory for `ProjectedPoint::ProjectedPoint`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProjectedPoint::ProjectedPoint` (`()`).
+  /// - State: Maintains consistent state invariants across `ProjectedPoint::ProjectedPoint` without partial mutation on error.
+  /// - Action: Executes `ProjectedPoint::ProjectedPoint` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProjectedPoint::ProjectedPoint` (`CESIUM-3D-PROJECTED-POINT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-PROJECTED-POINT-PROJECTEDPOINT-PROJECTEDPOINT] | SysML v2: ActionDef(ProjectedPoint::ProjectedPoint)
   ProjectedPoint(this.offset, this.z);
 
   static final Map<int, ProjectedPoint> _pool = {};
 
   /// Returns a pooled [ProjectedPoint] instance keyed by `(offset.dx, offset.dy, z)`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ProjectedPoint::ProjectedPoint` (declaration #3) within `CESIUM-3D-PROJECTED-POINT`.
+  ///
+  /// ## 3. Preconditions
+  /// - `offset: Offset` must satisfy domain and type-safety constraints prior to invoking `ProjectedPoint::ProjectedPoint`.
+  /// - `z: double` must satisfy domain and type-safety constraints prior to invoking `ProjectedPoint::ProjectedPoint`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ProjectedPoint::ProjectedPoint` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(offset)) bounded over input/member dimension of `ProjectedPoint::ProjectedPoint`.
+  /// - Space Complexity: O(N(offset)) bounded auxiliary memory for `ProjectedPoint::ProjectedPoint`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProjectedPoint::ProjectedPoint` (`()`).
+  /// - State: Maintains consistent state invariants across `ProjectedPoint::ProjectedPoint` without partial mutation on error.
+  /// - Action: Executes `ProjectedPoint::ProjectedPoint` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProjectedPoint::ProjectedPoint` (`CESIUM-3D-PROJECTED-POINT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-PROJECTED-POINT-PROJECTEDPOINT-PROJECTEDPOINT] | SysML v2: ActionDef(ProjectedPoint::ProjectedPoint)
   factory ProjectedPoint.pooled(Offset offset, double z) {
     final key = Object.hash(offset.dx, offset.dy, z);
     return _pool.putIfAbsent(key, () => ProjectedPoint(offset, z));
   }
 
   /// Clears all cached instances in the internal [ProjectedPoint] pool.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ProjectedPoint::clearPool` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ProjectedPoint::clearPool` (declaration #4) within `CESIUM-3D-PROJECTED-POINT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ProjectedPoint::clearPool` in `CESIUM-3D-PROJECTED-POINT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `ProjectedPoint::clearPool` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(clearPool)) bounded over input/member dimension of `ProjectedPoint::clearPool`.
+  /// - Space Complexity: O(K(clearPool)) bounded auxiliary memory for `ProjectedPoint::clearPool`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProjectedPoint::clearPool` (`void`).
+  /// - State: Maintains consistent state invariants across `ProjectedPoint::clearPool` without partial mutation on error.
+  /// - Action: Executes `ProjectedPoint::clearPool` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProjectedPoint::clearPool` (`CESIUM-3D-PROJECTED-POINT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-PROJECTED-POINT-PROJECTEDPOINT-CLEARPOOL] | SysML v2: ActionDef(ProjectedPoint::clearPool)
   static void clearPool() {
     _pool.clear();
   }

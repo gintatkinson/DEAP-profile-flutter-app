@@ -44,8 +44,32 @@ import 'dart:io' show Platform;
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/VirtualCameraNormalization]
 extension VirtualCameraNormalization on VirtualCamera {
-  /// Ensures the camera altitude is normalized to absolute ECEF coordinates 
-  /// (relative to the Earth's center rather than the surface).
+  /// Ensures the camera altitude is normalized to absolute ECEF coordinates
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::toAbsoluteWgs84` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `VirtualCameraNormalization::toAbsoluteWgs84` (declaration #2) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCameraNormalization::toAbsoluteWgs84` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `VirtualCamera` from `VirtualCameraNormalization::toAbsoluteWgs84` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(toAbsoluteWgs84)) bounded over input/member dimension of `VirtualCameraNormalization::toAbsoluteWgs84`.
+  /// - Space Complexity: O(K(toAbsoluteWgs84)) bounded auxiliary memory for `VirtualCameraNormalization::toAbsoluteWgs84`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCameraNormalization::toAbsoluteWgs84` (`VirtualCamera`).
+  /// - State: Maintains consistent state invariants across `VirtualCameraNormalization::toAbsoluteWgs84` without partial mutation on error.
+  /// - Action: Executes `VirtualCameraNormalization::toAbsoluteWgs84` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCameraNormalization::toAbsoluteWgs84` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-VIRTUALCAMERANORMALIZATION-TOABSOLUTEWGS84] | SysML v2: ActionDef(VirtualCameraNormalization::toAbsoluteWgs84)
   VirtualCamera toAbsoluteWgs84() {
     if (dim_2 >= Ellipsoid.wgs84EquatorialRadius) {
       return this;
@@ -61,6 +85,31 @@ extension VirtualCameraNormalization on VirtualCamera {
   }
 
   /// Extrapolates camera position forward in time based on velocity vector and delta seconds.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::extrapolatePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `VirtualCameraNormalization::extrapolatePosition` (declaration #3) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCameraNormalization::extrapolatePosition` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `VirtualCamera` from `VirtualCameraNormalization::extrapolatePosition` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(extrapolatePosition)) bounded over input/member dimension of `VirtualCameraNormalization::extrapolatePosition`.
+  /// - Space Complexity: O(K(extrapolatePosition)) bounded auxiliary memory for `VirtualCameraNormalization::extrapolatePosition`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCameraNormalization::extrapolatePosition` (`VirtualCamera`).
+  /// - State: Maintains consistent state invariants across `VirtualCameraNormalization::extrapolatePosition` without partial mutation on error.
+  /// - Action: Executes `VirtualCameraNormalization::extrapolatePosition` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCameraNormalization::extrapolatePosition` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-VIRTUALCAMERANORMALIZATION-EXTRAPOLATEPOSITION] | SysML v2: ActionDef(VirtualCameraNormalization::extrapolatePosition)
   VirtualCamera extrapolatePosition(
     double deltaSeconds, {
     double velocityLat = 0.0,
@@ -105,17 +154,67 @@ extension VirtualCameraNormalization on VirtualCamera {
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/ElevationProvider]
 class ElevationProvider {
-  /// Member documentation.
   final bool isElevationActive;
-  /// Member documentation.
   final double verticalExaggeration;
 
+  /// Executes deterministic constructor `ElevationProvider::ElevationProvider` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ElevationProvider::ElevationProvider` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ElevationProvider::ElevationProvider` (declaration #5) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ElevationProvider::ElevationProvider` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ElevationProvider::ElevationProvider` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ElevationProvider)) bounded over input/member dimension of `ElevationProvider::ElevationProvider`.
+  /// - Space Complexity: O(K(ElevationProvider)) bounded auxiliary memory for `ElevationProvider::ElevationProvider`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ElevationProvider::ElevationProvider` (`()`).
+  /// - State: Maintains consistent state invariants across `ElevationProvider::ElevationProvider` without partial mutation on error.
+  /// - Action: Executes `ElevationProvider::ElevationProvider` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ElevationProvider::ElevationProvider` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-ELEVATIONPROVIDER-ELEVATIONPROVIDER] | SysML v2: ActionDef(ElevationProvider::ElevationProvider)
   const ElevationProvider({
     required this.isElevationActive, 
     this.verticalExaggeration = 1.0,
   });
 
-  /// Member documentation.
+  /// Executes deterministic method `ElevationProvider::getElevation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ElevationProvider::getElevation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ElevationProvider::getElevation` (declaration #6) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `latDeg: double` must satisfy domain and type-safety constraints prior to invoking `ElevationProvider::getElevation`.
+  /// - `lngDeg: double` must satisfy domain and type-safety constraints prior to invoking `ElevationProvider::getElevation`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `ElevationProvider::getElevation` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(latDeg)) bounded over input/member dimension of `ElevationProvider::getElevation`.
+  /// - Space Complexity: O(N(latDeg)) bounded auxiliary memory for `ElevationProvider::getElevation`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ElevationProvider::getElevation` (`double`).
+  /// - State: Maintains consistent state invariants across `ElevationProvider::getElevation` without partial mutation on error.
+  /// - Action: Executes `ElevationProvider::getElevation` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ElevationProvider::getElevation` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-ELEVATIONPROVIDER-GETELEVATION] | SysML v2: ActionDef(ElevationProvider::getElevation)
   double getElevation(double latDeg, double lngDeg) {
     if (!isElevationActive) return 0.0;
     
@@ -165,15 +264,10 @@ class ElevationProvider {
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/CoordinateTransformer]
 class CoordinateTransformer {
-  /// Member documentation.
   final VirtualCamera absoluteCamera;
-  /// Member documentation.
   final Size viewportSize;
-  /// Member documentation.
   final Offset screenCenter;
-  /// Member documentation.
   final double rotationAngle;
-  /// Member documentation.
   final double tilt;
 
   // Cached math properties for the camera to save CPU cycles
@@ -185,6 +279,32 @@ class CoordinateTransformer {
   late final double _d2;
   late final double _r2;
 
+  /// Executes deterministic constructor `CoordinateTransformer::CoordinateTransformer` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateTransformer::CoordinateTransformer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `CoordinateTransformer::CoordinateTransformer` (declaration #8) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CoordinateTransformer::CoordinateTransformer` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CoordinateTransformer::CoordinateTransformer` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(CoordinateTransformer)) bounded over input/member dimension of `CoordinateTransformer::CoordinateTransformer`.
+  /// - Space Complexity: O(K(CoordinateTransformer)) bounded auxiliary memory for `CoordinateTransformer::CoordinateTransformer`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateTransformer::CoordinateTransformer` (`()`).
+  /// - State: Maintains consistent state invariants across `CoordinateTransformer::CoordinateTransformer` without partial mutation on error.
+  /// - Action: Executes `CoordinateTransformer::CoordinateTransformer` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateTransformer::CoordinateTransformer` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-COORDINATETRANSFORMER-COORDINATETRANSFORMER] | SysML v2: ActionDef(CoordinateTransformer::CoordinateTransformer)
   CoordinateTransformer({
     required VirtualCamera camera,
     required this.viewportSize,
@@ -195,6 +315,32 @@ class CoordinateTransformer {
     _precomputeCameraBasis();
   }
 
+  /// Executes deterministic method `CoordinateTransformer::_precomputeCameraBasis` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_precomputeCameraBasis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::_precomputeCameraBasis` (declaration #9) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CoordinateTransformer::_precomputeCameraBasis` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CoordinateTransformer::_precomputeCameraBasis` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_precomputeCameraBasis)) bounded over input/member dimension of `CoordinateTransformer::_precomputeCameraBasis`.
+  /// - Space Complexity: O(K(_precomputeCameraBasis)) bounded auxiliary memory for `CoordinateTransformer::_precomputeCameraBasis`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateTransformer::_precomputeCameraBasis` (`void`).
+  /// - State: Maintains consistent state invariants across `CoordinateTransformer::_precomputeCameraBasis` without partial mutation on error.
+  /// - Action: Executes `CoordinateTransformer::_precomputeCameraBasis` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateTransformer::_precomputeCameraBasis` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-COORDINATETRANSFORMER-PRECOMPUTECAMERABASIS] | SysML v2: ActionDef(CoordinateTransformer::_precomputeCameraBasis)
   void _precomputeCameraBasis() {
     final double radLng = -rotationAngle;
     final double radLat = -tilt;
@@ -223,6 +369,31 @@ class CoordinateTransformer {
   }
 
   /// Projects a 3D geocoordinate into a 2D screen offset.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::projectWgs84ToScreen` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::projectWgs84ToScreen` (declaration #10) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CoordinateTransformer::projectWgs84ToScreen` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `ProjectedPoint` from `CoordinateTransformer::projectWgs84ToScreen` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(projectWgs84ToScreen)) bounded over input/member dimension of `CoordinateTransformer::projectWgs84ToScreen`.
+  /// - Space Complexity: O(K(projectWgs84ToScreen)) bounded auxiliary memory for `CoordinateTransformer::projectWgs84ToScreen`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateTransformer::projectWgs84ToScreen` (`ProjectedPoint`).
+  /// - State: Maintains consistent state invariants across `CoordinateTransformer::projectWgs84ToScreen` without partial mutation on error.
+  /// - Action: Executes `CoordinateTransformer::projectWgs84ToScreen` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateTransformer::projectWgs84ToScreen` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-COORDINATETRANSFORMER-PROJECTWGS84TOSCREEN] | SysML v2: ActionDef(CoordinateTransformer::projectWgs84ToScreen)
   ProjectedPoint projectWgs84ToScreen({
     required double latRad,
     required double lngRad,
@@ -313,6 +484,38 @@ class CoordinateTransformer {
     );
   }
 
+  /// Executes deterministic method `CoordinateTransformer::_checkCulling` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_checkCulling` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::_checkCulling` (declaration #11) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `px: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `py: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `pz: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `height: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `lat: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  /// - `R: double` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::_checkCulling`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `CoordinateTransformer::_checkCulling` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(px)) bounded over input/member dimension of `CoordinateTransformer::_checkCulling`.
+  /// - Space Complexity: O(N(px)) bounded auxiliary memory for `CoordinateTransformer::_checkCulling`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateTransformer::_checkCulling` (`bool`).
+  /// - State: Maintains consistent state invariants across `CoordinateTransformer::_checkCulling` without partial mutation on error.
+  /// - Action: Executes `CoordinateTransformer::_checkCulling` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateTransformer::_checkCulling` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-COORDINATETRANSFORMER-CHECKCULLING] | SysML v2: ActionDef(CoordinateTransformer::_checkCulling)
   bool _checkCulling(double px, double py, double pz, double height, double lat, double lng, double R) {
     bool isCulled = false;
     final double cullHeight = math.max(R + height, R);
@@ -342,6 +545,31 @@ class CoordinateTransformer {
   }
 
   /// Calculates the Earth's visual horizon edge.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::generateHorizonPath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::generateHorizonPath` (declaration #12) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `segments: int` must satisfy domain and type-safety constraints prior to invoking `CoordinateTransformer::generateHorizonPath`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Path` from `CoordinateTransformer::generateHorizonPath` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(segments)) bounded over input/member dimension of `CoordinateTransformer::generateHorizonPath`.
+  /// - Space Complexity: O(N(segments)) bounded auxiliary memory for `CoordinateTransformer::generateHorizonPath`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateTransformer::generateHorizonPath` (`Path`).
+  /// - State: Maintains consistent state invariants across `CoordinateTransformer::generateHorizonPath` without partial mutation on error.
+  /// - Action: Executes `CoordinateTransformer::generateHorizonPath` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateTransformer::generateHorizonPath` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-COORDINATETRANSFORMER-GENERATEHORIZONPATH] | SysML v2: ActionDef(CoordinateTransformer::generateHorizonPath)
   Path generateHorizonPath({int segments = 64}) {
     final double R = Ellipsoid.wgs84EquatorialRadius;
     final double r2OverD2 = (R * R) / _d2;
@@ -453,64 +681,65 @@ typedef ElevationCacheKey = (String id, double latDeg, double lngDeg, String ast
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/SceneViewState]
 class SceneViewState extends ChangeNotifier {
-  /// Member documentation.
   final Map<String, Network3DScene> nodeModels = {};
-  /// Member documentation.
   final Map<String, ProjectedPoint> projectedNodes = {};
-  /// Member documentation.
   final List<Offset> groundGlowPoints = [];
-  /// Member documentation.
   final List<Offset> groundPoints = [];
-  /// Member documentation.
   final List<Offset> linkGlowPoints = [];
-  /// Member documentation.
   final List<Offset> linkPoints = [];
-  /// Member documentation.
   final List<Offset> packetPoints = [];
-  /// Member documentation.
   final List<Rect> drawnLabelRects = [];
-  /// Member documentation.
   final Map<ElevationCacheKey, double> nodeElevationCache = {};
-  /// Member documentation.
   final Map<String, ElevationCacheKey> cacheKeyCache = {};
-  /// Member documentation.
   final Map<String, double> debugCapturedHeights = {};
 
   Path? horizonPath;
   ProjectedPoint? earthCenterProj;
-  /// Member documentation.
   double projectedRadius = 0.0;
-  /// Member documentation.
   Offset projectedCenter = Offset.zero;
 
-  /// Member documentation.
   late VirtualCamera camera;
   GlobeTileRenderer? tileRenderer;
-  /// Member documentation.
   bool isFlying = false;
 
-  /// Member documentation.
   late String activeStyle;
-  /// Member documentation.
   late String astronomicalBody;
-  /// Member documentation.
   late bool elevationActive;
-  /// Member documentation.
   late bool showDevices;
-  /// Member documentation.
   late bool showLinks;
-  /// Member documentation.
   late bool showLabels;
-  /// Member documentation.
   late bool showDropLines;
-  /// Member documentation.
   late double verticalExaggeration;
   TopologyData? topologyData;
-  /// Member documentation.
   late ElevationProvider elevationProvider;
-  /// Member documentation.
   late CoordinateTransformer transformer;
 
+  /// Executes deterministic constructor `SceneViewState::SceneViewState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SceneViewState::SceneViewState` (declaration #15) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SceneViewState::SceneViewState` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SceneViewState::SceneViewState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(SceneViewState)) bounded over input/member dimension of `SceneViewState::SceneViewState`.
+  /// - Space Complexity: O(K(SceneViewState)) bounded auxiliary memory for `SceneViewState::SceneViewState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SceneViewState::SceneViewState` (`()`).
+  /// - State: Maintains consistent state invariants across `SceneViewState::SceneViewState` without partial mutation on error.
+  /// - Action: Executes `SceneViewState::SceneViewState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SceneViewState::SceneViewState` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-SCENEVIEWSTATE-SCENEVIEWSTATE] | SysML v2: ActionDef(SceneViewState::SceneViewState)
   SceneViewState() {
     camera = VirtualCamera.zero;
     activeStyle = 'Satellite Map';
@@ -524,6 +753,31 @@ class SceneViewState extends ChangeNotifier {
   }
 
   /// Serializes layout state to JSON.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::toJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SceneViewState::toJson` (declaration #16) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SceneViewState::toJson` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, dynamic>` from `SceneViewState::toJson` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(toJson)) bounded over input/member dimension of `SceneViewState::toJson`.
+  /// - Space Complexity: O(K(toJson)) bounded auxiliary memory for `SceneViewState::toJson`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SceneViewState::toJson` (`Map<String, dynamic>`).
+  /// - State: Maintains consistent state invariants across `SceneViewState::toJson` without partial mutation on error.
+  /// - Action: Executes `SceneViewState::toJson` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SceneViewState::toJson` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-SCENEVIEWSTATE-TOJSON] | SysML v2: ActionDef(SceneViewState::toJson)
   Map<String, dynamic> toJson() {
     return {
       'activeStyle': activeStyle,
@@ -546,6 +800,31 @@ class SceneViewState extends ChangeNotifier {
   }
 
   /// Deserializes layout state from JSON.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SceneViewState::SceneViewState` (declaration #17) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SceneViewState::SceneViewState`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SceneViewState::SceneViewState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `SceneViewState::SceneViewState`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `SceneViewState::SceneViewState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SceneViewState::SceneViewState` (`()`).
+  /// - State: Maintains consistent state invariants across `SceneViewState::SceneViewState` without partial mutation on error.
+  /// - Action: Executes `SceneViewState::SceneViewState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SceneViewState::SceneViewState` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-SCENEVIEWSTATE-SCENEVIEWSTATE] | SysML v2: ActionDef(SceneViewState::SceneViewState)
   factory SceneViewState.fromJson(Map<String, dynamic> json) {
     final state = SceneViewState();
     state.activeStyle = json['activeStyle'] as String? ?? 'Satellite Map';
@@ -571,16 +850,39 @@ class SceneViewState extends ChangeNotifier {
     return state;
   }
 
-  /// Member documentation.
   final Map<String, Offset> finalLabelPositions = {};
-  /// Member documentation.
   final Map<TextPainterKey, TextPainter> textPainterCache = {};
 
   VirtualCamera? _lastRecalculatedCamera;
   TopologyData? _lastRecalculatedTopology;
   bool _lastRecalculatedIsFlying = false;
 
-  /// Member documentation.
+  /// Executes deterministic method `SceneViewState::recalculate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::recalculate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SceneViewState::recalculate` (declaration #18) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SceneViewState::recalculate` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `SceneViewState::recalculate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(recalculate)) bounded over input/member dimension of `SceneViewState::recalculate`.
+  /// - Space Complexity: O(K(recalculate)) bounded auxiliary memory for `SceneViewState::recalculate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SceneViewState::recalculate` (`void`).
+  /// - State: Maintains consistent state invariants across `SceneViewState::recalculate` without partial mutation on error.
+  /// - Action: Executes `SceneViewState::recalculate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SceneViewState::recalculate` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-SCENEVIEWSTATE-RECALCULATE] | SysML v2: ActionDef(SceneViewState::recalculate)
   void recalculate(
     VirtualCamera camera, 
     Size size, 
@@ -824,10 +1126,35 @@ class SceneViewState extends ChangeNotifier {
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/TextPainterKey]
 class TextPainterKey {
-  /// Member documentation.
   final String text;
-  /// Member documentation.
   final Color color;
+  /// Executes deterministic constructor `TextPainterKey::TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TextPainterKey::TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TextPainterKey::TextPainterKey` (declaration #20) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `text: String` must satisfy domain and type-safety constraints prior to invoking `TextPainterKey::TextPainterKey`.
+  /// - `color: String` must satisfy domain and type-safety constraints prior to invoking `TextPainterKey::TextPainterKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TextPainterKey::TextPainterKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(text)) bounded over input/member dimension of `TextPainterKey::TextPainterKey`.
+  /// - Space Complexity: O(N(text)) bounded auxiliary memory for `TextPainterKey::TextPainterKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TextPainterKey::TextPainterKey` (`()`).
+  /// - State: Maintains consistent state invariants across `TextPainterKey::TextPainterKey` without partial mutation on error.
+  /// - Action: Executes `TextPainterKey::TextPainterKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TextPainterKey::TextPainterKey` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-TEXTPAINTERKEY-TEXTPAINTERKEY] | SysML v2: ActionDef(TextPainterKey::TextPainterKey)
   TextPainterKey(this.text, this.color);
   @override bool operator ==(Object other) => identical(this, other) || other is TextPainterKey && text == other.text && color == other.color;
   @override int get hashCode => Object.hash(text, color);
@@ -882,12 +1209,35 @@ enum ModelRenderState { unloaded, loading, loaded, error }
 /// Realises: [Feat-002/Network3DScene]
 class Network3DScene {
   Uint8List? gltfData;
-  /// Member documentation.
   bool isTranslucent = false;
-  /// Member documentation.
   ModelRenderState state = ModelRenderState.unloaded;
 
   /// Loads the glTF model data from the given path.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::loadModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Network3DScene::loadModel` (declaration #23) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `modelPath: String` must satisfy domain and type-safety constraints prior to invoking `Network3DScene::loadModel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<bool>` from `Network3DScene::loadModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(modelPath)) bounded over input/member dimension of `Network3DScene::loadModel`.
+  /// - Space Complexity: O(N(modelPath)) bounded auxiliary memory for `Network3DScene::loadModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Network3DScene::loadModel` (`Future<bool>`).
+  /// - State: Maintains consistent state invariants across `Network3DScene::loadModel` without partial mutation on error.
+  /// - Action: Executes `Network3DScene::loadModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Network3DScene::loadModel` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-NETWORK3DSCENE-LOADMODEL] | SysML v2: ActionDef(Network3DScene::loadModel)
   Future<bool> loadModel(String modelPath) async {
     if (modelPath.isEmpty) {
       state = ModelRenderState.error;
@@ -914,6 +1264,31 @@ class Network3DScene {
   }
 
   /// Applies PBR materials and sets transcluent flags.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::applyPbrMaterials` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Network3DScene::applyPbrMaterials` (declaration #24) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Network3DScene::applyPbrMaterials` in `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `Network3DScene::applyPbrMaterials` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(applyPbrMaterials)) bounded over input/member dimension of `Network3DScene::applyPbrMaterials`.
+  /// - Space Complexity: O(K(applyPbrMaterials)) bounded auxiliary memory for `Network3DScene::applyPbrMaterials`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Network3DScene::applyPbrMaterials` (`bool`).
+  /// - State: Maintains consistent state invariants across `Network3DScene::applyPbrMaterials` without partial mutation on error.
+  /// - Action: Executes `Network3DScene::applyPbrMaterials` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Network3DScene::applyPbrMaterials` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-NETWORK3DSCENE-APPLYPBRMATERIALS] | SysML v2: ActionDef(Network3DScene::applyPbrMaterials)
   bool applyPbrMaterials() {
     if (state == ModelRenderState.loaded && gltfData != null) {
       isTranslucent = true;

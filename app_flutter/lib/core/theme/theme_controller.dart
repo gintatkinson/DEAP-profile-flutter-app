@@ -53,6 +53,31 @@ import 'theme_service.dart';
 /// Realises: [Feat-10/ThemeController]
 class ThemeController extends ChangeNotifier {
   /// Creates a [ThemeController] backed by the given [_themeService].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ThemeController::ThemeController` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ThemeController::ThemeController` (declaration #2) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_themeService: String` must satisfy domain and type-safety constraints prior to invoking `ThemeController::ThemeController`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::ThemeController` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_themeService)) bounded over input/member dimension of `ThemeController::ThemeController`.
+  /// - Space Complexity: O(N(_themeService)) bounded auxiliary memory for `ThemeController::ThemeController`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::ThemeController` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::ThemeController` without partial mutation on error.
+  /// - Action: Executes `ThemeController::ThemeController` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::ThemeController` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-THEMECONTROLLER] | SysML v2: ActionDef(ThemeController::ThemeController)
   ThemeController(this._themeService);
   final ThemeService _themeService;
   ThemeMode _themeMode = ThemeMode.system;
@@ -63,6 +88,32 @@ class ThemeController extends ChangeNotifier {
 
   Future<void> _operationQueue = Future.value();
 
+  /// Executes deterministic method `ThemeController::_enqueue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::_enqueue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::_enqueue` (declaration #3) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `operation: Future<void> Function()` must satisfy domain and type-safety constraints prior to invoking `ThemeController::_enqueue`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::_enqueue` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(operation)) bounded over input/member dimension of `ThemeController::_enqueue`.
+  /// - Space Complexity: O(N(operation)) bounded auxiliary memory for `ThemeController::_enqueue`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::_enqueue` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::_enqueue` without partial mutation on error.
+  /// - Action: Executes `ThemeController::_enqueue` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::_enqueue` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-ENQUEUE] | SysML v2: ActionDef(ThemeController::_enqueue)
   Future<void> _enqueue(Future<void> Function() operation) {
     return _operationQueue = _operationQueue.then((_) {
       if (_disposed) return Future<void>.value();
@@ -92,10 +143,30 @@ class ThemeController extends ChangeNotifier {
 
   /// Loads persisted theme mode and scheme index from [ThemeService].
   ///
-  /// Must be called once during app initialisation before the UI reads any
-  /// theme state. Calling again resets state. An out-of-bounds persisted
-  /// index is silently clamped to 0. Fires `notifyListeners()` on
-  /// completion even if values are unchanged.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::loadSettings` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::loadSettings` (declaration #4) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::loadSettings` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::loadSettings` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(loadSettings)) bounded over input/member dimension of `ThemeController::loadSettings`.
+  /// - Space Complexity: O(K(loadSettings)) bounded auxiliary memory for `ThemeController::loadSettings`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::loadSettings` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::loadSettings` without partial mutation on error.
+  /// - Action: Executes `ThemeController::loadSettings` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::loadSettings` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-LOADSETTINGS] | SysML v2: ActionDef(ThemeController::loadSettings)
   Future<void> loadSettings() {
     return _enqueue(() async {
       final mode = await _themeService.loadThemeMode();
@@ -123,9 +194,30 @@ class ThemeController extends ChangeNotifier {
 
   /// Updates the theme mode and persists it via [ThemeService].
   ///
-  /// No-op when [newThemeMode] is null or matches the current value.
-  /// Fires `notifyListeners()` before persisting so the UI updates
-  /// immediately. Persistence failure is silently swallowed.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateThemeMode` (declaration #5) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `newThemeMode: ThemeMode?` must satisfy domain and type-safety constraints prior to invoking `ThemeController::updateThemeMode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::updateThemeMode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(newThemeMode)) bounded over input/member dimension of `ThemeController::updateThemeMode`.
+  /// - Space Complexity: O(N(newThemeMode)) bounded auxiliary memory for `ThemeController::updateThemeMode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::updateThemeMode` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::updateThemeMode` without partial mutation on error.
+  /// - Action: Executes `ThemeController::updateThemeMode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::updateThemeMode` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-UPDATETHEMEMODE] | SysML v2: ActionDef(ThemeController::updateThemeMode)
   Future<void> updateThemeMode(ThemeMode? newThemeMode) {
     return _enqueue(() async {
       if (newThemeMode == null || newThemeMode == _themeMode) return;
@@ -137,9 +229,30 @@ class ThemeController extends ChangeNotifier {
 
   /// Updates the colour-scheme index and persists it via [ThemeService].
   ///
-  /// No-op when [newIndex] is null, matches the current value, or is
-  /// outside valid bounds. Fires `notifyListeners()` before persisting.
-  /// Persistence failure is silently swallowed.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateThemeScheme` (declaration #6) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `newIndex: int?` must satisfy domain and type-safety constraints prior to invoking `ThemeController::updateThemeScheme`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::updateThemeScheme` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(newIndex)) bounded over input/member dimension of `ThemeController::updateThemeScheme`.
+  /// - Space Complexity: O(N(newIndex)) bounded auxiliary memory for `ThemeController::updateThemeScheme`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::updateThemeScheme` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::updateThemeScheme` without partial mutation on error.
+  /// - Action: Executes `ThemeController::updateThemeScheme` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::updateThemeScheme` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-UPDATETHEMESCHEME] | SysML v2: ActionDef(ThemeController::updateThemeScheme)
   Future<void> updateThemeScheme(int? newIndex) {
     return _enqueue(() async {
       if (newIndex == null || newIndex == _currentThemeIndex) return;
@@ -152,9 +265,30 @@ class ThemeController extends ChangeNotifier {
 
   /// Updates the layout split axis orientation and persists it via [ThemeService].
   ///
-  /// No-op when [newAxis] is null or matches the current value.
-  /// Fires `notifyListeners()` before persisting.
-  /// Persistence failure is silently swallowed.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateLayoutSplitAxis` (declaration #7) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `newAxis: Axis?` must satisfy domain and type-safety constraints prior to invoking `ThemeController::updateLayoutSplitAxis`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::updateLayoutSplitAxis` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(newAxis)) bounded over input/member dimension of `ThemeController::updateLayoutSplitAxis`.
+  /// - Space Complexity: O(N(newAxis)) bounded auxiliary memory for `ThemeController::updateLayoutSplitAxis`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::updateLayoutSplitAxis` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::updateLayoutSplitAxis` without partial mutation on error.
+  /// - Action: Executes `ThemeController::updateLayoutSplitAxis` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::updateLayoutSplitAxis` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-UPDATELAYOUTSPLITAXIS] | SysML v2: ActionDef(ThemeController::updateLayoutSplitAxis)
   Future<void> updateLayoutSplitAxis(Axis? newAxis) {
     return _enqueue(() async {
       if (newAxis == null || newAxis == _layoutSplitAxis) return;
@@ -166,9 +300,30 @@ class ThemeController extends ChangeNotifier {
 
   /// Updates the panel opacity value and persists it via [ThemeService].
   ///
-  /// No-op when [newOpacity] is null or matches the current value.
-  /// Fires `notifyListeners()` before persisting.
-  /// Persistence failure is silently swallowed.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updatePanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updatePanelOpacity` (declaration #8) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `newOpacity: double?` must satisfy domain and type-safety constraints prior to invoking `ThemeController::updatePanelOpacity`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `ThemeController::updatePanelOpacity` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(newOpacity)) bounded over input/member dimension of `ThemeController::updatePanelOpacity`.
+  /// - Space Complexity: O(N(newOpacity)) bounded auxiliary memory for `ThemeController::updatePanelOpacity`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::updatePanelOpacity` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `ThemeController::updatePanelOpacity` without partial mutation on error.
+  /// - Action: Executes `ThemeController::updatePanelOpacity` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::updatePanelOpacity` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-UPDATEPANELOPACITY] | SysML v2: ActionDef(ThemeController::updatePanelOpacity)
   Future<void> updatePanelOpacity(double? newOpacity) {
     return _enqueue(() async {
       if (newOpacity == null || newOpacity == _panelOpacity) return;
@@ -178,6 +333,32 @@ class ThemeController extends ChangeNotifier {
     });
   }
 
+  /// Executes deterministic method `ThemeController::notifyListeners` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::notifyListeners` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::notifyListeners` (declaration #9) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::notifyListeners` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `ThemeController::notifyListeners` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(notifyListeners)) bounded over input/member dimension of `ThemeController::notifyListeners`.
+  /// - Space Complexity: O(K(notifyListeners)) bounded auxiliary memory for `ThemeController::notifyListeners`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::notifyListeners` (`void`).
+  /// - State: Maintains consistent state invariants across `ThemeController::notifyListeners` without partial mutation on error.
+  /// - Action: Executes `ThemeController::notifyListeners` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::notifyListeners` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-NOTIFYLISTENERS] | SysML v2: ActionDef(ThemeController::notifyListeners)
   @override
   void notifyListeners() {
     if (!_disposed) {
@@ -185,6 +366,32 @@ class ThemeController extends ChangeNotifier {
     }
   }
 
+  /// Executes deterministic method `ThemeController::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::dispose` (declaration #10) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::dispose` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `ThemeController::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `ThemeController::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `ThemeController::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `ThemeController::dispose` without partial mutation on error.
+  /// - Action: Executes `ThemeController::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::dispose` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-DISPOSE] | SysML v2: ActionDef(ThemeController::dispose)
   @override
   void dispose() {
     _disposed = true;

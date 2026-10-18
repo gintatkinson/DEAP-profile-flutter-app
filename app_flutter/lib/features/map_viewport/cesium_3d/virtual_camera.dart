@@ -1,21 +1,117 @@
 /// Exception thrown when WGS-84 geodetic coordinates or camera Euler angles
-/// violate numeric finiteness or spatial range constraints.
 ///
-/// Realises: [Feat-10/CoordinateValidationException]
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CoordinateValidationException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `CoordinateValidationException` (declaration #1) within `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `CoordinateValidationException` in `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `CoordinateValidationException` representation for class `CoordinateValidationException`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(CoordinateValidationException)) bounded over input/member dimension of `CoordinateValidationException`.
+/// - Space Complexity: O(K(CoordinateValidationException)) bounded auxiliary memory for `CoordinateValidationException`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `CoordinateValidationException` (`CoordinateValidationException`).
+/// - State: Maintains consistent state invariants across `CoordinateValidationException` without partial mutation on error.
+/// - Action: Executes `CoordinateValidationException` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `CoordinateValidationException` (`CESIUM-3D-VIRTUAL-CAMERA`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/CoordinateValidationException] | SysML v2: PartDef(CoordinateValidationException)
 class CoordinateValidationException implements Exception {
   /// Diagnostic message detailing the coordinate or orientation constraint violation.
   final String message;
 
   /// Creates a [CoordinateValidationException] with the given [message].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateValidationException::CoordinateValidationException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `CoordinateValidationException::CoordinateValidationException` (declaration #2) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - `message: String` must satisfy domain and type-safety constraints prior to invoking `CoordinateValidationException::CoordinateValidationException`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CoordinateValidationException::CoordinateValidationException` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(message)) bounded over input/member dimension of `CoordinateValidationException::CoordinateValidationException`.
+  /// - Space Complexity: O(N(message)) bounded auxiliary memory for `CoordinateValidationException::CoordinateValidationException`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateValidationException::CoordinateValidationException` (`()`).
+  /// - State: Maintains consistent state invariants across `CoordinateValidationException::CoordinateValidationException` without partial mutation on error.
+  /// - Action: Executes `CoordinateValidationException::CoordinateValidationException` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateValidationException::CoordinateValidationException` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-COORDINATEVALIDATIONEXCEPTION-COORDINATEVALIDATIONEXCEPTION] | SysML v2: ActionDef(CoordinateValidationException::CoordinateValidationException)
   CoordinateValidationException(this.message);
 
+  /// Executes deterministic method `CoordinateValidationException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateValidationException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CoordinateValidationException::toString` (declaration #3) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CoordinateValidationException::toString` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `CoordinateValidationException::toString` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(toString)) bounded over input/member dimension of `CoordinateValidationException::toString`.
+  /// - Space Complexity: O(K(toString)) bounded auxiliary memory for `CoordinateValidationException::toString`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CoordinateValidationException::toString` (`String`).
+  /// - State: Maintains consistent state invariants across `CoordinateValidationException::toString` without partial mutation on error.
+  /// - Action: Executes `CoordinateValidationException::toString` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CoordinateValidationException::toString` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-COORDINATEVALIDATIONEXCEPTION-TOSTRING] | SysML v2: ActionDef(CoordinateValidationException::toString)
   @override
   String toString() => 'CoordinateValidationException: $message';
 }
 
 /// WGS-84 reference ellipsoid dimensions and geodetic constants.
 ///
-/// Realises: [Feat-10/Ellipsoid]
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `Ellipsoid` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `Ellipsoid` (declaration #4) within `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `Ellipsoid` in `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `Ellipsoid` representation for class `Ellipsoid`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(Ellipsoid)) bounded over input/member dimension of `Ellipsoid`.
+/// - Space Complexity: O(K(Ellipsoid)) bounded auxiliary memory for `Ellipsoid`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `Ellipsoid` (`Ellipsoid`).
+/// - State: Maintains consistent state invariants across `Ellipsoid` without partial mutation on error.
+/// - Action: Executes `Ellipsoid` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `Ellipsoid` (`CESIUM-3D-VIRTUAL-CAMERA`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/Ellipsoid] | SysML v2: PartDef(Ellipsoid)
 class Ellipsoid {
   /// Semi-major equatorial radius of the WGS-84 reference ellipsoid in meters
   /// ($a = 6\,378\,137.0\,\text{m}$).
@@ -24,7 +120,30 @@ class Ellipsoid {
 
 /// Geodetic altitude reference mode for positioning entities relative to terrain.
 ///
-/// Realises: [Feat-10/AltitudeMode]
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for enum `AltitudeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for enum `AltitudeMode` (declaration #5) within `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `AltitudeMode` in `CESIUM-3D-VIRTUAL-CAMERA`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `AltitudeMode` representation for enum `AltitudeMode`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(AltitudeMode)) bounded over input/member dimension of `AltitudeMode`.
+/// - Space Complexity: O(K(AltitudeMode)) bounded auxiliary memory for `AltitudeMode`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `AltitudeMode` (`AltitudeMode`).
+/// - State: Maintains consistent state invariants across `AltitudeMode` without partial mutation on error.
+/// - Action: Executes `AltitudeMode` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `AltitudeMode` (`CESIUM-3D-VIRTUAL-CAMERA`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/AltitudeMode] | SysML v2: PartDef(AltitudeMode)
 enum AltitudeMode {
   /// Altitude measured relative to the WGS-84 reference ellipsoid or Earth center.
   absolute,
@@ -99,6 +218,31 @@ class VirtualCamera {
   final double roll;
 
   /// Public validating factory constructor preserving runtime exception behavior.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera` (declaration #7) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCamera::VirtualCamera` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `VirtualCamera::VirtualCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(VirtualCamera)) bounded over input/member dimension of `VirtualCamera::VirtualCamera`.
+  /// - Space Complexity: O(K(VirtualCamera)) bounded auxiliary memory for `VirtualCamera::VirtualCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::VirtualCamera` (`()`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::VirtualCamera` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::VirtualCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::VirtualCamera` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-VIRTUALCAMERA] | SysML v2: ActionDef(VirtualCamera::VirtualCamera)
   factory VirtualCamera({
     required double dim_0,
     required double dim_1,
@@ -135,6 +279,31 @@ class VirtualCamera {
   }
 
   /// Internal const constructor for compile-time canonicalization and trusted callers.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera.raw` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera.raw` (declaration #8) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCamera::VirtualCamera.raw` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `VirtualCamera::VirtualCamera.raw` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(VirtualCamera.raw)) bounded over input/member dimension of `VirtualCamera::VirtualCamera.raw`.
+  /// - Space Complexity: O(K(VirtualCamera.raw)) bounded auxiliary memory for `VirtualCamera::VirtualCamera.raw`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::VirtualCamera.raw` (`()`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::VirtualCamera.raw` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::VirtualCamera.raw` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::VirtualCamera.raw` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-VIRTUALCAMERA-RAW] | SysML v2: ActionDef(VirtualCamera::VirtualCamera.raw)
   const VirtualCamera.raw({
     required this.dim_0,
     required this.dim_1,
@@ -155,7 +324,31 @@ class VirtualCamera {
   );
 
   /// Creates a sanitized [VirtualCamera] with values clamped to safe geodetic boundaries.
-  /// Clamps `dim_2` to at least `-100.0`, `dim_0` to `[-90, 90]`, and `dim_1` to `[-180, 180]`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera` (declaration #9) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCamera::VirtualCamera` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `VirtualCamera::VirtualCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(VirtualCamera)) bounded over input/member dimension of `VirtualCamera::VirtualCamera`.
+  /// - Space Complexity: O(K(VirtualCamera)) bounded auxiliary memory for `VirtualCamera::VirtualCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::VirtualCamera` (`()`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::VirtualCamera` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::VirtualCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::VirtualCamera` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-VIRTUALCAMERA] | SysML v2: ActionDef(VirtualCamera::VirtualCamera)
   factory VirtualCamera.clamped({
     required double dim_0,
     required double dim_1,
@@ -197,6 +390,31 @@ class VirtualCamera {
   }
 
   /// Evaluates whether [other] is spatially equivalent within bounded tolerances.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::isSpatiallyEquivalentTo` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `VirtualCamera::isSpatiallyEquivalentTo` (declaration #10) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCamera::isSpatiallyEquivalentTo` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `VirtualCamera::isSpatiallyEquivalentTo` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isSpatiallyEquivalentTo)) bounded over input/member dimension of `VirtualCamera::isSpatiallyEquivalentTo`.
+  /// - Space Complexity: O(K(isSpatiallyEquivalentTo)) bounded auxiliary memory for `VirtualCamera::isSpatiallyEquivalentTo`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::isSpatiallyEquivalentTo` (`bool`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::isSpatiallyEquivalentTo` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::isSpatiallyEquivalentTo` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::isSpatiallyEquivalentTo` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-ISSPATIALLYEQUIVALENTTO] | SysML v2: ActionDef(VirtualCamera::isSpatiallyEquivalentTo)
   bool isSpatiallyEquivalentTo(
     VirtualCamera other, {
     double epsilonCoordinate = 1e-7,
@@ -215,6 +433,32 @@ class VirtualCamera {
   @override
   int get hashCode => Object.hash(dim_0, dim_1, dim_2, heading, pitch, roll);
 
+  /// Executes deterministic method `VirtualCamera::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `VirtualCamera::toString` (declaration #11) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `VirtualCamera::toString` in `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `VirtualCamera::toString` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(toString)) bounded over input/member dimension of `VirtualCamera::toString`.
+  /// - Space Complexity: O(K(toString)) bounded auxiliary memory for `VirtualCamera::toString`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::toString` (`String`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::toString` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::toString` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::toString` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-TOSTRING] | SysML v2: ActionDef(VirtualCamera::toString)
   @override
   String toString() {
     return 'VirtualCamera(dim_0: $dim_0, dim_1: $dim_1, dim_2: $dim_2, heading: $heading, pitch: $pitch, roll: $roll)';

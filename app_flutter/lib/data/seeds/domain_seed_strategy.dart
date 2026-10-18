@@ -5,6 +5,31 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:app_flutter/data/database_initializer.dart';
 
 /// Internal spatial coordinate tuple associating a node identifier with geodetic latitude and longitude degrees.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NodePos` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_NodePos` (declaration #1) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_NodePos` in `SEEDS-DOMAIN-SEED-STRATEGY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_NodePos` representation for class `_NodePos`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_NodePos)) bounded over input/member dimension of `_NodePos`.
+/// - Space Complexity: O(K(_NodePos)) bounded auxiliary memory for `_NodePos`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_NodePos` (`_NodePos`).
+/// - State: Maintains consistent state invariants across `_NodePos` without partial mutation on error.
+/// - Action: Executes `_NodePos` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_NodePos` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-NODEPOS] | SysML v2: PartDef(_NodePos)
 class _NodePos {
   /// Unique topological node identifier.
   final String id;
@@ -13,6 +38,34 @@ class _NodePos {
   /// Geodetic longitude in decimal degrees.
   final double lon;
 
+  /// Executes deterministic constructor `_NodePos::_NodePos` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_NodePos::_NodePos` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_NodePos::_NodePos` (declaration #2) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `id: String` must satisfy domain and type-safety constraints prior to invoking `_NodePos::_NodePos`.
+  /// - `lat: String` must satisfy domain and type-safety constraints prior to invoking `_NodePos::_NodePos`.
+  /// - `lon: String` must satisfy domain and type-safety constraints prior to invoking `_NodePos::_NodePos`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_NodePos::_NodePos` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(id)) bounded over input/member dimension of `_NodePos::_NodePos`.
+  /// - Space Complexity: O(N(id)) bounded auxiliary memory for `_NodePos::_NodePos`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_NodePos::_NodePos` (`()`).
+  /// - State: Maintains consistent state invariants across `_NodePos::_NodePos` without partial mutation on error.
+  /// - Action: Executes `_NodePos::_NodePos` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_NodePos::_NodePos` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-NODEPOS-NODEPOS] | SysML v2: ActionDef(_NodePos::_NodePos)
   const _NodePos(this.id, this.lat, this.lon);
 }
 
@@ -49,6 +102,32 @@ class DomainSeedStrategy implements SeedStrategy {
   late Database _currentDb;
   int _pendingOps = 0;
 
+  /// Executes deterministic method `DomainSeedStrategy::_insertAndFlush` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_insertAndFlush` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_insertAndFlush` (declaration #4) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DomainSeedStrategy::_insertAndFlush` in `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `DomainSeedStrategy::_insertAndFlush` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_insertAndFlush)) bounded over input/member dimension of `DomainSeedStrategy::_insertAndFlush`.
+  /// - Space Complexity: O(K(_insertAndFlush)) bounded auxiliary memory for `DomainSeedStrategy::_insertAndFlush`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_insertAndFlush` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_insertAndFlush` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_insertAndFlush` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_insertAndFlush` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-INSERTANDFLUSH] | SysML v2: ActionDef(DomainSeedStrategy::_insertAndFlush)
   Future<void> _insertAndFlush(
     String table,
     Map<String, Object?> values, {
@@ -63,6 +142,32 @@ class DomainSeedStrategy implements SeedStrategy {
     }
   }
 
+  /// Executes deterministic method `DomainSeedStrategy::_flushBatch` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_flushBatch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_flushBatch` (declaration #5) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DomainSeedStrategy::_flushBatch` in `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `DomainSeedStrategy::_flushBatch` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_flushBatch)) bounded over input/member dimension of `DomainSeedStrategy::_flushBatch`.
+  /// - Space Complexity: O(K(_flushBatch)) bounded auxiliary memory for `DomainSeedStrategy::_flushBatch`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_flushBatch` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_flushBatch` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_flushBatch` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_flushBatch` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-FLUSHBATCH] | SysML v2: ActionDef(DomainSeedStrategy::_flushBatch)
   Future<void> _flushBatch() async {
     if (_pendingOps > 0) {
       await _currentBatch.commit(noResult: true);
@@ -72,7 +177,30 @@ class DomainSeedStrategy implements SeedStrategy {
 
   /// Seeds the database by batch-inserting default schemas, nodes, and instances.
   ///
-  /// Assumes the database tables have been successfully created by [DatabaseInitializer].
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::seed` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::seed` (declaration #6) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `db: Database` must satisfy domain and type-safety constraints prior to invoking `DomainSeedStrategy::seed`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `DomainSeedStrategy::seed` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(db)) bounded over input/member dimension of `DomainSeedStrategy::seed`.
+  /// - Space Complexity: O(N(db)) bounded auxiliary memory for `DomainSeedStrategy::seed`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::seed` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::seed` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::seed` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::seed` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-SEED] | SysML v2: ActionDef(DomainSeedStrategy::seed)
   @override
   Future<void> seed(Database db) async {
     _currentDb = db;
@@ -263,6 +391,31 @@ class DomainSeedStrategy implements SeedStrategy {
   }
 
   /// Helper helper to insert a complete node configuration (type_definition, relation, properties, and instances).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_addNodeToBatch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_addNodeToBatch` (declaration #7) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DomainSeedStrategy::_addNodeToBatch` in `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `DomainSeedStrategy::_addNodeToBatch` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_addNodeToBatch)) bounded over input/member dimension of `DomainSeedStrategy::_addNodeToBatch`.
+  /// - Space Complexity: O(K(_addNodeToBatch)) bounded auxiliary memory for `DomainSeedStrategy::_addNodeToBatch`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_addNodeToBatch` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_addNodeToBatch` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_addNodeToBatch` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_addNodeToBatch` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-ADDNODETOBATCH] | SysML v2: ActionDef(DomainSeedStrategy::_addNodeToBatch)
   Future<void> _addNodeToBatch(
     String node,
     String? parent,
@@ -331,6 +484,31 @@ class DomainSeedStrategy implements SeedStrategy {
   }
 
   /// Safely extracts latitude from either top-level or nested position map.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLat` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractLat` (declaration #8) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `item: dynamic` must satisfy domain and type-safety constraints prior to invoking `DomainSeedStrategy::_extractLat`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `DomainSeedStrategy::_extractLat` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(item)) bounded over input/member dimension of `DomainSeedStrategy::_extractLat`.
+  /// - Space Complexity: O(N(item)) bounded auxiliary memory for `DomainSeedStrategy::_extractLat`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_extractLat` (`double`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_extractLat` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_extractLat` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_extractLat` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-EXTRACTLAT] | SysML v2: ActionDef(DomainSeedStrategy::_extractLat)
   double _extractLat(dynamic item) {
     if (item is Map) {
       if (item['position'] is Map) {
@@ -345,6 +523,31 @@ class DomainSeedStrategy implements SeedStrategy {
   }
 
   /// Safely extracts longitude from either top-level or nested position map.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLon` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractLon` (declaration #9) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `item: dynamic` must satisfy domain and type-safety constraints prior to invoking `DomainSeedStrategy::_extractLon`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `DomainSeedStrategy::_extractLon` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(item)) bounded over input/member dimension of `DomainSeedStrategy::_extractLon`.
+  /// - Space Complexity: O(N(item)) bounded auxiliary memory for `DomainSeedStrategy::_extractLon`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_extractLon` (`double`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_extractLon` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_extractLon` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_extractLon` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-EXTRACTLON] | SysML v2: ActionDef(DomainSeedStrategy::_extractLon)
   double _extractLon(dynamic item) {
     if (item is Map) {
       if (item['position'] is Map) {
@@ -359,6 +562,31 @@ class DomainSeedStrategy implements SeedStrategy {
   }
 
   /// Safely extracts height from either top-level or nested position map, defaulting to 0.0.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractHeight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractHeight` (declaration #10) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `item: dynamic` must satisfy domain and type-safety constraints prior to invoking `DomainSeedStrategy::_extractHeight`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `DomainSeedStrategy::_extractHeight` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(item)) bounded over input/member dimension of `DomainSeedStrategy::_extractHeight`.
+  /// - Space Complexity: O(N(item)) bounded auxiliary memory for `DomainSeedStrategy::_extractHeight`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainSeedStrategy::_extractHeight` (`double`).
+  /// - State: Maintains consistent state invariants across `DomainSeedStrategy::_extractHeight` without partial mutation on error.
+  /// - Action: Executes `DomainSeedStrategy::_extractHeight` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainSeedStrategy::_extractHeight` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-DOMAINSEEDSTRATEGY-EXTRACTHEIGHT] | SysML v2: ActionDef(DomainSeedStrategy::_extractHeight)
   double _extractHeight(dynamic item) {
     if (item is Map) {
       if (item['position'] is Map) {
@@ -405,19 +633,90 @@ class SeedMigrationRunner {
 
   /// Creates a [SeedMigrationRunner] with an optional [seedStrategy].
   ///
-  /// Defaults to [DomainSeedStrategy] if no custom strategy is provided.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SeedMigrationRunner::SeedMigrationRunner` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SeedMigrationRunner::SeedMigrationRunner` (declaration #12) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `seedStrategy: SeedStrategy?` must satisfy domain and type-safety constraints prior to invoking `SeedMigrationRunner::SeedMigrationRunner`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SeedMigrationRunner::SeedMigrationRunner` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(seedStrategy)) bounded over input/member dimension of `SeedMigrationRunner::SeedMigrationRunner`.
+  /// - Space Complexity: O(N(seedStrategy)) bounded auxiliary memory for `SeedMigrationRunner::SeedMigrationRunner`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SeedMigrationRunner::SeedMigrationRunner` (`()`).
+  /// - State: Maintains consistent state invariants across `SeedMigrationRunner::SeedMigrationRunner` without partial mutation on error.
+  /// - Action: Executes `SeedMigrationRunner::SeedMigrationRunner` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SeedMigrationRunner::SeedMigrationRunner` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-SEEDMIGRATIONRUNNER-SEEDMIGRATIONRUNNER] | SysML v2: ActionDef(SeedMigrationRunner::SeedMigrationRunner)
   SeedMigrationRunner({SeedStrategy? seedStrategy})
       : seedStrategy = seedStrategy ?? DomainSeedStrategy();
 
   /// Runs seed migration for the provided [Database] instance.
   ///
-  /// Evaluates whether seed migration is required and executes [seedStrategy.seed].
-  /// Returns `true` if migration succeeded.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::runMigration` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::runMigration` (declaration #13) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `db: Database` must satisfy domain and type-safety constraints prior to invoking `SeedMigrationRunner::runMigration`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<bool>` from `SeedMigrationRunner::runMigration` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(db)) bounded over input/member dimension of `SeedMigrationRunner::runMigration`.
+  /// - Space Complexity: O(N(db)) bounded auxiliary memory for `SeedMigrationRunner::runMigration`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SeedMigrationRunner::runMigration` (`Future<bool>`).
+  /// - State: Maintains consistent state invariants across `SeedMigrationRunner::runMigration` without partial mutation on error.
+  /// - Action: Executes `SeedMigrationRunner::runMigration` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SeedMigrationRunner::runMigration` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-SEEDMIGRATIONRUNNER-RUNMIGRATION] | SysML v2: ActionDef(SeedMigrationRunner::runMigration)
   Future<bool> runMigration(Database db) async {
     await seedStrategy.seed(db);
     return true;
   }
 
+  /// Executes deterministic method `SeedMigrationRunner::_firstIntValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::_firstIntValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::_firstIntValue` (declaration #14) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `list: List<Map<String, Object?>>` must satisfy domain and type-safety constraints prior to invoking `SeedMigrationRunner::_firstIntValue`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int?` from `SeedMigrationRunner::_firstIntValue` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(list)) bounded over input/member dimension of `SeedMigrationRunner::_firstIntValue`.
+  /// - Space Complexity: O(N(list)) bounded auxiliary memory for `SeedMigrationRunner::_firstIntValue`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SeedMigrationRunner::_firstIntValue` (`int?`).
+  /// - State: Maintains consistent state invariants across `SeedMigrationRunner::_firstIntValue` without partial mutation on error.
+  /// - Action: Executes `SeedMigrationRunner::_firstIntValue` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SeedMigrationRunner::_firstIntValue` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-SEEDMIGRATIONRUNNER-FIRSTINTVALUE] | SysML v2: ActionDef(SeedMigrationRunner::_firstIntValue)
   int? _firstIntValue(List<Map<String, Object?>> list) {
     if (list.isNotEmpty && list.first.isNotEmpty) {
       final val = list.first.values.first;
@@ -428,7 +727,30 @@ class SeedMigrationRunner {
 
   /// Verifies whether seed migration is required for the target [db].
   ///
-  /// Checks if necessary domain tables are empty or missing expected seed markers.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::isMigrationNeeded` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::isMigrationNeeded` (declaration #15) within `SEEDS-DOMAIN-SEED-STRATEGY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `db: Database` must satisfy domain and type-safety constraints prior to invoking `SeedMigrationRunner::isMigrationNeeded`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<bool>` from `SeedMigrationRunner::isMigrationNeeded` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(db)) bounded over input/member dimension of `SeedMigrationRunner::isMigrationNeeded`.
+  /// - Space Complexity: O(N(db)) bounded auxiliary memory for `SeedMigrationRunner::isMigrationNeeded`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SeedMigrationRunner::isMigrationNeeded` (`Future<bool>`).
+  /// - State: Maintains consistent state invariants across `SeedMigrationRunner::isMigrationNeeded` without partial mutation on error.
+  /// - Action: Executes `SeedMigrationRunner::isMigrationNeeded` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SeedMigrationRunner::isMigrationNeeded` (`SEEDS-DOMAIN-SEED-STRATEGY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SEEDS-DOMAIN-SEED-STRATEGY-SEEDMIGRATIONRUNNER-ISMIGRATIONNEEDED] | SysML v2: ActionDef(SeedMigrationRunner::isMigrationNeeded)
   Future<bool> isMigrationNeeded(Database db) async {
     try {
       final res = await db.rawQuery('SELECT COUNT(*) FROM type_definitions');

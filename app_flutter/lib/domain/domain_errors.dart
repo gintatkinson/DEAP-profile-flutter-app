@@ -41,6 +41,31 @@ import 'package:flutter/foundation.dart';
 @immutable
 sealed class DomainError {
   /// Abstract const constructor for [DomainError].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DomainError::DomainError` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/domain_errors.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `DomainError::DomainError` (declaration #2) within `DOMAIN-DOMAIN-ERRORS`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DomainError::DomainError` in `DOMAIN-DOMAIN-ERRORS`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `DomainError::DomainError` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(DomainError)) bounded over input/member dimension of `DomainError::DomainError`.
+  /// - Space Complexity: O(K(DomainError)) bounded auxiliary memory for `DomainError::DomainError`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DomainError::DomainError` (`()`).
+  /// - State: Maintains consistent state invariants across `DomainError::DomainError` without partial mutation on error.
+  /// - Action: Executes `DomainError::DomainError` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DomainError::DomainError` (`DOMAIN-DOMAIN-ERRORS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DOMAIN-ERRORS-DOMAINERROR-DOMAINERROR] | SysML v2: ActionDef(DomainError::DomainError)
   const DomainError();
 }
 

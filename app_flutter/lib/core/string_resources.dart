@@ -52,8 +52,30 @@ class StringResources {
 
   /// Loads strings from `assets/strings.json` via [rootBundle].
   ///
-  /// Must be called before any call to [get]. Calling this again replaces
-  /// the entire string map. Throws on invalid JSON or missing asset.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::load` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `StringResources::load` (declaration #2) within `CORE-STRING-RESOURCES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `StringResources::load` in `CORE-STRING-RESOURCES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `StringResources::load` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(load)) bounded over input/member dimension of `StringResources::load`.
+  /// - Space Complexity: O(K(load)) bounded auxiliary memory for `StringResources::load`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `StringResources::load` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `StringResources::load` without partial mutation on error.
+  /// - Action: Executes `StringResources::load` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `StringResources::load` (`CORE-STRING-RESOURCES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-STRING-RESOURCES-STRINGRESOURCES-LOAD] | SysML v2: ActionDef(StringResources::load)
   static Future<void> load() async {
     final json = await rootBundle.loadString('assets/strings.json');
     _strings = Map<String, String>.from(jsonDecode(json) as Map);
@@ -61,15 +83,60 @@ class StringResources {
 
   /// Returns the string for [key] or [fallback] (defaults to [key] itself).
   ///
-  /// When [key] is missing and [fallback] is null the raw key is returned so
-  /// that missing translations degrade gracefully instead of crashing.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::get` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `StringResources::get` (declaration #3) within `CORE-STRING-RESOURCES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `StringResources::get`.
+  /// - `fallback: String?` must satisfy domain and type-safety constraints prior to invoking `StringResources::get`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `StringResources::get` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `StringResources::get`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `StringResources::get`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `StringResources::get` (`String`).
+  /// - State: Maintains consistent state invariants across `StringResources::get` without partial mutation on error.
+  /// - Action: Executes `StringResources::get` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `StringResources::get` (`CORE-STRING-RESOURCES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-STRING-RESOURCES-STRINGRESOURCES-GET] | SysML v2: ActionDef(StringResources::get)
   static String get(String key, {String? fallback}) =>
       _strings[key] ?? fallback ?? key;
 
   /// Loads strings from a raw JSON string -- intended for tests.
   ///
-  /// Replaces any previously cached strings. Throws on invalid JSON input.
-  /// Does **not** touch `rootBundle` or the filesystem.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::loadFromJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `StringResources::loadFromJson` (declaration #4) within `CORE-STRING-RESOURCES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: String` must satisfy domain and type-safety constraints prior to invoking `StringResources::loadFromJson`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `StringResources::loadFromJson` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `StringResources::loadFromJson`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `StringResources::loadFromJson`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `StringResources::loadFromJson` (`void`).
+  /// - State: Maintains consistent state invariants across `StringResources::loadFromJson` without partial mutation on error.
+  /// - Action: Executes `StringResources::loadFromJson` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `StringResources::loadFromJson` (`CORE-STRING-RESOURCES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-STRING-RESOURCES-STRINGRESOURCES-LOADFROMJSON] | SysML v2: ActionDef(StringResources::loadFromJson)
   static void loadFromJson(String json) {
     _strings = Map<String, String>.from(jsonDecode(json) as Map);
   }

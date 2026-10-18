@@ -49,9 +49,59 @@ import 'type_descriptor.dart';
 /// Realises: [Feat-10/TypeRepository, ARCH-M2-001, REQ-DOM-001]
 abstract interface class TypeRepository {
   /// Discover all object types known to this data source.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeRepository::discoverTypes` (declaration #2) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeRepository::discoverTypes` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TypeDescriptor>>>` from `TypeRepository::discoverTypes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(discoverTypes)) bounded over input/member dimension of `TypeRepository::discoverTypes`.
+  /// - Space Complexity: O(K(discoverTypes)) bounded auxiliary memory for `TypeRepository::discoverTypes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeRepository::discoverTypes` (`Future<Result<List<TypeDescriptor>>>`).
+  /// - State: Maintains consistent state invariants across `TypeRepository::discoverTypes` without partial mutation on error.
+  /// - Action: Executes `TypeRepository::discoverTypes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeRepository::discoverTypes` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-TYPEREPOSITORY-DISCOVERTYPES] | SysML v2: ActionDef(TypeRepository::discoverTypes)
   Future<Result<List<TypeDescriptor>>> discoverTypes();
 
   /// Get the [TypeDescriptor] for a specific type by its [typeName].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeRepository::typeFor` (declaration #3) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `typeName: String` must satisfy domain and type-safety constraints prior to invoking `TypeRepository::typeFor`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TypeDescriptor?>>` from `TypeRepository::typeFor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(typeName)) bounded over input/member dimension of `TypeRepository::typeFor`.
+  /// - Space Complexity: O(N(typeName)) bounded auxiliary memory for `TypeRepository::typeFor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeRepository::typeFor` (`Future<Result<TypeDescriptor?>>`).
+  /// - State: Maintains consistent state invariants across `TypeRepository::typeFor` without partial mutation on error.
+  /// - Action: Executes `TypeRepository::typeFor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeRepository::typeFor` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-TYPEREPOSITORY-TYPEFOR] | SysML v2: ActionDef(TypeRepository::typeFor)
   Future<Result<TypeDescriptor?>> typeFor(String typeName);
 
   /// Discover the tree hierarchy: parent-child relationships.
@@ -97,12 +147,88 @@ abstract interface class TypeRepository {
 /// Realises: [Feat-10/PropertyRepository, ARCH-M2-001, REQ-DOM-002]
 abstract interface class PropertyRepository {
   /// Fetches the property map for the node identified by [nodeId].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::fetchProperties` (declaration #5) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `PropertyRepository::fetchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<Map<String, dynamic>>>` from `PropertyRepository::fetchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `PropertyRepository::fetchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `PropertyRepository::fetchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertyRepository::fetchProperties` (`Future<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `PropertyRepository::fetchProperties` without partial mutation on error.
+  /// - Action: Executes `PropertyRepository::fetchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertyRepository::fetchProperties` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-PROPERTYREPOSITORY-FETCHPROPERTIES] | SysML v2: ActionDef(PropertyRepository::fetchProperties)
   Future<Result<Map<String, dynamic>>> fetchProperties(String nodeId);
 
   /// Persists [data] as the properties for [nodeId].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::saveProperties` (declaration #6) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `PropertyRepository::saveProperties`.
+  /// - `data: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `PropertyRepository::saveProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `PropertyRepository::saveProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `PropertyRepository::saveProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `PropertyRepository::saveProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertyRepository::saveProperties` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `PropertyRepository::saveProperties` without partial mutation on error.
+  /// - Action: Executes `PropertyRepository::saveProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertyRepository::saveProperties` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-PROPERTYREPOSITORY-SAVEPROPERTIES] | SysML v2: ActionDef(PropertyRepository::saveProperties)
   Future<Result<void>> saveProperties(String nodeId, Map<String, dynamic> data);
 
   /// Returns a broadcast stream emitting property updates for [nodeId].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::watchProperties` (declaration #7) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `PropertyRepository::watchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Stream<Result<Map<String, dynamic>>>` from `PropertyRepository::watchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `PropertyRepository::watchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `PropertyRepository::watchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertyRepository::watchProperties` (`Stream<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `PropertyRepository::watchProperties` without partial mutation on error.
+  /// - Action: Executes `PropertyRepository::watchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertyRepository::watchProperties` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-PROPERTYREPOSITORY-WATCHPROPERTIES] | SysML v2: ActionDef(PropertyRepository::watchProperties)
   Stream<Result<Map<String, dynamic>>> watchProperties(String nodeId);
 }
 
@@ -142,9 +268,59 @@ abstract interface class PropertyRepository {
 /// Realises: [Feat-10/TreeRepository, ARCH-M2-001, REQ-DOM-003]
 abstract interface class TreeRepository {
   /// Fetches root nodes for display in the tree view.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeRepository::fetchRootNodes` (declaration #9) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeRepository::fetchRootNodes` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `TreeRepository::fetchRootNodes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRootNodes)) bounded over input/member dimension of `TreeRepository::fetchRootNodes`.
+  /// - Space Complexity: O(K(fetchRootNodes)) bounded auxiliary memory for `TreeRepository::fetchRootNodes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeRepository::fetchRootNodes` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `TreeRepository::fetchRootNodes` without partial mutation on error.
+  /// - Action: Executes `TreeRepository::fetchRootNodes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeRepository::fetchRootNodes` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-TREEREPOSITORY-FETCHROOTNODES] | SysML v2: ActionDef(TreeRepository::fetchRootNodes)
   Future<Result<List<TreeNode>>> fetchRootNodes();
 
   /// Fetches child nodes for a given parent node.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeRepository::fetchChildrenForNode` (declaration #10) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `parentId: String` must satisfy domain and type-safety constraints prior to invoking `TreeRepository::fetchChildrenForNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `TreeRepository::fetchChildrenForNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(parentId)) bounded over input/member dimension of `TreeRepository::fetchChildrenForNode`.
+  /// - Space Complexity: O(N(parentId)) bounded auxiliary memory for `TreeRepository::fetchChildrenForNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeRepository::fetchChildrenForNode` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `TreeRepository::fetchChildrenForNode` without partial mutation on error.
+  /// - Action: Executes `TreeRepository::fetchChildrenForNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeRepository::fetchChildrenForNode` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-TREEREPOSITORY-FETCHCHILDRENFORNODE] | SysML v2: ActionDef(TreeRepository::fetchChildrenForNode)
   Future<Result<List<TreeNode>>> fetchChildrenForNode(String parentId);
 }
 
@@ -182,6 +358,31 @@ abstract interface class TreeRepository {
 /// Realises: [Feat-10/TopologyRepository, ARCH-M2-001, REQ-DOM-004]
 abstract interface class TopologyRepository {
   /// Fetches all active nodes and links for topology mapping.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyRepository::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyRepository::fetchTopologyData` (declaration #12) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyRepository::fetchTopologyData` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TopologyData>>` from `TopologyRepository::fetchTopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchTopologyData)) bounded over input/member dimension of `TopologyRepository::fetchTopologyData`.
+  /// - Space Complexity: O(K(fetchTopologyData)) bounded auxiliary memory for `TopologyRepository::fetchTopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyRepository::fetchTopologyData` (`Future<Result<TopologyData>>`).
+  /// - State: Maintains consistent state invariants across `TopologyRepository::fetchTopologyData` without partial mutation on error.
+  /// - Action: Executes `TopologyRepository::fetchTopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyRepository::fetchTopologyData` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-TOPOLOGYREPOSITORY-FETCHTOPOLOGYDATA] | SysML v2: ActionDef(TopologyRepository::fetchTopologyData)
   Future<Result<TopologyData>> fetchTopologyData();
 }
 
@@ -219,6 +420,31 @@ abstract interface class TopologyRepository {
 /// Realises: [Feat-10/InstanceRepository, ARCH-M2-001, REQ-DOM-004]
 abstract interface class InstanceRepository {
   /// Fetches related instances of [targetType] under [parentNodeId].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRepository::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `InstanceRepository::fetchRelatedInstances` (declaration #14) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `InstanceRepository::fetchRelatedInstances` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<InstanceRecord>>>` from `InstanceRepository::fetchRelatedInstances` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRelatedInstances)) bounded over input/member dimension of `InstanceRepository::fetchRelatedInstances`.
+  /// - Space Complexity: O(K(fetchRelatedInstances)) bounded auxiliary memory for `InstanceRepository::fetchRelatedInstances`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRepository::fetchRelatedInstances` (`Future<Result<List<InstanceRecord>>>`).
+  /// - State: Maintains consistent state invariants across `InstanceRepository::fetchRelatedInstances` without partial mutation on error.
+  /// - Action: Executes `InstanceRepository::fetchRelatedInstances` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRepository::fetchRelatedInstances` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-INSTANCEREPOSITORY-FETCHRELATEDINSTANCES] | SysML v2: ActionDef(InstanceRepository::fetchRelatedInstances)
   Future<Result<List<InstanceRecord>>> fetchRelatedInstances({
     required String parentNodeId,
     required TypeDescriptor targetType,

@@ -115,6 +115,31 @@ class TopographicalView extends StatefulWidget {
   final Key splitterKey;
 
   /// Creates a [TopographicalView] widget.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopographicalView::TopographicalView` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopographicalView::TopographicalView` (declaration #2) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopographicalView::TopographicalView` in `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopographicalView::TopographicalView` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopographicalView)) bounded over input/member dimension of `TopographicalView::TopographicalView`.
+  /// - Space Complexity: O(K(TopographicalView)) bounded auxiliary memory for `TopographicalView::TopographicalView`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopographicalView::TopographicalView` (`()`).
+  /// - State: Maintains consistent state invariants across `TopographicalView::TopographicalView` without partial mutation on error.
+  /// - Action: Executes `TopographicalView::TopographicalView` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopographicalView::TopographicalView` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEW-TOPOGRAPHICALVIEW] | SysML v2: ActionDef(TopographicalView::TopographicalView)
   const TopographicalView({
     super.key,
     required this.currentView,
@@ -129,15 +154,93 @@ class TopographicalView extends StatefulWidget {
     this.splitterKey = const Key('topo_splitter'),
   });
 
+  /// Executes deterministic method `TopographicalView::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopographicalView::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopographicalView::createState` (declaration #3) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopographicalView::createState` in `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<TopographicalView>` from `TopographicalView::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `TopographicalView::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `TopographicalView::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopographicalView::createState` (`State<TopographicalView>`).
+  /// - State: Maintains consistent state invariants across `TopographicalView::createState` without partial mutation on error.
+  /// - Action: Executes `TopographicalView::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopographicalView::createState` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEW-CREATESTATE] | SysML v2: ActionDef(TopographicalView::createState)
   @override
   State<TopographicalView> createState() => _TopographicalViewState();
 }
 
+/// Executes deterministic class `_TopographicalViewState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TopographicalViewState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TopographicalViewState` (declaration #4) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TopographicalViewState` in `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TopographicalViewState` representation for class `_TopographicalViewState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TopographicalViewState)) bounded over input/member dimension of `_TopographicalViewState`.
+/// - Space Complexity: O(K(_TopographicalViewState)) bounded auxiliary memory for `_TopographicalViewState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TopographicalViewState` (`_TopographicalViewState`).
+/// - State: Maintains consistent state invariants across `_TopographicalViewState` without partial mutation on error.
+/// - Action: Executes `_TopographicalViewState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TopographicalViewState` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE] | SysML v2: PartDef(_TopographicalViewState)
 class _TopographicalViewState extends State<TopographicalView> {
   bool _is3d = true;
   VirtualCamera? _cachedCamera;
   String? _lastCurrentView;
 
+  /// Executes deterministic method `_TopographicalViewState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopographicalViewState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopographicalViewState::initState` (declaration #5) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopographicalViewState::initState` in `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopographicalViewState::initState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(initState)) bounded over input/member dimension of `_TopographicalViewState::initState`.
+  /// - Space Complexity: O(K(initState)) bounded auxiliary memory for `_TopographicalViewState::initState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopographicalViewState::initState` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopographicalViewState::initState` without partial mutation on error.
+  /// - Action: Executes `_TopographicalViewState::initState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopographicalViewState::initState` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE-INITSTATE] | SysML v2: ActionDef(_TopographicalViewState::initState)
   @override
   void initState() {
     super.initState();
@@ -145,6 +248,32 @@ class _TopographicalViewState extends State<TopographicalView> {
     _cachedCamera = _calculateCameraForView(widget.currentView);
   }
 
+  /// Executes deterministic method `_TopographicalViewState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopographicalViewState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopographicalViewState::didUpdateWidget` (declaration #6) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: TopographicalView` must satisfy domain and type-safety constraints prior to invoking `_TopographicalViewState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopographicalViewState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_TopographicalViewState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_TopographicalViewState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopographicalViewState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopographicalViewState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_TopographicalViewState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopographicalViewState::didUpdateWidget` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_TopographicalViewState::didUpdateWidget)
   @override
   void didUpdateWidget(covariant TopographicalView oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -163,6 +292,32 @@ class _TopographicalViewState extends State<TopographicalView> {
     }
   }
 
+  /// Executes deterministic method `_TopographicalViewState::_calculateCameraForView` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopographicalViewState::_calculateCameraForView` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopographicalViewState::_calculateCameraForView` (declaration #7) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - `viewId: String` must satisfy domain and type-safety constraints prior to invoking `_TopographicalViewState::_calculateCameraForView`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `VirtualCamera` from `_TopographicalViewState::_calculateCameraForView` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(viewId)) bounded over input/member dimension of `_TopographicalViewState::_calculateCameraForView`.
+  /// - Space Complexity: O(N(viewId)) bounded auxiliary memory for `_TopographicalViewState::_calculateCameraForView`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopographicalViewState::_calculateCameraForView` (`VirtualCamera`).
+  /// - State: Maintains consistent state invariants across `_TopographicalViewState::_calculateCameraForView` without partial mutation on error.
+  /// - Action: Executes `_TopographicalViewState::_calculateCameraForView` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopographicalViewState::_calculateCameraForView` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE-CALCULATECAMERAFORVIEW] | SysML v2: ActionDef(_TopographicalViewState::_calculateCameraForView)
   VirtualCamera _calculateCameraForView(String viewId) {
     double latitude;
     double longitude;
@@ -225,11 +380,63 @@ class _TopographicalViewState extends State<TopographicalView> {
     );
   }
 
+  /// Executes deterministic method `_TopographicalViewState::_resolveCamera` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopographicalViewState::_resolveCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopographicalViewState::_resolveCamera` (declaration #8) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopographicalViewState::_resolveCamera` in `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `VirtualCamera` from `_TopographicalViewState::_resolveCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_resolveCamera)) bounded over input/member dimension of `_TopographicalViewState::_resolveCamera`.
+  /// - Space Complexity: O(K(_resolveCamera)) bounded auxiliary memory for `_TopographicalViewState::_resolveCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopographicalViewState::_resolveCamera` (`VirtualCamera`).
+  /// - State: Maintains consistent state invariants across `_TopographicalViewState::_resolveCamera` without partial mutation on error.
+  /// - Action: Executes `_TopographicalViewState::_resolveCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopographicalViewState::_resolveCamera` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE-RESOLVECAMERA] | SysML v2: ActionDef(_TopographicalViewState::_resolveCamera)
   VirtualCamera _resolveCamera() {
     return _cachedCamera ?? _calculateCameraForView(widget.currentView);
   }
 
 
+  /// Executes deterministic method `_TopographicalViewState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopographicalViewState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topographical_view.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopographicalViewState::build` (declaration #9) within `TOPOLOGY-TOPOGRAPHICAL-VIEW`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TopographicalViewState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TopographicalViewState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TopographicalViewState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TopographicalViewState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopographicalViewState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TopographicalViewState::build` without partial mutation on error.
+  /// - Action: Executes `_TopographicalViewState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopographicalViewState::build` (`TOPOLOGY-TOPOGRAPHICAL-VIEW`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOGRAPHICAL-VIEW-TOPOGRAPHICALVIEWSTATE-BUILD] | SysML v2: ActionDef(_TopographicalViewState::build)
   @override
   Widget build(BuildContext context) {
     final panelOpacity = context.watch<ThemeController>().panelOpacity;

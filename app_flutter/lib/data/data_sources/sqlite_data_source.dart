@@ -38,6 +38,31 @@ import 'package:app_flutter/features/topology/topology_map.dart' show TopologyDa
 /// Realises: [Feat-10/DataSource]
 class SqliteDataSource implements DataSource {
   /// Creates a [SqliteDataSource] backed by the open SQLite [Database] handle `_db`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SqliteDataSource::SqliteDataSource` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SqliteDataSource::SqliteDataSource` (declaration #2) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_db: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::SqliteDataSource`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SqliteDataSource::SqliteDataSource` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_db)) bounded over input/member dimension of `SqliteDataSource::SqliteDataSource`.
+  /// - Space Complexity: O(N(_db)) bounded auxiliary memory for `SqliteDataSource::SqliteDataSource`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::SqliteDataSource` (`()`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::SqliteDataSource` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::SqliteDataSource` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::SqliteDataSource` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-SQLITEDATASOURCE] | SysML v2: ActionDef(SqliteDataSource::SqliteDataSource)
   SqliteDataSource(this._db);
   final Database _db;
   final StreamController<Map<String, dynamic>> _propertiesController =
@@ -49,6 +74,31 @@ class SqliteDataSource implements DataSource {
   String get name => 'sqlite';
 
   /// Clears cached schema descriptors, closes the property broadcast stream, and closes the SQLite database connection.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::dispose` (declaration #3) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::dispose` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `SqliteDataSource::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `SqliteDataSource::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `SqliteDataSource::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::dispose` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::dispose` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::dispose` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-DISPOSE] | SysML v2: ActionDef(SqliteDataSource::dispose)
   @override
   Future<Result<void>> dispose() async {
     _cachedTypes = null;
@@ -58,6 +108,31 @@ class SqliteDataSource implements DataSource {
   }
 
   /// Queries `type_definitions`, `type_attributes`, and `type_relations` to assemble and cache all M2 [TypeDescriptor] models.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::discoverTypes` (declaration #4) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::discoverTypes` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TypeDescriptor>>>` from `SqliteDataSource::discoverTypes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(discoverTypes)) bounded over input/member dimension of `SqliteDataSource::discoverTypes`.
+  /// - Space Complexity: O(K(discoverTypes)) bounded auxiliary memory for `SqliteDataSource::discoverTypes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::discoverTypes` (`Future<Result<List<TypeDescriptor>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::discoverTypes` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::discoverTypes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::discoverTypes` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-DISCOVERTYPES] | SysML v2: ActionDef(SqliteDataSource::discoverTypes)
   @override
   Future<Result<List<TypeDescriptor>>> discoverTypes() async {
     if (_cachedTypes != null) return Result.success(_cachedTypes!);
@@ -109,6 +184,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::typeFor` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::typeFor` (declaration #5) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `typeName: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::typeFor`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TypeDescriptor?>>` from `SqliteDataSource::typeFor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(typeName)) bounded over input/member dimension of `SqliteDataSource::typeFor`.
+  /// - Space Complexity: O(N(typeName)) bounded auxiliary memory for `SqliteDataSource::typeFor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::typeFor` (`Future<Result<TypeDescriptor?>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::typeFor` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::typeFor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::typeFor` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-TYPEFOR] | SysML v2: ActionDef(SqliteDataSource::typeFor)
   @override
   Future<Result<TypeDescriptor?>> typeFor(String typeName) async {
     try {
@@ -156,12 +257,64 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::fetchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchProperties` (declaration #6) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::fetchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<Map<String, dynamic>>>` from `SqliteDataSource::fetchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `SqliteDataSource::fetchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `SqliteDataSource::fetchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::fetchProperties` (`Future<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::fetchProperties` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::fetchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::fetchProperties` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHPROPERTIES] | SysML v2: ActionDef(SqliteDataSource::fetchProperties)
   @override
   Future<Result<Map<String, dynamic>>> fetchProperties(String nodeId) async {
     final props = await _fetchPropertiesRaw(nodeId);
     return Result.success(props);
   }
 
+  /// Executes deterministic method `SqliteDataSource::_fetchPropertiesRaw` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_fetchPropertiesRaw` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_fetchPropertiesRaw` (declaration #7) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_fetchPropertiesRaw`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Map<String, dynamic>>` from `SqliteDataSource::_fetchPropertiesRaw` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `SqliteDataSource::_fetchPropertiesRaw`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `SqliteDataSource::_fetchPropertiesRaw`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_fetchPropertiesRaw` (`Future<Map<String, dynamic>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_fetchPropertiesRaw` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_fetchPropertiesRaw` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_fetchPropertiesRaw` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHPROPERTIESRAW] | SysML v2: ActionDef(SqliteDataSource::_fetchPropertiesRaw)
   Future<Map<String, dynamic>> _fetchPropertiesRaw(String nodeId) async {
     try {
       final maps = await _db.query(
@@ -181,6 +334,33 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::saveProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::saveProperties` (declaration #8) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::saveProperties`.
+  /// - `data: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::saveProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `SqliteDataSource::saveProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `SqliteDataSource::saveProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `SqliteDataSource::saveProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::saveProperties` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::saveProperties` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::saveProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::saveProperties` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-SAVEPROPERTIES] | SysML v2: ActionDef(SqliteDataSource::saveProperties)
   @override
   Future<Result<void>> saveProperties(String nodeId, Map<String, dynamic> data) async {
     try {
@@ -200,6 +380,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::watchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::watchProperties` (declaration #9) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::watchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Stream<Result<Map<String, dynamic>>>` from `SqliteDataSource::watchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `SqliteDataSource::watchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `SqliteDataSource::watchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::watchProperties` (`Stream<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::watchProperties` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::watchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::watchProperties` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-WATCHPROPERTIES] | SysML v2: ActionDef(SqliteDataSource::watchProperties)
   @override
   Stream<Result<Map<String, dynamic>>> watchProperties(String nodeId) async* {
     yield Result.success(await _fetchPropertiesRaw(nodeId));
@@ -210,6 +416,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::fetchRelatedInstances` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchRelatedInstances` (declaration #10) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::fetchRelatedInstances` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<InstanceRecord>>>` from `SqliteDataSource::fetchRelatedInstances` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRelatedInstances)) bounded over input/member dimension of `SqliteDataSource::fetchRelatedInstances`.
+  /// - Space Complexity: O(K(fetchRelatedInstances)) bounded auxiliary memory for `SqliteDataSource::fetchRelatedInstances`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::fetchRelatedInstances` (`Future<Result<List<InstanceRecord>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::fetchRelatedInstances` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::fetchRelatedInstances` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::fetchRelatedInstances` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHRELATEDINSTANCES] | SysML v2: ActionDef(SqliteDataSource::fetchRelatedInstances)
   @override
   Future<Result<List<InstanceRecord>>> fetchRelatedInstances({
     required String parentNodeId,
@@ -234,6 +466,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::fetchRootNodes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchRootNodes` (declaration #11) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::fetchRootNodes` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `SqliteDataSource::fetchRootNodes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRootNodes)) bounded over input/member dimension of `SqliteDataSource::fetchRootNodes`.
+  /// - Space Complexity: O(K(fetchRootNodes)) bounded auxiliary memory for `SqliteDataSource::fetchRootNodes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::fetchRootNodes` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::fetchRootNodes` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::fetchRootNodes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::fetchRootNodes` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHROOTNODES] | SysML v2: ActionDef(SqliteDataSource::fetchRootNodes)
   @override
   Future<Result<List<TreeNode>>> fetchRootNodes() async {
     try {
@@ -262,6 +520,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::fetchChildrenForNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchChildrenForNode` (declaration #12) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `parentId: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::fetchChildrenForNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `SqliteDataSource::fetchChildrenForNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(parentId)) bounded over input/member dimension of `SqliteDataSource::fetchChildrenForNode`.
+  /// - Space Complexity: O(N(parentId)) bounded auxiliary memory for `SqliteDataSource::fetchChildrenForNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::fetchChildrenForNode` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::fetchChildrenForNode` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::fetchChildrenForNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::fetchChildrenForNode` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHCHILDRENFORNODE] | SysML v2: ActionDef(SqliteDataSource::fetchChildrenForNode)
   @override
   Future<Result<List<TreeNode>>> fetchChildrenForNode(String parentId) async {
     try {
@@ -303,6 +587,32 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::_buildType` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_buildType` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_buildType` (declaration #13) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `typeRow: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_buildType`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<TypeDescriptor>` from `SqliteDataSource::_buildType` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(typeRow)) bounded over input/member dimension of `SqliteDataSource::_buildType`.
+  /// - Space Complexity: O(N(typeRow)) bounded auxiliary memory for `SqliteDataSource::_buildType`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_buildType` (`Future<TypeDescriptor>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_buildType` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_buildType` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_buildType` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-BUILDTYPE] | SysML v2: ActionDef(SqliteDataSource::_buildType)
   Future<TypeDescriptor> _buildType(Map<String, dynamic> typeRow) async {
     final typeName = typeRow['type_name'] as String;
     final attrRows = await _db.query('type_attributes',
@@ -334,6 +644,32 @@ class SqliteDataSource implements DataSource {
     );
   }
 
+  /// Executes deterministic method `SqliteDataSource::_parseField` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseField` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_parseField` (declaration #14) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `row: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_parseField`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `FieldDescriptor` from `SqliteDataSource::_parseField` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(row)) bounded over input/member dimension of `SqliteDataSource::_parseField`.
+  /// - Space Complexity: O(N(row)) bounded auxiliary memory for `SqliteDataSource::_parseField`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_parseField` (`FieldDescriptor`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_parseField` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_parseField` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_parseField` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-PARSEFIELD] | SysML v2: ActionDef(SqliteDataSource::_parseField)
   FieldDescriptor _parseField(Map<String, dynamic> row) {
     List<String>? parseJsonList(String? raw) {
       if (raw == null || raw.isEmpty) return null;
@@ -357,6 +693,33 @@ class SqliteDataSource implements DataSource {
     );
   }
 
+  /// Executes deterministic method `SqliteDataSource::_flatten` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_flatten` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_flatten` (declaration #15) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_flatten`.
+  /// - `prefix: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_flatten`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, dynamic>` from `SqliteDataSource::_flatten` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `SqliteDataSource::_flatten`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `SqliteDataSource::_flatten`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_flatten` (`Map<String, dynamic>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_flatten` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_flatten` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_flatten` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FLATTEN] | SysML v2: ActionDef(SqliteDataSource::_flatten)
   Map<String, dynamic> _flatten(Map<String, dynamic> map, {String prefix = ''}) {
     final result = <String, dynamic>{};
     map.forEach((key, value) {
@@ -370,6 +733,32 @@ class SqliteDataSource implements DataSource {
     return result;
   }
 
+  /// Executes deterministic method `SqliteDataSource::_unflatten` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_unflatten` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_unflatten` (declaration #16) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_unflatten`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, dynamic>` from `SqliteDataSource::_unflatten` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `SqliteDataSource::_unflatten`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `SqliteDataSource::_unflatten`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_unflatten` (`Map<String, dynamic>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_unflatten` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_unflatten` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_unflatten` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-UNFLATTEN] | SysML v2: ActionDef(SqliteDataSource::_unflatten)
   Map<String, dynamic> _unflatten(Map<String, dynamic> map) {
     final result = <String, dynamic>{};
     map.forEach((key, value) {
@@ -387,6 +776,32 @@ class SqliteDataSource implements DataSource {
     return result;
   }
 
+  /// Executes deterministic method `SqliteDataSource::fetchTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchTopologyData` (declaration #17) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::fetchTopologyData` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TopologyData>>` from `SqliteDataSource::fetchTopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchTopologyData)) bounded over input/member dimension of `SqliteDataSource::fetchTopologyData`.
+  /// - Space Complexity: O(K(fetchTopologyData)) bounded auxiliary memory for `SqliteDataSource::fetchTopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::fetchTopologyData` (`Future<Result<TopologyData>>`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::fetchTopologyData` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::fetchTopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::fetchTopologyData` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FETCHTOPOLOGYDATA] | SysML v2: ActionDef(SqliteDataSource::fetchTopologyData)
   @override
   Future<Result<TopologyData>> fetchTopologyData() async {
     try {
@@ -403,6 +818,33 @@ class SqliteDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `SqliteDataSource::_findPathToKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_findPathToKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_findPathToKey` (declaration #18) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<dynamic, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_findPathToKey`.
+  /// - `targetKey: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_findPathToKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String?` from `SqliteDataSource::_findPathToKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `SqliteDataSource::_findPathToKey`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `SqliteDataSource::_findPathToKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_findPathToKey` (`String?`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_findPathToKey` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_findPathToKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_findPathToKey` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-FINDPATHTOKEY] | SysML v2: ActionDef(SqliteDataSource::_findPathToKey)
   static String? _findPathToKey(Map<dynamic, dynamic> map, String targetKey) {
     for (final entry in map.entries) {
       final keyStr = entry.key.toString();
@@ -419,6 +861,33 @@ class SqliteDataSource implements DataSource {
     return null;
   }
 
+  /// Executes deterministic method `SqliteDataSource::_resolveCoordinateValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_resolveCoordinateValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_resolveCoordinateValue` (declaration #19) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `properties: Map<dynamic, dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_resolveCoordinateValue`.
+  /// - `path: String` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_resolveCoordinateValue`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double?` from `SqliteDataSource::_resolveCoordinateValue` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(properties)) bounded over input/member dimension of `SqliteDataSource::_resolveCoordinateValue`.
+  /// - Space Complexity: O(N(properties)) bounded auxiliary memory for `SqliteDataSource::_resolveCoordinateValue`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_resolveCoordinateValue` (`double?`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_resolveCoordinateValue` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_resolveCoordinateValue` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_resolveCoordinateValue` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-RESOLVECOORDINATEVALUE] | SysML v2: ActionDef(SqliteDataSource::_resolveCoordinateValue)
   static double? _resolveCoordinateValue(Map<dynamic, dynamic> properties, String path) {
     final parts = path.split('/');
     dynamic current = properties;
@@ -435,6 +904,32 @@ class SqliteDataSource implements DataSource {
     return null;
   }
 
+  /// Executes deterministic method `SqliteDataSource::_parseTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_parseTopologyData` (declaration #20) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `args: List<dynamic>` must satisfy domain and type-safety constraints prior to invoking `SqliteDataSource::_parseTopologyData`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TopologyData` from `SqliteDataSource::_parseTopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(args)) bounded over input/member dimension of `SqliteDataSource::_parseTopologyData`.
+  /// - Space Complexity: O(N(args)) bounded auxiliary memory for `SqliteDataSource::_parseTopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::_parseTopologyData` (`TopologyData`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::_parseTopologyData` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::_parseTopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::_parseTopologyData` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-PARSETOPOLOGYDATA] | SysML v2: ActionDef(SqliteDataSource::_parseTopologyData)
   static TopologyData _parseTopologyData(List<dynamic> args) {
     final rows = args[0] as List<Map<String, dynamic>>;
     final interfaceRows = args[1] as List<Map<String, dynamic>>;

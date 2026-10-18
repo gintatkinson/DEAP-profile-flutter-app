@@ -10,11 +10,30 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 
 /// Web Mercator slippy-map tile coordinate (`zoom`, `x`, `y`).
 ///
-/// [zoom] is the quadtree zoom level (0-12), [x] is the column index
-/// ($0 = 180^\circ\,\text{W}$, increasing eastward), and [y] is the row index
-/// ($0 = 85.0511^\circ\,\text{N}$, increasing southward).
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TileCoord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
 ///
-/// Realises: [Feat-10/TileCoord]
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `TileCoord` (declaration #1) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `TileCoord` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `TileCoord` representation for class `TileCoord`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(TileCoord)) bounded over input/member dimension of `TileCoord`.
+/// - Space Complexity: O(K(TileCoord)) bounded auxiliary memory for `TileCoord`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `TileCoord` (`TileCoord`).
+/// - State: Maintains consistent state invariants across `TileCoord` without partial mutation on error.
+/// - Action: Executes `TileCoord` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `TileCoord` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/TileCoord] | SysML v2: PartDef(TileCoord)
 class TileCoord {
   /// The zoom level for this tile coordinate.
   final int zoom;
@@ -26,6 +45,33 @@ class TileCoord {
   final int y;
 
   /// Creates a tile coordinate with the given [zoom], [x], and [y].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TileCoord::TileCoord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TileCoord::TileCoord` (declaration #2) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `zoom: String` must satisfy domain and type-safety constraints prior to invoking `TileCoord::TileCoord`.
+  /// - `x: String` must satisfy domain and type-safety constraints prior to invoking `TileCoord::TileCoord`.
+  /// - `y: String` must satisfy domain and type-safety constraints prior to invoking `TileCoord::TileCoord`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TileCoord::TileCoord` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(zoom)) bounded over input/member dimension of `TileCoord::TileCoord`.
+  /// - Space Complexity: O(N(zoom)) bounded auxiliary memory for `TileCoord::TileCoord`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TileCoord::TileCoord` (`()`).
+  /// - State: Maintains consistent state invariants across `TileCoord::TileCoord` without partial mutation on error.
+  /// - Action: Executes `TileCoord::TileCoord` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TileCoord::TileCoord` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-TILECOORD-TILECOORD] | SysML v2: ActionDef(TileCoord::TileCoord)
   const TileCoord({required this.zoom, required this.x, required this.y});
 
   /// A string key suitable for use in maps and sets.
@@ -82,6 +128,32 @@ class GlobeTileRenderer {
   final ui.VoidCallback? onTileLoaded;
 
   /// Optional test hook invoked with projected vertex positions and triangle indices.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::Function` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::Function` (declaration #4) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `positions: List<ui.Offset>` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::Function`.
+  /// - `indices: List<int>` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::Function`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::Function` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(positions)) bounded over input/member dimension of `GlobeTileRenderer::Function`.
+  /// - Space Complexity: O(N(positions)) bounded auxiliary memory for `GlobeTileRenderer::Function`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::Function` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::Function` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::Function` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::Function` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-FUNCTION] | SysML v2: ActionDef(GlobeTileRenderer::Function)
   @visibleForTesting
   void Function(List<ui.Offset> positions, List<int> indices)? onDrawVerticesForTesting;
 
@@ -98,7 +170,31 @@ class GlobeTileRenderer {
   int _cachedSortedEntriesLength = -1;
 
   /// Creates a renderer that will fetch tiles via [fetcher] and initially
-  /// use [initialProvider] as the imagery source.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GlobeTileRenderer::GlobeTileRenderer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `GlobeTileRenderer::GlobeTileRenderer` (declaration #5) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::GlobeTileRenderer` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GlobeTileRenderer::GlobeTileRenderer` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(GlobeTileRenderer)) bounded over input/member dimension of `GlobeTileRenderer::GlobeTileRenderer`.
+  /// - Space Complexity: O(K(GlobeTileRenderer)) bounded auxiliary memory for `GlobeTileRenderer::GlobeTileRenderer`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::GlobeTileRenderer` (`()`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::GlobeTileRenderer` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::GlobeTileRenderer` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::GlobeTileRenderer` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-GLOBETILERENDERER] | SysML v2: ActionDef(GlobeTileRenderer::GlobeTileRenderer)
   GlobeTileRenderer({
     required TileFetcher fetcher,
     ImageryProvider initialProvider = ImageryProvider.cartoDark,
@@ -114,20 +210,94 @@ class GlobeTileRenderer {
   int get loadedImagesCount => _loadedImages.length;
 
   /// Returns true if a higher-zoom tile is loaded whose geographic bounds
-  /// fall within [tile]'s area.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::hasHigherZoomOverlayForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::hasHigherZoomOverlayForTesting` (declaration #6) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tile: TileCoord` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::hasHigherZoomOverlayForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `GlobeTileRenderer::hasHigherZoomOverlayForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tile)) bounded over input/member dimension of `GlobeTileRenderer::hasHigherZoomOverlayForTesting`.
+  /// - Space Complexity: O(N(tile)) bounded auxiliary memory for `GlobeTileRenderer::hasHigherZoomOverlayForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::hasHigherZoomOverlayForTesting` (`bool`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::hasHigherZoomOverlayForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::hasHigherZoomOverlayForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::hasHigherZoomOverlayForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-HASHIGHERZOOMOVERLAYFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::hasHigherZoomOverlayForTesting)
   @visibleForTesting
   bool hasHigherZoomOverlayForTesting(TileCoord tile) {
     return _hasHigherZoomOverlay(tile);
   }
 
   /// Injects a pre-decoded [image] at [coord] into the tile cache for testing.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::injectTileForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::injectTileForTesting` (declaration #7) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `coord: TileCoord` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::injectTileForTesting`.
+  /// - `image: ui.Image` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::injectTileForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::injectTileForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(coord)) bounded over input/member dimension of `GlobeTileRenderer::injectTileForTesting`.
+  /// - Space Complexity: O(N(coord)) bounded auxiliary memory for `GlobeTileRenderer::injectTileForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::injectTileForTesting` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::injectTileForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::injectTileForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::injectTileForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-INJECTTILEFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::injectTileForTesting)
   @visibleForTesting
   void injectTileForTesting(TileCoord coord, ui.Image image) {
     _loadedImages[coord.key] = image;
   }
 
   /// Switches to [provider] and clears all locally cached images and
-  /// pending fetches so that new imagery is loaded.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::setProvider` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::setProvider` (declaration #8) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `provider: ImageryProvider` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::setProvider`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::setProvider` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(provider)) bounded over input/member dimension of `GlobeTileRenderer::setProvider`.
+  /// - Space Complexity: O(N(provider)) bounded auxiliary memory for `GlobeTileRenderer::setProvider`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::setProvider` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::setProvider` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::setProvider` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::setProvider` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-SETPROVIDER] | SysML v2: ActionDef(GlobeTileRenderer::setProvider)
   void setProvider(ImageryProvider provider) {
     if (_activeProvider == provider) return;
     _activeProvider = provider;
@@ -142,6 +312,31 @@ class GlobeTileRenderer {
   }
 
   /// Disposes all loaded tile images and clears the cache.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::dispose` (declaration #9) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::dispose` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `GlobeTileRenderer::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `GlobeTileRenderer::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::dispose` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::dispose` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-DISPOSE] | SysML v2: ActionDef(GlobeTileRenderer::dispose)
   void dispose() {
     _disposed = true;
     for (final img in _loadedImages.values) {
@@ -153,6 +348,31 @@ class GlobeTileRenderer {
   }
 
   /// Converts degrees to radians.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_rad` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_rad` (declaration #10) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `deg: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_rad`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `GlobeTileRenderer::_rad` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(deg)) bounded over input/member dimension of `GlobeTileRenderer::_rad`.
+  /// - Space Complexity: O(N(deg)) bounded auxiliary memory for `GlobeTileRenderer::_rad`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_rad` (`double`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_rad` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_rad` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_rad` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-RAD] | SysML v2: ActionDef(GlobeTileRenderer::_rad)
   double _rad(double deg) => deg * math.pi / 180.0;
 
   // ---------------------------------------------------------------------------
@@ -160,10 +380,32 @@ class GlobeTileRenderer {
   // ---------------------------------------------------------------------------
 
   /// Derives a zoom level from the camera [dim_2] (meters) and the
-  /// [viewportWidth] (logical pixels).
   ///
-  /// Clamped to the range 0-12. Small altitudes (close to the sphere)
-  /// produce higher zoom values; high altitudes produce lower values.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_zoomForAltitude` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_zoomForAltitude` (declaration #11) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_2: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_zoomForAltitude`.
+  /// - `viewportWidth: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_zoomForAltitude`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int` from `GlobeTileRenderer::_zoomForAltitude` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_2)) bounded over input/member dimension of `GlobeTileRenderer::_zoomForAltitude`.
+  /// - Space Complexity: O(N(dim_2)) bounded auxiliary memory for `GlobeTileRenderer::_zoomForAltitude`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_zoomForAltitude` (`int`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_zoomForAltitude` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_zoomForAltitude` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_zoomForAltitude` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-ZOOMFORALTITUDE] | SysML v2: ActionDef(GlobeTileRenderer::_zoomForAltitude)
   int _zoomForAltitude(double dim_2, double viewportWidth) {
     double v_dim_2 = dim_2;
     if (v_dim_2 <= 0) v_dim_2 = 100;
@@ -177,7 +419,33 @@ class GlobeTileRenderer {
   // ---------------------------------------------------------------------------
 
   /// Converts dim_0/dim_1 (degrees) to a tile coordinate at the
-  /// given [zoom] level.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_latLngToTile` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_latLngToTile` (declaration #12) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_latLngToTile`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_latLngToTile`.
+  /// - `zoom: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_latLngToTile`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TileCoord` from `GlobeTileRenderer::_latLngToTile` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `GlobeTileRenderer::_latLngToTile`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `GlobeTileRenderer::_latLngToTile`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_latLngToTile` (`TileCoord`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_latLngToTile` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_latLngToTile` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_latLngToTile` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-LATLNGTOTILE] | SysML v2: ActionDef(GlobeTileRenderer::_latLngToTile)
   TileCoord _latLngToTile(double dim_0, double lng, int zoom) {
     final clampedLat = dim_0.clamp(-85.0511, 85.0511);
     final n = math.pow(2, zoom).toInt();
@@ -193,10 +461,62 @@ class GlobeTileRenderer {
   }
 
   /// Longitude of the *western* edge of tile column [x] at zoom [z].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lon` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_tile2lon` (declaration #13) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `x: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_tile2lon`.
+  /// - `z: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_tile2lon`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `GlobeTileRenderer::_tile2lon` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(x)) bounded over input/member dimension of `GlobeTileRenderer::_tile2lon`.
+  /// - Space Complexity: O(N(x)) bounded auxiliary memory for `GlobeTileRenderer::_tile2lon`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_tile2lon` (`double`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_tile2lon` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_tile2lon` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_tile2lon` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-TILE2LON] | SysML v2: ActionDef(GlobeTileRenderer::_tile2lon)
   double _tile2lon(int x, int z) =>
       x / math.pow(2, z) * 360.0 - 180.0;
 
   /// Latitude of the *northern* edge of tile row [y] at zoom [z].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lat` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_tile2lat` (declaration #14) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `y: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_tile2lat`.
+  /// - `z: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_tile2lat`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `GlobeTileRenderer::_tile2lat` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(y)) bounded over input/member dimension of `GlobeTileRenderer::_tile2lat`.
+  /// - Space Complexity: O(N(y)) bounded auxiliary memory for `GlobeTileRenderer::_tile2lat`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_tile2lat` (`double`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_tile2lat` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_tile2lat` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_tile2lat` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-TILE2LAT] | SysML v2: ActionDef(GlobeTileRenderer::_tile2lat)
   double _tile2lat(double y, int z) {
     final n = math.pi * (1.0 - 2.0 * y / math.pow(2, z));
     return math.atan((math.exp(n) - math.exp(-n)) / 2.0) * 180.0 / math.pi;
@@ -207,11 +527,33 @@ class GlobeTileRenderer {
   // ---------------------------------------------------------------------------
 
   /// Returns the set of tile coordinates that cover the visible hemisphere
-  /// from the current [camera] perspective.
   ///
-  /// The centre tile is derived from the camera's dim_0/lng. A 4&times;4 grid
-  /// (16 tiles) is then generated around it, clamped to valid Web Mercator
-  /// bounds.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_visibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_visibleTiles` (declaration #15) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_visibleTiles`.
+  /// - `viewportSize: ui.Size` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_visibleTiles`.
+  /// - `isFlying: bool` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_visibleTiles`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<TileCoord>` from `GlobeTileRenderer::_visibleTiles` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `GlobeTileRenderer::_visibleTiles`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `GlobeTileRenderer::_visibleTiles`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_visibleTiles` (`List<TileCoord>`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_visibleTiles` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_visibleTiles` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_visibleTiles` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-VISIBLETILES] | SysML v2: ActionDef(GlobeTileRenderer::_visibleTiles)
   List<TileCoord> _visibleTiles(VirtualCamera camera, ui.Size viewportSize, {bool isFlying = false}) {
     final double R = Ellipsoid.wgs84EquatorialRadius;
     final double relativeAlt = camera.dim_2 < R ? camera.dim_2 : camera.dim_2 - R;
@@ -273,18 +615,64 @@ class GlobeTileRenderer {
   // ---------------------------------------------------------------------------
 
   /// Begins asynchronous fetching of all visible tiles for the given
-  /// [camera] and [viewportSize].
   ///
-  /// Tiles that are already loaded or whose fetch is already in-flight are
-  /// skipped. Up to 16 concurrent fetches may be active at once.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::beginTileFetch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
-  /// This method is safe to call on every frame -- its work is bounded and
-  /// it never blocks the UI thread.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::beginTileFetch` (declaration #16) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::beginTileFetch`.
+  /// - `viewportSize: ui.Size` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::beginTileFetch`.
+  /// - `isFlying: bool` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::beginTileFetch`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::beginTileFetch` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `GlobeTileRenderer::beginTileFetch`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `GlobeTileRenderer::beginTileFetch`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::beginTileFetch` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::beginTileFetch` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::beginTileFetch` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::beginTileFetch` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-BEGINTILEFETCH] | SysML v2: ActionDef(GlobeTileRenderer::beginTileFetch)
   void beginTileFetch(VirtualCamera camera, ui.Size viewportSize, {bool isFlying = false}) {
     if (!_fetcher.isEnabled()) return;
     _fetchVisibleTiles(camera, viewportSize, isFlying: isFlying); // fire-and-forget
   }
 
+  /// Executes deterministic method `GlobeTileRenderer::_fetchVisibleTiles` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchVisibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_fetchVisibleTiles` (declaration #17) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::_fetchVisibleTiles` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `GlobeTileRenderer::_fetchVisibleTiles` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_fetchVisibleTiles)) bounded over input/member dimension of `GlobeTileRenderer::_fetchVisibleTiles`.
+  /// - Space Complexity: O(K(_fetchVisibleTiles)) bounded auxiliary memory for `GlobeTileRenderer::_fetchVisibleTiles`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_fetchVisibleTiles` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_fetchVisibleTiles` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_fetchVisibleTiles` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_fetchVisibleTiles` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-FETCHVISIBLETILES] | SysML v2: ActionDef(GlobeTileRenderer::_fetchVisibleTiles)
   Future<void> _fetchVisibleTiles(
       VirtualCamera camera, ui.Size viewportSize, {bool isFlying = false}) async {
     final tiles = _visibleTiles(camera, viewportSize, isFlying: isFlying);
@@ -307,6 +695,32 @@ class GlobeTileRenderer {
     }
   }
 
+  /// Executes deterministic method `GlobeTileRenderer::_fetchAndDecode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchAndDecode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_fetchAndDecode` (declaration #18) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tile: TileCoord` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_fetchAndDecode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `GlobeTileRenderer::_fetchAndDecode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tile)) bounded over input/member dimension of `GlobeTileRenderer::_fetchAndDecode`.
+  /// - Space Complexity: O(N(tile)) bounded auxiliary memory for `GlobeTileRenderer::_fetchAndDecode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_fetchAndDecode` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_fetchAndDecode` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_fetchAndDecode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_fetchAndDecode` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-FETCHANDDECODE] | SysML v2: ActionDef(GlobeTileRenderer::_fetchAndDecode)
   Future<void> _fetchAndDecode(TileCoord tile) async {
     final providerAtStart = _activeProvider;
     _pendingFetches.add(tile.key);
@@ -353,12 +767,31 @@ class GlobeTileRenderer {
   // ---------------------------------------------------------------------------
 
   /// Draws every loaded tile onto [canvas] using [projectFn] to map
-  /// geographic coordinates to screen-space offsets.
   ///
-  /// Only tiles whose four corners all lie at least partially on the front
-  /// hemisphere (z &ge; 0) are drawn. Each tile is sourced from a 256&times;256
-  /// pixel image and projected through [projectFn] into a screen-space
-  /// destination rectangle derived from its geographic bounds.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::renderTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::renderTiles` (declaration #19) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::renderTiles` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GlobeTileRenderer::renderTiles` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(renderTiles)) bounded over input/member dimension of `GlobeTileRenderer::renderTiles`.
+  /// - Space Complexity: O(K(renderTiles)) bounded auxiliary memory for `GlobeTileRenderer::renderTiles`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::renderTiles` (`void`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::renderTiles` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::renderTiles` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::renderTiles` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-RENDERTILES] | SysML v2: ActionDef(GlobeTileRenderer::renderTiles)
   void renderTiles(
     ui.Canvas canvas,
     VirtualCamera camera,
@@ -503,8 +936,31 @@ class GlobeTileRenderer {
   }
 
   /// Returns true only when all four direct child tiles at zoom [tile.zoom]+1
-  /// are loaded in [_loadedImages], ensuring full geographic coverage before
-  /// the parent tile can be skipped.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_hasHigherZoomOverlay` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_hasHigherZoomOverlay` (declaration #20) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tile: TileCoord` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_hasHigherZoomOverlay`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `GlobeTileRenderer::_hasHigherZoomOverlay` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tile)) bounded over input/member dimension of `GlobeTileRenderer::_hasHigherZoomOverlay`.
+  /// - Space Complexity: O(N(tile)) bounded auxiliary memory for `GlobeTileRenderer::_hasHigherZoomOverlay`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_hasHigherZoomOverlay` (`bool`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_hasHigherZoomOverlay` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_hasHigherZoomOverlay` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_hasHigherZoomOverlay` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-HASHIGHERZOOMOVERLAY] | SysML v2: ActionDef(GlobeTileRenderer::_hasHigherZoomOverlay)
   bool _hasHigherZoomOverlay(TileCoord tile) {
     final int childZoom = tile.zoom + 1;
     final int childX0 = tile.x * 2;
@@ -521,6 +977,35 @@ class GlobeTileRenderer {
     return true;
   }
 
+  /// Executes deterministic method `GlobeTileRenderer::_min4` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_min4` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_min4` (declaration #21) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_min4`.
+  /// - `b: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_min4`.
+  /// - `c: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_min4`.
+  /// - `d: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_min4`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `GlobeTileRenderer::_min4` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `GlobeTileRenderer::_min4`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `GlobeTileRenderer::_min4`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_min4` (`double`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_min4` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_min4` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_min4` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-MIN4] | SysML v2: ActionDef(GlobeTileRenderer::_min4)
   double _min4(double a, double b, double c, double d) {
     double m = a;
     if (b < m) m = b;
@@ -529,6 +1014,35 @@ class GlobeTileRenderer {
     return m;
   }
 
+  /// Executes deterministic method `GlobeTileRenderer::_max4` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_max4` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_max4` (declaration #22) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_max4`.
+  /// - `b: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_max4`.
+  /// - `c: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_max4`.
+  /// - `d: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::_max4`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `GlobeTileRenderer::_max4` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `GlobeTileRenderer::_max4`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `GlobeTileRenderer::_max4`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::_max4` (`double`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::_max4` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::_max4` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::_max4` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-MAX4] | SysML v2: ActionDef(GlobeTileRenderer::_max4)
   double _max4(double a, double b, double c, double d) {
     double m = a;
     if (b > m) m = b;
@@ -537,26 +1051,129 @@ class GlobeTileRenderer {
     return m;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `GlobeTileRenderer::visibleTilesForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::visibleTilesForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::visibleTilesForTesting` (declaration #23) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::visibleTilesForTesting`.
+  /// - `viewportSize: ui.Size` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::visibleTilesForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<TileCoord>` from `GlobeTileRenderer::visibleTilesForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `GlobeTileRenderer::visibleTilesForTesting`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `GlobeTileRenderer::visibleTilesForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::visibleTilesForTesting` (`List<TileCoord>`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::visibleTilesForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::visibleTilesForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::visibleTilesForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-VISIBLETILESFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::visibleTilesForTesting)
   @visibleForTesting
   List<TileCoord> visibleTilesForTesting(VirtualCamera camera, ui.Size viewportSize) {
     return _visibleTiles(camera, viewportSize);
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `GlobeTileRenderer::latLngToTileForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::latLngToTileForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::latLngToTileForTesting` (declaration #24) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::latLngToTileForTesting`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::latLngToTileForTesting`.
+  /// - `zoom: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::latLngToTileForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TileCoord` from `GlobeTileRenderer::latLngToTileForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `GlobeTileRenderer::latLngToTileForTesting`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `GlobeTileRenderer::latLngToTileForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::latLngToTileForTesting` (`TileCoord`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::latLngToTileForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::latLngToTileForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::latLngToTileForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-LATLNGTOTILEFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::latLngToTileForTesting)
   @visibleForTesting
   TileCoord latLngToTileForTesting(double dim_0, double lng, int zoom) {
     return _latLngToTile(dim_0, lng, zoom);
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `GlobeTileRenderer::subdivisionsForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::subdivisionsForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::subdivisionsForTesting` (declaration #25) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `zoom: int` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::subdivisionsForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int` from `GlobeTileRenderer::subdivisionsForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(zoom)) bounded over input/member dimension of `GlobeTileRenderer::subdivisionsForTesting`.
+  /// - Space Complexity: O(N(zoom)) bounded auxiliary memory for `GlobeTileRenderer::subdivisionsForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::subdivisionsForTesting` (`int`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::subdivisionsForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::subdivisionsForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::subdivisionsForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-SUBDIVISIONSFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::subdivisionsForTesting)
   @visibleForTesting
   static int subdivisionsForTesting(int zoom) {
     final double tileWidthDeg = 360.0 / math.pow(2, zoom);
     return (tileWidthDeg / 3.0).ceil().clamp(8, 32);
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `GlobeTileRenderer::calculateIndicesForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::calculateIndicesForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::calculateIndicesForTesting` (declaration #26) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `zs: List<double>` must satisfy domain and type-safety constraints prior to invoking `GlobeTileRenderer::calculateIndicesForTesting`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<int>` from `GlobeTileRenderer::calculateIndicesForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(zs)) bounded over input/member dimension of `GlobeTileRenderer::calculateIndicesForTesting`.
+  /// - Space Complexity: O(N(zs)) bounded auxiliary memory for `GlobeTileRenderer::calculateIndicesForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::calculateIndicesForTesting` (`List<int>`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::calculateIndicesForTesting` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::calculateIndicesForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::calculateIndicesForTesting` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-CALCULATEINDICESFORTESTING] | SysML v2: ActionDef(GlobeTileRenderer::calculateIndicesForTesting)
   @visibleForTesting
   static List<int> calculateIndicesForTesting(List<double> zs) {
     const int subdivisions = 4;

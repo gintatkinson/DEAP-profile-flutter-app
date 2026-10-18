@@ -11,10 +11,10 @@ variables:
   CARGO_TERM_COLOR: "always"
 
 default:
-  image: rust:latest
+  image: rust:1.85-slim
   before_script:
     - cargo --version
-    - cargo build --release -p verify-baseline
+    - cargo build --release --workspace
 
 lint:downstream-baseline:
   stage: lint
@@ -25,6 +25,5 @@ lint:downstream-baseline:
 test:unit-and-parity:
   stage: test
   script:
-    - echo "=== Running Native Rust Workspace Verification Suite ==="
+    - echo "=== Running Cargo Workspace Verification Suite ==="
     - cargo test --workspace
-

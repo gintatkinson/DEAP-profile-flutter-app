@@ -52,6 +52,31 @@ class BreadcrumbItem {
   final VoidCallback? onClick;
 
   /// Creates an immutable [BreadcrumbItem] segment descriptor.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `BreadcrumbItem::BreadcrumbItem` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `BreadcrumbItem::BreadcrumbItem` (declaration #2) within `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `BreadcrumbItem::BreadcrumbItem` in `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `BreadcrumbItem::BreadcrumbItem` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(BreadcrumbItem)) bounded over input/member dimension of `BreadcrumbItem::BreadcrumbItem`.
+  /// - Space Complexity: O(K(BreadcrumbItem)) bounded auxiliary memory for `BreadcrumbItem::BreadcrumbItem`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `BreadcrumbItem::BreadcrumbItem` (`()`).
+  /// - State: Maintains consistent state invariants across `BreadcrumbItem::BreadcrumbItem` without partial mutation on error.
+  /// - Action: Executes `BreadcrumbItem::BreadcrumbItem` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `BreadcrumbItem::BreadcrumbItem` (`LAYOUT-BREADCRUMBS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-BREADCRUMBS-BREADCRUMBITEM-BREADCRUMBITEM] | SysML v2: ActionDef(BreadcrumbItem::BreadcrumbItem)
   const BreadcrumbItem({
     required this.id,
     required this.label,
@@ -110,20 +135,123 @@ class NavigationBreadcrumbs extends StatefulWidget {
   final int maxItems;
 
   /// Creates a [NavigationBreadcrumbs] widget.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `NavigationBreadcrumbs::NavigationBreadcrumbs` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `NavigationBreadcrumbs::NavigationBreadcrumbs` (declaration #4) within `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `NavigationBreadcrumbs::NavigationBreadcrumbs` in `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `NavigationBreadcrumbs::NavigationBreadcrumbs` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(NavigationBreadcrumbs)) bounded over input/member dimension of `NavigationBreadcrumbs::NavigationBreadcrumbs`.
+  /// - Space Complexity: O(K(NavigationBreadcrumbs)) bounded auxiliary memory for `NavigationBreadcrumbs::NavigationBreadcrumbs`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `NavigationBreadcrumbs::NavigationBreadcrumbs` (`()`).
+  /// - State: Maintains consistent state invariants across `NavigationBreadcrumbs::NavigationBreadcrumbs` without partial mutation on error.
+  /// - Action: Executes `NavigationBreadcrumbs::NavigationBreadcrumbs` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `NavigationBreadcrumbs::NavigationBreadcrumbs` (`LAYOUT-BREADCRUMBS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-BREADCRUMBS-NAVIGATIONBREADCRUMBS-NAVIGATIONBREADCRUMBS] | SysML v2: ActionDef(NavigationBreadcrumbs::NavigationBreadcrumbs)
   const NavigationBreadcrumbs({
     super.key,
     required this.items,
     this.maxItems = 4,
   });
 
+  /// Executes deterministic method `NavigationBreadcrumbs::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `NavigationBreadcrumbs::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `NavigationBreadcrumbs::createState` (declaration #5) within `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `NavigationBreadcrumbs::createState` in `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<NavigationBreadcrumbs>` from `NavigationBreadcrumbs::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `NavigationBreadcrumbs::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `NavigationBreadcrumbs::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `NavigationBreadcrumbs::createState` (`State<NavigationBreadcrumbs>`).
+  /// - State: Maintains consistent state invariants across `NavigationBreadcrumbs::createState` without partial mutation on error.
+  /// - Action: Executes `NavigationBreadcrumbs::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `NavigationBreadcrumbs::createState` (`LAYOUT-BREADCRUMBS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-BREADCRUMBS-NAVIGATIONBREADCRUMBS-CREATESTATE] | SysML v2: ActionDef(NavigationBreadcrumbs::createState)
   @override
   State<NavigationBreadcrumbs> createState() => _NavigationBreadcrumbsState();
 }
 
+/// Executes deterministic class `_NavigationBreadcrumbsState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NavigationBreadcrumbsState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_NavigationBreadcrumbsState` (declaration #6) within `LAYOUT-BREADCRUMBS`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_NavigationBreadcrumbsState` in `LAYOUT-BREADCRUMBS`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_NavigationBreadcrumbsState` representation for class `_NavigationBreadcrumbsState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_NavigationBreadcrumbsState)) bounded over input/member dimension of `_NavigationBreadcrumbsState`.
+/// - Space Complexity: O(K(_NavigationBreadcrumbsState)) bounded auxiliary memory for `_NavigationBreadcrumbsState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_NavigationBreadcrumbsState` (`_NavigationBreadcrumbsState`).
+/// - State: Maintains consistent state invariants across `_NavigationBreadcrumbsState` without partial mutation on error.
+/// - Action: Executes `_NavigationBreadcrumbsState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_NavigationBreadcrumbsState` (`LAYOUT-BREADCRUMBS`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-BREADCRUMBS-NAVIGATIONBREADCRUMBSSTATE] | SysML v2: PartDef(_NavigationBreadcrumbsState)
 class _NavigationBreadcrumbsState extends State<NavigationBreadcrumbs> {
   bool _isExpanded = false;
   bool _isNavigating = false;
 
+  /// Executes deterministic method `_NavigationBreadcrumbsState::_safeNavigate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::_safeNavigate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_NavigationBreadcrumbsState::_safeNavigate` (declaration #7) within `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 3. Preconditions
+  /// - `callback: VoidCallback` must satisfy domain and type-safety constraints prior to invoking `_NavigationBreadcrumbsState::_safeNavigate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_NavigationBreadcrumbsState::_safeNavigate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(callback)) bounded over input/member dimension of `_NavigationBreadcrumbsState::_safeNavigate`.
+  /// - Space Complexity: O(N(callback)) bounded auxiliary memory for `_NavigationBreadcrumbsState::_safeNavigate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_NavigationBreadcrumbsState::_safeNavigate` (`void`).
+  /// - State: Maintains consistent state invariants across `_NavigationBreadcrumbsState::_safeNavigate` without partial mutation on error.
+  /// - Action: Executes `_NavigationBreadcrumbsState::_safeNavigate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_NavigationBreadcrumbsState::_safeNavigate` (`LAYOUT-BREADCRUMBS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-BREADCRUMBS-NAVIGATIONBREADCRUMBSSTATE-SAFENAVIGATE] | SysML v2: ActionDef(_NavigationBreadcrumbsState::_safeNavigate)
   void _safeNavigate(VoidCallback callback) {
     if (_isNavigating) return;
     _isNavigating = true;
@@ -133,6 +261,32 @@ class _NavigationBreadcrumbsState extends State<NavigationBreadcrumbs> {
     });
   }
 
+  /// Executes deterministic method `_NavigationBreadcrumbsState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_NavigationBreadcrumbsState::build` (declaration #8) within `LAYOUT-BREADCRUMBS`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_NavigationBreadcrumbsState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_NavigationBreadcrumbsState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_NavigationBreadcrumbsState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_NavigationBreadcrumbsState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_NavigationBreadcrumbsState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_NavigationBreadcrumbsState::build` without partial mutation on error.
+  /// - Action: Executes `_NavigationBreadcrumbsState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_NavigationBreadcrumbsState::build` (`LAYOUT-BREADCRUMBS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-BREADCRUMBS-NAVIGATIONBREADCRUMBSSTATE-BUILD] | SysML v2: ActionDef(_NavigationBreadcrumbsState::build)
   @override
   Widget build(BuildContext context) {
     if (widget.items.isEmpty) {

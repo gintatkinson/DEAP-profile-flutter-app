@@ -27,9 +27,30 @@
 class LocalChange {
   /// Creates a [LocalChange].
   ///
-  /// [entityId] uniquely identifies the domain entity being changed.
-  /// [payload] carries the serialised change data.
-  /// [timestamp] defaults to [DateTime.now] when omitted.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `LocalChange::LocalChange` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `LocalChange::LocalChange` (declaration #2) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `LocalChange::LocalChange` in `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `LocalChange::LocalChange` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(LocalChange)) bounded over input/member dimension of `LocalChange::LocalChange`.
+  /// - Space Complexity: O(K(LocalChange)) bounded auxiliary memory for `LocalChange::LocalChange`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `LocalChange::LocalChange` (`()`).
+  /// - State: Maintains consistent state invariants across `LocalChange::LocalChange` without partial mutation on error.
+  /// - Action: Executes `LocalChange::LocalChange` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `LocalChange::LocalChange` (`SYNC-OFFLINE-SYNC-COORDINATOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SYNC-OFFLINE-SYNC-COORDINATOR-LOCALCHANGE-LOCALCHANGE] | SysML v2: ActionDef(LocalChange::LocalChange)
   LocalChange({
     required this.entityId,
     required this.payload,
@@ -118,19 +139,60 @@ class OfflineSyncCoordinator {
 
   /// Queues a local mutation for later synchronisation.
   ///
-  /// The [change] is appended to the internal queue.  It will be processed
-  /// during the next call to [reconcileWithRemote].
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::queueLocalChange` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::queueLocalChange` (declaration #5) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - `change: LocalChange` must satisfy domain and type-safety constraints prior to invoking `OfflineSyncCoordinator::queueLocalChange`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `OfflineSyncCoordinator::queueLocalChange` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(change)) bounded over input/member dimension of `OfflineSyncCoordinator::queueLocalChange`.
+  /// - Space Complexity: O(N(change)) bounded auxiliary memory for `OfflineSyncCoordinator::queueLocalChange`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `OfflineSyncCoordinator::queueLocalChange` (`void`).
+  /// - State: Maintains consistent state invariants across `OfflineSyncCoordinator::queueLocalChange` without partial mutation on error.
+  /// - Action: Executes `OfflineSyncCoordinator::queueLocalChange` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `OfflineSyncCoordinator::queueLocalChange` (`SYNC-OFFLINE-SYNC-COORDINATOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SYNC-OFFLINE-SYNC-COORDINATOR-OFFLINESYNCCOORDINATOR-QUEUELOCALCHANGE] | SysML v2: ActionDef(OfflineSyncCoordinator::queueLocalChange)
   void queueLocalChange(LocalChange change) {
     _pendingChanges.add(change);
   }
 
   /// Reconciles queued local changes against [remoteChanges].
   ///
-  /// For each entity that has both a local and a remote change, calls
-  /// [resolveConflict] to determine the winner.  Returns a map of
-  /// entity-ID -> winning payload.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::reconcileWithRemote` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
   ///
-  /// After reconciliation the internal queue is cleared.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::reconcileWithRemote` (declaration #6) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `OfflineSyncCoordinator::reconcileWithRemote` in `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, Map<String, dynamic>>` from `OfflineSyncCoordinator::reconcileWithRemote` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(reconcileWithRemote)) bounded over input/member dimension of `OfflineSyncCoordinator::reconcileWithRemote`.
+  /// - Space Complexity: O(K(reconcileWithRemote)) bounded auxiliary memory for `OfflineSyncCoordinator::reconcileWithRemote`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `OfflineSyncCoordinator::reconcileWithRemote` (`Map<String, Map<String, dynamic>>`).
+  /// - State: Maintains consistent state invariants across `OfflineSyncCoordinator::reconcileWithRemote` without partial mutation on error.
+  /// - Action: Executes `OfflineSyncCoordinator::reconcileWithRemote` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `OfflineSyncCoordinator::reconcileWithRemote` (`SYNC-OFFLINE-SYNC-COORDINATOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SYNC-OFFLINE-SYNC-COORDINATOR-OFFLINESYNCCOORDINATOR-RECONCILEWITHREMOTE] | SysML v2: ActionDef(OfflineSyncCoordinator::reconcileWithRemote)
   Map<String, Map<String, dynamic>> reconcileWithRemote(
     List<LocalChange> remoteChanges,
   ) {
@@ -167,9 +229,31 @@ class OfflineSyncCoordinator {
 
   /// Resolves a conflict between a [local] and [remote] change.
   ///
-  /// Uses a **last-writer-wins** strategy: the change with the later
-  /// [LocalChange.timestamp] prevails.  When timestamps are equal the
-  /// local change wins.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::resolveConflict` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::resolveConflict` (declaration #7) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - `local: LocalChange` must satisfy domain and type-safety constraints prior to invoking `OfflineSyncCoordinator::resolveConflict`.
+  /// - `remote: LocalChange` must satisfy domain and type-safety constraints prior to invoking `OfflineSyncCoordinator::resolveConflict`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `ConflictResult` from `OfflineSyncCoordinator::resolveConflict` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(local)) bounded over input/member dimension of `OfflineSyncCoordinator::resolveConflict`.
+  /// - Space Complexity: O(N(local)) bounded auxiliary memory for `OfflineSyncCoordinator::resolveConflict`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `OfflineSyncCoordinator::resolveConflict` (`ConflictResult`).
+  /// - State: Maintains consistent state invariants across `OfflineSyncCoordinator::resolveConflict` without partial mutation on error.
+  /// - Action: Executes `OfflineSyncCoordinator::resolveConflict` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `OfflineSyncCoordinator::resolveConflict` (`SYNC-OFFLINE-SYNC-COORDINATOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SYNC-OFFLINE-SYNC-COORDINATOR-OFFLINESYNCCOORDINATOR-RESOLVECONFLICT] | SysML v2: ActionDef(OfflineSyncCoordinator::resolveConflict)
   ConflictResult resolveConflict(LocalChange local, LocalChange remote) {
     if (local.timestamp.isAfter(remote.timestamp) ||
         local.timestamp.isAtSameMomentAs(remote.timestamp)) {

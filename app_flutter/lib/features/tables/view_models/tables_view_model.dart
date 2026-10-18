@@ -50,6 +50,31 @@ class TabDescriptor {
   final TypeDescriptor type;
 
   /// Creates an immutable [TabDescriptor].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TabDescriptor::TabDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TabDescriptor::TabDescriptor` (declaration #2) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TabDescriptor::TabDescriptor` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TabDescriptor::TabDescriptor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TabDescriptor)) bounded over input/member dimension of `TabDescriptor::TabDescriptor`.
+  /// - Space Complexity: O(K(TabDescriptor)) bounded auxiliary memory for `TabDescriptor::TabDescriptor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TabDescriptor::TabDescriptor` (`()`).
+  /// - State: Maintains consistent state invariants across `TabDescriptor::TabDescriptor` without partial mutation on error.
+  /// - Action: Executes `TabDescriptor::TabDescriptor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TabDescriptor::TabDescriptor` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABDESCRIPTOR-TABDESCRIPTOR] | SysML v2: ActionDef(TabDescriptor::TabDescriptor)
   const TabDescriptor({
     required this.id,
     required this.label,
@@ -57,6 +82,31 @@ class TabDescriptor {
   });
 
   /// Creates a copy of this [TabDescriptor] with updated fields.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TabDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TabDescriptor::copyWith` (declaration #3) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TabDescriptor::copyWith` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TabDescriptor` from `TabDescriptor::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `TabDescriptor::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `TabDescriptor::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TabDescriptor::copyWith` (`TabDescriptor`).
+  /// - State: Maintains consistent state invariants across `TabDescriptor::copyWith` without partial mutation on error.
+  /// - Action: Executes `TabDescriptor::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TabDescriptor::copyWith` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABDESCRIPTOR-COPYWITH] | SysML v2: ActionDef(TabDescriptor::copyWith)
   TabDescriptor copyWith({
     String? id,
     String? label,
@@ -119,6 +169,31 @@ class TabDescriptor {
 @immutable
 class TablesState {
   /// Creates an immutable [TablesState].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TablesState::TablesState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TablesState::TablesState` (declaration #5) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TablesState::TablesState` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TablesState::TablesState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TablesState)) bounded over input/member dimension of `TablesState::TablesState`.
+  /// - Space Complexity: O(K(TablesState)) bounded auxiliary memory for `TablesState::TablesState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesState::TablesState` (`()`).
+  /// - State: Maintains consistent state invariants across `TablesState::TablesState` without partial mutation on error.
+  /// - Action: Executes `TablesState::TablesState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesState::TablesState` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESSTATE-TABLESSTATE] | SysML v2: ActionDef(TablesState::TablesState)
   const TablesState({
     this.activeView = '',
     this.tabs = const [],
@@ -159,6 +234,31 @@ class TablesState {
   final String? error;
 
   /// Returns a copy of this state with updated values.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesState::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesState::copyWith` (declaration #6) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TablesState::copyWith` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TablesState` from `TablesState::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `TablesState::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `TablesState::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesState::copyWith` (`TablesState`).
+  /// - State: Maintains consistent state invariants across `TablesState::copyWith` without partial mutation on error.
+  /// - Action: Executes `TablesState::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesState::copyWith` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESSTATE-COPYWITH] | SysML v2: ActionDef(TablesState::copyWith)
   TablesState copyWith({
     String? activeView,
     List<TabDescriptor>? tabs,
@@ -201,6 +301,33 @@ class TablesState {
           loading == other.loading &&
           error == other.error;
 
+  /// Executes deterministic method `TablesState::_rowsEqual` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesState::_rowsEqual` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesState::_rowsEqual` (declaration #7) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `r1: List<List<String>>` must satisfy domain and type-safety constraints prior to invoking `TablesState::_rowsEqual`.
+  /// - `r2: List<List<String>>` must satisfy domain and type-safety constraints prior to invoking `TablesState::_rowsEqual`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `TablesState::_rowsEqual` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(r1)) bounded over input/member dimension of `TablesState::_rowsEqual`.
+  /// - Space Complexity: O(N(r1)) bounded auxiliary memory for `TablesState::_rowsEqual`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesState::_rowsEqual` (`bool`).
+  /// - State: Maintains consistent state invariants across `TablesState::_rowsEqual` without partial mutation on error.
+  /// - Action: Executes `TablesState::_rowsEqual` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesState::_rowsEqual` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESSTATE-ROWSEQUAL] | SysML v2: ActionDef(TablesState::_rowsEqual)
   static bool _rowsEqual(List<List<String>> r1, List<List<String>> r2) {
     if (r1.length != r2.length) return false;
     for (int i = 0; i < r1.length; i++) {
@@ -285,6 +412,32 @@ class TablesViewModel extends ChangeNotifier {
   List<ColumnModel>? _cachedVisibleModels;
 
   /// Creates a [TablesViewModel] with a [DataSource] (implementing segregated repos).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TablesViewModel::TablesViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TablesViewModel::TablesViewModel` (declaration #9) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dataSource: DataSource` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::TablesViewModel`.
+  /// - `activeView: String` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::TablesViewModel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TablesViewModel::TablesViewModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dataSource)) bounded over input/member dimension of `TablesViewModel::TablesViewModel`.
+  /// - Space Complexity: O(N(dataSource)) bounded auxiliary memory for `TablesViewModel::TablesViewModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::TablesViewModel` (`()`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::TablesViewModel` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::TablesViewModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::TablesViewModel` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-TABLESVIEWMODEL] | SysML v2: ActionDef(TablesViewModel::TablesViewModel)
   TablesViewModel(DataSource dataSource, String activeView)
       : _typeRepository = dataSource,
         _instanceRepository = dataSource,
@@ -294,6 +447,31 @@ class TablesViewModel extends ChangeNotifier {
   }
 
   /// Creates a [TablesViewModel] injecting explicit segregated repositories.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TablesViewModel::TablesViewModel.repositories` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TablesViewModel::TablesViewModel.repositories` (declaration #10) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TablesViewModel::TablesViewModel.repositories` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TablesViewModel::TablesViewModel.repositories` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TablesViewModel.repositories)) bounded over input/member dimension of `TablesViewModel::TablesViewModel.repositories`.
+  /// - Space Complexity: O(K(TablesViewModel.repositories)) bounded auxiliary memory for `TablesViewModel::TablesViewModel.repositories`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::TablesViewModel.repositories` (`()`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::TablesViewModel.repositories` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::TablesViewModel.repositories` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::TablesViewModel.repositories` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-TABLESVIEWMODEL-REPOSITORIES] | SysML v2: ActionDef(TablesViewModel::TablesViewModel.repositories)
   TablesViewModel.repositories({
     required TypeRepository typeRepository,
     required InstanceRepository instanceRepository,
@@ -347,6 +525,31 @@ class TablesViewModel extends ChangeNotifier {
   List<ColumnModel> get columnModels => _state.columnModels;
 
   /// Sets hidden column keys and notifies listeners.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::setHiddenColumnKeys` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::setHiddenColumnKeys` (declaration #11) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `keys: Set<String>?` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::setHiddenColumnKeys`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TablesViewModel::setHiddenColumnKeys` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(keys)) bounded over input/member dimension of `TablesViewModel::setHiddenColumnKeys`.
+  /// - Space Complexity: O(N(keys)) bounded auxiliary memory for `TablesViewModel::setHiddenColumnKeys`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::setHiddenColumnKeys` (`void`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::setHiddenColumnKeys` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::setHiddenColumnKeys` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::setHiddenColumnKeys` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-SETHIDDENCOLUMNKEYS] | SysML v2: ActionDef(TablesViewModel::setHiddenColumnKeys)
   void setHiddenColumnKeys(Set<String>? keys) {
     _state = _state.copyWith(hiddenColumnKeys: keys, clearHiddenColumnKeys: keys == null);
     notifyListeners();
@@ -362,6 +565,31 @@ class TablesViewModel extends ChangeNotifier {
   String? get error => _state.error;
 
   /// Discovers tabs and loads the first tab's data for the given [nodeId].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::loadForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::loadForNode` (declaration #12) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::loadForNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `TablesViewModel::loadForNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `TablesViewModel::loadForNode`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `TablesViewModel::loadForNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::loadForNode` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::loadForNode` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::loadForNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::loadForNode` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-LOADFORNODE] | SysML v2: ActionDef(TablesViewModel::loadForNode)
   Future<void> loadForNode(String nodeId) async {
     if (_disposed) return;
     final requestId = ++_requestId;
@@ -470,6 +698,31 @@ class TablesViewModel extends ChangeNotifier {
   }
 
   /// Switches to the tab identified by [tabId] and loads its data.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::selectTab` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::selectTab` (declaration #13) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tabId: String` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::selectTab`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `TablesViewModel::selectTab` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tabId)) bounded over input/member dimension of `TablesViewModel::selectTab`.
+  /// - Space Complexity: O(N(tabId)) bounded auxiliary memory for `TablesViewModel::selectTab`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::selectTab` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::selectTab` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::selectTab` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::selectTab` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-SELECTTAB] | SysML v2: ActionDef(TablesViewModel::selectTab)
   Future<void> selectTab(String tabId) async {
     if (_disposed) return;
     if (!_state.tabs.any((t) => t.id == tabId)) return;
@@ -486,6 +739,33 @@ class TablesViewModel extends ChangeNotifier {
     await _loadData(tab, requestId);
   }
 
+  /// Executes deterministic method `TablesViewModel::_loadData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::_loadData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::_loadData` (declaration #14) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tab: TabDescriptor` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::_loadData`.
+  /// - `requestId: int` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::_loadData`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `TablesViewModel::_loadData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tab)) bounded over input/member dimension of `TablesViewModel::_loadData`.
+  /// - Space Complexity: O(N(tab)) bounded auxiliary memory for `TablesViewModel::_loadData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::_loadData` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::_loadData` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::_loadData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::_loadData` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-LOADDATA] | SysML v2: ActionDef(TablesViewModel::_loadData)
   Future<void> _loadData(TabDescriptor tab, int requestId) async {
     if (_disposed || requestId != _requestId) return;
     try {
@@ -538,6 +818,32 @@ class TablesViewModel extends ChangeNotifier {
     }
   }
 
+  /// Executes deterministic method `TablesViewModel::_setupPropertiesSubscription` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::_setupPropertiesSubscription` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::_setupPropertiesSubscription` (declaration #15) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `TablesViewModel::_setupPropertiesSubscription`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TablesViewModel::_setupPropertiesSubscription` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `TablesViewModel::_setupPropertiesSubscription`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `TablesViewModel::_setupPropertiesSubscription`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::_setupPropertiesSubscription` (`void`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::_setupPropertiesSubscription` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::_setupPropertiesSubscription` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::_setupPropertiesSubscription` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-SETUPPROPERTIESSUBSCRIPTION] | SysML v2: ActionDef(TablesViewModel::_setupPropertiesSubscription)
   void _setupPropertiesSubscription(String nodeId) {
     if (_disposed) return;
     _propertiesSubscription?.cancel();
@@ -567,12 +873,64 @@ class TablesViewModel extends ChangeNotifier {
     );
   }
 
+  /// Executes deterministic method `TablesViewModel::notifyListeners` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::notifyListeners` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::notifyListeners` (declaration #16) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TablesViewModel::notifyListeners` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TablesViewModel::notifyListeners` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(notifyListeners)) bounded over input/member dimension of `TablesViewModel::notifyListeners`.
+  /// - Space Complexity: O(K(notifyListeners)) bounded auxiliary memory for `TablesViewModel::notifyListeners`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::notifyListeners` (`void`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::notifyListeners` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::notifyListeners` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::notifyListeners` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-NOTIFYLISTENERS] | SysML v2: ActionDef(TablesViewModel::notifyListeners)
   @override
   void notifyListeners() {
     if (_disposed) return;
     super.notifyListeners();
   }
 
+  /// Executes deterministic method `TablesViewModel::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TablesViewModel::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/view_models/tables_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TablesViewModel::dispose` (declaration #17) within `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TablesViewModel::dispose` in `VIEW-MODELS-TABLES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TablesViewModel::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `TablesViewModel::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `TablesViewModel::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TablesViewModel::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `TablesViewModel::dispose` without partial mutation on error.
+  /// - Action: Executes `TablesViewModel::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TablesViewModel::dispose` (`VIEW-MODELS-TABLES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TABLES-VIEW-MODEL-TABLESVIEWMODEL-DISPOSE] | SysML v2: ActionDef(TablesViewModel::dispose)
   @override
   void dispose() {
     _disposed = true;

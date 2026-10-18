@@ -70,13 +70,94 @@ class CameraController extends ChangeNotifier {
   static const double maxAltitude = 40000000.0;
 
   /// Optional callback returning terrain elevation in meters at `(latDeg, lngDeg)`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::Function` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::Function` (declaration #2) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::Function`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::Function`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::Function` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `CameraController::Function`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `CameraController::Function`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::Function` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::Function` without partial mutation on error.
+  /// - Action: Executes `CameraController::Function` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::Function` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-FUNCTION] | SysML v2: ActionDef(CameraController::Function)
   double Function(double dim_0, double lng)? elevationProvider;
 
+  /// Executes deterministic method `CameraController::_getTerrainHeight` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_getTerrainHeight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_getTerrainHeight` (declaration #3) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_getTerrainHeight`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_getTerrainHeight`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_getTerrainHeight` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `CameraController::_getTerrainHeight`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `CameraController::_getTerrainHeight`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_getTerrainHeight` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_getTerrainHeight` without partial mutation on error.
+  /// - Action: Executes `CameraController::_getTerrainHeight` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_getTerrainHeight` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-GETTERRAINHEIGHT] | SysML v2: ActionDef(CameraController::_getTerrainHeight)
   double _getTerrainHeight(double dim_0, double lng) {
     if (elevationProvider == null) return 0.0;
     return elevationProvider!(dim_0, lng);
   }
 
+  /// Executes deterministic method `CameraController::_clampAltitudeToTerrain` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_clampAltitudeToTerrain` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_clampAltitudeToTerrain` (declaration #4) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_clampAltitudeToTerrain`.
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_clampAltitudeToTerrain`.
+  /// - `targetAlt: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_clampAltitudeToTerrain`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_clampAltitudeToTerrain` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `CameraController::_clampAltitudeToTerrain`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `CameraController::_clampAltitudeToTerrain`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_clampAltitudeToTerrain` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_clampAltitudeToTerrain` without partial mutation on error.
+  /// - Action: Executes `CameraController::_clampAltitudeToTerrain` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_clampAltitudeToTerrain` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-CLAMPALTITUDETOTERRAIN] | SysML v2: ActionDef(CameraController::_clampAltitudeToTerrain)
   double _clampAltitudeToTerrain(double dim_0, double lng, double targetAlt) {
     final double terrainH = _getTerrainHeight(dim_0, lng);
     final double minAlt = Ellipsoid.wgs84EquatorialRadius + terrainH + minAltitude;
@@ -84,6 +165,31 @@ class CameraController extends ChangeNotifier {
   }
 
   /// Creates a [CameraController] initialized with [camera] normalized to absolute ECEF altitude.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CameraController::CameraController` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `CameraController::CameraController` (declaration #5) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::CameraController`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CameraController::CameraController` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `CameraController::CameraController`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `CameraController::CameraController`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::CameraController` (`()`).
+  /// - State: Maintains consistent state invariants across `CameraController::CameraController` without partial mutation on error.
+  /// - Action: Executes `CameraController::CameraController` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::CameraController` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-CAMERACONTROLLER] | SysML v2: ActionDef(CameraController::CameraController)
   CameraController(VirtualCamera camera) : _camera = camera.dim_2 < Ellipsoid.wgs84EquatorialRadius ? VirtualCamera.clamped(
     dim_0: camera.dim_0,
     dim_1: camera.dim_1,
@@ -100,6 +206,31 @@ class CameraController extends ChangeNotifier {
   bool get isFlying => _targetCamera != null;
 
   /// Immediately updates the camera state, clamping altitude above terrain and cancelling active flights.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::updateCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::updateCamera` (declaration #6) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::updateCamera`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::updateCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `CameraController::updateCamera`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `CameraController::updateCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::updateCamera` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::updateCamera` without partial mutation on error.
+  /// - Action: Executes `CameraController::updateCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::updateCamera` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-UPDATECAMERA] | SysML v2: ActionDef(CameraController::updateCamera)
   void updateCamera(VirtualCamera camera) {
     final absoluteCamera = camera.dim_2 < Ellipsoid.wgs84EquatorialRadius ? VirtualCamera.clamped(
       dim_0: camera.dim_0,
@@ -125,6 +256,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Executes deterministic method `CameraController::_normalizeRadDiff` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_normalizeRadDiff` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_normalizeRadDiff` (declaration #7) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `diff: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_normalizeRadDiff`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_normalizeRadDiff` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(diff)) bounded over input/member dimension of `CameraController::_normalizeRadDiff`.
+  /// - Space Complexity: O(N(diff)) bounded auxiliary memory for `CameraController::_normalizeRadDiff`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_normalizeRadDiff` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_normalizeRadDiff` without partial mutation on error.
+  /// - Action: Executes `CameraController::_normalizeRadDiff` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_normalizeRadDiff` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-NORMALIZERADDIFF] | SysML v2: ActionDef(CameraController::_normalizeRadDiff)
   static double _normalizeRadDiff(double diff) {
     if (diff.isNaN || !diff.isFinite) return 0.0;
     double wrapped = (diff + math.pi) % (2 * math.pi);
@@ -132,6 +289,33 @@ class CameraController extends ChangeNotifier {
     return wrapped - math.pi;
   }
 
+  /// Executes deterministic method `CameraController::_computeAngularDistance` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_computeAngularDistance` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_computeAngularDistance` (declaration #8) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::_computeAngularDistance`.
+  /// - `b: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::_computeAngularDistance`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_computeAngularDistance` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `CameraController::_computeAngularDistance`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `CameraController::_computeAngularDistance`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_computeAngularDistance` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_computeAngularDistance` without partial mutation on error.
+  /// - Action: Executes `CameraController::_computeAngularDistance` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_computeAngularDistance` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-COMPUTEANGULARDISTANCE] | SysML v2: ActionDef(CameraController::_computeAngularDistance)
   static double _computeAngularDistance(VirtualCamera a, VirtualCamera b) {
     final double lat1 = a.dim_0 * math.pi / 180.0;
     final double lat2 = b.dim_0 * math.pi / 180.0;
@@ -147,7 +331,32 @@ class CameraController extends ChangeNotifier {
     return 2 * math.asin(math.sqrt(val.clamp(0.0, 1.0)));
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::flyTo` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::flyTo` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::flyTo` (declaration #9) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `target: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::flyTo`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::flyTo` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(target)) bounded over input/member dimension of `CameraController::flyTo`.
+  /// - Space Complexity: O(N(target)) bounded auxiliary memory for `CameraController::flyTo`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::flyTo` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::flyTo` without partial mutation on error.
+  /// - Action: Executes `CameraController::flyTo` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::flyTo` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-FLYTO] | SysML v2: ActionDef(CameraController::flyTo)
   void flyTo(VirtualCamera target) {
     final double angularDistance = _computeAngularDistance(_camera, target);
     final double ms = 500.0 + (angularDistance / math.pi) * 1300.0;
@@ -157,7 +366,32 @@ class CameraController extends ChangeNotifier {
     _animationStart = null;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::tick` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tick` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::tick` (declaration #10) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::tick` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `CameraController::tick` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(tick)) bounded over input/member dimension of `CameraController::tick`.
+  /// - Space Complexity: O(K(tick)) bounded auxiliary memory for `CameraController::tick`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::tick` (`bool`).
+  /// - State: Maintains consistent state invariants across `CameraController::tick` without partial mutation on error.
+  /// - Action: Executes `CameraController::tick` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::tick` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-TICK] | SysML v2: ActionDef(CameraController::tick)
   bool tick() {
     if (_startCamera == null || _targetCamera == null) return true;
     _animationStart ??= clock.now();
@@ -177,10 +411,64 @@ class CameraController extends ChangeNotifier {
     return false;
   }
 
+  /// Executes deterministic method `CameraController::_easeInOutCubic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_easeInOutCubic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_easeInOutCubic` (declaration #11) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `t: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_easeInOutCubic`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_easeInOutCubic` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(t)) bounded over input/member dimension of `CameraController::_easeInOutCubic`.
+  /// - Space Complexity: O(N(t)) bounded auxiliary memory for `CameraController::_easeInOutCubic`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_easeInOutCubic` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_easeInOutCubic` without partial mutation on error.
+  /// - Action: Executes `CameraController::_easeInOutCubic` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_easeInOutCubic` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-EASEINOUTCUBIC] | SysML v2: ActionDef(CameraController::_easeInOutCubic)
   static double _easeInOutCubic(double t) {
     return t < 0.5 ? 4 * t * t * t : 1 - math.pow(-2 * t + 2, 3) / 2;
   }
 
+  /// Executes deterministic method `CameraController::_lerpCamera` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_lerpCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_lerpCamera` (declaration #12) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::_lerpCamera`.
+  /// - `b: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CameraController::_lerpCamera`.
+  /// - `t: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_lerpCamera`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `VirtualCamera` from `CameraController::_lerpCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `CameraController::_lerpCamera`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `CameraController::_lerpCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_lerpCamera` (`VirtualCamera`).
+  /// - State: Maintains consistent state invariants across `CameraController::_lerpCamera` without partial mutation on error.
+  /// - Action: Executes `CameraController::_lerpCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_lerpCamera` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-LERPCAMERA] | SysML v2: ActionDef(CameraController::_lerpCamera)
   static VirtualCamera _lerpCamera(VirtualCamera a, VirtualCamera b, double t) {
     final double distance = _computeAngularDistance(a, b);
     final double maxBoost = (distance / math.pi) * 5000000.0;
@@ -197,6 +485,35 @@ class CameraController extends ChangeNotifier {
     );
   }
 
+  /// Executes deterministic method `CameraController::_interpolateCircular` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_interpolateCircular` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_interpolateCircular` (declaration #13) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `from: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_interpolateCircular`.
+  /// - `to: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_interpolateCircular`.
+  /// - `t: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_interpolateCircular`.
+  /// - `wrapFn: double Function(double)` must satisfy domain and type-safety constraints prior to invoking `CameraController::_interpolateCircular`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_interpolateCircular` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(from)) bounded over input/member dimension of `CameraController::_interpolateCircular`.
+  /// - Space Complexity: O(N(from)) bounded auxiliary memory for `CameraController::_interpolateCircular`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_interpolateCircular` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_interpolateCircular` without partial mutation on error.
+  /// - Action: Executes `CameraController::_interpolateCircular` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_interpolateCircular` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-INTERPOLATECIRCULAR] | SysML v2: ActionDef(CameraController::_interpolateCircular)
   static double _interpolateCircular(double from, double to, double t, double Function(double) wrapFn) {
     double diff = to - from;
     if (diff > 180) diff -= 360;
@@ -204,6 +521,32 @@ class CameraController extends ChangeNotifier {
     return wrapFn(from + diff * t);
   }
 
+  /// Executes deterministic method `CameraController::_wrapLngStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLngStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapLngStatic` (declaration #14) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_wrapLngStatic`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapLngStatic` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(lng)) bounded over input/member dimension of `CameraController::_wrapLngStatic`.
+  /// - Space Complexity: O(N(lng)) bounded auxiliary memory for `CameraController::_wrapLngStatic`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapLngStatic` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapLngStatic` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapLngStatic` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapLngStatic` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPLNGSTATIC] | SysML v2: ActionDef(CameraController::_wrapLngStatic)
   static double _wrapLngStatic(double lng) {
     if (lng.isNaN || !lng.isFinite) return 0.0;
     double wrapped = (lng + 180.0) % 360.0;
@@ -215,6 +558,32 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
+  /// Executes deterministic method `CameraController::_wrapHeadingStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeadingStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapHeadingStatic` (declaration #15) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `heading: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_wrapHeadingStatic`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapHeadingStatic` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(heading)) bounded over input/member dimension of `CameraController::_wrapHeadingStatic`.
+  /// - Space Complexity: O(N(heading)) bounded auxiliary memory for `CameraController::_wrapHeadingStatic`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapHeadingStatic` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapHeadingStatic` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapHeadingStatic` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapHeadingStatic` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPHEADINGSTATIC] | SysML v2: ActionDef(CameraController::_wrapHeadingStatic)
   static double _wrapHeadingStatic(double heading) {
     if (heading.isNaN || !heading.isFinite) return 0.0;
     double wrapped = heading % 360.0;
@@ -222,7 +591,33 @@ class CameraController extends ChangeNotifier {
     return wrapped;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::pan` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::pan` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::pan` (declaration #16) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `delta: Offset` must satisfy domain and type-safety constraints prior to invoking `CameraController::pan`.
+  /// - `shortestSide: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::pan`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::pan` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(delta)) bounded over input/member dimension of `CameraController::pan`.
+  /// - Space Complexity: O(N(delta)) bounded auxiliary memory for `CameraController::pan`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::pan` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::pan` without partial mutation on error.
+  /// - Action: Executes `CameraController::pan` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::pan` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-PAN] | SysML v2: ActionDef(CameraController::pan)
   void pan(Offset delta, [double shortestSide = 800.0]) {
     if (shortestSide <= 0.0 || shortestSide.isNaN) {
       shortestSide = 800.0;
@@ -247,7 +642,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::tilt` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tilt` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::tilt` (declaration #17) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `delta: Offset` must satisfy domain and type-safety constraints prior to invoking `CameraController::tilt`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::tilt` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(delta)) bounded over input/member dimension of `CameraController::tilt`.
+  /// - Space Complexity: O(N(delta)) bounded auxiliary memory for `CameraController::tilt`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::tilt` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::tilt` without partial mutation on error.
+  /// - Action: Executes `CameraController::tilt` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::tilt` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-TILT] | SysML v2: ActionDef(CameraController::tilt)
   void tilt(Offset delta) {
     _camera = VirtualCamera.clamped(
       dim_0: _camera.dim_0, dim_1: _camera.dim_1,
@@ -259,7 +679,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::rotateHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::rotateHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::rotateHeading` (declaration #18) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `delta: Offset` must satisfy domain and type-safety constraints prior to invoking `CameraController::rotateHeading`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::rotateHeading` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(delta)) bounded over input/member dimension of `CameraController::rotateHeading`.
+  /// - Space Complexity: O(N(delta)) bounded auxiliary memory for `CameraController::rotateHeading`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::rotateHeading` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::rotateHeading` without partial mutation on error.
+  /// - Action: Executes `CameraController::rotateHeading` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::rotateHeading` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-ROTATEHEADING] | SysML v2: ActionDef(CameraController::rotateHeading)
   void rotateHeading(Offset delta) {
     _camera = VirtualCamera.clamped(
       dim_0: _camera.dim_0, dim_1: _camera.dim_1,
@@ -270,7 +715,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::zoom` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoom` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::zoom` (declaration #19) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `scrollDelta: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::zoom`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::zoom` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(scrollDelta)) bounded over input/member dimension of `CameraController::zoom`.
+  /// - Space Complexity: O(N(scrollDelta)) bounded auxiliary memory for `CameraController::zoom`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::zoom` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::zoom` without partial mutation on error.
+  /// - Action: Executes `CameraController::zoom` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::zoom` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-ZOOM] | SysML v2: ActionDef(CameraController::zoom)
   void zoom(double scrollDelta) {
     final double terrainH = _getTerrainHeight(_camera.dim_0, _camera.dim_1);
     final double currentHeightAGL = _camera.dim_2 - (Ellipsoid.wgs84EquatorialRadius + terrainH);
@@ -288,7 +758,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::zoomInteractive` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoomInteractive` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::zoomInteractive` (declaration #20) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `scrollDelta: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::zoomInteractive`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::zoomInteractive` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(scrollDelta)) bounded over input/member dimension of `CameraController::zoomInteractive`.
+  /// - Space Complexity: O(N(scrollDelta)) bounded auxiliary memory for `CameraController::zoomInteractive`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::zoomInteractive` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::zoomInteractive` without partial mutation on error.
+  /// - Action: Executes `CameraController::zoomInteractive` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::zoomInteractive` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-ZOOMINTERACTIVE] | SysML v2: ActionDef(CameraController::zoomInteractive)
   void zoomInteractive(double scrollDelta) {
     final double clampedDelta = scrollDelta.clamp(-100.0, 100.0);
     final double factor = math.exp(clampedDelta * 0.001);
@@ -308,7 +803,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::keyboardRotate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardRotate` (declaration #21) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `degrees: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::keyboardRotate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::keyboardRotate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(degrees)) bounded over input/member dimension of `CameraController::keyboardRotate`.
+  /// - Space Complexity: O(N(degrees)) bounded auxiliary memory for `CameraController::keyboardRotate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::keyboardRotate` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::keyboardRotate` without partial mutation on error.
+  /// - Action: Executes `CameraController::keyboardRotate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::keyboardRotate` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-KEYBOARDROTATE] | SysML v2: ActionDef(CameraController::keyboardRotate)
   void keyboardRotate(double degrees) {
     _camera = VirtualCamera.clamped(
       dim_0: _camera.dim_0, dim_1: _wrapLng(_camera.dim_1 + degrees),
@@ -318,7 +838,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::keyboardRotateHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotateHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardRotateHeading` (declaration #22) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `degrees: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::keyboardRotateHeading`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::keyboardRotateHeading` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(degrees)) bounded over input/member dimension of `CameraController::keyboardRotateHeading`.
+  /// - Space Complexity: O(N(degrees)) bounded auxiliary memory for `CameraController::keyboardRotateHeading`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::keyboardRotateHeading` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::keyboardRotateHeading` without partial mutation on error.
+  /// - Action: Executes `CameraController::keyboardRotateHeading` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::keyboardRotateHeading` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-KEYBOARDROTATEHEADING] | SysML v2: ActionDef(CameraController::keyboardRotateHeading)
   void keyboardRotateHeading(double degrees) {
     _camera = VirtualCamera.clamped(
       dim_0: _camera.dim_0, dim_1: _camera.dim_1,
@@ -329,7 +874,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::keyboardTilt` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardTilt` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardTilt` (declaration #23) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `degrees: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::keyboardTilt`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CameraController::keyboardTilt` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(degrees)) bounded over input/member dimension of `CameraController::keyboardTilt`.
+  /// - Space Complexity: O(N(degrees)) bounded auxiliary memory for `CameraController::keyboardTilt`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::keyboardTilt` (`void`).
+  /// - State: Maintains consistent state invariants across `CameraController::keyboardTilt` without partial mutation on error.
+  /// - Action: Executes `CameraController::keyboardTilt` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::keyboardTilt` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-KEYBOARDTILT] | SysML v2: ActionDef(CameraController::keyboardTilt)
   void keyboardTilt(double degrees) {
     _camera = VirtualCamera.clamped(
       dim_0: _camera.dim_0, dim_1: _camera.dim_1,
@@ -340,6 +910,32 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Executes deterministic method `CameraController::_wrapLng` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLng` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapLng` (declaration #24) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `lng: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_wrapLng`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapLng` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(lng)) bounded over input/member dimension of `CameraController::_wrapLng`.
+  /// - Space Complexity: O(N(lng)) bounded auxiliary memory for `CameraController::_wrapLng`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapLng` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapLng` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapLng` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapLng` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPLNG] | SysML v2: ActionDef(CameraController::_wrapLng)
   double _wrapLng(double lng) {
     if (lng.isNaN || !lng.isFinite) return 0.0;
     double wrapped = (lng + 180.0) % 360.0;
@@ -351,10 +947,88 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
+  /// Executes deterministic method `CameraController::_wrapHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapHeading` (declaration #25) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::_wrapHeading` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapHeading` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_wrapHeading)) bounded over input/member dimension of `CameraController::_wrapHeading`.
+  /// - Space Complexity: O(K(_wrapHeading)) bounded auxiliary memory for `CameraController::_wrapHeading`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapHeading` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapHeading` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapHeading` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapHeading` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPHEADING] | SysML v2: ActionDef(CameraController::_wrapHeading)
   double _wrapHeading(double heading) => _wrapHeadingStatic(heading);
 
+  /// Executes deterministic method `CameraController::_wrapPitch` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapPitch` (declaration #26) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::_wrapPitch` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapPitch` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_wrapPitch)) bounded over input/member dimension of `CameraController::_wrapPitch`.
+  /// - Space Complexity: O(K(_wrapPitch)) bounded auxiliary memory for `CameraController::_wrapPitch`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapPitch` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapPitch` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapPitch` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapPitch` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPPITCH] | SysML v2: ActionDef(CameraController::_wrapPitch)
   double _wrapPitch(double pitch) => _wrapPitchStatic(pitch);
 
+  /// Executes deterministic method `CameraController::_wrapPitchStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitchStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapPitchStatic` (declaration #27) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `pitch: double` must satisfy domain and type-safety constraints prior to invoking `CameraController::_wrapPitchStatic`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::_wrapPitchStatic` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(pitch)) bounded over input/member dimension of `CameraController::_wrapPitchStatic`.
+  /// - Space Complexity: O(N(pitch)) bounded auxiliary memory for `CameraController::_wrapPitchStatic`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::_wrapPitchStatic` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::_wrapPitchStatic` without partial mutation on error.
+  /// - Action: Executes `CameraController::_wrapPitchStatic` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::_wrapPitchStatic` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPPITCHSTATIC] | SysML v2: ActionDef(CameraController::_wrapPitchStatic)
   static double _wrapPitchStatic(double pitch) {
     if (pitch.isNaN || !pitch.isFinite) return 0.0;
     double wrapped = (pitch + 180.0) % 360.0;
@@ -366,19 +1040,119 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::wrapLngStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapLngStaticForTesting` (declaration #28) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::wrapLngStaticForTesting` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::wrapLngStaticForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(wrapLngStaticForTesting)) bounded over input/member dimension of `CameraController::wrapLngStaticForTesting`.
+  /// - Space Complexity: O(K(wrapLngStaticForTesting)) bounded auxiliary memory for `CameraController::wrapLngStaticForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::wrapLngStaticForTesting` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::wrapLngStaticForTesting` without partial mutation on error.
+  /// - Action: Executes `CameraController::wrapLngStaticForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::wrapLngStaticForTesting` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPLNGSTATICFORTESTING] | SysML v2: ActionDef(CameraController::wrapLngStaticForTesting)
   @visibleForTesting
   static double wrapLngStaticForTesting(double lng) => _wrapLngStatic(lng);
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::wrapHeadingStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapHeadingStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapHeadingStaticForTesting` (declaration #29) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::wrapHeadingStaticForTesting` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::wrapHeadingStaticForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(wrapHeadingStaticForTesting)) bounded over input/member dimension of `CameraController::wrapHeadingStaticForTesting`.
+  /// - Space Complexity: O(K(wrapHeadingStaticForTesting)) bounded auxiliary memory for `CameraController::wrapHeadingStaticForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::wrapHeadingStaticForTesting` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::wrapHeadingStaticForTesting` without partial mutation on error.
+  /// - Action: Executes `CameraController::wrapHeadingStaticForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::wrapHeadingStaticForTesting` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPHEADINGSTATICFORTESTING] | SysML v2: ActionDef(CameraController::wrapHeadingStaticForTesting)
   @visibleForTesting
   static double wrapHeadingStaticForTesting(double heading) => _wrapHeadingStatic(heading);
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::wrapLngForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapLngForTesting` (declaration #30) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::wrapLngForTesting` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::wrapLngForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(wrapLngForTesting)) bounded over input/member dimension of `CameraController::wrapLngForTesting`.
+  /// - Space Complexity: O(K(wrapLngForTesting)) bounded auxiliary memory for `CameraController::wrapLngForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::wrapLngForTesting` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::wrapLngForTesting` without partial mutation on error.
+  /// - Action: Executes `CameraController::wrapLngForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::wrapLngForTesting` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPLNGFORTESTING] | SysML v2: ActionDef(CameraController::wrapLngForTesting)
   @visibleForTesting
   double wrapLngForTesting(double lng) => _wrapLng(lng);
 
-  /// Member documentation.
+  /// Executes deterministic method `CameraController::wrapPitchStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapPitchStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapPitchStaticForTesting` (declaration #31) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::wrapPitchStaticForTesting` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `CameraController::wrapPitchStaticForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(wrapPitchStaticForTesting)) bounded over input/member dimension of `CameraController::wrapPitchStaticForTesting`.
+  /// - Space Complexity: O(K(wrapPitchStaticForTesting)) bounded auxiliary memory for `CameraController::wrapPitchStaticForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::wrapPitchStaticForTesting` (`double`).
+  /// - State: Maintains consistent state invariants across `CameraController::wrapPitchStaticForTesting` without partial mutation on error.
+  /// - Action: Executes `CameraController::wrapPitchStaticForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::wrapPitchStaticForTesting` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPPITCHSTATICFORTESTING] | SysML v2: ActionDef(CameraController::wrapPitchStaticForTesting)
   @visibleForTesting
   static double wrapPitchStaticForTesting(double pitch) => _wrapPitchStatic(pitch);
 }

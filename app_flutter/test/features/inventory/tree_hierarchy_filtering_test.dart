@@ -11,7 +11,7 @@ import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 ///
 /// In-memory repository simulating data source for tree hierarchy filtering BDD acceptance tests.
 class InMemoryTreeRepository implements TreeRepository {
-  /// Member documentation.
+  /// Simulated root node list for test fixtures.
   List<TreeNode> roots = <TreeNode>[];
 
   @override

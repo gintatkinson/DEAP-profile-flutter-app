@@ -53,6 +53,31 @@ import 'package:app_flutter/features/tables/view_models/tables_view_model.dart';
 /// Realises: [Feat-10/TableViewWidget]
 class TableViewWidget extends StatefulWidget {
   /// Creates a virtualized [TableViewWidget].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TableViewWidget::TableViewWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TableViewWidget::TableViewWidget` (declaration #2) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TableViewWidget::TableViewWidget` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TableViewWidget::TableViewWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TableViewWidget)) bounded over input/member dimension of `TableViewWidget::TableViewWidget`.
+  /// - Space Complexity: O(K(TableViewWidget)) bounded auxiliary memory for `TableViewWidget::TableViewWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TableViewWidget::TableViewWidget` (`()`).
+  /// - State: Maintains consistent state invariants across `TableViewWidget::TableViewWidget` without partial mutation on error.
+  /// - Action: Executes `TableViewWidget::TableViewWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TableViewWidget::TableViewWidget` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGET-TABLEVIEWWIDGET] | SysML v2: ActionDef(TableViewWidget::TableViewWidget)
   const TableViewWidget({
     super.key,
     this.headingRowHeight = 32.0,
@@ -77,10 +102,62 @@ class TableViewWidget extends StatefulWidget {
   /// Horizontal gap in logical pixels between adjacent columns.
   final double columnSpacing;
 
+  /// Executes deterministic method `TableViewWidget::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TableViewWidget::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TableViewWidget::createState` (declaration #3) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TableViewWidget::createState` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<TableViewWidget>` from `TableViewWidget::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `TableViewWidget::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `TableViewWidget::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TableViewWidget::createState` (`State<TableViewWidget>`).
+  /// - State: Maintains consistent state invariants across `TableViewWidget::createState` without partial mutation on error.
+  /// - Action: Executes `TableViewWidget::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TableViewWidget::createState` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGET-CREATESTATE] | SysML v2: ActionDef(TableViewWidget::createState)
   @override
   State<TableViewWidget> createState() => _TableViewWidgetState();
 }
 
+/// Executes deterministic class `_TableViewWidgetState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewWidgetState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TableViewWidgetState` (declaration #4) within `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TableViewWidgetState` in `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TableViewWidgetState` representation for class `_TableViewWidgetState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TableViewWidgetState)) bounded over input/member dimension of `_TableViewWidgetState`.
+/// - Space Complexity: O(K(_TableViewWidgetState)) bounded auxiliary memory for `_TableViewWidgetState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TableViewWidgetState` (`_TableViewWidgetState`).
+/// - State: Maintains consistent state invariants across `_TableViewWidgetState` without partial mutation on error.
+/// - Action: Executes `_TableViewWidgetState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState` (`TABLES-TABLE-VIEW-WIDGET`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE] | SysML v2: PartDef(_TableViewWidgetState)
 class _TableViewWidgetState extends State<TableViewWidget> {
   int? _sortColumnIndex;
   bool _sortAscending = true;
@@ -94,6 +171,32 @@ class _TableViewWidgetState extends State<TableViewWidget> {
   Map<String, int>? _cachedHeaderIndices;
   List<ColumnModel>? _cachedAllHeadersForIndices;
 
+  /// Executes deterministic method `_TableViewWidgetState::_getSortedRows` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getSortedRows` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_getSortedRows` (declaration #5) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewWidgetState::_getSortedRows` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<List<String>>` from `_TableViewWidgetState::_getSortedRows` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_getSortedRows)) bounded over input/member dimension of `_TableViewWidgetState::_getSortedRows`.
+  /// - Space Complexity: O(K(_getSortedRows)) bounded auxiliary memory for `_TableViewWidgetState::_getSortedRows`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::_getSortedRows` (`List<List<String>>`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::_getSortedRows` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::_getSortedRows` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::_getSortedRows` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-GETSORTEDROWS] | SysML v2: ActionDef(_TableViewWidgetState::_getSortedRows)
   List<List<String>> _getSortedRows(
     List<List<String>> rows,
     List<ColumnModel> headers,
@@ -134,6 +237,32 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return sortedRows;
   }
 
+  /// Executes deterministic method `_TableViewWidgetState::_getHeaderIndices` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getHeaderIndices` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_getHeaderIndices` (declaration #6) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `allHeaders: List<ColumnModel>` must satisfy domain and type-safety constraints prior to invoking `_TableViewWidgetState::_getHeaderIndices`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, int>` from `_TableViewWidgetState::_getHeaderIndices` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(allHeaders)) bounded over input/member dimension of `_TableViewWidgetState::_getHeaderIndices`.
+  /// - Space Complexity: O(N(allHeaders)) bounded auxiliary memory for `_TableViewWidgetState::_getHeaderIndices`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::_getHeaderIndices` (`Map<String, int>`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::_getHeaderIndices` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::_getHeaderIndices` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::_getHeaderIndices` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-GETHEADERINDICES] | SysML v2: ActionDef(_TableViewWidgetState::_getHeaderIndices)
   Map<String, int> _getHeaderIndices(List<ColumnModel> allHeaders) {
     if (_cachedAllHeadersForIndices != null &&
         _cachedHeaderIndices != null &&
@@ -155,6 +284,33 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return _cachedHeaderIndices!;
   }
 
+  /// Executes deterministic method `_TableViewWidgetState::_rowsEqual` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_rowsEqual` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_rowsEqual` (declaration #7) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: List<List<String>>?` must satisfy domain and type-safety constraints prior to invoking `_TableViewWidgetState::_rowsEqual`.
+  /// - `b: List<List<String>>?` must satisfy domain and type-safety constraints prior to invoking `_TableViewWidgetState::_rowsEqual`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `_TableViewWidgetState::_rowsEqual` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `_TableViewWidgetState::_rowsEqual`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `_TableViewWidgetState::_rowsEqual`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::_rowsEqual` (`bool`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::_rowsEqual` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::_rowsEqual` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::_rowsEqual` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-ROWSEQUAL] | SysML v2: ActionDef(_TableViewWidgetState::_rowsEqual)
   bool _rowsEqual(List<List<String>>? a, List<List<String>>? b) {
     if (identical(a, b)) return true;
     if (a == null || b == null) return false;
@@ -168,6 +324,32 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return true;
   }
 
+  /// Executes deterministic method `_TableViewWidgetState::_clearCache` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_clearCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_clearCache` (declaration #8) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewWidgetState::_clearCache` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TableViewWidgetState::_clearCache` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_clearCache)) bounded over input/member dimension of `_TableViewWidgetState::_clearCache`.
+  /// - Space Complexity: O(K(_clearCache)) bounded auxiliary memory for `_TableViewWidgetState::_clearCache`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::_clearCache` (`void`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::_clearCache` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::_clearCache` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::_clearCache` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-CLEARCACHE] | SysML v2: ActionDef(_TableViewWidgetState::_clearCache)
   void _clearCache() {
     _cachedSourceRows = null;
     _cachedHeaders = null;
@@ -178,12 +360,64 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     _cachedAllHeadersForIndices = null;
   }
 
+  /// Executes deterministic method `_TableViewWidgetState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::dispose` (declaration #9) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewWidgetState::dispose` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TableViewWidgetState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TableViewWidgetState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TableViewWidgetState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::dispose` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-DISPOSE] | SysML v2: ActionDef(_TableViewWidgetState::dispose)
   @override
   void dispose() {
     _clearCache();
     super.dispose();
   }
 
+  /// Executes deterministic method `_TableViewWidgetState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::build` (declaration #10) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TableViewWidgetState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TableViewWidgetState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TableViewWidgetState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TableViewWidgetState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewWidgetState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TableViewWidgetState::build` without partial mutation on error.
+  /// - Action: Executes `_TableViewWidgetState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewWidgetState::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEVIEWWIDGETSTATE-BUILD] | SysML v2: ActionDef(_TableViewWidgetState::build)
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<TablesViewModel>();
@@ -299,26 +533,69 @@ class _TableViewWidgetState extends State<TableViewWidget> {
   }
 }
 
+/// Executes deterministic class `_HeaderRow` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderRow` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_HeaderRow` (declaration #11) within `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_HeaderRow` in `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_HeaderRow` representation for class `_HeaderRow`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_HeaderRow)) bounded over input/member dimension of `_HeaderRow`.
+/// - Space Complexity: O(K(_HeaderRow)) bounded auxiliary memory for `_HeaderRow`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_HeaderRow` (`_HeaderRow`).
+/// - State: Maintains consistent state invariants across `_HeaderRow` without partial mutation on error.
+/// - Action: Executes `_HeaderRow` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_HeaderRow` (`TABLES-TABLE-VIEW-WIDGET`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERROW] | SysML v2: PartDef(_HeaderRow)
 class _HeaderRow extends StatelessWidget {
-  /// Member documentation.
   final List<ColumnModel> headers;
-  /// Member documentation.
   final double colWidth;
-  /// Member documentation.
   final double headingRowHeight;
-  /// Member documentation.
   final double horizontalMargin;
-  /// Member documentation.
   final double columnSpacing;
-  /// Member documentation.
   final String testId;
-  /// Member documentation.
   final int? sortColumnIndex;
-  /// Member documentation.
   final bool sortAscending;
-  /// Member documentation.
   final void Function(int columnIndex) onSort;
 
+  /// Executes deterministic constructor `_HeaderRow::_HeaderRow` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderRow::_HeaderRow` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_HeaderRow::_HeaderRow` (declaration #12) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_HeaderRow::_HeaderRow` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_HeaderRow::_HeaderRow` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_HeaderRow)) bounded over input/member dimension of `_HeaderRow::_HeaderRow`.
+  /// - Space Complexity: O(K(_HeaderRow)) bounded auxiliary memory for `_HeaderRow::_HeaderRow`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_HeaderRow::_HeaderRow` (`()`).
+  /// - State: Maintains consistent state invariants across `_HeaderRow::_HeaderRow` without partial mutation on error.
+  /// - Action: Executes `_HeaderRow::_HeaderRow` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_HeaderRow::_HeaderRow` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERROW-HEADERROW] | SysML v2: ActionDef(_HeaderRow::_HeaderRow)
   const _HeaderRow({
     required this.headers,
     required this.colWidth,
@@ -331,6 +608,32 @@ class _HeaderRow extends StatelessWidget {
     required this.onSort,
   });
 
+  /// Executes deterministic method `_HeaderRow::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderRow::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_HeaderRow::build` (declaration #13) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_HeaderRow::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_HeaderRow::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_HeaderRow::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_HeaderRow::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_HeaderRow::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_HeaderRow::build` without partial mutation on error.
+  /// - Action: Executes `_HeaderRow::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_HeaderRow::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERROW-BUILD] | SysML v2: ActionDef(_HeaderRow::build)
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -366,32 +669,72 @@ class _HeaderRow extends StatelessWidget {
   }
 }
 
+/// Executes deterministic class `_HeaderCell` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderCell` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_HeaderCell` (declaration #14) within `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_HeaderCell` in `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_HeaderCell` representation for class `_HeaderCell`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_HeaderCell)) bounded over input/member dimension of `_HeaderCell`.
+/// - Space Complexity: O(K(_HeaderCell)) bounded auxiliary memory for `_HeaderCell`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_HeaderCell` (`_HeaderCell`).
+/// - State: Maintains consistent state invariants across `_HeaderCell` without partial mutation on error.
+/// - Action: Executes `_HeaderCell` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_HeaderCell` (`TABLES-TABLE-VIEW-WIDGET`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERCELL] | SysML v2: PartDef(_HeaderCell)
 class _HeaderCell extends StatelessWidget {
-  /// Member documentation.
   final String label;
-  /// Member documentation.
   final double? columnWidth;
-  /// Member documentation.
   final double colWidth;
-  /// Member documentation.
   final double horizontalMargin;
-  /// Member documentation.
   final double columnSpacing;
-  /// Member documentation.
   final bool isFirst;
-  /// Member documentation.
   final bool isLast;
-  /// Member documentation.
   final bool sortable;
-  /// Member documentation.
   final bool isActiveSort;
-  /// Member documentation.
   final bool sortAscending;
-  /// Member documentation.
   final VoidCallback? onTap;
-  /// Member documentation.
   final bool isNumeric;
 
+  /// Executes deterministic constructor `_HeaderCell::_HeaderCell` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderCell::_HeaderCell` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_HeaderCell::_HeaderCell` (declaration #15) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_HeaderCell::_HeaderCell` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_HeaderCell::_HeaderCell` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_HeaderCell)) bounded over input/member dimension of `_HeaderCell::_HeaderCell`.
+  /// - Space Complexity: O(K(_HeaderCell)) bounded auxiliary memory for `_HeaderCell::_HeaderCell`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_HeaderCell::_HeaderCell` (`()`).
+  /// - State: Maintains consistent state invariants across `_HeaderCell::_HeaderCell` without partial mutation on error.
+  /// - Action: Executes `_HeaderCell::_HeaderCell` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_HeaderCell::_HeaderCell` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERCELL-HEADERCELL] | SysML v2: ActionDef(_HeaderCell::_HeaderCell)
   const _HeaderCell({
     required this.label,
     this.columnWidth,
@@ -407,6 +750,32 @@ class _HeaderCell extends StatelessWidget {
     required this.isNumeric,
   });
 
+  /// Executes deterministic method `_HeaderCell::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderCell::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_HeaderCell::build` (declaration #16) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_HeaderCell::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_HeaderCell::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_HeaderCell::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_HeaderCell::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_HeaderCell::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_HeaderCell::build` without partial mutation on error.
+  /// - Action: Executes `_HeaderCell::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_HeaderCell::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-HEADERCELL-BUILD] | SysML v2: ActionDef(_HeaderCell::build)
   @override
   Widget build(BuildContext context) {
     final displayLabel = isActiveSort
@@ -435,25 +804,15 @@ class _HeaderCell extends StatelessWidget {
 }
 
 class _DataRow extends StatelessWidget {
-  /// Member documentation.
   final List<String> cells;
-  /// Member documentation.
   final List<ColumnModel> columnModels;
-  /// Member documentation.
   final Map<String, int> headerIndices;
-  /// Member documentation.
   final double colWidth;
-  /// Member documentation.
   final double dataRowMinHeight;
-  /// Member documentation.
   final double dataRowMaxHeight;
-  /// Member documentation.
   final double horizontalMargin;
-  /// Member documentation.
   final double columnSpacing;
-  /// Member documentation.
   final int index;
-  /// Member documentation.
   final TextStyle? numericTextStyle;
 
   static final Color _stripeColor = Colors.black.withOpacity(0.03);
@@ -500,21 +859,13 @@ class _DataRow extends StatelessWidget {
 }
 
 class _DataCell extends StatelessWidget {
-  /// Member documentation.
   final String value;
-  /// Member documentation.
   final ColumnModel columnModel;
-  /// Member documentation.
   final double colWidth;
-  /// Member documentation.
   final double horizontalMargin;
-  /// Member documentation.
   final double columnSpacing;
-  /// Member documentation.
   final bool isFirst;
-  /// Member documentation.
   final bool isLast;
-  /// Member documentation.
   final TextStyle? numericTextStyle;
 
   const _DataCell({

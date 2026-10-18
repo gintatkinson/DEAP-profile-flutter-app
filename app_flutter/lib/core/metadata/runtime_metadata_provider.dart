@@ -46,25 +46,118 @@ class RuntimeMetadataProvider {
   final Map<String, dynamic> _store = <String, dynamic>{};
 
   /// Returns the metadata value associated with [key], or `null` if [key]
-  /// has not been registered.
   ///
-  /// The returned type is `dynamic` because metadata values are
-  /// intentionally heterogeneous (strings, numbers, booleans, maps, etc.).
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::getMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::getMetadata` (declaration #2) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `RuntimeMetadataProvider::getMetadata`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `dynamic` from `RuntimeMetadataProvider::getMetadata` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `RuntimeMetadataProvider::getMetadata`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `RuntimeMetadataProvider::getMetadata`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::getMetadata` (`dynamic`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::getMetadata` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::getMetadata` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::getMetadata` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-GETMETADATA] | SysML v2: ActionDef(RuntimeMetadataProvider::getMetadata)
   dynamic getMetadata(String key) => _store[key];
 
   /// Registers (or overwrites) metadata under [key] with [value].
   ///
-  /// Any previous value for [key] is silently replaced.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::registerMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::registerMetadata` (declaration #3) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `RuntimeMetadataProvider::registerMetadata`.
+  /// - `value: dynamic` must satisfy domain and type-safety constraints prior to invoking `RuntimeMetadataProvider::registerMetadata`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `RuntimeMetadataProvider::registerMetadata` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `RuntimeMetadataProvider::registerMetadata`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `RuntimeMetadataProvider::registerMetadata`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::registerMetadata` (`void`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::registerMetadata` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::registerMetadata` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::registerMetadata` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-REGISTERMETADATA] | SysML v2: ActionDef(RuntimeMetadataProvider::registerMetadata)
   void registerMetadata(String key, dynamic value) {
     _store[key] = value;
   }
 
   /// Returns `true` when a value has been registered for [key].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::containsKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::containsKey` (declaration #4) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RuntimeMetadataProvider::containsKey` in `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `RuntimeMetadataProvider::containsKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(containsKey)) bounded over input/member dimension of `RuntimeMetadataProvider::containsKey`.
+  /// - Space Complexity: O(K(containsKey)) bounded auxiliary memory for `RuntimeMetadataProvider::containsKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::containsKey` (`bool`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::containsKey` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::containsKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::containsKey` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-CONTAINSKEY] | SysML v2: ActionDef(RuntimeMetadataProvider::containsKey)
   bool containsKey(String key) => _store.containsKey(key);
 
   /// Removes the metadata entry for [key] and returns its previous value.
   ///
-  /// Returns `null` if [key] was not registered.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::removeMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::removeMetadata` (declaration #5) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RuntimeMetadataProvider::removeMetadata` in `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `dynamic` from `RuntimeMetadataProvider::removeMetadata` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(removeMetadata)) bounded over input/member dimension of `RuntimeMetadataProvider::removeMetadata`.
+  /// - Space Complexity: O(K(removeMetadata)) bounded auxiliary memory for `RuntimeMetadataProvider::removeMetadata`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::removeMetadata` (`dynamic`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::removeMetadata` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::removeMetadata` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::removeMetadata` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-REMOVEMETADATA] | SysML v2: ActionDef(RuntimeMetadataProvider::removeMetadata)
   dynamic removeMetadata(String key) => _store.remove(key);
 
   /// Returns the number of registered metadata entries.

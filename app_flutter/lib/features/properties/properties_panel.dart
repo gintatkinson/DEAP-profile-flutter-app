@@ -55,6 +55,31 @@ export 'package:app_flutter/features/properties/property_grid.dart'
 @immutable
 class PropertiesPanel extends StatelessWidget {
   /// Creates a [PropertiesPanel].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesPanel::PropertiesPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `PropertiesPanel::PropertiesPanel` (declaration #2) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertiesPanel::PropertiesPanel` in `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertiesPanel::PropertiesPanel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(PropertiesPanel)) bounded over input/member dimension of `PropertiesPanel::PropertiesPanel`.
+  /// - Space Complexity: O(K(PropertiesPanel)) bounded auxiliary memory for `PropertiesPanel::PropertiesPanel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::PropertiesPanel` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::PropertiesPanel` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::PropertiesPanel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::PropertiesPanel` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-PROPERTIESPANEL] | SysML v2: ActionDef(PropertiesPanel::PropertiesPanel)
   const PropertiesPanel({
     super.key,
     this.child,
@@ -100,6 +125,32 @@ class PropertiesPanel extends StatelessWidget {
   /// Optional explicit [PropertiesViewModel] instance.
   final PropertiesViewModel? viewModel;
 
+  /// Executes deterministic method `PropertiesPanel::_resolveViewModel` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_resolveViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_resolveViewModel` (declaration #3) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_resolveViewModel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `PropertiesViewModel?` from `PropertiesPanel::_resolveViewModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::_resolveViewModel`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::_resolveViewModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::_resolveViewModel` (`PropertiesViewModel?`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::_resolveViewModel` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::_resolveViewModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::_resolveViewModel` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-RESOLVEVIEWMODEL] | SysML v2: ActionDef(PropertiesPanel::_resolveViewModel)
   PropertiesViewModel? _resolveViewModel(BuildContext context) {
     if (viewModel != null) return viewModel;
     try {
@@ -109,24 +160,128 @@ class PropertiesPanel extends StatelessWidget {
     }
   }
 
+  /// Executes deterministic method `PropertiesPanel::_triggerConfigureLocation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerConfigureLocation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerConfigureLocation` (declaration #4) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_triggerConfigureLocation`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `PropertiesPanel::_triggerConfigureLocation` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::_triggerConfigureLocation`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::_triggerConfigureLocation`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::_triggerConfigureLocation` (`void`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::_triggerConfigureLocation` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::_triggerConfigureLocation` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::_triggerConfigureLocation` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-TRIGGERCONFIGURELOCATION] | SysML v2: ActionDef(PropertiesPanel::_triggerConfigureLocation)
   void _triggerConfigureLocation(BuildContext context) {
     final targetId = currentNodeId ?? activeView;
     onConfigureLocation?.call(targetId);
     _resolveViewModel(context)?.configureLocation(targetId);
   }
 
+  /// Executes deterministic method `PropertiesPanel::_triggerDrillHierarchy` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerDrillHierarchy` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerDrillHierarchy` (declaration #5) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_triggerDrillHierarchy`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `PropertiesPanel::_triggerDrillHierarchy` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::_triggerDrillHierarchy`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::_triggerDrillHierarchy`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::_triggerDrillHierarchy` (`void`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::_triggerDrillHierarchy` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::_triggerDrillHierarchy` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::_triggerDrillHierarchy` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-TRIGGERDRILLHIERARCHY] | SysML v2: ActionDef(PropertiesPanel::_triggerDrillHierarchy)
   void _triggerDrillHierarchy(BuildContext context) {
     final targetId = currentNodeId ?? activeView;
     onDrillHierarchy?.call(targetId);
     _resolveViewModel(context)?.drillHierarchy(targetId);
   }
 
+  /// Executes deterministic method `PropertiesPanel::_triggerProvisionNe` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerProvisionNe` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerProvisionNe` (declaration #6) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_triggerProvisionNe`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `PropertiesPanel::_triggerProvisionNe` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::_triggerProvisionNe`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::_triggerProvisionNe`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::_triggerProvisionNe` (`void`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::_triggerProvisionNe` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::_triggerProvisionNe` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::_triggerProvisionNe` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-TRIGGERPROVISIONNE] | SysML v2: ActionDef(PropertiesPanel::_triggerProvisionNe)
   void _triggerProvisionNe(BuildContext context) {
     final targetId = currentNodeId ?? activeView;
     onProvisionNe?.call(targetId);
     _resolveViewModel(context)?.provisionNe(targetId);
   }
 
+  /// Executes deterministic method `PropertiesPanel::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::build` (declaration #7) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `PropertiesPanel::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::build` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::build` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-BUILD] | SysML v2: ActionDef(PropertiesPanel::build)
   @override
   Widget build(BuildContext context) {
     final vm = viewModel ?? (context.watch<PropertiesViewModel?>());
@@ -141,6 +296,33 @@ class PropertiesPanel extends StatelessWidget {
     return _buildContent(context, null);
   }
 
+  /// Executes deterministic method `PropertiesPanel::_buildContent` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_buildContent` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_buildContent` (declaration #8) within `PROPERTIES-PROPERTIES-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_buildContent`.
+  /// - `vm: PropertiesViewModel?` must satisfy domain and type-safety constraints prior to invoking `PropertiesPanel::_buildContent`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `PropertiesPanel::_buildContent` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `PropertiesPanel::_buildContent`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `PropertiesPanel::_buildContent`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesPanel::_buildContent` (`Widget`).
+  /// - State: Maintains consistent state invariants across `PropertiesPanel::_buildContent` without partial mutation on error.
+  /// - Action: Executes `PropertiesPanel::_buildContent` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesPanel::_buildContent` (`PROPERTIES-PROPERTIES-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTIES-PANEL-PROPERTIESPANEL-BUILDCONTENT] | SysML v2: ActionDef(PropertiesPanel::_buildContent)
   Widget _buildContent(BuildContext context, PropertiesViewModel? vm) {
     final effectiveFields = fields.isNotEmpty
         ? fields

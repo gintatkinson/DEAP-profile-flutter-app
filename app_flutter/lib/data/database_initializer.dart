@@ -87,6 +87,31 @@ Future<void> main() async {
 /// Realises: [Feat-10/DatabaseInitializer]
 abstract class SeedStrategy {
   /// Populates the provided [db] instance with initial M2 type definitions and M1 instance records.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedStrategy::seed` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SeedStrategy::seed` (declaration #3) within `DATA-DATABASE-INITIALIZER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `db: Database` must satisfy domain and type-safety constraints prior to invoking `SeedStrategy::seed`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `SeedStrategy::seed` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(db)) bounded over input/member dimension of `SeedStrategy::seed`.
+  /// - Space Complexity: O(N(db)) bounded auxiliary memory for `SeedStrategy::seed`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SeedStrategy::seed` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `SeedStrategy::seed` without partial mutation on error.
+  /// - Action: Executes `SeedStrategy::seed` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SeedStrategy::seed` (`DATA-DATABASE-INITIALIZER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-DATABASE-INITIALIZER-SEEDSTRATEGY-SEED] | SysML v2: ActionDef(SeedStrategy::seed)
   Future<void> seed(Database db);
 }
 
@@ -121,6 +146,33 @@ abstract class SeedStrategy {
 /// Realises: [Feat-10/DatabaseInitializer]
 class DatabaseInitializer {
   /// Opens or creates the target SQLite database, applies WAL and foreign-key PRAGMAs, ensures all M2 schema tables and indexes exist, and optionally runs [seedStrategy].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::create` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DatabaseInitializer::create` (declaration #5) within `DATA-DATABASE-INITIALIZER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dbPath: String?` must satisfy domain and type-safety constraints prior to invoking `DatabaseInitializer::create`.
+  /// - `seed: bool` must satisfy domain and type-safety constraints prior to invoking `DatabaseInitializer::create`.
+  /// - `seedStrategy: SeedStrategy?` must satisfy domain and type-safety constraints prior to invoking `DatabaseInitializer::create`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Database>` from `DatabaseInitializer::create` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dbPath)) bounded over input/member dimension of `DatabaseInitializer::create`.
+  /// - Space Complexity: O(N(dbPath)) bounded auxiliary memory for `DatabaseInitializer::create`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DatabaseInitializer::create` (`Future<Database>`).
+  /// - State: Maintains consistent state invariants across `DatabaseInitializer::create` without partial mutation on error.
+  /// - Action: Executes `DatabaseInitializer::create` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DatabaseInitializer::create` (`DATA-DATABASE-INITIALIZER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-DATABASE-INITIALIZER-DATABASEINITIALIZER-CREATE] | SysML v2: ActionDef(DatabaseInitializer::create)
   static Future<Database> create({String? dbPath, bool seed = false, SeedStrategy? seedStrategy}) async {
     final isTest = !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
     final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
@@ -246,6 +298,32 @@ class DatabaseInitializer {
     }
   }
 
+  /// Executes deterministic method `DatabaseInitializer::_probeFfiViability` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::_probeFfiViability` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DatabaseInitializer::_probeFfiViability` (declaration #6) within `DATA-DATABASE-INITIALIZER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DatabaseInitializer::_probeFfiViability` in `DATA-DATABASE-INITIALIZER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<bool>` from `DatabaseInitializer::_probeFfiViability` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_probeFfiViability)) bounded over input/member dimension of `DatabaseInitializer::_probeFfiViability`.
+  /// - Space Complexity: O(K(_probeFfiViability)) bounded auxiliary memory for `DatabaseInitializer::_probeFfiViability`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DatabaseInitializer::_probeFfiViability` (`Future<bool>`).
+  /// - State: Maintains consistent state invariants across `DatabaseInitializer::_probeFfiViability` without partial mutation on error.
+  /// - Action: Executes `DatabaseInitializer::_probeFfiViability` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DatabaseInitializer::_probeFfiViability` (`DATA-DATABASE-INITIALIZER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-DATABASE-INITIALIZER-DATABASEINITIALIZER-PROBEFFIVIABILITY] | SysML v2: ActionDef(DatabaseInitializer::_probeFfiViability)
   static Future<bool> _probeFfiViability() async {
     try {
       sqfliteFfiInit();

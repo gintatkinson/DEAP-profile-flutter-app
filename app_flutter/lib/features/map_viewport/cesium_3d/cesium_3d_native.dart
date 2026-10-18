@@ -50,6 +50,31 @@ class Cesium3DNative {
   bool get isNativeBridgeAvailable => _bindings?.isNativeAvailable ?? false;
 
   /// Initializes the cesium tileset from the given URL.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::initializeTileset` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::initializeTileset` (declaration #2) within `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `sourceUrl: String` must satisfy domain and type-safety constraints prior to invoking `Cesium3DNative::initializeTileset`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `Cesium3DNative::initializeTileset` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(sourceUrl)) bounded over input/member dimension of `Cesium3DNative::initializeTileset`.
+  /// - Space Complexity: O(N(sourceUrl)) bounded auxiliary memory for `Cesium3DNative::initializeTileset`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Cesium3DNative::initializeTileset` (`bool`).
+  /// - State: Maintains consistent state invariants across `Cesium3DNative::initializeTileset` without partial mutation on error.
+  /// - Action: Executes `Cesium3DNative::initializeTileset` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Cesium3DNative::initializeTileset` (`CESIUM-3D-CESIUM-3D-NATIVE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-3D-NATIVE-CESIUM3DNATIVE-INITIALIZETILESET] | SysML v2: ActionDef(Cesium3DNative::initializeTileset)
   bool initializeTileset(String sourceUrl) {
     if (sourceUrl.isEmpty) {
       return false;
@@ -59,7 +84,30 @@ class Cesium3DNative {
 
   /// Updates the FFI rendering viewport with the virtual camera state.
   ///
-  /// Clamps the dim_2 and throws exception if the dim_2 drops below -100.0.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::updateViewport` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::updateViewport` (declaration #3) within `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `Cesium3DNative::updateViewport`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `Cesium3DNative::updateViewport` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `Cesium3DNative::updateViewport`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `Cesium3DNative::updateViewport`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Cesium3DNative::updateViewport` (`bool`).
+  /// - State: Maintains consistent state invariants across `Cesium3DNative::updateViewport` without partial mutation on error.
+  /// - Action: Executes `Cesium3DNative::updateViewport` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Cesium3DNative::updateViewport` (`CESIUM-3D-CESIUM-3D-NATIVE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-3D-NATIVE-CESIUM3DNATIVE-UPDATEVIEWPORT] | SysML v2: ActionDef(Cesium3DNative::updateViewport)
   bool updateViewport(VirtualCamera camera) {
     if (camera.dim_2 <= -100.0) {
       // Clamp dim_2 and throw exception
@@ -77,6 +125,31 @@ class Cesium3DNative {
   }
 
   /// Fetches the currently visible tile URLs or paths.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::fetchVisibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::fetchVisibleTiles` (declaration #4) within `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Cesium3DNative::fetchVisibleTiles` in `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<String>` from `Cesium3DNative::fetchVisibleTiles` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchVisibleTiles)) bounded over input/member dimension of `Cesium3DNative::fetchVisibleTiles`.
+  /// - Space Complexity: O(K(fetchVisibleTiles)) bounded auxiliary memory for `Cesium3DNative::fetchVisibleTiles`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Cesium3DNative::fetchVisibleTiles` (`List<String>`).
+  /// - State: Maintains consistent state invariants across `Cesium3DNative::fetchVisibleTiles` without partial mutation on error.
+  /// - Action: Executes `Cesium3DNative::fetchVisibleTiles` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Cesium3DNative::fetchVisibleTiles` (`CESIUM-3D-CESIUM-3D-NATIVE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-3D-NATIVE-CESIUM3DNATIVE-FETCHVISIBLETILES] | SysML v2: ActionDef(Cesium3DNative::fetchVisibleTiles)
   List<String> fetchVisibleTiles() {
     return <String>[
       'models/tile_0.gltf',

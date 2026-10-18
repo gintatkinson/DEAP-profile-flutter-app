@@ -59,12 +59,12 @@ All Flutter feature implementations MUST adhere strictly to the 15 mandatory dom
 
 ## Platform Audit Gates
 
-These are the platform-specific constraints enforced against a
+These are the platform-specific constraints the parity auditor enforces against a
 Flutter workspace. They live here rather than in `rules/` because each one names the
 Flutter source tree, a Flutter widget, or Flutter UI directories, and would be
 meaningless on another platform -- see `rules/platform-independence.md`
 § *Where platform-specific details belong*. Enforced offline by
-`./target/release/verify-baseline . --no-domain` (and `./target/release/verify-baseline app_flutter`).
+`crates/verify-baseline/src/checks/codebase.rs` and `./target/release/verify-baseline`.
 
 - **Profile Scoping Requires Platform Sources**: profile-compliance auditing runs over
   the Flutter source tree named by `target_directories.flutter`. A workspace with no
@@ -91,7 +91,7 @@ meaningless on another platform -- see `rules/platform-independence.md`
   in the data layer and invisible to the operator. Where the workspace declares UI
   directories at all, realisation without a UI binding is reported.
 - **Public Member Docstrings Mandatory**: every public class, interface, method, function,
-  and public property MUST include full docstrings (DartDoc ///, JSDoc /** */, Python """).
+  and public property MUST include full docstrings (DartDoc `///`, JSDoc `/** */`, RustDoc `///`).
   Enforced as a mandatory blocking linter rule via `public_member_api_docs`.
 - **UML Traceability Tags Mandatory**: Every public Dart class MUST include a DartDoc comment citing its underlying specification or UML class (e.g., /// Realises: [Feat-002/VirtualCameraNormalization]).
 - **Domain Immutable Annotations Mandatory**: Every public domain model class MUST include an @immutable annotation.

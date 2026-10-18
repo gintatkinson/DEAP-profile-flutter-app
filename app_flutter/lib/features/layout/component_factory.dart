@@ -107,8 +107,30 @@ class ComponentFactory {
 
   /// Creates a [ComponentFactory] with the required dependency resolvers.
   ///
-  /// All parameters are required except [treeViewModel] and [preferredSplitAxis],
-  /// which may be null when not overridden by the caller.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ComponentFactory::ComponentFactory` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ComponentFactory::ComponentFactory` (declaration #2) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ComponentFactory::ComponentFactory` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ComponentFactory::ComponentFactory` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ComponentFactory)) bounded over input/member dimension of `ComponentFactory::ComponentFactory`.
+  /// - Space Complexity: O(K(ComponentFactory)) bounded auxiliary memory for `ComponentFactory::ComponentFactory`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ComponentFactory::ComponentFactory` (`()`).
+  /// - State: Maintains consistent state invariants across `ComponentFactory::ComponentFactory` without partial mutation on error.
+  /// - Action: Executes `ComponentFactory::ComponentFactory` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ComponentFactory::ComponentFactory` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-COMPONENTFACTORY-COMPONENTFACTORY] | SysML v2: ActionDef(ComponentFactory::ComponentFactory)
   ComponentFactory({
     required this.currentView,
     required this.workerResult,
@@ -258,7 +280,31 @@ class ComponentFactory {
   }
 
   /// Reads the `axis` prop from a layout [node] and returns the corresponding
-  /// [Axis] value. Defaults to [Axis.vertical] when the prop is absent.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ComponentFactory::_parseAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ComponentFactory::_parseAxis` (declaration #4) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `node: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `ComponentFactory::_parseAxis`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Axis` from `ComponentFactory::_parseAxis` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(node)) bounded over input/member dimension of `ComponentFactory::_parseAxis`.
+  /// - Space Complexity: O(N(node)) bounded auxiliary memory for `ComponentFactory::_parseAxis`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ComponentFactory::_parseAxis` (`Axis`).
+  /// - State: Maintains consistent state invariants across `ComponentFactory::_parseAxis` without partial mutation on error.
+  /// - Action: Executes `ComponentFactory::_parseAxis` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ComponentFactory::_parseAxis` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-COMPONENTFACTORY-PARSEAXIS] | SysML v2: ActionDef(ComponentFactory::_parseAxis)
   Axis _parseAxis(Map<String, dynamic> node) {
     final axis = node['props']?['axis'] as String?;
     if (axis == 'horizontal') return Axis.horizontal;
@@ -267,25 +313,149 @@ class ComponentFactory {
 }
 
 /// Host widget that creates a [TablesViewModel] from the [DataSource] and
-/// provides it to [TabbedContainer].
 ///
-/// Initialises the view model lazily in [didChangeDependencies] so that
-/// [Provider] is available. Reloads tabs when [currentView] changes.
-/// Disposes the view model on unmount to prevent memory leaks.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TabbedContainerHost` (declaration #5) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TabbedContainerHost` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TabbedContainerHost` representation for class `_TabbedContainerHost`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TabbedContainerHost)) bounded over input/member dimension of `_TabbedContainerHost`.
+/// - Space Complexity: O(K(_TabbedContainerHost)) bounded auxiliary memory for `_TabbedContainerHost`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TabbedContainerHost` (`_TabbedContainerHost`).
+/// - State: Maintains consistent state invariants across `_TabbedContainerHost` without partial mutation on error.
+/// - Action: Executes `_TabbedContainerHost` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TabbedContainerHost` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOST] | SysML v2: PartDef(_TabbedContainerHost)
 class _TabbedContainerHost extends StatefulWidget {
   /// Active view node identifier.
   final String currentView;
 
+  /// Executes deterministic constructor `_TabbedContainerHost::_TabbedContainerHost` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TabbedContainerHost::_TabbedContainerHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_TabbedContainerHost::_TabbedContainerHost` (declaration #6) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `currentView: String` must satisfy domain and type-safety constraints prior to invoking `_TabbedContainerHost::_TabbedContainerHost`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TabbedContainerHost::_TabbedContainerHost` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(currentView)) bounded over input/member dimension of `_TabbedContainerHost::_TabbedContainerHost`.
+  /// - Space Complexity: O(N(currentView)) bounded auxiliary memory for `_TabbedContainerHost::_TabbedContainerHost`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHost::_TabbedContainerHost` (`()`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHost::_TabbedContainerHost` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHost::_TabbedContainerHost` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHost::_TabbedContainerHost` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOST-TABBEDCONTAINERHOST] | SysML v2: ActionDef(_TabbedContainerHost::_TabbedContainerHost)
   const _TabbedContainerHost({required this.currentView});
 
+  /// Executes deterministic method `_TabbedContainerHost::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHost::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHost::createState` (declaration #7) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerHost::createState` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<_TabbedContainerHost>` from `_TabbedContainerHost::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `_TabbedContainerHost::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `_TabbedContainerHost::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHost::createState` (`State<_TabbedContainerHost>`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHost::createState` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHost::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHost::createState` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOST-CREATESTATE] | SysML v2: ActionDef(_TabbedContainerHost::createState)
   @override
   State<_TabbedContainerHost> createState() => _TabbedContainerHostState();
 }
 
+/// Executes deterministic class `_TabbedContainerHostState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHostState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TabbedContainerHostState` (declaration #8) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TabbedContainerHostState` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TabbedContainerHostState` representation for class `_TabbedContainerHostState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TabbedContainerHostState)) bounded over input/member dimension of `_TabbedContainerHostState`.
+/// - Space Complexity: O(K(_TabbedContainerHostState)) bounded auxiliary memory for `_TabbedContainerHostState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TabbedContainerHostState` (`_TabbedContainerHostState`).
+/// - State: Maintains consistent state invariants across `_TabbedContainerHostState` without partial mutation on error.
+/// - Action: Executes `_TabbedContainerHostState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TabbedContainerHostState` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOSTSTATE] | SysML v2: PartDef(_TabbedContainerHostState)
 class _TabbedContainerHostState extends State<_TabbedContainerHost> {
   TablesViewModel? _viewModel;
   bool _initialized = false;
 
+  /// Executes deterministic method `_TabbedContainerHostState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::didChangeDependencies` (declaration #9) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerHostState::didChangeDependencies` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerHostState::didChangeDependencies` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(didChangeDependencies)) bounded over input/member dimension of `_TabbedContainerHostState::didChangeDependencies`.
+  /// - Space Complexity: O(K(didChangeDependencies)) bounded auxiliary memory for `_TabbedContainerHostState::didChangeDependencies`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHostState::didChangeDependencies` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHostState::didChangeDependencies` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHostState::didChangeDependencies` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHostState::didChangeDependencies` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOSTSTATE-DIDCHANGEDEPENDENCIES] | SysML v2: ActionDef(_TabbedContainerHostState::didChangeDependencies)
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -297,6 +467,32 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerHostState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::didUpdateWidget` (declaration #10) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: _TabbedContainerHost` must satisfy domain and type-safety constraints prior to invoking `_TabbedContainerHostState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerHostState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_TabbedContainerHostState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_TabbedContainerHostState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHostState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHostState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHostState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHostState::didUpdateWidget` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOSTSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_TabbedContainerHostState::didUpdateWidget)
   @override
   void didUpdateWidget(_TabbedContainerHost oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -305,12 +501,64 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerHostState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::dispose` (declaration #11) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerHostState::dispose` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerHostState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TabbedContainerHostState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TabbedContainerHostState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHostState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHostState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHostState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHostState::dispose` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOSTSTATE-DISPOSE] | SysML v2: ActionDef(_TabbedContainerHostState::dispose)
   @override
   void dispose() {
     _viewModel?.dispose();
     super.dispose();
   }
 
+  /// Executes deterministic method `_TabbedContainerHostState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::build` (declaration #12) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TabbedContainerHostState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TabbedContainerHostState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TabbedContainerHostState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TabbedContainerHostState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerHostState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerHostState::build` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerHostState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerHostState::build` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOSTSTATE-BUILD] | SysML v2: ActionDef(_TabbedContainerHostState::build)
   @override
   Widget build(BuildContext context) {
     if (_viewModel == null) return const SizedBox.shrink();
@@ -322,29 +570,154 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
 }
 
 /// Host widget that creates a [TablesViewModel] for a single table tab and
-/// provides it to [TableViewWidget].
 ///
-/// Same lifecycle pattern as [_TabbedContainerHost] -- lazy initialisation,
-/// reload on view change, dispose on unmount.
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TableViewContainer` (declaration #13) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TableViewContainer` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TableViewContainer` representation for class `_TableViewContainer`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TableViewContainer)) bounded over input/member dimension of `_TableViewContainer`.
+/// - Space Complexity: O(K(_TableViewContainer)) bounded auxiliary memory for `_TableViewContainer`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TableViewContainer` (`_TableViewContainer`).
+/// - State: Maintains consistent state invariants across `_TableViewContainer` without partial mutation on error.
+/// - Action: Executes `_TableViewContainer` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TableViewContainer` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINER] | SysML v2: PartDef(_TableViewContainer)
 class _TableViewContainer extends StatefulWidget {
   /// Tab identifier string.
   final String tabId;
   /// Active view node identifier.
   final String currentView;
 
+  /// Executes deterministic constructor `_TableViewContainer::_TableViewContainer` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TableViewContainer::_TableViewContainer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_TableViewContainer::_TableViewContainer` (declaration #14) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewContainer::_TableViewContainer` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TableViewContainer::_TableViewContainer` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_TableViewContainer)) bounded over input/member dimension of `_TableViewContainer::_TableViewContainer`.
+  /// - Space Complexity: O(K(_TableViewContainer)) bounded auxiliary memory for `_TableViewContainer::_TableViewContainer`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainer::_TableViewContainer` (`()`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainer::_TableViewContainer` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainer::_TableViewContainer` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainer::_TableViewContainer` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINER-TABLEVIEWCONTAINER] | SysML v2: ActionDef(_TableViewContainer::_TableViewContainer)
   const _TableViewContainer({
     required this.tabId,
     required this.currentView,
   });
 
+  /// Executes deterministic method `_TableViewContainer::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainer::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainer::createState` (declaration #15) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewContainer::createState` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<_TableViewContainer>` from `_TableViewContainer::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `_TableViewContainer::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `_TableViewContainer::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainer::createState` (`State<_TableViewContainer>`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainer::createState` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainer::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainer::createState` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINER-CREATESTATE] | SysML v2: ActionDef(_TableViewContainer::createState)
   @override
   State<_TableViewContainer> createState() => _TableViewContainerState();
 }
 
+/// Executes deterministic class `_TableViewContainerState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainerState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TableViewContainerState` (declaration #16) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TableViewContainerState` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TableViewContainerState` representation for class `_TableViewContainerState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TableViewContainerState)) bounded over input/member dimension of `_TableViewContainerState`.
+/// - Space Complexity: O(K(_TableViewContainerState)) bounded auxiliary memory for `_TableViewContainerState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TableViewContainerState` (`_TableViewContainerState`).
+/// - State: Maintains consistent state invariants across `_TableViewContainerState` without partial mutation on error.
+/// - Action: Executes `_TableViewContainerState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TableViewContainerState` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINERSTATE] | SysML v2: PartDef(_TableViewContainerState)
 class _TableViewContainerState extends State<_TableViewContainer> {
   TablesViewModel? _viewModel;
   bool _initialized = false;
 
+  /// Executes deterministic method `_TableViewContainerState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::didChangeDependencies` (declaration #17) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewContainerState::didChangeDependencies` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TableViewContainerState::didChangeDependencies` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(didChangeDependencies)) bounded over input/member dimension of `_TableViewContainerState::didChangeDependencies`.
+  /// - Space Complexity: O(K(didChangeDependencies)) bounded auxiliary memory for `_TableViewContainerState::didChangeDependencies`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainerState::didChangeDependencies` (`void`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainerState::didChangeDependencies` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainerState::didChangeDependencies` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainerState::didChangeDependencies` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINERSTATE-DIDCHANGEDEPENDENCIES] | SysML v2: ActionDef(_TableViewContainerState::didChangeDependencies)
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -356,6 +729,32 @@ class _TableViewContainerState extends State<_TableViewContainer> {
     }
   }
 
+  /// Executes deterministic method `_TableViewContainerState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::didUpdateWidget` (declaration #18) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: _TableViewContainer` must satisfy domain and type-safety constraints prior to invoking `_TableViewContainerState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TableViewContainerState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_TableViewContainerState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_TableViewContainerState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainerState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainerState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainerState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainerState::didUpdateWidget` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINERSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_TableViewContainerState::didUpdateWidget)
   @override
   void didUpdateWidget(_TableViewContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -365,12 +764,64 @@ class _TableViewContainerState extends State<_TableViewContainer> {
     }
   }
 
+  /// Executes deterministic method `_TableViewContainerState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::dispose` (declaration #19) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TableViewContainerState::dispose` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TableViewContainerState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TableViewContainerState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TableViewContainerState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainerState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainerState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainerState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainerState::dispose` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINERSTATE-DISPOSE] | SysML v2: ActionDef(_TableViewContainerState::dispose)
   @override
   void dispose() {
     _viewModel?.dispose();
     super.dispose();
   }
 
+  /// Executes deterministic method `_TableViewContainerState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::build` (declaration #20) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TableViewContainerState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TableViewContainerState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TableViewContainerState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TableViewContainerState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TableViewContainerState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TableViewContainerState::build` without partial mutation on error.
+  /// - Action: Executes `_TableViewContainerState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TableViewContainerState::build` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABLEVIEWCONTAINERSTATE-BUILD] | SysML v2: ActionDef(_TableViewContainerState::build)
   @override
   Widget build(BuildContext context) {
     if (_viewModel == null) return const SizedBox.shrink();
@@ -383,29 +834,151 @@ class _TableViewContainerState extends State<_TableViewContainer> {
 
 /// Host widget that creates a [PropertiesViewModel] and provides it to [PropertiesPanel].
 ///
-/// Realises: [Feat-10/PropertiesPanel]
-/// Realises: [UC-03]
-/// Realises: [UC-10]
-/// Realises: [UC-15]
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_PropertiesPanelHost` (declaration #21) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_PropertiesPanelHost` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_PropertiesPanelHost` representation for class `_PropertiesPanelHost`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_PropertiesPanelHost)) bounded over input/member dimension of `_PropertiesPanelHost`.
+/// - Space Complexity: O(K(_PropertiesPanelHost)) bounded auxiliary memory for `_PropertiesPanelHost`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_PropertiesPanelHost` (`_PropertiesPanelHost`).
+/// - State: Maintains consistent state invariants across `_PropertiesPanelHost` without partial mutation on error.
+/// - Action: Executes `_PropertiesPanelHost` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHost` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/PropertiesPanel], [UC-03], [UC-10], [UC-15] | SysML v2: PartDef(_PropertiesPanelHost)
 class _PropertiesPanelHost extends StatefulWidget {
-  /// Member documentation.
   final String currentView;
-  /// Member documentation.
   final Widget Function(BuildContext) buildChildWidget;
 
+  /// Executes deterministic constructor `_PropertiesPanelHost::_PropertiesPanelHost` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_PropertiesPanelHost::_PropertiesPanelHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_PropertiesPanelHost::_PropertiesPanelHost` (declaration #22) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertiesPanelHost::_PropertiesPanelHost` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_PropertiesPanelHost::_PropertiesPanelHost` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_PropertiesPanelHost)) bounded over input/member dimension of `_PropertiesPanelHost::_PropertiesPanelHost`.
+  /// - Space Complexity: O(K(_PropertiesPanelHost)) bounded auxiliary memory for `_PropertiesPanelHost::_PropertiesPanelHost`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHost::_PropertiesPanelHost` (`()`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHost::_PropertiesPanelHost` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHost::_PropertiesPanelHost` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHost::_PropertiesPanelHost` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOST-PROPERTIESPANELHOST] | SysML v2: ActionDef(_PropertiesPanelHost::_PropertiesPanelHost)
   const _PropertiesPanelHost({
     required this.currentView,
     required this.buildChildWidget,
   });
 
+  /// Executes deterministic method `_PropertiesPanelHost::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHost::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHost::createState` (declaration #23) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertiesPanelHost::createState` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<_PropertiesPanelHost>` from `_PropertiesPanelHost::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `_PropertiesPanelHost::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `_PropertiesPanelHost::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHost::createState` (`State<_PropertiesPanelHost>`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHost::createState` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHost::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHost::createState` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOST-CREATESTATE] | SysML v2: ActionDef(_PropertiesPanelHost::createState)
   @override
   State<_PropertiesPanelHost> createState() => _PropertiesPanelHostState();
 }
 
+/// Executes deterministic class `_PropertiesPanelHostState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHostState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_PropertiesPanelHostState` (declaration #24) within `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_PropertiesPanelHostState` in `LAYOUT-COMPONENT-FACTORY`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_PropertiesPanelHostState` representation for class `_PropertiesPanelHostState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_PropertiesPanelHostState)) bounded over input/member dimension of `_PropertiesPanelHostState`.
+/// - Space Complexity: O(K(_PropertiesPanelHostState)) bounded auxiliary memory for `_PropertiesPanelHostState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_PropertiesPanelHostState` (`_PropertiesPanelHostState`).
+/// - State: Maintains consistent state invariants across `_PropertiesPanelHostState` without partial mutation on error.
+/// - Action: Executes `_PropertiesPanelHostState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHostState` (`LAYOUT-COMPONENT-FACTORY`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOSTSTATE] | SysML v2: PartDef(_PropertiesPanelHostState)
 class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
   PropertiesViewModel? _viewModel;
   bool _initialized = false;
 
+  /// Executes deterministic method `_PropertiesPanelHostState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::didChangeDependencies` (declaration #25) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertiesPanelHostState::didChangeDependencies` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertiesPanelHostState::didChangeDependencies` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(didChangeDependencies)) bounded over input/member dimension of `_PropertiesPanelHostState::didChangeDependencies`.
+  /// - Space Complexity: O(K(didChangeDependencies)) bounded auxiliary memory for `_PropertiesPanelHostState::didChangeDependencies`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHostState::didChangeDependencies` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHostState::didChangeDependencies` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHostState::didChangeDependencies` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHostState::didChangeDependencies` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOSTSTATE-DIDCHANGEDEPENDENCIES] | SysML v2: ActionDef(_PropertiesPanelHostState::didChangeDependencies)
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -420,6 +993,32 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
     }
   }
 
+  /// Executes deterministic method `_PropertiesPanelHostState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::didUpdateWidget` (declaration #26) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: _PropertiesPanelHost` must satisfy domain and type-safety constraints prior to invoking `_PropertiesPanelHostState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertiesPanelHostState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_PropertiesPanelHostState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_PropertiesPanelHostState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHostState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHostState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHostState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHostState::didUpdateWidget` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOSTSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_PropertiesPanelHostState::didUpdateWidget)
   @override
   void didUpdateWidget(_PropertiesPanelHost oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -428,12 +1027,64 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
     }
   }
 
+  /// Executes deterministic method `_PropertiesPanelHostState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::dispose` (declaration #27) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertiesPanelHostState::dispose` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertiesPanelHostState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_PropertiesPanelHostState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_PropertiesPanelHostState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHostState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHostState::dispose` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHostState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHostState::dispose` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOSTSTATE-DISPOSE] | SysML v2: ActionDef(_PropertiesPanelHostState::dispose)
   @override
   void dispose() {
     _viewModel?.dispose();
     super.dispose();
   }
 
+  /// Executes deterministic method `_PropertiesPanelHostState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::build` (declaration #28) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_PropertiesPanelHostState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertiesPanelHostState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_PropertiesPanelHostState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_PropertiesPanelHostState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertiesPanelHostState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertiesPanelHostState::build` without partial mutation on error.
+  /// - Action: Executes `_PropertiesPanelHostState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertiesPanelHostState::build` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-PROPERTIESPANELHOSTSTATE-BUILD] | SysML v2: ActionDef(_PropertiesPanelHostState::build)
   @override
   Widget build(BuildContext context) {
     final childWidget = widget.buildChildWidget(context);

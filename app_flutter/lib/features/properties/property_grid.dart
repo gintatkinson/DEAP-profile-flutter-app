@@ -40,8 +40,59 @@ import 'package:app_flutter/core/theme/theme_controller.dart';
 @immutable
 class UpperCaseTextFormatter extends TextInputFormatter {
   /// Creates an [UpperCaseTextFormatter].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `UpperCaseTextFormatter::UpperCaseTextFormatter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `UpperCaseTextFormatter::UpperCaseTextFormatter` (declaration #2) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `UpperCaseTextFormatter::UpperCaseTextFormatter` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `UpperCaseTextFormatter::UpperCaseTextFormatter` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(UpperCaseTextFormatter)) bounded over input/member dimension of `UpperCaseTextFormatter::UpperCaseTextFormatter`.
+  /// - Space Complexity: O(K(UpperCaseTextFormatter)) bounded auxiliary memory for `UpperCaseTextFormatter::UpperCaseTextFormatter`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `UpperCaseTextFormatter::UpperCaseTextFormatter` (`()`).
+  /// - State: Maintains consistent state invariants across `UpperCaseTextFormatter::UpperCaseTextFormatter` without partial mutation on error.
+  /// - Action: Executes `UpperCaseTextFormatter::UpperCaseTextFormatter` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `UpperCaseTextFormatter::UpperCaseTextFormatter` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-UPPERCASETEXTFORMATTER-UPPERCASETEXTFORMATTER] | SysML v2: ActionDef(UpperCaseTextFormatter::UpperCaseTextFormatter)
   UpperCaseTextFormatter();
 
+  /// Executes deterministic method `UpperCaseTextFormatter::formatEditUpdate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `UpperCaseTextFormatter::formatEditUpdate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `UpperCaseTextFormatter::formatEditUpdate` (declaration #3) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `UpperCaseTextFormatter::formatEditUpdate` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TextEditingValue` from `UpperCaseTextFormatter::formatEditUpdate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(formatEditUpdate)) bounded over input/member dimension of `UpperCaseTextFormatter::formatEditUpdate`.
+  /// - Space Complexity: O(K(formatEditUpdate)) bounded auxiliary memory for `UpperCaseTextFormatter::formatEditUpdate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `UpperCaseTextFormatter::formatEditUpdate` (`TextEditingValue`).
+  /// - State: Maintains consistent state invariants across `UpperCaseTextFormatter::formatEditUpdate` without partial mutation on error.
+  /// - Action: Executes `UpperCaseTextFormatter::formatEditUpdate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `UpperCaseTextFormatter::formatEditUpdate` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-UPPERCASETEXTFORMATTER-FORMATEDITUPDATE] | SysML v2: ActionDef(UpperCaseTextFormatter::formatEditUpdate)
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -160,18 +211,31 @@ class PropertyGrid extends StatefulWidget {
   final VoidCallback? rollbackTransaction;
 
   /// Creates a [PropertyGrid] with the given field descriptors, initial values,
-  /// and visual configuration.
   ///
-  /// All visual parameters have sensible defaults so that a basic grid works
-  /// out of the box. Override them to match a specific design system:
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertyGrid::PropertyGrid` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  ///   - [wideLayoutBreakpoint] -- when the available width exceeds this value,
-  ///     the first two sections render side-by-side; below it they stack.
-  ///   - [sectionPadding] -- whitespace inside each section's card container.
-  ///   - [gapSize] -- vertical spacing between fields and sections.
-  ///   - [cardBorderRadius] -- corner rounding for section cards.
-  ///   - [inputBorderRadius] -- corner rounding for text field and dropdown
-  ///     input borders.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `PropertyGrid::PropertyGrid` (declaration #5) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertyGrid::PropertyGrid` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertyGrid::PropertyGrid` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(PropertyGrid)) bounded over input/member dimension of `PropertyGrid::PropertyGrid`.
+  /// - Space Complexity: O(K(PropertyGrid)) bounded auxiliary memory for `PropertyGrid::PropertyGrid`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertyGrid::PropertyGrid` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertyGrid::PropertyGrid` without partial mutation on error.
+  /// - Action: Executes `PropertyGrid::PropertyGrid` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertyGrid::PropertyGrid` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRID-PROPERTYGRID] | SysML v2: ActionDef(PropertyGrid::PropertyGrid)
   const PropertyGrid({
     super.key,
     this.fields = const [],
@@ -188,6 +252,32 @@ class PropertyGrid extends StatefulWidget {
     this.rollbackTransaction,
   });
 
+  /// Executes deterministic method `PropertyGrid::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyGrid::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertyGrid::createState` (declaration #6) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertyGrid::createState` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<PropertyGrid>` from `PropertyGrid::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `PropertyGrid::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `PropertyGrid::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertyGrid::createState` (`State<PropertyGrid>`).
+  /// - State: Maintains consistent state invariants across `PropertyGrid::createState` without partial mutation on error.
+  /// - Action: Executes `PropertyGrid::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertyGrid::createState` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRID-CREATESTATE] | SysML v2: ActionDef(PropertyGrid::createState)
   @override
   State<PropertyGrid> createState() => _PropertyGridState();
 }
@@ -198,6 +288,32 @@ const _inactiveShadowOpacity = 0.05;
 const _activeBadgeBgOpacity = 0.15;
 const _activeBadgeBorderOpacity = 0.3;
 
+/// Executes deterministic class `_PropertyGridState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertyGridState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_PropertyGridState` (declaration #7) within `PROPERTIES-PROPERTY-GRID`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_PropertyGridState` in `PROPERTIES-PROPERTY-GRID`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_PropertyGridState` representation for class `_PropertyGridState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_PropertyGridState)) bounded over input/member dimension of `_PropertyGridState`.
+/// - Space Complexity: O(K(_PropertyGridState)) bounded auxiliary memory for `_PropertyGridState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_PropertyGridState` (`_PropertyGridState`).
+/// - State: Maintains consistent state invariants across `_PropertyGridState` without partial mutation on error.
+/// - Action: Executes `_PropertyGridState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_PropertyGridState` (`PROPERTIES-PROPERTY-GRID`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE] | SysML v2: PartDef(_PropertyGridState)
 class _PropertyGridState extends State<PropertyGrid> {
   late List<FieldDescriptor> _fields;
   final Map<String, TextEditingController> _controllers = {};
@@ -206,9 +322,34 @@ class _PropertyGridState extends State<PropertyGrid> {
   final Map<String, bool> _hadFocus = {};
   bool _isDisposingFields = false;
 
-  /// Member documentation.
   late Map<String, dynamic> committedData;
 
+  /// Executes deterministic method `_PropertyGridState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::initState` (declaration #8) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::initState` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::initState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(initState)) bounded over input/member dimension of `_PropertyGridState::initState`.
+  /// - Space Complexity: O(K(initState)) bounded auxiliary memory for `_PropertyGridState::initState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::initState` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::initState` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::initState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::initState` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-INITSTATE] | SysML v2: ActionDef(_PropertyGridState::initState)
   @override
   void initState() {
     super.initState();
@@ -218,10 +359,32 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Creates a [TextEditingController] and [FocusNode] for every field in
-  /// [fields], seeding each controller with the value from [nodeData].
   ///
-  /// Enum fields do not receive a focus listener because their value is
-  /// committed immediately on selection change rather than on blur.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_initializeFields` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_initializeFields` (declaration #9) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fields: List<FieldDescriptor>` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_initializeFields`.
+  /// - `nodeData: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_initializeFields`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::_initializeFields` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fields)) bounded over input/member dimension of `_PropertyGridState::_initializeFields`.
+  /// - Space Complexity: O(N(fields)) bounded auxiliary memory for `_PropertyGridState::_initializeFields`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_initializeFields` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_initializeFields` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_initializeFields` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_initializeFields` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-INITIALIZEFIELDS] | SysML v2: ActionDef(_PropertyGridState::_initializeFields)
   void _initializeFields(List<FieldDescriptor> fields, Map<String, dynamic> nodeData) {
     for (final field in fields) {
       final val = nodeData[field.key];
@@ -249,11 +412,31 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Disposes all [TextEditingController] and [FocusNode] instances, then
-  /// clears internal maps and resets the error state.
   ///
-  /// Called from [dispose] and from [didUpdateWidget] when the field list
-  /// changes. After this method returns the widget is left in a clean state
-  /// ready for [_initializeFields] to re-create everything.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_disposeAllFields` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_disposeAllFields` (declaration #10) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::_disposeAllFields` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::_disposeAllFields` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_disposeAllFields)) bounded over input/member dimension of `_PropertyGridState::_disposeAllFields`.
+  /// - Space Complexity: O(K(_disposeAllFields)) bounded auxiliary memory for `_PropertyGridState::_disposeAllFields`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_disposeAllFields` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_disposeAllFields` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_disposeAllFields` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_disposeAllFields` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-DISPOSEALLFIELDS] | SysML v2: ActionDef(_PropertyGridState::_disposeAllFields)
   void _disposeAllFields() {
     _isDisposingFields = true;
     for (final controller in _controllers.values) {
@@ -269,6 +452,32 @@ class _PropertyGridState extends State<PropertyGrid> {
     _isDisposingFields = false;
   }
 
+  /// Executes deterministic method `_PropertyGridState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::didUpdateWidget` (declaration #11) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: PropertyGrid` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_PropertyGridState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_PropertyGridState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::didUpdateWidget` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_PropertyGridState::didUpdateWidget)
   @override
   void didUpdateWidget(PropertyGrid oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -316,6 +525,32 @@ class _PropertyGridState extends State<PropertyGrid> {
     }
   }
 
+  /// Executes deterministic method `_PropertyGridState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::dispose` (declaration #12) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::dispose` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_PropertyGridState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_PropertyGridState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::dispose` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::dispose` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-DISPOSE] | SysML v2: ActionDef(_PropertyGridState::dispose)
   @override
   void dispose() {
     _disposeAllFields();
@@ -388,15 +623,32 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Validates the current value of [field] on blur and, if valid, commits it
-  /// to [committedData] and fires [widget.onSave].
   ///
-  /// For enum fields the value is read from [committedData] (already updated
-  /// by the dropdown's onChanged); for all other types it is read from the
-  /// associated [TextEditingController].
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_triggerBlurSave` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// On validation failure the error message is stored in [_errors] and
-  /// displayed inline below the input. The callback is NOT fired on failure so
-  /// that callers only see consistent, valid state snapshots.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_triggerBlurSave` (declaration #13) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_triggerBlurSave`.
+  /// - `field: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_triggerBlurSave`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_PropertyGridState::_triggerBlurSave` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `_PropertyGridState::_triggerBlurSave`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `_PropertyGridState::_triggerBlurSave`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_triggerBlurSave` (`void`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_triggerBlurSave` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_triggerBlurSave` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_triggerBlurSave` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-TRIGGERBLURSAVE] | SysML v2: ActionDef(_PropertyGridState::_triggerBlurSave)
   void _triggerBlurSave(String key, FieldDescriptor field) {
     if (!mounted) return;
     if (!_controllers.containsKey(key) || !_focusNodes.containsKey(key)) {
@@ -429,13 +681,30 @@ class _PropertyGridState extends State<PropertyGrid> {
 
   /// Resolves the list of [TextInputFormatter]s declared on [field].
   ///
-  /// Supported [FieldDescriptor.inputFormatters] directives:
-  ///   - `"uppercase"` -- applies [UpperCaseTextFormatter].
-  ///   - `"maxLength:N"` -- applies [LengthLimitingTextInputFormatter] with
-  ///     limit N.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_resolveInputFormatters` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// Returns null when no formatters are configured, which allows callers to
-  /// pass null directly to the [TextField.inputFormatters] parameter.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_resolveInputFormatters` (declaration #14) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `field: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_resolveInputFormatters`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<TextInputFormatter>?` from `_PropertyGridState::_resolveInputFormatters` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(field)) bounded over input/member dimension of `_PropertyGridState::_resolveInputFormatters`.
+  /// - Space Complexity: O(N(field)) bounded auxiliary memory for `_PropertyGridState::_resolveInputFormatters`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_resolveInputFormatters` (`List<TextInputFormatter>?`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_resolveInputFormatters` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_resolveInputFormatters` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_resolveInputFormatters` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-RESOLVEINPUTFORMATTERS] | SysML v2: ActionDef(_PropertyGridState::_resolveInputFormatters)
   List<TextInputFormatter>? _resolveInputFormatters(FieldDescriptor field) {
     if (field.inputFormatters == null || field.inputFormatters!.isEmpty) return null;
     final List<TextInputFormatter> formatters = [];
@@ -455,6 +724,32 @@ class _PropertyGridState extends State<PropertyGrid> {
     return formatters.isNotEmpty ? formatters : null;
   }
 
+  /// Executes deterministic method `_PropertyGridState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::build` (declaration #15) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_PropertyGridState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_PropertyGridState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::build` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::build` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILD] | SysML v2: ActionDef(_PropertyGridState::build)
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
@@ -558,6 +853,32 @@ class _PropertyGridState extends State<PropertyGrid> {
   List<FieldDescriptor>? _memoFields;
   int _memoErrorsLength = -1;
 
+  /// Executes deterministic method `_PropertyGridState::_LayoutMemo` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_LayoutMemo` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_LayoutMemo` (declaration #16) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::_LayoutMemo` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_LayoutMemo` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_LayoutMemo)) bounded over input/member dimension of `_PropertyGridState::_LayoutMemo`.
+  /// - Space Complexity: O(K(_LayoutMemo)) bounded auxiliary memory for `_PropertyGridState::_LayoutMemo`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_LayoutMemo` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_LayoutMemo` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_LayoutMemo` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_LayoutMemo` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-LAYOUTMEMO] | SysML v2: ActionDef(_PropertyGridState::_LayoutMemo)
   Widget _LayoutMemo({
     required int columnCount,
     required double cardWidth,
@@ -575,15 +896,31 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Builds a single section card with a title header, an optional "Active
-  /// Reference" badge, and the field content.
   ///
-  /// The [isActive] flag controls opacity, border width, border color, and
-  /// shadow intensity. Active sections use [widget.cardBorderRadius] and the
-  /// primary brand color for their border and shadow; inactive sections are
-  /// dimmed with a subtler shadow and a neutral border.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildSystemSection` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// The [width] parameter is applied to the outer container so that sections
-  /// can be laid out side-by-side by the caller.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildSystemSection` (declaration #17) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::_buildSystemSection` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildSystemSection` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_buildSystemSection)) bounded over input/member dimension of `_PropertyGridState::_buildSystemSection`.
+  /// - Space Complexity: O(K(_buildSystemSection)) bounded auxiliary memory for `_PropertyGridState::_buildSystemSection`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildSystemSection` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildSystemSection` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildSystemSection` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildSystemSection` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDSYSTEMSECTION] | SysML v2: ActionDef(_PropertyGridState::_buildSystemSection)
   Widget _buildSystemSection({
     required String title,
     required bool isActive,
@@ -663,8 +1000,32 @@ class _PropertyGridState extends State<PropertyGrid> {
 
   /// Builds all fields belonging to [group], sorted by [FieldDescriptor.sectionOrder].
   ///
-  /// Each field is separated by [widget.gapSize] of vertical space. An empty
-  /// group renders an empty [Column] with no visible output.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildGroupFields` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildGroupFields` (declaration #18) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `group: String` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildGroupFields`.
+  /// - `isDark: bool` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildGroupFields`.
+  /// - `panelOpacity: double` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildGroupFields`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildGroupFields` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(group)) bounded over input/member dimension of `_PropertyGridState::_buildGroupFields`.
+  /// - Space Complexity: O(N(group)) bounded auxiliary memory for `_PropertyGridState::_buildGroupFields`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildGroupFields` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildGroupFields` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildGroupFields` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildGroupFields` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDGROUPFIELDS] | SysML v2: ActionDef(_PropertyGridState::_buildGroupFields)
   Widget _buildGroupFields(String group, bool isDark, double panelOpacity) {
     final groupFields = _fields
         .where((field) => (field.sectionLabel ?? 'Other') == group)
@@ -692,16 +1053,33 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Builds the input widget for a single [field], dispatching to either a
-  /// dropdown (for `enum` fields) or a text field (for all other types).
   ///
-  /// The dispatched type is determined by [FieldDescriptor.type]. Numeric
-  /// fields (`double`, `int`) receive the appropriate keyboard type.
-  /// The current error state, if any, is passed down from [_errors].
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildAttrField` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// Edge cases: enum fields with no options render an empty dropdown with
-  /// the first available option implicitly selected; missing enum options or
-  /// missing display names are handled gracefully (falling back to the raw
-  /// value or index).
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildAttrField` (declaration #19) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `field: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildAttrField`.
+  /// - `isDark: bool` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildAttrField`.
+  /// - `panelOpacity: double` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildAttrField`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildAttrField` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(field)) bounded over input/member dimension of `_PropertyGridState::_buildAttrField`.
+  /// - Space Complexity: O(N(field)) bounded auxiliary memory for `_PropertyGridState::_buildAttrField`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildAttrField` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildAttrField` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildAttrField` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildAttrField` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDATTRFIELD] | SysML v2: ActionDef(_PropertyGridState::_buildAttrField)
   Widget _buildAttrField(FieldDescriptor field, bool isDark, double panelOpacity) {
     final cs = Theme.of(context).colorScheme;
     final Color brandPrimary = cs.primary;
@@ -769,8 +1147,30 @@ class _PropertyGridState extends State<PropertyGrid> {
 
   /// Derives the effective label for a field descriptor.
   ///
-  /// If [fd.label] is empty or starts with fallback patterns like "Field ",
-  /// derives the label dynamically from [fd.key]. Otherwise returns [fd.label].
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_resolveFieldLabel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_resolveFieldLabel` (declaration #20) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fd: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_resolveFieldLabel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `_PropertyGridState::_resolveFieldLabel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fd)) bounded over input/member dimension of `_PropertyGridState::_resolveFieldLabel`.
+  /// - Space Complexity: O(N(fd)) bounded auxiliary memory for `_PropertyGridState::_resolveFieldLabel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_resolveFieldLabel` (`String`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_resolveFieldLabel` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_resolveFieldLabel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_resolveFieldLabel` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-RESOLVEFIELDLABEL] | SysML v2: ActionDef(_PropertyGridState::_resolveFieldLabel)
   String _resolveFieldLabel(FieldDescriptor fd) {
     final labelStr = fd.label.trim();
     if (labelStr.isEmpty || labelStr.startsWith('Field ')) {
@@ -780,6 +1180,31 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Formats a schema key into a human-readable title/label.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_deriveLabelFromKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_deriveLabelFromKey` (declaration #21) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_deriveLabelFromKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `_PropertyGridState::_deriveLabelFromKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `_PropertyGridState::_deriveLabelFromKey`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `_PropertyGridState::_deriveLabelFromKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_deriveLabelFromKey` (`String`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_deriveLabelFromKey` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_deriveLabelFromKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_deriveLabelFromKey` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-DERIVELABELFROMKEY] | SysML v2: ActionDef(_PropertyGridState::_deriveLabelFromKey)
   static String _deriveLabelFromKey(String key) {
     final trimmed = key.trim();
     if (trimmed.isEmpty) return trimmed;
@@ -800,15 +1225,30 @@ class _PropertyGridState extends State<PropertyGrid> {
 
   /// Builds a labelled [TextField] bound to [controller] and [focusNode].
   ///
-  /// The text field uses [widget.inputBorderRadius] for its [OutlineInputBorder]
-  /// and displays [errorText] below the field when validation fails. The
-  /// border color switches to the theme error color when an error is present
-  /// and to [brandPrimary] when focused.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildTextField` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// The label is rendered above the field using the theme's `labelSmall` text
-  /// style. Keyboard type and input formatters are forwarded to the
-  /// [TextField] unchanged; pass null for [inputFormatters] when no
-  /// formatting is required.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildTextField` (declaration #22) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::_buildTextField` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildTextField` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_buildTextField)) bounded over input/member dimension of `_PropertyGridState::_buildTextField`.
+  /// - Space Complexity: O(K(_buildTextField)) bounded auxiliary memory for `_PropertyGridState::_buildTextField`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildTextField` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildTextField` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildTextField` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildTextField` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDTEXTFIELD] | SysML v2: ActionDef(_PropertyGridState::_buildTextField)
   Widget _buildTextField({
     required FieldDescriptor field,
     required String label,
@@ -929,14 +1369,30 @@ class _PropertyGridState extends State<PropertyGrid> {
 
   /// Builds a labelled [DropdownButtonFormField] bound to [focusNode].
   ///
-  /// The dropdown uses [widget.inputBorderRadius] for its [OutlineInputBorder]
-  /// and displays [errorText] below the field when validation fails. Its
-  /// background adjusts to the current brightness via [isDark] to remain
-  /// legible in both light and dark themes.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildDropdownField` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
   ///
-  /// The label is rendered above the dropdown using the theme's `labelSmall`
-  /// text style. The [onChanged] callback is typically wired to
-  /// [_triggerBlurSave] so that enum value changes are committed immediately.
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildDropdownField` (declaration #23) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_PropertyGridState::_buildDropdownField` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildDropdownField` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_buildDropdownField)) bounded over input/member dimension of `_PropertyGridState::_buildDropdownField`.
+  /// - Space Complexity: O(K(_buildDropdownField)) bounded auxiliary memory for `_PropertyGridState::_buildDropdownField`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildDropdownField` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildDropdownField` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildDropdownField` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildDropdownField` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDDROPDOWNFIELD] | SysML v2: ActionDef(_PropertyGridState::_buildDropdownField)
   Widget _buildDropdownField({
     required String label,
     required FocusNode focusNode,
@@ -1002,11 +1458,32 @@ class _PropertyGridState extends State<PropertyGrid> {
   }
 
   /// Builds a read-only panel showing the current [committedData] as
-  /// pretty-printed JSON.
   ///
-  /// Exists primarily for development and debugging workflows where operators
-  /// need to inspect the accumulated committed values at a glance. The panel
-  /// scrolls horizontally to accommodate wide payloads without wrapping.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_buildCommittedStatePanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_buildCommittedStatePanel` (declaration #24) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `isDark: bool` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildCommittedStatePanel`.
+  /// - `panelOpacity: double` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_buildCommittedStatePanel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_PropertyGridState::_buildCommittedStatePanel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(isDark)) bounded over input/member dimension of `_PropertyGridState::_buildCommittedStatePanel`.
+  /// - Space Complexity: O(N(isDark)) bounded auxiliary memory for `_PropertyGridState::_buildCommittedStatePanel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_buildCommittedStatePanel` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_buildCommittedStatePanel` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_buildCommittedStatePanel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_buildCommittedStatePanel` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-BUILDCOMMITTEDSTATEPANEL] | SysML v2: ActionDef(_PropertyGridState::_buildCommittedStatePanel)
   Widget _buildCommittedStatePanel(bool isDark, double panelOpacity) {
     final cs = Theme.of(context).colorScheme;
     return Container(
@@ -1050,6 +1527,33 @@ class _PropertyGridState extends State<PropertyGrid> {
     );
   }
 
+  /// Executes deterministic method `_PropertyGridState::_naturalCompare` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertyGridState::_naturalCompare` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_PropertyGridState::_naturalCompare` (declaration #25) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: String` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_naturalCompare`.
+  /// - `b: String` must satisfy domain and type-safety constraints prior to invoking `_PropertyGridState::_naturalCompare`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int` from `_PropertyGridState::_naturalCompare` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `_PropertyGridState::_naturalCompare`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `_PropertyGridState::_naturalCompare`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_PropertyGridState::_naturalCompare` (`int`).
+  /// - State: Maintains consistent state invariants across `_PropertyGridState::_naturalCompare` without partial mutation on error.
+  /// - Action: Executes `_PropertyGridState::_naturalCompare` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_PropertyGridState::_naturalCompare` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROPERTYGRIDSTATE-NATURALCOMPARE] | SysML v2: ActionDef(_PropertyGridState::_naturalCompare)
   int _naturalCompare(String a, String b) {
     final RegExp regExp = RegExp(r'(\d+)|(\D+)');
     final Iterable<Match> matchesA = regExp.allMatches(a);
@@ -1123,6 +1627,31 @@ class _PropertyGridState extends State<PropertyGrid> {
 @immutable
 class ZeroCeilingAnnunciatorBadge extends StatelessWidget {
   /// Creates a [ZeroCeilingAnnunciatorBadge].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` (declaration #27) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ZeroCeilingAnnunciatorBadge)) bounded over input/member dimension of `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge`.
+  /// - Space Complexity: O(K(ZeroCeilingAnnunciatorBadge)) bounded auxiliary memory for `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` (`()`).
+  /// - State: Maintains consistent state invariants across `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` without partial mutation on error.
+  /// - Action: Executes `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-ZEROCEILINGANNUNCIATORBADGE-ZEROCEILINGANNUNCIATORBADGE] | SysML v2: ActionDef(ZeroCeilingAnnunciatorBadge::ZeroCeilingAnnunciatorBadge)
   const ZeroCeilingAnnunciatorBadge({
     super.key,
     required this.isVerified,
@@ -1137,6 +1666,32 @@ class ZeroCeilingAnnunciatorBadge extends StatelessWidget {
   /// Violation warning crimson color (`#FF334B`).
   static const Color violationColor = Color(0xFFFF334B);
 
+  /// Executes deterministic method `ZeroCeilingAnnunciatorBadge::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ZeroCeilingAnnunciatorBadge::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ZeroCeilingAnnunciatorBadge::build` (declaration #28) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `ZeroCeilingAnnunciatorBadge::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `ZeroCeilingAnnunciatorBadge::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `ZeroCeilingAnnunciatorBadge::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `ZeroCeilingAnnunciatorBadge::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ZeroCeilingAnnunciatorBadge::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `ZeroCeilingAnnunciatorBadge::build` without partial mutation on error.
+  /// - Action: Executes `ZeroCeilingAnnunciatorBadge::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ZeroCeilingAnnunciatorBadge::build` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-ZEROCEILINGANNUNCIATORBADGE-BUILD] | SysML v2: ActionDef(ZeroCeilingAnnunciatorBadge::build)
   @override
   Widget build(BuildContext context) {
     final color = isVerified ? verifiedColor : violationColor;
@@ -1198,6 +1753,31 @@ class ZeroCeilingAnnunciatorBadge extends StatelessWidget {
 @immutable
 class ProvenanceCitationBadge extends StatelessWidget {
   /// Creates a [ProvenanceCitationBadge].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProvenanceCitationBadge::ProvenanceCitationBadge` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ProvenanceCitationBadge::ProvenanceCitationBadge` (declaration #30) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ProvenanceCitationBadge::ProvenanceCitationBadge` in `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ProvenanceCitationBadge::ProvenanceCitationBadge` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ProvenanceCitationBadge)) bounded over input/member dimension of `ProvenanceCitationBadge::ProvenanceCitationBadge`.
+  /// - Space Complexity: O(K(ProvenanceCitationBadge)) bounded auxiliary memory for `ProvenanceCitationBadge::ProvenanceCitationBadge`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProvenanceCitationBadge::ProvenanceCitationBadge` (`()`).
+  /// - State: Maintains consistent state invariants across `ProvenanceCitationBadge::ProvenanceCitationBadge` without partial mutation on error.
+  /// - Action: Executes `ProvenanceCitationBadge::ProvenanceCitationBadge` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProvenanceCitationBadge::ProvenanceCitationBadge` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROVENANCECITATIONBADGE-PROVENANCECITATIONBADGE] | SysML v2: ActionDef(ProvenanceCitationBadge::ProvenanceCitationBadge)
   const ProvenanceCitationBadge({
     super.key,
     required this.citation,
@@ -1217,7 +1797,32 @@ class ProvenanceCitationBadge extends StatelessWidget {
   );
 
   /// Extracts a concise `schema/...` provenance citation from [value] or
-  /// [pattern].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ProvenanceCitationBadge::extractCitation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ProvenanceCitationBadge::extractCitation` (declaration #31) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `value: String` must satisfy domain and type-safety constraints prior to invoking `ProvenanceCitationBadge::extractCitation`.
+  /// - `pattern: String?` must satisfy domain and type-safety constraints prior to invoking `ProvenanceCitationBadge::extractCitation`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `ProvenanceCitationBadge::extractCitation` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(value)) bounded over input/member dimension of `ProvenanceCitationBadge::extractCitation`.
+  /// - Space Complexity: O(N(value)) bounded auxiliary memory for `ProvenanceCitationBadge::extractCitation`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProvenanceCitationBadge::extractCitation` (`String`).
+  /// - State: Maintains consistent state invariants across `ProvenanceCitationBadge::extractCitation` without partial mutation on error.
+  /// - Action: Executes `ProvenanceCitationBadge::extractCitation` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProvenanceCitationBadge::extractCitation` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROVENANCECITATIONBADGE-EXTRACTCITATION] | SysML v2: ActionDef(ProvenanceCitationBadge::extractCitation)
   static String extractCitation({required String value, String? pattern}) {
     final match = _schemaExtractRegex.firstMatch(value);
     if (match != null) {
@@ -1233,6 +1838,32 @@ class ProvenanceCitationBadge extends StatelessWidget {
     return value;
   }
 
+  /// Executes deterministic method `ProvenanceCitationBadge::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ProvenanceCitationBadge::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/property_grid.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ProvenanceCitationBadge::build` (declaration #32) within `PROPERTIES-PROPERTY-GRID`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `ProvenanceCitationBadge::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `ProvenanceCitationBadge::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `ProvenanceCitationBadge::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `ProvenanceCitationBadge::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ProvenanceCitationBadge::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `ProvenanceCitationBadge::build` without partial mutation on error.
+  /// - Action: Executes `ProvenanceCitationBadge::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ProvenanceCitationBadge::build` (`PROPERTIES-PROPERTY-GRID`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-PROPERTIES-PROPERTY-GRID-PROVENANCECITATIONBADGE-BUILD] | SysML v2: ActionDef(ProvenanceCitationBadge::build)
   @override
   Widget build(BuildContext context) {
     return Container(

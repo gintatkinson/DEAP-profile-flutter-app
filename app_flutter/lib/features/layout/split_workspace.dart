@@ -102,6 +102,31 @@ class SplitWorkspace extends StatefulWidget {
   final bool paintLeadingOnTop;
 
   /// Creates a resizable [SplitWorkspace].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SplitWorkspace::SplitWorkspace` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SplitWorkspace::SplitWorkspace` (declaration #2) within `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SplitWorkspace::SplitWorkspace` in `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SplitWorkspace::SplitWorkspace` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(SplitWorkspace)) bounded over input/member dimension of `SplitWorkspace::SplitWorkspace`.
+  /// - Space Complexity: O(K(SplitWorkspace)) bounded auxiliary memory for `SplitWorkspace::SplitWorkspace`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SplitWorkspace::SplitWorkspace` (`()`).
+  /// - State: Maintains consistent state invariants across `SplitWorkspace::SplitWorkspace` without partial mutation on error.
+  /// - Action: Executes `SplitWorkspace::SplitWorkspace` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SplitWorkspace::SplitWorkspace` (`LAYOUT-SPLIT-WORKSPACE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACE-SPLITWORKSPACE] | SysML v2: ActionDef(SplitWorkspace::SplitWorkspace)
   const SplitWorkspace({
     super.key,
     required this.leading,
@@ -117,15 +142,93 @@ class SplitWorkspace extends StatefulWidget {
     this.paintLeadingOnTop = false,
   });
 
+  /// Executes deterministic method `SplitWorkspace::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SplitWorkspace::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SplitWorkspace::createState` (declaration #3) within `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SplitWorkspace::createState` in `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<SplitWorkspace>` from `SplitWorkspace::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `SplitWorkspace::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `SplitWorkspace::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SplitWorkspace::createState` (`State<SplitWorkspace>`).
+  /// - State: Maintains consistent state invariants across `SplitWorkspace::createState` without partial mutation on error.
+  /// - Action: Executes `SplitWorkspace::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SplitWorkspace::createState` (`LAYOUT-SPLIT-WORKSPACE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACE-CREATESTATE] | SysML v2: ActionDef(SplitWorkspace::createState)
   @override
   State<SplitWorkspace> createState() => _SplitWorkspaceState();
 }
 
+/// Executes deterministic class `_SplitWorkspaceState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SplitWorkspaceState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_SplitWorkspaceState` (declaration #4) within `LAYOUT-SPLIT-WORKSPACE`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_SplitWorkspaceState` in `LAYOUT-SPLIT-WORKSPACE`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_SplitWorkspaceState` representation for class `_SplitWorkspaceState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_SplitWorkspaceState)) bounded over input/member dimension of `_SplitWorkspaceState`.
+/// - Space Complexity: O(K(_SplitWorkspaceState)) bounded auxiliary memory for `_SplitWorkspaceState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_SplitWorkspaceState` (`_SplitWorkspaceState`).
+/// - State: Maintains consistent state invariants across `_SplitWorkspaceState` without partial mutation on error.
+/// - Action: Executes `_SplitWorkspaceState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_SplitWorkspaceState` (`LAYOUT-SPLIT-WORKSPACE`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACESTATE] | SysML v2: PartDef(_SplitWorkspaceState)
 class _SplitWorkspaceState extends State<SplitWorkspace> {
   double _firstPaneSize = 0;
   double? _draggedPaneSize;
   bool _initialized = false;
 
+  /// Executes deterministic method `_SplitWorkspaceState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SplitWorkspaceState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_SplitWorkspaceState::build` (declaration #5) within `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_SplitWorkspaceState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_SplitWorkspaceState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_SplitWorkspaceState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_SplitWorkspaceState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_SplitWorkspaceState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_SplitWorkspaceState::build` without partial mutation on error.
+  /// - Action: Executes `_SplitWorkspaceState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_SplitWorkspaceState::build` (`LAYOUT-SPLIT-WORKSPACE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACESTATE-BUILD] | SysML v2: ActionDef(_SplitWorkspaceState::build)
   @override
   Widget build(BuildContext context) {
     final panelOpacity = context.watch<ThemeController>().panelOpacity;

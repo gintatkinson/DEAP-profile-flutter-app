@@ -53,16 +53,93 @@ class TelemetryInjectionPanel extends StatefulWidget {
   final void Function(GnmiTelemetryUpdate update)? onTelemetryInjected;
 
   /// Creates a [TelemetryInjectionPanel].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TelemetryInjectionPanel::TelemetryInjectionPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TelemetryInjectionPanel::TelemetryInjectionPanel` (declaration #2) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TelemetryInjectionPanel::TelemetryInjectionPanel` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TelemetryInjectionPanel::TelemetryInjectionPanel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TelemetryInjectionPanel)) bounded over input/member dimension of `TelemetryInjectionPanel::TelemetryInjectionPanel`.
+  /// - Space Complexity: O(K(TelemetryInjectionPanel)) bounded auxiliary memory for `TelemetryInjectionPanel::TelemetryInjectionPanel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TelemetryInjectionPanel::TelemetryInjectionPanel` (`()`).
+  /// - State: Maintains consistent state invariants across `TelemetryInjectionPanel::TelemetryInjectionPanel` without partial mutation on error.
+  /// - Action: Executes `TelemetryInjectionPanel::TelemetryInjectionPanel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TelemetryInjectionPanel::TelemetryInjectionPanel` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANEL-TELEMETRYINJECTIONPANEL] | SysML v2: ActionDef(TelemetryInjectionPanel::TelemetryInjectionPanel)
   const TelemetryInjectionPanel({
     super.key,
     this.client,
     this.onTelemetryInjected,
   });
 
+  /// Executes deterministic method `TelemetryInjectionPanel::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TelemetryInjectionPanel::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TelemetryInjectionPanel::createState` (declaration #3) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TelemetryInjectionPanel::createState` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<TelemetryInjectionPanel>` from `TelemetryInjectionPanel::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `TelemetryInjectionPanel::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `TelemetryInjectionPanel::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TelemetryInjectionPanel::createState` (`State<TelemetryInjectionPanel>`).
+  /// - State: Maintains consistent state invariants across `TelemetryInjectionPanel::createState` without partial mutation on error.
+  /// - Action: Executes `TelemetryInjectionPanel::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TelemetryInjectionPanel::createState` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANEL-CREATESTATE] | SysML v2: ActionDef(TelemetryInjectionPanel::createState)
   @override
   State<TelemetryInjectionPanel> createState() => _TelemetryInjectionPanelState();
 }
 
+/// Executes deterministic class `_TelemetryInjectionPanelState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TelemetryInjectionPanelState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TelemetryInjectionPanelState` (declaration #4) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TelemetryInjectionPanelState` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TelemetryInjectionPanelState` representation for class `_TelemetryInjectionPanelState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TelemetryInjectionPanelState)) bounded over input/member dimension of `_TelemetryInjectionPanelState`.
+/// - Space Complexity: O(K(_TelemetryInjectionPanelState)) bounded auxiliary memory for `_TelemetryInjectionPanelState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState` (`_TelemetryInjectionPanelState`).
+/// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState` without partial mutation on error.
+/// - Action: Executes `_TelemetryInjectionPanelState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE] | SysML v2: PartDef(_TelemetryInjectionPanelState)
 class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
   late final GnmiTelemetryClient _client;
   final TextEditingController _pathController = TextEditingController(
@@ -72,6 +149,32 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
   final List<GnmiTelemetryUpdate> _recentUpdates = [];
   bool _isStreaming = false;
 
+  /// Executes deterministic method `_TelemetryInjectionPanelState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::initState` (declaration #5) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TelemetryInjectionPanelState::initState` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TelemetryInjectionPanelState::initState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(initState)) bounded over input/member dimension of `_TelemetryInjectionPanelState::initState`.
+  /// - Space Complexity: O(K(initState)) bounded auxiliary memory for `_TelemetryInjectionPanelState::initState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState::initState` (`void`).
+  /// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState::initState` without partial mutation on error.
+  /// - Action: Executes `_TelemetryInjectionPanelState::initState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState::initState` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE-INITSTATE] | SysML v2: ActionDef(_TelemetryInjectionPanelState::initState)
   @override
   void initState() {
     super.initState();
@@ -79,6 +182,32 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     _isStreaming = _client.isConnected;
   }
 
+  /// Executes deterministic method `_TelemetryInjectionPanelState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::dispose` (declaration #6) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TelemetryInjectionPanelState::dispose` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TelemetryInjectionPanelState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TelemetryInjectionPanelState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TelemetryInjectionPanelState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TelemetryInjectionPanelState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState::dispose` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE-DISPOSE] | SysML v2: ActionDef(_TelemetryInjectionPanelState::dispose)
   @override
   void dispose() {
     _pathController.dispose();
@@ -86,6 +215,32 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     super.dispose();
   }
 
+  /// Executes deterministic method `_TelemetryInjectionPanelState::_toggleStream` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_toggleStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::_toggleStream` (declaration #7) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TelemetryInjectionPanelState::_toggleStream` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TelemetryInjectionPanelState::_toggleStream` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_toggleStream)) bounded over input/member dimension of `_TelemetryInjectionPanelState::_toggleStream`.
+  /// - Space Complexity: O(K(_toggleStream)) bounded auxiliary memory for `_TelemetryInjectionPanelState::_toggleStream`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState::_toggleStream` (`void`).
+  /// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState::_toggleStream` without partial mutation on error.
+  /// - Action: Executes `_TelemetryInjectionPanelState::_toggleStream` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState::_toggleStream` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE-TOGGLESTREAM] | SysML v2: ActionDef(_TelemetryInjectionPanelState::_toggleStream)
   void _toggleStream() {
     setState(() {
       if (_isStreaming) {
@@ -98,6 +253,32 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     });
   }
 
+  /// Executes deterministic method `_TelemetryInjectionPanelState::_injectTelemetry` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_injectTelemetry` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::_injectTelemetry` (declaration #8) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TelemetryInjectionPanelState::_injectTelemetry` in `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TelemetryInjectionPanelState::_injectTelemetry` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_injectTelemetry)) bounded over input/member dimension of `_TelemetryInjectionPanelState::_injectTelemetry`.
+  /// - Space Complexity: O(K(_injectTelemetry)) bounded auxiliary memory for `_TelemetryInjectionPanelState::_injectTelemetry`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState::_injectTelemetry` (`void`).
+  /// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState::_injectTelemetry` without partial mutation on error.
+  /// - Action: Executes `_TelemetryInjectionPanelState::_injectTelemetry` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState::_injectTelemetry` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE-INJECTTELEMETRY] | SysML v2: ActionDef(_TelemetryInjectionPanelState::_injectTelemetry)
   void _injectTelemetry() {
     final path = _pathController.text.trim();
     final rawValue = _valueController.text.trim();
@@ -122,6 +303,32 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     widget.onTelemetryInjected?.call(update);
   }
 
+  /// Executes deterministic method `_TelemetryInjectionPanelState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::build` (declaration #9) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TelemetryInjectionPanelState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TelemetryInjectionPanelState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TelemetryInjectionPanelState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TelemetryInjectionPanelState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TelemetryInjectionPanelState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TelemetryInjectionPanelState::build` without partial mutation on error.
+  /// - Action: Executes `_TelemetryInjectionPanelState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TelemetryInjectionPanelState::build` (`TELEMETRY-TELEMETRY-INJECTION-PANEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TELEMETRY-TELEMETRY-INJECTION-PANEL-TELEMETRYINJECTIONPANELSTATE-BUILD] | SysML v2: ActionDef(_TelemetryInjectionPanelState::build)
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

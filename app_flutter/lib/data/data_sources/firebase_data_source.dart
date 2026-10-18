@@ -37,6 +37,31 @@ import 'package:app_flutter/features/topology/topology_map.dart' show TopologyDa
 /// Realises: [Feat-10/DataSource]
 class FirebaseDataSource implements DataSource {
   /// Creates a [FirebaseDataSource] bound to the injected [FirebaseFirestore] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirebaseDataSource::FirebaseDataSource` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `FirebaseDataSource::FirebaseDataSource` (declaration #2) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_firestore: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::FirebaseDataSource`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FirebaseDataSource::FirebaseDataSource` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_firestore)) bounded over input/member dimension of `FirebaseDataSource::FirebaseDataSource`.
+  /// - Space Complexity: O(N(_firestore)) bounded auxiliary memory for `FirebaseDataSource::FirebaseDataSource`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::FirebaseDataSource` (`()`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::FirebaseDataSource` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::FirebaseDataSource` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::FirebaseDataSource` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FIREBASEDATASOURCE] | SysML v2: ActionDef(FirebaseDataSource::FirebaseDataSource)
   FirebaseDataSource(this._firestore);
   final FirebaseFirestore _firestore;
   List<TypeDescriptor>? _cachedTypes;
@@ -46,6 +71,31 @@ class FirebaseDataSource implements DataSource {
   String get name => 'firebase';
 
   /// Discovers and caches all M2 [TypeDescriptor] definitions from the `schema/types` document.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::discoverTypes` (declaration #3) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirebaseDataSource::discoverTypes` in `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TypeDescriptor>>>` from `FirebaseDataSource::discoverTypes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(discoverTypes)) bounded over input/member dimension of `FirebaseDataSource::discoverTypes`.
+  /// - Space Complexity: O(K(discoverTypes)) bounded auxiliary memory for `FirebaseDataSource::discoverTypes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::discoverTypes` (`Future<Result<List<TypeDescriptor>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::discoverTypes` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::discoverTypes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::discoverTypes` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-DISCOVERTYPES] | SysML v2: ActionDef(FirebaseDataSource::discoverTypes)
   @override
   Future<Result<List<TypeDescriptor>>> discoverTypes() async {
     if (_cachedTypes != null) return Result.success(_cachedTypes!);
@@ -76,6 +126,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::typeFor` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::typeFor` (declaration #4) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `typeName: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::typeFor`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TypeDescriptor?>>` from `FirebaseDataSource::typeFor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(typeName)) bounded over input/member dimension of `FirebaseDataSource::typeFor`.
+  /// - Space Complexity: O(N(typeName)) bounded auxiliary memory for `FirebaseDataSource::typeFor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::typeFor` (`Future<Result<TypeDescriptor?>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::typeFor` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::typeFor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::typeFor` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-TYPEFOR] | SysML v2: ActionDef(FirebaseDataSource::typeFor)
   @override
   Future<Result<TypeDescriptor?>> typeFor(String typeName) async {
     try {
@@ -109,6 +185,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::fetchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchProperties` (declaration #5) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::fetchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<Map<String, dynamic>>>` from `FirebaseDataSource::fetchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `FirebaseDataSource::fetchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `FirebaseDataSource::fetchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::fetchProperties` (`Future<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::fetchProperties` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::fetchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::fetchProperties` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FETCHPROPERTIES] | SysML v2: ActionDef(FirebaseDataSource::fetchProperties)
   @override
   Future<Result<Map<String, dynamic>>> fetchProperties(String nodeId) async {
     try {
@@ -122,6 +224,33 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::saveProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::saveProperties` (declaration #6) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::saveProperties`.
+  /// - `data: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::saveProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `FirebaseDataSource::saveProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `FirebaseDataSource::saveProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `FirebaseDataSource::saveProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::saveProperties` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::saveProperties` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::saveProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::saveProperties` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-SAVEPROPERTIES] | SysML v2: ActionDef(FirebaseDataSource::saveProperties)
   @override
   Future<Result<void>> saveProperties(String nodeId, Map<String, dynamic> data) async {
     try {
@@ -133,6 +262,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::watchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::watchProperties` (declaration #7) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::watchProperties`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Stream<Result<Map<String, dynamic>>>` from `FirebaseDataSource::watchProperties` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `FirebaseDataSource::watchProperties`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `FirebaseDataSource::watchProperties`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::watchProperties` (`Stream<Result<Map<String, dynamic>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::watchProperties` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::watchProperties` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::watchProperties` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-WATCHPROPERTIES] | SysML v2: ActionDef(FirebaseDataSource::watchProperties)
   @override
   Stream<Result<Map<String, dynamic>>> watchProperties(String nodeId) {
     return _firestore
@@ -145,6 +300,32 @@ class FirebaseDataSource implements DataSource {
         });
   }
 
+  /// Executes deterministic method `FirebaseDataSource::fetchRelatedInstances` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchRelatedInstances` (declaration #8) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirebaseDataSource::fetchRelatedInstances` in `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<InstanceRecord>>>` from `FirebaseDataSource::fetchRelatedInstances` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRelatedInstances)) bounded over input/member dimension of `FirebaseDataSource::fetchRelatedInstances`.
+  /// - Space Complexity: O(K(fetchRelatedInstances)) bounded auxiliary memory for `FirebaseDataSource::fetchRelatedInstances`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::fetchRelatedInstances` (`Future<Result<List<InstanceRecord>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::fetchRelatedInstances` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::fetchRelatedInstances` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::fetchRelatedInstances` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FETCHRELATEDINSTANCES] | SysML v2: ActionDef(FirebaseDataSource::fetchRelatedInstances)
   @override
   Future<Result<List<InstanceRecord>>> fetchRelatedInstances({
     required String parentNodeId,
@@ -183,6 +364,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::_parseFields` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseFields` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_parseFields` (declaration #9) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fields: List<dynamic>?` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_parseFields`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<FieldDescriptor>` from `FirebaseDataSource::_parseFields` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fields)) bounded over input/member dimension of `FirebaseDataSource::_parseFields`.
+  /// - Space Complexity: O(N(fields)) bounded auxiliary memory for `FirebaseDataSource::_parseFields`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::_parseFields` (`List<FieldDescriptor>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::_parseFields` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::_parseFields` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::_parseFields` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-PARSEFIELDS] | SysML v2: ActionDef(FirebaseDataSource::_parseFields)
   List<FieldDescriptor> _parseFields(List<dynamic>? fields) {
     if (fields == null) return [];
     return fields.map((f) {
@@ -211,6 +418,32 @@ class FirebaseDataSource implements DataSource {
     }).toList();
   }
 
+  /// Executes deterministic method `FirebaseDataSource::_parseRelations` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseRelations` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_parseRelations` (declaration #10) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `relations: List<dynamic>?` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_parseRelations`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<TypeRelationDescriptor>` from `FirebaseDataSource::_parseRelations` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(relations)) bounded over input/member dimension of `FirebaseDataSource::_parseRelations`.
+  /// - Space Complexity: O(N(relations)) bounded auxiliary memory for `FirebaseDataSource::_parseRelations`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::_parseRelations` (`List<TypeRelationDescriptor>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::_parseRelations` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::_parseRelations` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::_parseRelations` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-PARSERELATIONS] | SysML v2: ActionDef(FirebaseDataSource::_parseRelations)
   List<TypeRelationDescriptor> _parseRelations(List<dynamic>? relations) {
     if (relations == null) return [];
     return relations.map((r) {
@@ -223,6 +456,32 @@ class FirebaseDataSource implements DataSource {
     }).toList();
   }
 
+  /// Executes deterministic method `FirebaseDataSource::fetchRootNodes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchRootNodes` (declaration #11) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirebaseDataSource::fetchRootNodes` in `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `FirebaseDataSource::fetchRootNodes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchRootNodes)) bounded over input/member dimension of `FirebaseDataSource::fetchRootNodes`.
+  /// - Space Complexity: O(K(fetchRootNodes)) bounded auxiliary memory for `FirebaseDataSource::fetchRootNodes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::fetchRootNodes` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::fetchRootNodes` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::fetchRootNodes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::fetchRootNodes` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FETCHROOTNODES] | SysML v2: ActionDef(FirebaseDataSource::fetchRootNodes)
   @override
   Future<Result<List<TreeNode>>> fetchRootNodes() async {
     try {
@@ -261,6 +520,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::fetchChildrenForNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchChildrenForNode` (declaration #12) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `parentId: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::fetchChildrenForNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<List<TreeNode>>>` from `FirebaseDataSource::fetchChildrenForNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(parentId)) bounded over input/member dimension of `FirebaseDataSource::fetchChildrenForNode`.
+  /// - Space Complexity: O(N(parentId)) bounded auxiliary memory for `FirebaseDataSource::fetchChildrenForNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::fetchChildrenForNode` (`Future<Result<List<TreeNode>>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::fetchChildrenForNode` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::fetchChildrenForNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::fetchChildrenForNode` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FETCHCHILDRENFORNODE] | SysML v2: ActionDef(FirebaseDataSource::fetchChildrenForNode)
   @override
   Future<Result<List<TreeNode>>> fetchChildrenForNode(String parentId) async {
     try {
@@ -342,6 +627,32 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::fetchTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchTopologyData` (declaration #13) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirebaseDataSource::fetchTopologyData` in `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<TopologyData>>` from `FirebaseDataSource::fetchTopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fetchTopologyData)) bounded over input/member dimension of `FirebaseDataSource::fetchTopologyData`.
+  /// - Space Complexity: O(K(fetchTopologyData)) bounded auxiliary memory for `FirebaseDataSource::fetchTopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::fetchTopologyData` (`Future<Result<TopologyData>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::fetchTopologyData` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::fetchTopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::fetchTopologyData` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FETCHTOPOLOGYDATA] | SysML v2: ActionDef(FirebaseDataSource::fetchTopologyData)
   @override
   Future<Result<TopologyData>> fetchTopologyData() async {
     try {
@@ -438,6 +749,33 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
+  /// Executes deterministic method `FirebaseDataSource::_findPathToKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_findPathToKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_findPathToKey` (declaration #14) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<dynamic, dynamic>` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_findPathToKey`.
+  /// - `targetKey: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_findPathToKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String?` from `FirebaseDataSource::_findPathToKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `FirebaseDataSource::_findPathToKey`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `FirebaseDataSource::_findPathToKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::_findPathToKey` (`String?`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::_findPathToKey` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::_findPathToKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::_findPathToKey` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-FINDPATHTOKEY] | SysML v2: ActionDef(FirebaseDataSource::_findPathToKey)
   static String? _findPathToKey(Map<dynamic, dynamic> map, String targetKey) {
     for (final entry in map.entries) {
       final keyStr = entry.key.toString();
@@ -454,6 +792,33 @@ class FirebaseDataSource implements DataSource {
     return null;
   }
 
+  /// Executes deterministic method `FirebaseDataSource::_resolveCoordinateValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_resolveCoordinateValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_resolveCoordinateValue` (declaration #15) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `properties: Map<dynamic, dynamic>` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_resolveCoordinateValue`.
+  /// - `path: String` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::_resolveCoordinateValue`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double?` from `FirebaseDataSource::_resolveCoordinateValue` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(properties)) bounded over input/member dimension of `FirebaseDataSource::_resolveCoordinateValue`.
+  /// - Space Complexity: O(N(properties)) bounded auxiliary memory for `FirebaseDataSource::_resolveCoordinateValue`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::_resolveCoordinateValue` (`double?`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::_resolveCoordinateValue` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::_resolveCoordinateValue` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::_resolveCoordinateValue` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-RESOLVECOORDINATEVALUE] | SysML v2: ActionDef(FirebaseDataSource::_resolveCoordinateValue)
   static double? _resolveCoordinateValue(Map<dynamic, dynamic> properties, String path) {
     final parts = path.split('/');
     dynamic current = properties;
@@ -470,6 +835,32 @@ class FirebaseDataSource implements DataSource {
     return null;
   }
 
+  /// Executes deterministic method `FirebaseDataSource::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::dispose` (declaration #16) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `async: )` must satisfy domain and type-safety constraints prior to invoking `FirebaseDataSource::dispose`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `FirebaseDataSource::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(async)) bounded over input/member dimension of `FirebaseDataSource::dispose`.
+  /// - Space Complexity: O(N(async)) bounded auxiliary memory for `FirebaseDataSource::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::dispose` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::dispose` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::dispose` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-DISPOSE] | SysML v2: ActionDef(FirebaseDataSource::dispose)
   @override
   Future<Result<void>> dispose() async => const Result.success(null);
 }

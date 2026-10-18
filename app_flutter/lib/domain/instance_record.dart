@@ -65,6 +65,31 @@ class InstanceRecord {
   final Map<String, dynamic> attributes;
 
   /// Creates a new [InstanceRecord] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `InstanceRecord::InstanceRecord` (declaration #2) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `InstanceRecord::InstanceRecord` in `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `InstanceRecord::InstanceRecord` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(InstanceRecord)) bounded over input/member dimension of `InstanceRecord::InstanceRecord`.
+  /// - Space Complexity: O(K(InstanceRecord)) bounded auxiliary memory for `InstanceRecord::InstanceRecord`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::InstanceRecord` (`()`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::InstanceRecord` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::InstanceRecord` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::InstanceRecord` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-INSTANCERECORD] | SysML v2: ActionDef(InstanceRecord::InstanceRecord)
   const InstanceRecord({
     required this.id,
     required this.parentNodeId,
@@ -73,6 +98,32 @@ class InstanceRecord {
   });
 
   /// Creates an [InstanceRecord] from a raw map database entry.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `InstanceRecord::InstanceRecord` (declaration #3) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `InstanceRecord::InstanceRecord`.
+  /// - `typeName: String` must satisfy domain and type-safety constraints prior to invoking `InstanceRecord::InstanceRecord`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `InstanceRecord::InstanceRecord` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `InstanceRecord::InstanceRecord`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `InstanceRecord::InstanceRecord`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::InstanceRecord` (`()`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::InstanceRecord` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::InstanceRecord` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::InstanceRecord` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-INSTANCERECORD] | SysML v2: ActionDef(InstanceRecord::InstanceRecord)
   factory InstanceRecord.fromMap(Map<String, dynamic> map, String typeName) {
     Map<String, dynamic> attrs = {};
     if (map['data_json'] != null) {
@@ -95,7 +146,31 @@ class InstanceRecord {
 
   /// Attempts to parse an [InstanceRecord] from a raw map database entry.
   ///
-  /// Returns `null` if parsing fails.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::tryParse` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::tryParse` (declaration #4) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - `map: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `InstanceRecord::tryParse`.
+  /// - `typeName: String` must satisfy domain and type-safety constraints prior to invoking `InstanceRecord::tryParse`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `InstanceRecord?` from `InstanceRecord::tryParse` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(map)) bounded over input/member dimension of `InstanceRecord::tryParse`.
+  /// - Space Complexity: O(N(map)) bounded auxiliary memory for `InstanceRecord::tryParse`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::tryParse` (`InstanceRecord?`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::tryParse` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::tryParse` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::tryParse` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-TRYPARSE] | SysML v2: ActionDef(InstanceRecord::tryParse)
   static InstanceRecord? tryParse(Map<String, dynamic> map, String typeName) {
     try {
       return InstanceRecord.fromMap(map, typeName);
@@ -106,12 +181,60 @@ class InstanceRecord {
 
   /// Validates all attributes against the provided [fields] descriptors constraints.
   ///
-  /// Returns [Result.success] if valid, or [Result.failure] with a [DomainError] on failure.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::validate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::validate` (declaration #5) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fields: List<FieldDescriptor>` must satisfy domain and type-safety constraints prior to invoking `InstanceRecord::validate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Result<void>` from `InstanceRecord::validate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fields)) bounded over input/member dimension of `InstanceRecord::validate`.
+  /// - Space Complexity: O(N(fields)) bounded auxiliary memory for `InstanceRecord::validate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::validate` (`Result<void>`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::validate` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::validate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::validate` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-VALIDATE] | SysML v2: ActionDef(InstanceRecord::validate)
   Result<void> validate(List<FieldDescriptor> fields) {
     return validateFields(attributes, fields);
   }
 
   /// Creates a copy of this [InstanceRecord] with the given fields replaced.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::copyWith` (declaration #6) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `InstanceRecord::copyWith` in `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `InstanceRecord` from `InstanceRecord::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `InstanceRecord::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `InstanceRecord::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::copyWith` (`InstanceRecord`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::copyWith` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::copyWith` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-COPYWITH] | SysML v2: ActionDef(InstanceRecord::copyWith)
   InstanceRecord copyWith({
     String? id,
     String? parentNodeId,

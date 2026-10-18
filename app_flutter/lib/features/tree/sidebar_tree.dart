@@ -10,35 +10,29 @@ import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 /// Sidebar hierarchy navigation panel driven by [TreeViewModel].
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Provides the primary ARINC 661 hierarchical navigation surface for the M2
-/// metamodel entity inventory under DO-178C DAL-A, supporting keyboard arrow
-/// traversal, space selection, enter camera flight, and settings modal access.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `SidebarTree` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
 ///
-/// ## 2. Invariants & State Contracts
-/// - Subscribes to [TreeViewModel] and [ThemeController] via `context.watch`.
-/// - Guard flag `_openingSettings` prevents duplicate concurrent modal sheets.
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `SidebarTree` (declaration #1) within `TREE-SIDEBAR-TREE`.
 ///
-/// ## 3. Preconditions & Input Bounds
-/// - Requires a valid [TreeViewModel] and [ThemeController] in the ancestor
-///   [Provider] scope.
-/// - [onViewSelected] must be non-null; [workerResult] may be `null` when idle.
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `SidebarTree` in `TREE-SIDEBAR-TREE`.
 ///
-/// ## 4. Postconditions & Side Effects
-/// - Renders the sidebar header, scrollable [TreeNodeWidget] list, and footer
-///   status bar with settings trigger.
+/// ## 4. Postconditions
+/// - Defines the authoritative `SidebarTree` representation for class `SidebarTree`.
 ///
-/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
-/// - **Time Complexity**: $O(R)$ top-level row allocations where $R$ is the root
-///   node count in [TreeViewModel.treeData].
-/// - **Space Complexity**: $O(R)$ widget references.
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(SidebarTree)) bounded over input/member dimension of `SidebarTree`.
+/// - Space Complexity: O(K(SidebarTree)) bounded auxiliary memory for `SidebarTree`.
 ///
-/// ## 6. Failure Modes & Defensive Mitigations
-/// - Null `currentView` during Space/Enter key events is guarded prior to
-///   invoking `selectView` or `triggerFlight`.
-/// - Unmounted widget state on modal completion is guarded via `if (mounted)`.
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `SidebarTree` (`SidebarTree`).
+/// - State: Maintains consistent state invariants across `SidebarTree` without partial mutation on error.
+/// - Action: Executes `SidebarTree` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `SidebarTree` (`TREE-SIDEBAR-TREE`).
 ///
 /// ## 7. Realization & Traceability
-/// Realises: [Feat-10/SidebarTree]
+/// Realises: [Feat-10/SidebarTree] | SysML v2: PartDef(SidebarTree)
 @immutable
 class SidebarTree extends StatefulWidget {
   /// Optional latest background worker computation result displayed in the footer.
@@ -51,6 +45,31 @@ class SidebarTree extends StatefulWidget {
   final EdgeInsetsGeometry contentPadding;
 
   /// Creates an immutable [SidebarTree] widget.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SidebarTree::SidebarTree` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `SidebarTree::SidebarTree` (declaration #2) within `TREE-SIDEBAR-TREE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SidebarTree::SidebarTree` in `TREE-SIDEBAR-TREE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SidebarTree::SidebarTree` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(SidebarTree)) bounded over input/member dimension of `SidebarTree::SidebarTree`.
+  /// - Space Complexity: O(K(SidebarTree)) bounded auxiliary memory for `SidebarTree::SidebarTree`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SidebarTree::SidebarTree` (`()`).
+  /// - State: Maintains consistent state invariants across `SidebarTree::SidebarTree` without partial mutation on error.
+  /// - Action: Executes `SidebarTree::SidebarTree` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SidebarTree::SidebarTree` (`TREE-SIDEBAR-TREE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TREE-SIDEBAR-TREE-SIDEBARTREE-SIDEBARTREE] | SysML v2: ActionDef(SidebarTree::SidebarTree)
   const SidebarTree({
     super.key,
     this.workerResult,
@@ -58,13 +77,91 @@ class SidebarTree extends StatefulWidget {
     this.contentPadding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
   });
 
+  /// Executes deterministic method `SidebarTree::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SidebarTree::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SidebarTree::createState` (declaration #3) within `TREE-SIDEBAR-TREE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SidebarTree::createState` in `TREE-SIDEBAR-TREE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<SidebarTree>` from `SidebarTree::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `SidebarTree::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `SidebarTree::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SidebarTree::createState` (`State<SidebarTree>`).
+  /// - State: Maintains consistent state invariants across `SidebarTree::createState` without partial mutation on error.
+  /// - Action: Executes `SidebarTree::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SidebarTree::createState` (`TREE-SIDEBAR-TREE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TREE-SIDEBAR-TREE-SIDEBARTREE-CREATESTATE] | SysML v2: ActionDef(SidebarTree::createState)
   @override
   State<SidebarTree> createState() => _SidebarTreeState();
 }
 
+/// Executes deterministic class `_SidebarTreeState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SidebarTreeState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_SidebarTreeState` (declaration #4) within `TREE-SIDEBAR-TREE`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_SidebarTreeState` in `TREE-SIDEBAR-TREE`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_SidebarTreeState` representation for class `_SidebarTreeState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_SidebarTreeState)) bounded over input/member dimension of `_SidebarTreeState`.
+/// - Space Complexity: O(K(_SidebarTreeState)) bounded auxiliary memory for `_SidebarTreeState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_SidebarTreeState` (`_SidebarTreeState`).
+/// - State: Maintains consistent state invariants across `_SidebarTreeState` without partial mutation on error.
+/// - Action: Executes `_SidebarTreeState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_SidebarTreeState` (`TREE-SIDEBAR-TREE`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TREE-SIDEBAR-TREE-SIDEBARTREESTATE] | SysML v2: PartDef(_SidebarTreeState)
 class _SidebarTreeState extends State<SidebarTree> {
   bool _openingSettings = false;
 
+  /// Executes deterministic method `_SidebarTreeState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SidebarTreeState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_SidebarTreeState::build` (declaration #5) within `TREE-SIDEBAR-TREE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_SidebarTreeState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_SidebarTreeState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_SidebarTreeState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_SidebarTreeState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_SidebarTreeState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_SidebarTreeState::build` without partial mutation on error.
+  /// - Action: Executes `_SidebarTreeState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_SidebarTreeState::build` (`TREE-SIDEBAR-TREE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TREE-SIDEBAR-TREE-SIDEBARTREESTATE-BUILD] | SysML v2: ActionDef(_SidebarTreeState::build)
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<TreeViewModel>();

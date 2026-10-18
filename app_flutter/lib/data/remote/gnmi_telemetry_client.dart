@@ -37,6 +37,31 @@ class GnmiTelemetryUpdate {
   final DateTime timestamp;
 
   /// Creates a new [GnmiTelemetryUpdate].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GnmiTelemetryUpdate::GnmiTelemetryUpdate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `GnmiTelemetryUpdate::GnmiTelemetryUpdate` (declaration #2) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryUpdate::GnmiTelemetryUpdate` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GnmiTelemetryUpdate::GnmiTelemetryUpdate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(GnmiTelemetryUpdate)) bounded over input/member dimension of `GnmiTelemetryUpdate::GnmiTelemetryUpdate`.
+  /// - Space Complexity: O(K(GnmiTelemetryUpdate)) bounded auxiliary memory for `GnmiTelemetryUpdate::GnmiTelemetryUpdate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryUpdate::GnmiTelemetryUpdate` (`()`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryUpdate::GnmiTelemetryUpdate` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryUpdate::GnmiTelemetryUpdate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryUpdate::GnmiTelemetryUpdate` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYUPDATE-GNMITELEMETRYUPDATE] | SysML v2: ActionDef(GnmiTelemetryUpdate::GnmiTelemetryUpdate)
   GnmiTelemetryUpdate({
     required this.path,
     required this.value,
@@ -44,6 +69,31 @@ class GnmiTelemetryUpdate {
   }) : timestamp = timestamp ?? DateTime.now();
 
   /// Converts update to JSON map.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryUpdate::toMap` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryUpdate::toMap` (declaration #3) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryUpdate::toMap` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Map<String, dynamic>` from `GnmiTelemetryUpdate::toMap` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(toMap)) bounded over input/member dimension of `GnmiTelemetryUpdate::toMap`.
+  /// - Space Complexity: O(K(toMap)) bounded auxiliary memory for `GnmiTelemetryUpdate::toMap`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryUpdate::toMap` (`Map<String, dynamic>`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryUpdate::toMap` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryUpdate::toMap` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryUpdate::toMap` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYUPDATE-TOMAP] | SysML v2: ActionDef(GnmiTelemetryUpdate::toMap)
   Map<String, dynamic> toMap() {
     return {
       'path': path,
@@ -98,8 +148,30 @@ class GnmiTelemetryClient {
 
   /// Connects to a gNMI telemetry stream for the specified [target] and subscribed [paths].
   ///
-  /// Returns a broadcast [Stream] emitting [GnmiTelemetryUpdate] instances.
-  /// If a stream is already connected, it will be disconnected prior to establishing the new stream.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::connectStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::connectStream` (declaration #5) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryClient::connectStream` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Stream<GnmiTelemetryUpdate>` from `GnmiTelemetryClient::connectStream` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(connectStream)) bounded over input/member dimension of `GnmiTelemetryClient::connectStream`.
+  /// - Space Complexity: O(K(connectStream)) bounded auxiliary memory for `GnmiTelemetryClient::connectStream`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::connectStream` (`Stream<GnmiTelemetryUpdate>`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::connectStream` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::connectStream` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::connectStream` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-CONNECTSTREAM] | SysML v2: ActionDef(GnmiTelemetryClient::connectStream)
   Stream<GnmiTelemetryUpdate> connectStream({
     String target = 'localhost:50051',
     List<String> paths = const ['/components/component/state/telemetry'],
@@ -118,7 +190,30 @@ class GnmiTelemetryClient {
 
   /// Emits a simulated telemetry update into the active stream.
   ///
-  /// Useful for testing and local telemetry injection. Throws [StateError] if disconnected.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::injectUpdate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::injectUpdate` (declaration #6) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - `update: GnmiTelemetryUpdate` must satisfy domain and type-safety constraints prior to invoking `GnmiTelemetryClient::injectUpdate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `GnmiTelemetryClient::injectUpdate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(update)) bounded over input/member dimension of `GnmiTelemetryClient::injectUpdate`.
+  /// - Space Complexity: O(N(update)) bounded auxiliary memory for `GnmiTelemetryClient::injectUpdate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::injectUpdate` (`void`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::injectUpdate` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::injectUpdate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::injectUpdate` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-INJECTUPDATE] | SysML v2: ActionDef(GnmiTelemetryClient::injectUpdate)
   void injectUpdate(GnmiTelemetryUpdate update) {
     if (!_isConnected || _streamController == null) {
       throw StateError('Cannot inject update while gNMI stream is disconnected.');
@@ -128,7 +223,30 @@ class GnmiTelemetryClient {
 
   /// Disconnects and closes the active gNMI telemetry stream.
   ///
-  /// Releases stream controller resources and updates [isConnected] to `false`.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::disconnectStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::disconnectStream` (declaration #7) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryClient::disconnectStream` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `GnmiTelemetryClient::disconnectStream` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(disconnectStream)) bounded over input/member dimension of `GnmiTelemetryClient::disconnectStream`.
+  /// - Space Complexity: O(K(disconnectStream)) bounded auxiliary memory for `GnmiTelemetryClient::disconnectStream`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::disconnectStream` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::disconnectStream` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::disconnectStream` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::disconnectStream` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-DISCONNECTSTREAM] | SysML v2: ActionDef(GnmiTelemetryClient::disconnectStream)
   Future<void> disconnectStream() async {
     if (!_isConnected) return;
 

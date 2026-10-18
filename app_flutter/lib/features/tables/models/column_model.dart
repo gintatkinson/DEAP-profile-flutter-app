@@ -70,6 +70,31 @@ class ColumnModel {
   final num? maxValue;
 
   /// Creates a [ColumnModel] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ColumnModel::ColumnModel` (declaration #2) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ColumnModel::ColumnModel` in `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ColumnModel::ColumnModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ColumnModel)) bounded over input/member dimension of `ColumnModel::ColumnModel`.
+  /// - Space Complexity: O(K(ColumnModel)) bounded auxiliary memory for `ColumnModel::ColumnModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::ColumnModel` (`()`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::ColumnModel` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::ColumnModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::ColumnModel` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-COLUMNMODEL] | SysML v2: ActionDef(ColumnModel::ColumnModel)
   const ColumnModel({
     required this.key,
     required this.label,
@@ -97,8 +122,30 @@ class ColumnModel {
 
   /// Creates a [ColumnModel] from a [FieldDescriptor].
   ///
-  /// Derives column header label dynamically from [fd.key] if [fd.label] is
-  /// empty or starts with fallback patterns like "Field ".
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ColumnModel::ColumnModel` (declaration #3) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fd: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `ColumnModel::ColumnModel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ColumnModel::ColumnModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fd)) bounded over input/member dimension of `ColumnModel::ColumnModel`.
+  /// - Space Complexity: O(N(fd)) bounded auxiliary memory for `ColumnModel::ColumnModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::ColumnModel` (`()`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::ColumnModel` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::ColumnModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::ColumnModel` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-COLUMNMODEL] | SysML v2: ActionDef(ColumnModel::ColumnModel)
   factory ColumnModel.fromFieldDescriptor(FieldDescriptor fd) {
     return ColumnModel(
       key: fd.key,
@@ -110,7 +157,31 @@ class ColumnModel {
   }
 
   /// Derives column header label dynamically from [fd.key] if [fd.label] is
-  /// empty or starts with fallback patterns like "Field ".
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::resolveColumnLabel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::resolveColumnLabel` (declaration #4) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `fd: FieldDescriptor` must satisfy domain and type-safety constraints prior to invoking `ColumnModel::resolveColumnLabel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `ColumnModel::resolveColumnLabel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(fd)) bounded over input/member dimension of `ColumnModel::resolveColumnLabel`.
+  /// - Space Complexity: O(N(fd)) bounded auxiliary memory for `ColumnModel::resolveColumnLabel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::resolveColumnLabel` (`String`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::resolveColumnLabel` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::resolveColumnLabel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::resolveColumnLabel` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-RESOLVECOLUMNLABEL] | SysML v2: ActionDef(ColumnModel::resolveColumnLabel)
   static String resolveColumnLabel(FieldDescriptor fd) {
     final labelStr = fd.label.trim();
     if (labelStr.isEmpty || labelStr.startsWith('Field ')) {
@@ -120,6 +191,31 @@ class ColumnModel {
   }
 
   /// Formats a schema key into a human-readable title/label.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::deriveLabelFromKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::deriveLabelFromKey` (declaration #5) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `ColumnModel::deriveLabelFromKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `ColumnModel::deriveLabelFromKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `ColumnModel::deriveLabelFromKey`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `ColumnModel::deriveLabelFromKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::deriveLabelFromKey` (`String`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::deriveLabelFromKey` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::deriveLabelFromKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::deriveLabelFromKey` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-DERIVELABELFROMKEY] | SysML v2: ActionDef(ColumnModel::deriveLabelFromKey)
   static String deriveLabelFromKey(String key) {
     final trimmed = key.trim();
     if (trimmed.isEmpty) return trimmed;

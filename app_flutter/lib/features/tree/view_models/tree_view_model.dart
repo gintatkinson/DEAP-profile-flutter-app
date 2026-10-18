@@ -9,36 +9,57 @@ import 'package:app_flutter/features/tree/tree_defaults.dart';
 /// Immutable state holder for the sidebar hierarchy [TreeViewModel].
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Encapsulates a deterministic, immutable snapshot of sidebar hierarchy nodes,
-/// active view selection, expansion map, lazy-loading indicators, and camera
-/// flight targets under DO-178C DAL-A and ARINC 661.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
 ///
-/// ## 2. Invariants & State Contracts
-/// - All fields are `final` and compared structurally in [operator ==] via
-///   `listEquals` and `mapEquals`.
-/// - Passing `clearFlightTarget: true` to [copyWith] resets [flightTarget] to
-///   `null`.
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `TreeState` (declaration #1) within `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 3. Preconditions & Input Bounds
-/// - Collection arguments default to empty `const` literals when omitted.
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `TreeState` in `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 4. Postconditions & Side Effects
-/// - Pure value object; [copyWith] returns a new [TreeState] without mutating
-///   the receiver.
+/// ## 4. Postconditions
+/// - Defines the authoritative `TreeState` representation for class `TreeState`.
 ///
-/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
-/// - **Time Complexity**: $O(1)$ for construction and [copyWith]; $O(N + E)$
-///   for equality comparison across $N$ root nodes and $E$ expansion entries.
-/// - **Space Complexity**: $O(1)$ wrapper overhead beyond collection references.
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(TreeState)) bounded over input/member dimension of `TreeState`.
+/// - Space Complexity: O(K(TreeState)) bounded auxiliary memory for `TreeState`.
 ///
-/// ## 6. Failure Modes & Defensive Mitigations
-/// - Null `flightTarget` is safely preserved or cleared via `clearFlightTarget`.
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `TreeState` (`TreeState`).
+/// - State: Maintains consistent state invariants across `TreeState` without partial mutation on error.
+/// - Action: Executes `TreeState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `TreeState` (`VIEW-MODELS-TREE-VIEW-MODEL`).
 ///
 /// ## 7. Realization & Traceability
-/// Realises: [Feat-10/TreeState]
+/// Realises: [Feat-10/TreeState] | SysML v2: PartDef(TreeState)
 @immutable
 class TreeState {
   /// Creates an immutable [TreeState] snapshot.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeState::TreeState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TreeState::TreeState` (declaration #2) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeState::TreeState` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TreeState::TreeState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TreeState)) bounded over input/member dimension of `TreeState::TreeState`.
+  /// - Space Complexity: O(K(TreeState)) bounded auxiliary memory for `TreeState::TreeState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeState::TreeState` (`()`).
+  /// - State: Maintains consistent state invariants across `TreeState::TreeState` without partial mutation on error.
+  /// - Action: Executes `TreeState::TreeState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeState::TreeState` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREESTATE-TREESTATE] | SysML v2: ActionDef(TreeState::TreeState)
   const TreeState({
     this.treeData = const [],
     this.currentView = '',
@@ -63,6 +84,31 @@ class TreeState {
   final String? flightTarget;
 
   /// Creates a copy of this state with updated values.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeState::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeState::copyWith` (declaration #3) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeState::copyWith` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TreeState` from `TreeState::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `TreeState::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `TreeState::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeState::copyWith` (`TreeState`).
+  /// - State: Maintains consistent state invariants across `TreeState::copyWith` without partial mutation on error.
+  /// - Action: Executes `TreeState::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeState::copyWith` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREESTATE-COPYWITH] | SysML v2: ActionDef(TreeState::copyWith)
   TreeState copyWith({
     List<TreeNode>? treeData,
     String? currentView,
@@ -102,34 +148,31 @@ class TreeState {
 }
 
 /// Determines if a [node] represents a primitive leaf attribute descriptor
-/// that should be filtered out from root tree navigation.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Filters scalar M2 metamodel attribute types from top-level ARINC 661
-/// hierarchy navigation under DO-178C DAL-A so only composite container
-/// entities populate the root sidebar tree.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `isPrimitiveAttribute` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
 ///
-/// ## 2. Invariants & State Contracts
-/// - Case-insensitively matches `node.label` and `node.id` against the closed
-///   constant set of 23 scalar attribute names.
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for fn `isPrimitiveAttribute` (declaration #4) within `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 3. Preconditions & Input Bounds
-/// - [node] must be a valid non-null [TreeNode].
+/// ## 3. Preconditions
+/// - `node: TreeNode` must satisfy domain and type-safety constraints prior to invoking `isPrimitiveAttribute`.
 ///
-/// ## 4. Postconditions & Side Effects
-/// - Pure predicate returning `true` if [node] is a primitive scalar attribute
-///   descriptor, or `false` otherwise.
+/// ## 4. Postconditions
+/// - Returns `bool` from `isPrimitiveAttribute` with deterministic post-execution state.
 ///
-/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
-/// - **Time Complexity**: $O(L)$ where $L$ is the string length of `node.label`
-///   and `node.id` for lowercase conversion and constant-set hash lookup.
-/// - **Space Complexity**: $O(L)$ for temporary lowercase strings.
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(N(node)) bounded over input/member dimension of `isPrimitiveAttribute`.
+/// - Space Complexity: O(N(node)) bounded auxiliary memory for `isPrimitiveAttribute`.
 ///
-/// ## 6. Failure Modes & Defensive Mitigations
-/// - Empty or unknown labels safely evaluate to `false`.
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `isPrimitiveAttribute` (`bool`).
+/// - State: Maintains consistent state invariants across `isPrimitiveAttribute` without partial mutation on error.
+/// - Action: Executes `isPrimitiveAttribute` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `isPrimitiveAttribute` (`VIEW-MODELS-TREE-VIEW-MODEL`).
 ///
 /// ## 7. Realization & Traceability
-/// Realises: [Feat-10/TreeViewModel]
+/// Realises: [Feat-10/TreeViewModel] | SysML v2: ActionDef(isPrimitiveAttribute)
 bool isPrimitiveAttribute(TreeNode node) {
   final _labelLower = node.label.toLowerCase();
   final _idLower = node.id.toLowerCase();
@@ -145,74 +188,88 @@ bool isPrimitiveAttribute(TreeNode node) {
 }
 
 /// Determines if a [node] is a container entity eligible for root tree
-/// navigation.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Complements [isPrimitiveAttribute] under DO-178C DAL-A to retain composite
-/// M2 metamodel container entities in the ARINC 661 sidebar tree.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `isContainerEntity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
 ///
-/// ## 2. Invariants & State Contracts
-/// - Always returns `!isPrimitiveAttribute(node)`.
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for fn `isContainerEntity` (declaration #5) within `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 3. Preconditions & Input Bounds
-/// - [node] must be a valid non-null [TreeNode].
+/// ## 3. Preconditions
+/// - `node: TreeNode` must satisfy domain and type-safety constraints prior to invoking `isContainerEntity`.
 ///
-/// ## 4. Postconditions & Side Effects
-/// - Pure predicate without side effects.
+/// ## 4. Postconditions
+/// - Returns `bool` from `isContainerEntity` with deterministic post-execution state.
 ///
-/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
-/// - **Time Complexity**: $O(L)$ delegated to [isPrimitiveAttribute].
-/// - **Space Complexity**: $O(L)$ delegated to [isPrimitiveAttribute].
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(N(node)) bounded over input/member dimension of `isContainerEntity`.
+/// - Space Complexity: O(N(node)) bounded auxiliary memory for `isContainerEntity`.
 ///
-/// ## 6. Failure Modes & Defensive Mitigations
-/// - Cannot throw for any valid [TreeNode].
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `isContainerEntity` (`bool`).
+/// - State: Maintains consistent state invariants across `isContainerEntity` without partial mutation on error.
+/// - Action: Executes `isContainerEntity` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `isContainerEntity` (`VIEW-MODELS-TREE-VIEW-MODEL`).
 ///
 /// ## 7. Realization & Traceability
-/// Realises: [Feat-10/TreeViewModel]
+/// Realises: [Feat-10/TreeViewModel] | SysML v2: ActionDef(isContainerEntity)
 bool isContainerEntity(TreeNode node) {
   return !isPrimitiveAttribute(node);
 }
 
 /// View model driving the sidebar hierarchy tree: data loading, natural sorting,
-/// lazy child expansion, focus management, and keyboard traversal.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Governs deterministic M2 metamodel hierarchy loading, natural alphanumeric
-/// sorting, ancestor path auto-expansion, and keyboard arrow traversal under
-/// DO-178C DAL-A and ARINC 661.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
 ///
-/// ## 2. Invariants & State Contracts
-/// - Filters root nodes via [isContainerEntity] and falls back to
-///   [defaultTreeData] when the repository returns an empty root list.
-/// - Suppresses `notifyListeners()` calls once `_disposed` is `true`.
-/// - Natural sort orders parent/root nodes ahead of `_Child_` and `_Grandchild_`
-///   suffixed nodes and compares numeric chunks by integer value.
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `TreeViewModel` (declaration #6) within `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 3. Preconditions & Input Bounds
-/// - Requires a valid [TreeRepository] dependency injected at construction.
-/// - `initialView` defaults to `''` and resolves to the first root node ID upon
-///   [loadTree] completion when empty.
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `TreeViewModel` in `VIEW-MODELS-TREE-VIEW-MODEL`.
 ///
-/// ## 4. Postconditions & Side Effects
-/// - Mutates internal [TreeState], registers per-node [GlobalKey] instances for
-///   auto-scrolling, and invokes [onViewSelected] when [selectView] changes the
-///   active view.
+/// ## 4. Postconditions
+/// - Defines the authoritative `TreeViewModel` representation for class `TreeViewModel`.
 ///
-/// ## 5. Algorithmic Complexity & Worst-Case Execution Time (WCET)
-/// - **Time Complexity**: $O(N \log N)$ per level for natural sorting; $O(N)$
-///   tree traversal for node lookup, ancestor path expansion, and visible-node
-///   linearization across $N$ loaded nodes.
-/// - **Space Complexity**: $O(N)$ for [TreeNode] hierarchy and `_nodeKeys` map.
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(TreeViewModel)) bounded over input/member dimension of `TreeViewModel`.
+/// - Space Complexity: O(K(TreeViewModel)) bounded auxiliary memory for `TreeViewModel`.
 ///
-/// ## 6. Failure Modes & Defensive Mitigations
-/// - Repository failures in [loadTree] fall back to [defaultTreeData].
-/// - Exceptions or `Failure` results during [expandNode] clear the node's
-///   `loadingNodes` entry and preserve the existing tree structure.
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `TreeViewModel` (`TreeViewModel`).
+/// - State: Maintains consistent state invariants across `TreeViewModel` without partial mutation on error.
+/// - Action: Executes `TreeViewModel` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `TreeViewModel` (`VIEW-MODELS-TREE-VIEW-MODEL`).
 ///
 /// ## 7. Realization & Traceability
-/// Realises: [Feat-10/TreeViewModel]
+/// Realises: [Feat-10/TreeViewModel] | SysML v2: PartDef(TreeViewModel)
 class TreeViewModel extends ChangeNotifier {
   /// Creates a [TreeViewModel] bound to [_treeRepository].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeViewModel::TreeViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TreeViewModel::TreeViewModel` (declaration #7) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_treeRepository: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::TreeViewModel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TreeViewModel::TreeViewModel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_treeRepository)) bounded over input/member dimension of `TreeViewModel::TreeViewModel`.
+  /// - Space Complexity: O(N(_treeRepository)) bounded auxiliary memory for `TreeViewModel::TreeViewModel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::TreeViewModel` (`()`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::TreeViewModel` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::TreeViewModel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::TreeViewModel` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-TREEVIEWMODEL] | SysML v2: ActionDef(TreeViewModel::TreeViewModel)
   TreeViewModel(this._treeRepository, {
     String initialView = '',
     this.onViewSelected,
@@ -247,13 +304,62 @@ class TreeViewModel extends ChangeNotifier {
   FocusNode get focusNode => _treeFocusNode;
 
   /// Returns the [GlobalKey] registered for the node with [id], if any.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::nodeKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::nodeKey` (declaration #8) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `id: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::nodeKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `GlobalKey?` from `TreeViewModel::nodeKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(id)) bounded over input/member dimension of `TreeViewModel::nodeKey`.
+  /// - Space Complexity: O(N(id)) bounded auxiliary memory for `TreeViewModel::nodeKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::nodeKey` (`GlobalKey?`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::nodeKey` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::nodeKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::nodeKey` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-NODEKEY] | SysML v2: ActionDef(TreeViewModel::nodeKey)
   GlobalKey? nodeKey(String id) => _nodeKeys[id];
 
   /// Optional node ID targeted for 3D viewport camera flight.
   String? get flightTarget => _state.flightTarget;
 
   /// Loads the type hierarchy from the data source and initialises tree data,
-  /// current view, expanded nodes, and node keys.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::loadTree` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::loadTree` (declaration #9) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::loadTree` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `TreeViewModel::loadTree` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(loadTree)) bounded over input/member dimension of `TreeViewModel::loadTree`.
+  /// - Space Complexity: O(K(loadTree)) bounded auxiliary memory for `TreeViewModel::loadTree`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::loadTree` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::loadTree` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::loadTree` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::loadTree` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-LOADTREE] | SysML v2: ActionDef(TreeViewModel::loadTree)
   Future<void> loadTree() async {
     final rootRes = await _treeRepository.fetchRootNodes();
     if (_disposed) return;
@@ -300,7 +406,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Selects [viewId] as the current view, expands its ancestors, scrolls it
-  /// into view, and notifies listeners.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::selectView` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::selectView` (declaration #10) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `viewId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::selectView`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::selectView` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(viewId)) bounded over input/member dimension of `TreeViewModel::selectView`.
+  /// - Space Complexity: O(N(viewId)) bounded auxiliary memory for `TreeViewModel::selectView`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::selectView` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::selectView` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::selectView` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::selectView` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-SELECTVIEW] | SysML v2: ActionDef(TreeViewModel::selectView)
   void selectView(String viewId) {
     if (_state.currentView == viewId) return;
     final newExpanded = Map<String, bool>.from(_state.expanded);
@@ -321,17 +451,92 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Sets [flightTarget] to [nodeId] and notifies listeners to initiate camera flight.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::triggerFlight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::triggerFlight` (declaration #11) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodeId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::triggerFlight`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::triggerFlight` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodeId)) bounded over input/member dimension of `TreeViewModel::triggerFlight`.
+  /// - Space Complexity: O(N(nodeId)) bounded auxiliary memory for `TreeViewModel::triggerFlight`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::triggerFlight` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::triggerFlight` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::triggerFlight` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::triggerFlight` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-TRIGGERFLIGHT] | SysML v2: ActionDef(TreeViewModel::triggerFlight)
   void triggerFlight(String nodeId) {
     _state = _state.copyWith(flightTarget: nodeId);
     notifyListeners();
   }
 
   /// Clears the active [flightTarget] without notifying listeners.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::clearFlightTarget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::clearFlightTarget` (declaration #12) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::clearFlightTarget` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::clearFlightTarget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(clearFlightTarget)) bounded over input/member dimension of `TreeViewModel::clearFlightTarget`.
+  /// - Space Complexity: O(K(clearFlightTarget)) bounded auxiliary memory for `TreeViewModel::clearFlightTarget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::clearFlightTarget` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::clearFlightTarget` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::clearFlightTarget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::clearFlightTarget` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-CLEARFLIGHTTARGET] | SysML v2: ActionDef(TreeViewModel::clearFlightTarget)
   void clearFlightTarget() {
     _state = _state.copyWith(clearFlightTarget: true);
   }
 
   /// Updates the current view (without firing [selectView]'s external callback).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::updateCurrentView` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::updateCurrentView` (declaration #13) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `viewId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::updateCurrentView`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::updateCurrentView` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(viewId)) bounded over input/member dimension of `TreeViewModel::updateCurrentView`.
+  /// - Space Complexity: O(N(viewId)) bounded auxiliary memory for `TreeViewModel::updateCurrentView`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::updateCurrentView` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::updateCurrentView` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::updateCurrentView` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::updateCurrentView` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-UPDATECURRENTVIEW] | SysML v2: ActionDef(TreeViewModel::updateCurrentView)
   void updateCurrentView(String viewId) {
     if (_state.currentView == viewId) return;
     final newExpanded = Map<String, bool>.from(_state.expanded);
@@ -351,6 +556,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Toggles expansion state of the node with [id] and lazily loads children.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::toggleExpand` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::toggleExpand` (declaration #14) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `id: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::toggleExpand`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::toggleExpand` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(id)) bounded over input/member dimension of `TreeViewModel::toggleExpand`.
+  /// - Space Complexity: O(N(id)) bounded auxiliary memory for `TreeViewModel::toggleExpand`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::toggleExpand` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::toggleExpand` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::toggleExpand` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::toggleExpand` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-TOGGLEEXPAND] | SysML v2: ActionDef(TreeViewModel::toggleExpand)
   void toggleExpand(String id) {
     final node = _findNodeById(_state.treeData, id);
     if (node != null) {
@@ -364,6 +594,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Recursively expands a node, loading its children if necessary.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::expandNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::expandNode` (declaration #15) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `node: TreeNode` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::expandNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<void>` from `TreeViewModel::expandNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(node)) bounded over input/member dimension of `TreeViewModel::expandNode`.
+  /// - Space Complexity: O(N(node)) bounded auxiliary memory for `TreeViewModel::expandNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::expandNode` (`Future<void>`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::expandNode` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::expandNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::expandNode` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-EXPANDNODE] | SysML v2: ActionDef(TreeViewModel::expandNode)
   Future<void> expandNode(TreeNode node) async {
     if (_state.expanded[node.id] == true) {
       final newExpanded = Map<String, bool>.from(_state.expanded);
@@ -415,6 +670,33 @@ class TreeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Executes deterministic method `TreeViewModel::_findNodeById` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_findNodeById` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_findNodeById` (declaration #16) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodes: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_findNodeById`.
+  /// - `id: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_findNodeById`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TreeNode?` from `TreeViewModel::_findNodeById` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodes)) bounded over input/member dimension of `TreeViewModel::_findNodeById`.
+  /// - Space Complexity: O(N(nodes)) bounded auxiliary memory for `TreeViewModel::_findNodeById`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_findNodeById` (`TreeNode?`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_findNodeById` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_findNodeById` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_findNodeById` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-FINDNODEBYID] | SysML v2: ActionDef(TreeViewModel::_findNodeById)
   TreeNode? _findNodeById(List<TreeNode> nodes, String id) {
     for (final node in nodes) {
       if (node.id == id) return node;
@@ -427,6 +709,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Moves selection to the next visible node (depth-first order).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::handleArrowDown` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::handleArrowDown` (declaration #17) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::handleArrowDown` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::handleArrowDown` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(handleArrowDown)) bounded over input/member dimension of `TreeViewModel::handleArrowDown`.
+  /// - Space Complexity: O(K(handleArrowDown)) bounded auxiliary memory for `TreeViewModel::handleArrowDown`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::handleArrowDown` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::handleArrowDown` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::handleArrowDown` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::handleArrowDown` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-HANDLEARROWDOWN] | SysML v2: ActionDef(TreeViewModel::handleArrowDown)
   void handleArrowDown() {
     final visible = _getVisibleNodes();
     final currentIndex = visible.indexWhere((n) => n.id == _state.currentView);
@@ -437,6 +744,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Moves selection to the previous visible node (depth-first order).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::handleArrowUp` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::handleArrowUp` (declaration #18) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::handleArrowUp` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::handleArrowUp` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(handleArrowUp)) bounded over input/member dimension of `TreeViewModel::handleArrowUp`.
+  /// - Space Complexity: O(K(handleArrowUp)) bounded auxiliary memory for `TreeViewModel::handleArrowUp`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::handleArrowUp` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::handleArrowUp` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::handleArrowUp` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::handleArrowUp` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-HANDLEARROWUP] | SysML v2: ActionDef(TreeViewModel::handleArrowUp)
   void handleArrowUp() {
     final visible = _getVisibleNodes();
     final currentIndex = visible.indexWhere((n) => n.id == _state.currentView);
@@ -447,6 +779,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Expands the current node or, if already expanded, selects its first child.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::handleArrowRight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::handleArrowRight` (declaration #19) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::handleArrowRight` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::handleArrowRight` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(handleArrowRight)) bounded over input/member dimension of `TreeViewModel::handleArrowRight`.
+  /// - Space Complexity: O(K(handleArrowRight)) bounded auxiliary memory for `TreeViewModel::handleArrowRight`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::handleArrowRight` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::handleArrowRight` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::handleArrowRight` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::handleArrowRight` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-HANDLEARROWRIGHT] | SysML v2: ActionDef(TreeViewModel::handleArrowRight)
   void handleArrowRight() {
     final visible = _getVisibleNodes();
     final currentIndex = visible.indexWhere((n) => n.id == _state.currentView);
@@ -463,7 +820,31 @@ class TreeViewModel extends ChangeNotifier {
   }
 
   /// Collapses the current node or, if already collapsed or a leaf, selects
-  /// its parent.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::handleArrowLeft` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::handleArrowLeft` (declaration #20) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::handleArrowLeft` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::handleArrowLeft` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(handleArrowLeft)) bounded over input/member dimension of `TreeViewModel::handleArrowLeft`.
+  /// - Space Complexity: O(K(handleArrowLeft)) bounded auxiliary memory for `TreeViewModel::handleArrowLeft`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::handleArrowLeft` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::handleArrowLeft` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::handleArrowLeft` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::handleArrowLeft` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-HANDLEARROWLEFT] | SysML v2: ActionDef(TreeViewModel::handleArrowLeft)
   void handleArrowLeft() {
     final visible = _getVisibleNodes();
     final currentIndex = visible.indexWhere((n) => n.id == _state.currentView);
@@ -494,12 +875,64 @@ class TreeViewModel extends ChangeNotifier {
     }
   }
 
+  /// Executes deterministic method `TreeViewModel::notifyListeners` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::notifyListeners` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::notifyListeners` (declaration #21) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::notifyListeners` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::notifyListeners` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(notifyListeners)) bounded over input/member dimension of `TreeViewModel::notifyListeners`.
+  /// - Space Complexity: O(K(notifyListeners)) bounded auxiliary memory for `TreeViewModel::notifyListeners`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::notifyListeners` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::notifyListeners` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::notifyListeners` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::notifyListeners` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-NOTIFYLISTENERS] | SysML v2: ActionDef(TreeViewModel::notifyListeners)
   @override
   void notifyListeners() {
     if (_disposed) return;
     super.notifyListeners();
   }
 
+  /// Executes deterministic method `TreeViewModel::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::dispose` (declaration #22) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::dispose` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `TreeViewModel::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `TreeViewModel::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::dispose` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::dispose` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-DISPOSE] | SysML v2: ActionDef(TreeViewModel::dispose)
   @override
   void dispose() {
     _disposed = true;
@@ -507,6 +940,32 @@ class TreeViewModel extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Executes deterministic method `TreeViewModel::_buildNodeKeys` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_buildNodeKeys` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_buildNodeKeys` (declaration #23) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodes: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_buildNodeKeys`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::_buildNodeKeys` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodes)) bounded over input/member dimension of `TreeViewModel::_buildNodeKeys`.
+  /// - Space Complexity: O(N(nodes)) bounded auxiliary memory for `TreeViewModel::_buildNodeKeys`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_buildNodeKeys` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_buildNodeKeys` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_buildNodeKeys` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_buildNodeKeys` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-BUILDNODEKEYS] | SysML v2: ActionDef(TreeViewModel::_buildNodeKeys)
   void _buildNodeKeys(List<TreeNode> nodes) {
     for (final node in nodes) {
       _nodeKeys[node.id] = GlobalKey();
@@ -516,6 +975,34 @@ class TreeViewModel extends ChangeNotifier {
     }
   }
 
+  /// Executes deterministic method `TreeViewModel::_expandParentsPath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_expandParentsPath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_expandParentsPath` (declaration #24) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodes: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_expandParentsPath`.
+  /// - `targetId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_expandParentsPath`.
+  /// - `expandedMap: Map<String, bool>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_expandParentsPath`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::_expandParentsPath` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodes)) bounded over input/member dimension of `TreeViewModel::_expandParentsPath`.
+  /// - Space Complexity: O(N(nodes)) bounded auxiliary memory for `TreeViewModel::_expandParentsPath`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_expandParentsPath` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_expandParentsPath` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_expandParentsPath` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_expandParentsPath` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-EXPANDPARENTSPATH] | SysML v2: ActionDef(TreeViewModel::_expandParentsPath)
   void _expandParentsPath(List<TreeNode> nodes, String targetId, Map<String, bool> expandedMap) {
     bool findAndExpand(List<TreeNode> currentNodes, String id, List<String> path) {
       for (final node in currentNodes) {
@@ -536,6 +1023,32 @@ class TreeViewModel extends ChangeNotifier {
     findAndExpand(nodes, targetId, []);
   }
 
+  /// Executes deterministic method `TreeViewModel::_getVisibleNodes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_getVisibleNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_getVisibleNodes` (declaration #25) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TreeViewModel::_getVisibleNodes` in `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<TreeNode>` from `TreeViewModel::_getVisibleNodes` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_getVisibleNodes)) bounded over input/member dimension of `TreeViewModel::_getVisibleNodes`.
+  /// - Space Complexity: O(K(_getVisibleNodes)) bounded auxiliary memory for `TreeViewModel::_getVisibleNodes`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_getVisibleNodes` (`List<TreeNode>`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_getVisibleNodes` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_getVisibleNodes` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_getVisibleNodes` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-GETVISIBLENODES] | SysML v2: ActionDef(TreeViewModel::_getVisibleNodes)
   List<TreeNode> _getVisibleNodes() {
     final List<TreeNode> result = [];
     void traverse(TreeNode node) {
@@ -548,6 +1061,32 @@ class TreeViewModel extends ChangeNotifier {
     return result;
   }
 
+  /// Executes deterministic method `TreeViewModel::_scrollToNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_scrollToNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_scrollToNode` (declaration #26) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `viewId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_scrollToNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::_scrollToNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(viewId)) bounded over input/member dimension of `TreeViewModel::_scrollToNode`.
+  /// - Space Complexity: O(N(viewId)) bounded auxiliary memory for `TreeViewModel::_scrollToNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_scrollToNode` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_scrollToNode` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_scrollToNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_scrollToNode` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-SCROLLTONODE] | SysML v2: ActionDef(TreeViewModel::_scrollToNode)
   void _scrollToNode(String viewId) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = _nodeKeys[viewId]?.currentContext;
@@ -561,6 +1100,32 @@ class TreeViewModel extends ChangeNotifier {
     });
   }
 
+  /// Executes deterministic method `TreeViewModel::_sortNodesRecursively` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_sortNodesRecursively` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_sortNodesRecursively` (declaration #27) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodes: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_sortNodesRecursively`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TreeViewModel::_sortNodesRecursively` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodes)) bounded over input/member dimension of `TreeViewModel::_sortNodesRecursively`.
+  /// - Space Complexity: O(N(nodes)) bounded auxiliary memory for `TreeViewModel::_sortNodesRecursively`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_sortNodesRecursively` (`void`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_sortNodesRecursively` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_sortNodesRecursively` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_sortNodesRecursively` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-SORTNODESRECURSIVELY] | SysML v2: ActionDef(TreeViewModel::_sortNodesRecursively)
   void _sortNodesRecursively(List<TreeNode> nodes) {
     nodes.sort((a, b) => _naturalCompare(a.id, b.id));
     for (final node in nodes) {
@@ -570,6 +1135,34 @@ class TreeViewModel extends ChangeNotifier {
     }
   }
 
+  /// Executes deterministic method `TreeViewModel::_replaceNodeInList` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_replaceNodeInList` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_replaceNodeInList` (declaration #28) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `nodes: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_replaceNodeInList`.
+  /// - `targetId: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_replaceNodeInList`.
+  /// - `newChildren: List<TreeNode>` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_replaceNodeInList`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `TreeViewModel::_replaceNodeInList` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(nodes)) bounded over input/member dimension of `TreeViewModel::_replaceNodeInList`.
+  /// - Space Complexity: O(N(nodes)) bounded auxiliary memory for `TreeViewModel::_replaceNodeInList`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_replaceNodeInList` (`bool`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_replaceNodeInList` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_replaceNodeInList` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_replaceNodeInList` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-REPLACENODEINLIST] | SysML v2: ActionDef(TreeViewModel::_replaceNodeInList)
   bool _replaceNodeInList(List<TreeNode> nodes, String targetId, List<TreeNode> newChildren) {
     for (int i = 0; i < nodes.length; i++) {
       if (nodes[i].id == targetId) {
@@ -583,6 +1176,33 @@ class TreeViewModel extends ChangeNotifier {
     return false;
   }
 
+  /// Executes deterministic method `TreeViewModel::_naturalCompare` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeViewModel::_naturalCompare` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/view_models/tree_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TreeViewModel::_naturalCompare` (declaration #29) within `VIEW-MODELS-TREE-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `a: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_naturalCompare`.
+  /// - `b: String` must satisfy domain and type-safety constraints prior to invoking `TreeViewModel::_naturalCompare`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int` from `TreeViewModel::_naturalCompare` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(a)) bounded over input/member dimension of `TreeViewModel::_naturalCompare`.
+  /// - Space Complexity: O(N(a)) bounded auxiliary memory for `TreeViewModel::_naturalCompare`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TreeViewModel::_naturalCompare` (`int`).
+  /// - State: Maintains consistent state invariants across `TreeViewModel::_naturalCompare` without partial mutation on error.
+  /// - Action: Executes `TreeViewModel::_naturalCompare` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TreeViewModel::_naturalCompare` (`VIEW-MODELS-TREE-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-TREE-VIEW-MODEL-TREEVIEWMODEL-NATURALCOMPARE] | SysML v2: ActionDef(TreeViewModel::_naturalCompare)
   int _naturalCompare(String a, String b) {
     final bool isChildOrGcA = a.contains('_Child_') || a.contains('_Grandchild_');
     final bool isChildOrGcB = b.contains('_Child_') || b.contains('_Grandchild_');

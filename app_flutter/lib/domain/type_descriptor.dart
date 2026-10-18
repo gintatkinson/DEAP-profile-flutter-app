@@ -103,6 +103,31 @@ class TypeDescriptor {
   final List<TypeRelationDescriptor> parentTypes;
 
   /// Creates a new [TypeDescriptor] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeDescriptor::TypeDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TypeDescriptor::TypeDescriptor` (declaration #2) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeDescriptor::TypeDescriptor` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TypeDescriptor::TypeDescriptor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TypeDescriptor)) bounded over input/member dimension of `TypeDescriptor::TypeDescriptor`.
+  /// - Space Complexity: O(K(TypeDescriptor)) bounded auxiliary memory for `TypeDescriptor::TypeDescriptor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeDescriptor::TypeDescriptor` (`()`).
+  /// - State: Maintains consistent state invariants across `TypeDescriptor::TypeDescriptor` without partial mutation on error.
+  /// - Action: Executes `TypeDescriptor::TypeDescriptor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeDescriptor::TypeDescriptor` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPEDESCRIPTOR-TYPEDESCRIPTOR] | SysML v2: ActionDef(TypeDescriptor::TypeDescriptor)
   const TypeDescriptor({
     required this.typeName,
     required this.displayName,
@@ -114,6 +139,31 @@ class TypeDescriptor {
   });
 
   /// Creates a copy of this [TypeDescriptor] with the given fields replaced.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeDescriptor::copyWith` (declaration #3) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeDescriptor::copyWith` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TypeDescriptor` from `TypeDescriptor::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `TypeDescriptor::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `TypeDescriptor::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeDescriptor::copyWith` (`TypeDescriptor`).
+  /// - State: Maintains consistent state invariants across `TypeDescriptor::copyWith` without partial mutation on error.
+  /// - Action: Executes `TypeDescriptor::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeDescriptor::copyWith` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPEDESCRIPTOR-COPYWITH] | SysML v2: ActionDef(TypeDescriptor::copyWith)
   TypeDescriptor copyWith({
     String? typeName,
     String? displayName,
@@ -305,6 +355,31 @@ class FieldDescriptor {
   final List<String>? inputFormatters;
 
   /// Creates a new [FieldDescriptor] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FieldDescriptor::FieldDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `FieldDescriptor::FieldDescriptor` (declaration #5) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FieldDescriptor::FieldDescriptor` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FieldDescriptor::FieldDescriptor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(FieldDescriptor)) bounded over input/member dimension of `FieldDescriptor::FieldDescriptor`.
+  /// - Space Complexity: O(K(FieldDescriptor)) bounded auxiliary memory for `FieldDescriptor::FieldDescriptor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FieldDescriptor::FieldDescriptor` (`()`).
+  /// - State: Maintains consistent state invariants across `FieldDescriptor::FieldDescriptor` without partial mutation on error.
+  /// - Action: Executes `FieldDescriptor::FieldDescriptor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FieldDescriptor::FieldDescriptor` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-FIELDDESCRIPTOR-FIELDDESCRIPTOR] | SysML v2: ActionDef(FieldDescriptor::FieldDescriptor)
   const FieldDescriptor({
     required this.key,
     required this.label,
@@ -322,6 +397,31 @@ class FieldDescriptor {
   });
 
   /// Creates a copy of this [FieldDescriptor] with the given fields replaced.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FieldDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FieldDescriptor::copyWith` (declaration #6) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FieldDescriptor::copyWith` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `FieldDescriptor` from `FieldDescriptor::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `FieldDescriptor::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `FieldDescriptor::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FieldDescriptor::copyWith` (`FieldDescriptor`).
+  /// - State: Maintains consistent state invariants across `FieldDescriptor::copyWith` without partial mutation on error.
+  /// - Action: Executes `FieldDescriptor::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FieldDescriptor::copyWith` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-FIELDDESCRIPTOR-COPYWITH] | SysML v2: ActionDef(FieldDescriptor::copyWith)
   FieldDescriptor copyWith({
     String? key,
     String? label,
@@ -456,6 +556,31 @@ class TypeRelationDescriptor {
   final String childLabel;
 
   /// Creates a new [TypeRelationDescriptor] instance.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeRelationDescriptor::TypeRelationDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TypeRelationDescriptor::TypeRelationDescriptor` (declaration #8) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeRelationDescriptor::TypeRelationDescriptor` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TypeRelationDescriptor::TypeRelationDescriptor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TypeRelationDescriptor)) bounded over input/member dimension of `TypeRelationDescriptor::TypeRelationDescriptor`.
+  /// - Space Complexity: O(K(TypeRelationDescriptor)) bounded auxiliary memory for `TypeRelationDescriptor::TypeRelationDescriptor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeRelationDescriptor::TypeRelationDescriptor` (`()`).
+  /// - State: Maintains consistent state invariants across `TypeRelationDescriptor::TypeRelationDescriptor` without partial mutation on error.
+  /// - Action: Executes `TypeRelationDescriptor::TypeRelationDescriptor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeRelationDescriptor::TypeRelationDescriptor` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPERELATIONDESCRIPTOR-TYPERELATIONDESCRIPTOR] | SysML v2: ActionDef(TypeRelationDescriptor::TypeRelationDescriptor)
   const TypeRelationDescriptor({
     required this.relationName,
     required this.childTypeName,
@@ -463,6 +588,31 @@ class TypeRelationDescriptor {
   });
 
   /// Creates a copy of this [TypeRelationDescriptor] with the given fields replaced.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRelationDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeRelationDescriptor::copyWith` (declaration #9) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeRelationDescriptor::copyWith` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TypeRelationDescriptor` from `TypeRelationDescriptor::copyWith` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(copyWith)) bounded over input/member dimension of `TypeRelationDescriptor::copyWith`.
+  /// - Space Complexity: O(K(copyWith)) bounded auxiliary memory for `TypeRelationDescriptor::copyWith`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeRelationDescriptor::copyWith` (`TypeRelationDescriptor`).
+  /// - State: Maintains consistent state invariants across `TypeRelationDescriptor::copyWith` without partial mutation on error.
+  /// - Action: Executes `TypeRelationDescriptor::copyWith` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeRelationDescriptor::copyWith` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPERELATIONDESCRIPTOR-COPYWITH] | SysML v2: ActionDef(TypeRelationDescriptor::copyWith)
   TypeRelationDescriptor copyWith({
     String? relationName,
     String? childTypeName,

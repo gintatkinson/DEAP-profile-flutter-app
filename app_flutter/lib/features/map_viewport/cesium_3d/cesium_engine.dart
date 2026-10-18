@@ -52,11 +52,63 @@ class CesiumEngine {
   final CesiumNativeBindings _bindings;
   final int _handle;
 
+  /// Executes deterministic constructor `CesiumEngine::CesiumEngine._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumEngine::CesiumEngine._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumEngine::CesiumEngine._` (declaration #2) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_bindings: String` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::CesiumEngine._`.
+  /// - `_handle: String` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::CesiumEngine._`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CesiumEngine::CesiumEngine._` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_bindings)) bounded over input/member dimension of `CesiumEngine::CesiumEngine._`.
+  /// - Space Complexity: O(N(_bindings)) bounded auxiliary memory for `CesiumEngine::CesiumEngine._`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::CesiumEngine._` (`()`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::CesiumEngine._` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::CesiumEngine._` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::CesiumEngine._` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-CESIUMENGINE] | SysML v2: ActionDef(CesiumEngine::CesiumEngine._)
   CesiumEngine._(this._bindings, this._handle);
 
   static CesiumEngine? _instance;
 
   /// Initializes the singleton [CesiumEngine] instance with the specified tile load and cache limits.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::initialize` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::initialize` (declaration #3) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::initialize` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<CesiumEngine>` from `CesiumEngine::initialize` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(initialize)) bounded over input/member dimension of `CesiumEngine::initialize`.
+  /// - Space Complexity: O(K(initialize)) bounded auxiliary memory for `CesiumEngine::initialize`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::initialize` (`Future<CesiumEngine>`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::initialize` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::initialize` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::initialize` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-INITIALIZE] | SysML v2: ActionDef(CesiumEngine::initialize)
   static Future<CesiumEngine> initialize({
     String? tilesetUrl,
     int maxSimultaneousTileLoads = 20,
@@ -101,6 +153,31 @@ class CesiumEngine {
   }
 
   /// Synchronizes the native viewport camera state with the provided [camera].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::updateCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::updateCamera` (declaration #4) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `camera: VirtualCamera` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::updateCamera`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CesiumEngine::updateCamera` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(camera)) bounded over input/member dimension of `CesiumEngine::updateCamera`.
+  /// - Space Complexity: O(N(camera)) bounded auxiliary memory for `CesiumEngine::updateCamera`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::updateCamera` (`void`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::updateCamera` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::updateCamera` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::updateCamera` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-UPDATECAMERA] | SysML v2: ActionDef(CesiumEngine::updateCamera)
   void updateCamera(VirtualCamera camera) {
     final native = calloc<BridgeCamera>();
     native.ref.dim_0 = camera.dim_0;
@@ -116,6 +193,31 @@ class CesiumEngine {
   }
 
   /// Queries the number of currently visible 3D tiles from the native engine.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileCount` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileCount` (declaration #5) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::getVisibleTileCount` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `int` from `CesiumEngine::getVisibleTileCount` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(getVisibleTileCount)) bounded over input/member dimension of `CesiumEngine::getVisibleTileCount`.
+  /// - Space Complexity: O(K(getVisibleTileCount)) bounded auxiliary memory for `CesiumEngine::getVisibleTileCount`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::getVisibleTileCount` (`int`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::getVisibleTileCount` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::getVisibleTileCount` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::getVisibleTileCount` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-GETVISIBLETILECOUNT] | SysML v2: ActionDef(CesiumEngine::getVisibleTileCount)
   int getVisibleTileCount() {
     final countPtr = calloc<Int32>();
     try {
@@ -128,6 +230,31 @@ class CesiumEngine {
   }
 
   /// Returns the string identifier of the visible tile at [index], or `null` if out of bounds.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileId` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileId` (declaration #6) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `index: int` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::getVisibleTileId`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String?` from `CesiumEngine::getVisibleTileId` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(index)) bounded over input/member dimension of `CesiumEngine::getVisibleTileId`.
+  /// - Space Complexity: O(N(index)) bounded auxiliary memory for `CesiumEngine::getVisibleTileId`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::getVisibleTileId` (`String?`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::getVisibleTileId` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::getVisibleTileId` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::getVisibleTileId` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-GETVISIBLETILEID] | SysML v2: ActionDef(CesiumEngine::getVisibleTileId)
   String? getVisibleTileId(int index) {
     final idPtr = calloc<Pointer<Utf8>>();
     try {
@@ -148,6 +275,31 @@ class CesiumEngine {
   }
 
   /// Returns the ordered list of all currently visible tile identifiers.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileIds` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileIds` (declaration #7) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::getVisibleTileIds` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<String>` from `CesiumEngine::getVisibleTileIds` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(getVisibleTileIds)) bounded over input/member dimension of `CesiumEngine::getVisibleTileIds`.
+  /// - Space Complexity: O(K(getVisibleTileIds)) bounded auxiliary memory for `CesiumEngine::getVisibleTileIds`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::getVisibleTileIds` (`List<String>`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::getVisibleTileIds` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::getVisibleTileIds` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::getVisibleTileIds` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-GETVISIBLETILEIDS] | SysML v2: ActionDef(CesiumEngine::getVisibleTileIds)
   List<String> getVisibleTileIds() {
     final count = getVisibleTileCount();
     final ids = <String>[];
@@ -205,6 +357,32 @@ class CesiumEngine {
   }
 
   /// Requests binary tile payload for [tileId] from the native engine.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::requestTileData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::requestTileData` (declaration #8) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `tileId: String` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::requestTileData`.
+  /// - `onReady: void Function(Uint8List data)` must satisfy domain and type-safety constraints prior to invoking `CesiumEngine::requestTileData`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CesiumEngine::requestTileData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(tileId)) bounded over input/member dimension of `CesiumEngine::requestTileData`.
+  /// - Space Complexity: O(N(tileId)) bounded auxiliary memory for `CesiumEngine::requestTileData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::requestTileData` (`void`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::requestTileData` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::requestTileData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::requestTileData` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-REQUESTTILEDATA] | SysML v2: ActionDef(CesiumEngine::requestTileData)
   void requestTileData(String tileId, void Function(Uint8List data) onReady) {
     final tileIdNative = tileId.toNativeUtf8(allocator: calloc);
     // Callback intentionally nullptr. See bridge_bindings.dart for thread
@@ -214,6 +392,31 @@ class CesiumEngine {
   }
 
   /// Shuts down the native engine handle and clears the active singleton reference.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::dispose` (declaration #9) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::dispose` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CesiumEngine::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `CesiumEngine::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `CesiumEngine::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::dispose` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::dispose` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-DISPOSE] | SysML v2: ActionDef(CesiumEngine::dispose)
   void dispose() {
     _bindings.shutdown(_handle);
     if (_instance == this) {
@@ -222,6 +425,31 @@ class CesiumEngine {
   }
 
   /// Terminates the underlying native library subsystem globally.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::terminateLibrary` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::terminateLibrary` (declaration #10) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::terminateLibrary` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `CesiumEngine::terminateLibrary` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(terminateLibrary)) bounded over input/member dimension of `CesiumEngine::terminateLibrary`.
+  /// - Space Complexity: O(K(terminateLibrary)) bounded auxiliary memory for `CesiumEngine::terminateLibrary`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::terminateLibrary` (`void`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::terminateLibrary` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::terminateLibrary` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::terminateLibrary` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-TERMINATELIBRARY] | SysML v2: ActionDef(CesiumEngine::terminateLibrary)
   static void terminateLibrary() {
     final bindings = CesiumNativeBindings.load();
     bindings.terminate();

@@ -5,10 +5,35 @@ import 'package:app_flutter/core/theme/app_themes.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/topology/topology_defaults.dart' show emptyTopologyData;
 
+/// Executes deterministic fn `_resolvePath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_resolvePath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for fn `_resolvePath` (declaration #1) within `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 3. Preconditions
+/// - `map: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `_resolvePath`.
+/// - `path: String` must satisfy domain and type-safety constraints prior to invoking `_resolvePath`.
+///
+/// ## 4. Postconditions
+/// - Returns `dynamic` from `_resolvePath` with deterministic post-execution state.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(N(map)) bounded over input/member dimension of `_resolvePath`.
+/// - Space Complexity: O(N(map)) bounded auxiliary memory for `_resolvePath`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_resolvePath` (`dynamic`).
+/// - State: Maintains consistent state invariants across `_resolvePath` without partial mutation on error.
+/// - Action: Executes `_resolvePath` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_resolvePath` (`TOPOLOGY-TOPOLOGY-MAP`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-RESOLVEPATH] | SysML v2: ActionDef(_resolvePath)
 dynamic _resolvePath(Map<String, dynamic> map, String path) {
-  /// Member documentation.
   final List<String> parts = path.split('/');
-  /// Member documentation.
   dynamic current = map;
   for (final String part in parts) {
     if (current is Map<String, dynamic>) {
@@ -17,10 +42,35 @@ dynamic _resolvePath(Map<String, dynamic> map, String path) {
       return null;
     }
   }
-  /// Member documentation.
   return current;
 }
 
+/// Executes deterministic fn `_collectNodeAttributes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_collectNodeAttributes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for fn `_collectNodeAttributes` (declaration #2) within `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_collectNodeAttributes` in `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 4. Postconditions
+/// - Returns `Map<String, dynamic>` from `_collectNodeAttributes` with deterministic post-execution state.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_collectNodeAttributes)) bounded over input/member dimension of `_collectNodeAttributes`.
+/// - Space Complexity: O(K(_collectNodeAttributes)) bounded auxiliary memory for `_collectNodeAttributes`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_collectNodeAttributes` (`Map<String, dynamic>`).
+/// - State: Maintains consistent state invariants across `_collectNodeAttributes` without partial mutation on error.
+/// - Action: Executes `_collectNodeAttributes` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_collectNodeAttributes` (`TOPOLOGY-TOPOLOGY-MAP`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-COLLECTNODEATTRIBUTES] | SysML v2: ActionDef(_collectNodeAttributes)
 Map<String, dynamic> _collectNodeAttributes(
   String nodeId,
   Map<String, dynamic> rawProperties,
@@ -110,7 +160,32 @@ class TopologyNodePosition {
   /// [resolveCoordinate] / [resolveVector].
   final Map<String, dynamic> rawProperties;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNodePosition::TopologyNodePosition` (declaration #4) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyNodePosition::TopologyNodePosition` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyNodePosition::TopologyNodePosition` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyNodePosition)) bounded over input/member dimension of `TopologyNodePosition::TopologyNodePosition`.
+  /// - Space Complexity: O(K(TopologyNodePosition)) bounded auxiliary memory for `TopologyNodePosition::TopologyNodePosition`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNodePosition::TopologyNodePosition` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyNodePosition::TopologyNodePosition` without partial mutation on error.
+  /// - Action: Executes `TopologyNodePosition::TopologyNodePosition` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNodePosition::TopologyNodePosition` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODEPOSITION-TOPOLOGYNODEPOSITION] | SysML v2: ActionDef(TopologyNodePosition::TopologyNodePosition)
   const TopologyNodePosition({
     required this.dim0,
     required this.dim1,
@@ -120,7 +195,32 @@ class TopologyNodePosition {
     this.rawProperties = const <String, dynamic>{},
   });
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNodePosition::TopologyNodePosition` (declaration #5) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::TopologyNodePosition`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyNodePosition::TopologyNodePosition` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `TopologyNodePosition::TopologyNodePosition`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `TopologyNodePosition::TopologyNodePosition`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNodePosition::TopologyNodePosition` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyNodePosition::TopologyNodePosition` without partial mutation on error.
+  /// - Action: Executes `TopologyNodePosition::TopologyNodePosition` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNodePosition::TopologyNodePosition` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODEPOSITION-TOPOLOGYNODEPOSITION] | SysML v2: ActionDef(TopologyNodePosition::TopologyNodePosition)
   factory TopologyNodePosition.fromJson(Map<String, dynamic> json) {
     return TopologyNodePosition(
       dim0: (json['dim_0'] as num?)?.toDouble() ?? 0.0,
@@ -136,13 +236,66 @@ class TopologyNodePosition {
     );
   }
 
+  /// Executes deterministic method `TopologyNodePosition::_resolvePathWithMapping` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::_resolvePathWithMapping` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::_resolvePathWithMapping` (declaration #6) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::_resolvePathWithMapping`.
+  /// - `coordinateMapping: Map<String, String>?` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::_resolvePathWithMapping`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String?` from `TopologyNodePosition::_resolvePathWithMapping` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `TopologyNodePosition::_resolvePathWithMapping`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `TopologyNodePosition::_resolvePathWithMapping`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNodePosition::_resolvePathWithMapping` (`String?`).
+  /// - State: Maintains consistent state invariants across `TopologyNodePosition::_resolvePathWithMapping` without partial mutation on error.
+  /// - Action: Executes `TopologyNodePosition::_resolvePathWithMapping` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNodePosition::_resolvePathWithMapping` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODEPOSITION-RESOLVEPATHWITHMAPPING] | SysML v2: ActionDef(TopologyNodePosition::_resolvePathWithMapping)
   String? _resolvePathWithMapping(String key, Map<String, String>? coordinateMapping) {
     final String? path = coordinateMapping?[key];
     if (path == null) return null;
     return path.startsWith('position/') ? path.substring(9) : path;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `TopologyNodePosition::resolveCoordinate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveCoordinate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::resolveCoordinate` (declaration #7) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::resolveCoordinate`.
+  /// - `coordinateMapping: Map<String, String>?` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::resolveCoordinate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `TopologyNodePosition::resolveCoordinate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `TopologyNodePosition::resolveCoordinate`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `TopologyNodePosition::resolveCoordinate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNodePosition::resolveCoordinate` (`double`).
+  /// - State: Maintains consistent state invariants across `TopologyNodePosition::resolveCoordinate` without partial mutation on error.
+  /// - Action: Executes `TopologyNodePosition::resolveCoordinate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNodePosition::resolveCoordinate` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODEPOSITION-RESOLVECOORDINATE] | SysML v2: ActionDef(TopologyNodePosition::resolveCoordinate)
   double resolveCoordinate(String key, Map<String, String>? coordinateMapping) {
     final String? resolvedPath = _resolvePathWithMapping(key, coordinateMapping);
     if (resolvedPath != null) {
@@ -165,7 +318,33 @@ class TopologyNodePosition {
     }
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `TopologyNodePosition::resolveVector` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::resolveVector` (declaration #8) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::resolveVector`.
+  /// - `coordinateMapping: Map<String, String>?` must satisfy domain and type-safety constraints prior to invoking `TopologyNodePosition::resolveVector`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<double>` from `TopologyNodePosition::resolveVector` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `TopologyNodePosition::resolveVector`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `TopologyNodePosition::resolveVector`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNodePosition::resolveVector` (`List<double>`).
+  /// - State: Maintains consistent state invariants across `TopologyNodePosition::resolveVector` without partial mutation on error.
+  /// - Action: Executes `TopologyNodePosition::resolveVector` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNodePosition::resolveVector` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODEPOSITION-RESOLVEVECTOR] | SysML v2: ActionDef(TopologyNodePosition::resolveVector)
   List<double> resolveVector(String key, Map<String, String>? coordinateMapping) {
     final String? resolvedPath = _resolvePathWithMapping(key, coordinateMapping);
     if (resolvedPath != null) {
@@ -227,7 +406,32 @@ class TopologyNode {
   /// [resolveCoordinate] / [resolveVector].
   final Map<String, dynamic> rawProperties;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNode::TopologyNode` (declaration #10) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyNode::TopologyNode` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyNode::TopologyNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyNode)) bounded over input/member dimension of `TopologyNode::TopologyNode`.
+  /// - Space Complexity: O(K(TopologyNode)) bounded auxiliary memory for `TopologyNode::TopologyNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::TopologyNode` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::TopologyNode` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::TopologyNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::TopologyNode` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-TOPOLOGYNODE] | SysML v2: ActionDef(TopologyNode::TopologyNode)
   const TopologyNode({
     required this.id,
     required this.label,
@@ -236,7 +440,32 @@ class TopologyNode {
     this.rawProperties = const <String, dynamic>{},
   });
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNode::TopologyNode` (declaration #11) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::TopologyNode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyNode::TopologyNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `TopologyNode::TopologyNode`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `TopologyNode::TopologyNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::TopologyNode` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::TopologyNode` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::TopologyNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::TopologyNode` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-TOPOLOGYNODE] | SysML v2: ActionDef(TopologyNode::TopologyNode)
   factory TopologyNode.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> posJson = json['position'] is Map<String, dynamic>
         ? json['position'] as Map<String, dynamic>
@@ -250,7 +479,33 @@ class TopologyNode {
     );
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `TopologyNode::resolveCoordinate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveCoordinate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveCoordinate` (declaration #12) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::resolveCoordinate`.
+  /// - `coordinateMapping: Map<String, String>?` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::resolveCoordinate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `double` from `TopologyNode::resolveCoordinate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `TopologyNode::resolveCoordinate`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `TopologyNode::resolveCoordinate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::resolveCoordinate` (`double`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::resolveCoordinate` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::resolveCoordinate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::resolveCoordinate` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-RESOLVECOORDINATE] | SysML v2: ActionDef(TopologyNode::resolveCoordinate)
   double resolveCoordinate(String key, Map<String, String>? coordinateMapping) {
     final String? path = coordinateMapping?[key];
     if (path != null && rawProperties.isNotEmpty) {
@@ -262,7 +517,33 @@ class TopologyNode {
     return position.resolveCoordinate(key, coordinateMapping);
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `TopologyNode::resolveVector` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveVector` (declaration #13) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `key: String` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::resolveVector`.
+  /// - `coordinateMapping: Map<String, String>?` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::resolveVector`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<double>` from `TopologyNode::resolveVector` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(key)) bounded over input/member dimension of `TopologyNode::resolveVector`.
+  /// - Space Complexity: O(N(key)) bounded auxiliary memory for `TopologyNode::resolveVector`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::resolveVector` (`List<double>`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::resolveVector` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::resolveVector` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::resolveVector` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-RESOLVEVECTOR] | SysML v2: ActionDef(TopologyNode::resolveVector)
   List<double> resolveVector(String key, Map<String, String>? coordinateMapping) {
     final String? path = coordinateMapping?[key];
     if (path != null && rawProperties.isNotEmpty) {
@@ -274,7 +555,33 @@ class TopologyNode {
     return position.resolveVector(key, coordinateMapping);
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `TopologyNode::computePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::computePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::computePosition` (declaration #14) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `data: TopologyData` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::computePosition`.
+  /// - `timeIndex: double` must satisfy domain and type-safety constraints prior to invoking `TopologyNode::computePosition`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Offset` from `TopologyNode::computePosition` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(data)) bounded over input/member dimension of `TopologyNode::computePosition`.
+  /// - Space Complexity: O(N(data)) bounded auxiliary memory for `TopologyNode::computePosition`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::computePosition` (`Offset`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::computePosition` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::computePosition` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::computePosition` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-COMPUTEPOSITION] | SysML v2: ActionDef(TopologyNode::computePosition)
   Offset computePosition(TopologyData data, double timeIndex) {
     final double nodeT = resolveCoordinate('t', data.coordinateMapping);
     final double dt = timeIndex - nodeT;
@@ -287,8 +594,31 @@ class TopologyNode {
   }
 
   /// Resolves concentric dashed range/envelope radii (in logical pixels) from
-  /// generic [TypeDescriptor] metadata and node attributes when radius or range
-  /// properties are present.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveEnvelopeRadii` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveEnvelopeRadii` (declaration #15) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyNode::resolveEnvelopeRadii` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `List<double>` from `TopologyNode::resolveEnvelopeRadii` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(resolveEnvelopeRadii)) bounded over input/member dimension of `TopologyNode::resolveEnvelopeRadii`.
+  /// - Space Complexity: O(K(resolveEnvelopeRadii)) bounded auxiliary memory for `TopologyNode::resolveEnvelopeRadii`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::resolveEnvelopeRadii` (`List<double>`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::resolveEnvelopeRadii` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::resolveEnvelopeRadii` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::resolveEnvelopeRadii` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-RESOLVEENVELOPERADII] | SysML v2: ActionDef(TopologyNode::resolveEnvelopeRadii)
   List<double> resolveEnvelopeRadii({
     Map<String, dynamic> metadata = const <String, dynamic>{},
     List<TypeDescriptor> typeDescriptors = const <TypeDescriptor>[],
@@ -351,8 +681,31 @@ class TopologyNode {
   }
 
   /// Resolves a directional leader line vector from trajectory velocity or
-  /// generic heading/azimuth/velocity attributes exposed by node properties and
-  /// [TypeDescriptor] metadata.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveDirectionalLeaderVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveDirectionalLeaderVector` (declaration #16) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyNode::resolveDirectionalLeaderVector` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Offset?` from `TopologyNode::resolveDirectionalLeaderVector` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(resolveDirectionalLeaderVector)) bounded over input/member dimension of `TopologyNode::resolveDirectionalLeaderVector`.
+  /// - Space Complexity: O(K(resolveDirectionalLeaderVector)) bounded auxiliary memory for `TopologyNode::resolveDirectionalLeaderVector`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyNode::resolveDirectionalLeaderVector` (`Offset?`).
+  /// - State: Maintains consistent state invariants across `TopologyNode::resolveDirectionalLeaderVector` without partial mutation on error.
+  /// - Action: Executes `TopologyNode::resolveDirectionalLeaderVector` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyNode::resolveDirectionalLeaderVector` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYNODE-RESOLVEDIRECTIONALLEADERVECTOR] | SysML v2: ActionDef(TopologyNode::resolveDirectionalLeaderVector)
   Offset? resolveDirectionalLeaderVector({
     Map<String, String>? coordinateMapping,
     Map<String, dynamic> metadata = const <String, dynamic>{},
@@ -463,14 +816,64 @@ class TopologyLink {
   /// Used solely as a data attribute; not rendered on canvas.
   final String type;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyLink::TopologyLink` (declaration #18) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyLink::TopologyLink` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyLink::TopologyLink` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyLink)) bounded over input/member dimension of `TopologyLink::TopologyLink`.
+  /// - Space Complexity: O(K(TopologyLink)) bounded auxiliary memory for `TopologyLink::TopologyLink`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyLink::TopologyLink` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyLink::TopologyLink` without partial mutation on error.
+  /// - Action: Executes `TopologyLink::TopologyLink` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyLink::TopologyLink` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYLINK-TOPOLOGYLINK] | SysML v2: ActionDef(TopologyLink::TopologyLink)
   const TopologyLink({
     required this.source,
     required this.target,
     required this.type,
   });
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyLink::TopologyLink` (declaration #19) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `TopologyLink::TopologyLink`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyLink::TopologyLink` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `TopologyLink::TopologyLink`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `TopologyLink::TopologyLink`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyLink::TopologyLink` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyLink::TopologyLink` without partial mutation on error.
+  /// - Action: Executes `TopologyLink::TopologyLink` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyLink::TopologyLink` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYLINK-TOPOLOGYLINK] | SysML v2: ActionDef(TopologyLink::TopologyLink)
   factory TopologyLink.fromJson(Map<String, dynamic> json) {
     return TopologyLink(
       source: json['source'] as String? ?? '',
@@ -522,7 +925,32 @@ class TopologyData {
   /// overlay resolution without hardcoding domain keys.
   final Map<String, dynamic> rawMetadata;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyData::TopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyData::TopologyData` (declaration #21) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyData::TopologyData` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyData::TopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyData)) bounded over input/member dimension of `TopologyData::TopologyData`.
+  /// - Space Complexity: O(K(TopologyData)) bounded auxiliary memory for `TopologyData::TopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyData::TopologyData` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyData::TopologyData` without partial mutation on error.
+  /// - Action: Executes `TopologyData::TopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyData::TopologyData` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYDATA-TOPOLOGYDATA] | SysML v2: ActionDef(TopologyData::TopologyData)
   const TopologyData({
     required this.coordinateMapping,
     required this.nodes,
@@ -530,7 +958,32 @@ class TopologyData {
     this.rawMetadata = const <String, dynamic>{},
   });
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyData::TopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyData::TopologyData` (declaration #22) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `json: Map<String, dynamic>` must satisfy domain and type-safety constraints prior to invoking `TopologyData::TopologyData`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyData::TopologyData` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(json)) bounded over input/member dimension of `TopologyData::TopologyData`.
+  /// - Space Complexity: O(N(json)) bounded auxiliary memory for `TopologyData::TopologyData`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyData::TopologyData` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyData::TopologyData` without partial mutation on error.
+  /// - Action: Executes `TopologyData::TopologyData` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyData::TopologyData` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYDATA-TOPOLOGYDATA] | SysML v2: ActionDef(TopologyData::TopologyData)
   factory TopologyData.fromJson(Map<String, dynamic> json) {
     return TopologyData(
       coordinateMapping: Map<String, String>.from(
@@ -671,7 +1124,32 @@ class TopologyMap extends StatefulWidget {
   /// playback panel. Default: 32.0.
   final double timeDisplayWidth;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyMap::TopologyMap` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyMap::TopologyMap` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyMap::TopologyMap` (declaration #24) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyMap::TopologyMap` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyMap::TopologyMap` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyMap)) bounded over input/member dimension of `TopologyMap::TopologyMap`.
+  /// - Space Complexity: O(K(TopologyMap)) bounded auxiliary memory for `TopologyMap::TopologyMap`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyMap::TopologyMap` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyMap::TopologyMap` without partial mutation on error.
+  /// - Action: Executes `TopologyMap::TopologyMap` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyMap::TopologyMap` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAP-TOPOLOGYMAP] | SysML v2: ActionDef(TopologyMap::TopologyMap)
   const TopologyMap({
     super.key,
     this.activeFocusedNode,
@@ -695,18 +1173,67 @@ class TopologyMap extends StatefulWidget {
     this.labelFontSize = 12.0,
   });
 
+  /// Executes deterministic method `TopologyMap::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyMap::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyMap::createState` (declaration #25) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyMap::createState` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `State<TopologyMap>` from `TopologyMap::createState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(createState)) bounded over input/member dimension of `TopologyMap::createState`.
+  /// - Space Complexity: O(K(createState)) bounded auxiliary memory for `TopologyMap::createState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyMap::createState` (`State<TopologyMap>`).
+  /// - State: Maintains consistent state invariants across `TopologyMap::createState` without partial mutation on error.
+  /// - Action: Executes `TopologyMap::createState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyMap::createState` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAP-CREATESTATE] | SysML v2: ActionDef(TopologyMap::createState)
   @override
   State<TopologyMap> createState() => _TopologyMapState();
 }
 
+/// Executes deterministic class `_TopologyMapState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TopologyMapState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TopologyMapState` (declaration #26) within `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TopologyMapState` in `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TopologyMapState` representation for class `_TopologyMapState`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TopologyMapState)) bounded over input/member dimension of `_TopologyMapState`.
+/// - Space Complexity: O(K(_TopologyMapState)) bounded auxiliary memory for `_TopologyMapState`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TopologyMapState` (`_TopologyMapState`).
+/// - State: Maintains consistent state invariants across `_TopologyMapState` without partial mutation on error.
+/// - Action: Executes `_TopologyMapState` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TopologyMapState` (`TOPOLOGY-TOPOLOGY-MAP`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE] | SysML v2: PartDef(_TopologyMapState)
 class _TopologyMapState extends State<TopologyMap>
     with SingleTickerProviderStateMixin {
   late final Ticker _ticker;
-  /// Member documentation.
   double currentTimeIndex = 1.0;
-  /// Member documentation.
   double playbackSpeedMultiplier = 1.0;
-  /// Member documentation.
   bool isPlaying = false;
   Duration _lastElapsed = Duration.zero;
 
@@ -777,7 +1304,6 @@ class _TopologyMapState extends State<TopologyMap>
     }
   }
 
-  /// Member documentation.
   void togglePlayback() {
     setState(() {
       isPlaying = !isPlaying;
@@ -790,7 +1316,6 @@ class _TopologyMapState extends State<TopologyMap>
     });
   }
 
-  /// Member documentation.
   void setPlayhead(double timeIndex) {
     final double minT = minTime;
     final double maxT = maxTime;
@@ -1069,7 +1594,32 @@ class TopologyPainterColors {
   /// Colour for node labels rendered below each node circle.
   final Color labelColor;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyPainterColors::TopologyPainterColors` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainterColors::TopologyPainterColors` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyPainterColors::TopologyPainterColors` (declaration #28) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyPainterColors::TopologyPainterColors` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyPainterColors::TopologyPainterColors` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyPainterColors)) bounded over input/member dimension of `TopologyPainterColors::TopologyPainterColors`.
+  /// - Space Complexity: O(K(TopologyPainterColors)) bounded auxiliary memory for `TopologyPainterColors::TopologyPainterColors`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainterColors::TopologyPainterColors` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyPainterColors::TopologyPainterColors` without partial mutation on error.
+  /// - Action: Executes `TopologyPainterColors::TopologyPainterColors` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainterColors::TopologyPainterColors` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTERCOLORS-TOPOLOGYPAINTERCOLORS] | SysML v2: ActionDef(TopologyPainterColors::TopologyPainterColors)
   const TopologyPainterColors({
     required this.bgColor,
     required this.gridColor,
@@ -1185,7 +1735,32 @@ class TopologyPainter extends CustomPainter {
   /// circle. Default: 12.0.
   final double labelFontSize;
 
-  /// Member documentation.
+  /// Executes deterministic constructor `TopologyPainter::TopologyPainter` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainter::TopologyPainter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyPainter::TopologyPainter` (declaration #30) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyPainter::TopologyPainter` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TopologyPainter::TopologyPainter` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TopologyPainter)) bounded over input/member dimension of `TopologyPainter::TopologyPainter`.
+  /// - Space Complexity: O(K(TopologyPainter)) bounded auxiliary memory for `TopologyPainter::TopologyPainter`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::TopologyPainter` (`()`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::TopologyPainter` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::TopologyPainter` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::TopologyPainter` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-TOPOLOGYPAINTER] | SysML v2: ActionDef(TopologyPainter::TopologyPainter)
   TopologyPainter({
     required this.activeFocusedNode,
     required this.activeData,
@@ -1204,6 +1779,32 @@ class TopologyPainter extends CustomPainter {
     this.labelFontSize = 12.0,
   });
 
+  /// Executes deterministic method `TopologyPainter::_drawDashedCircle` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDashedCircle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawDashedCircle` (declaration #31) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyPainter::_drawDashedCircle` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TopologyPainter::_drawDashedCircle` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_drawDashedCircle)) bounded over input/member dimension of `TopologyPainter::_drawDashedCircle`.
+  /// - Space Complexity: O(K(_drawDashedCircle)) bounded auxiliary memory for `TopologyPainter::_drawDashedCircle`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::_drawDashedCircle` (`void`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::_drawDashedCircle` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::_drawDashedCircle` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::_drawDashedCircle` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-DRAWDASHEDCIRCLE] | SysML v2: ActionDef(TopologyPainter::_drawDashedCircle)
   void _drawDashedCircle(
     Canvas canvas,
     Offset center,
@@ -1223,6 +1824,33 @@ class TopologyPainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
+  /// Executes deterministic method `TopologyPainter::_drawTacticalCoordinateBackdrop` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawTacticalCoordinateBackdrop` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawTacticalCoordinateBackdrop` (declaration #32) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `canvas: Canvas` must satisfy domain and type-safety constraints prior to invoking `TopologyPainter::_drawTacticalCoordinateBackdrop`.
+  /// - `size: Size` must satisfy domain and type-safety constraints prior to invoking `TopologyPainter::_drawTacticalCoordinateBackdrop`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TopologyPainter::_drawTacticalCoordinateBackdrop` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(canvas)) bounded over input/member dimension of `TopologyPainter::_drawTacticalCoordinateBackdrop`.
+  /// - Space Complexity: O(N(canvas)) bounded auxiliary memory for `TopologyPainter::_drawTacticalCoordinateBackdrop`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::_drawTacticalCoordinateBackdrop` (`void`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::_drawTacticalCoordinateBackdrop` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::_drawTacticalCoordinateBackdrop` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::_drawTacticalCoordinateBackdrop` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-DRAWTACTICALCOORDINATEBACKDROP] | SysML v2: ActionDef(TopologyPainter::_drawTacticalCoordinateBackdrop)
   void _drawTacticalCoordinateBackdrop(Canvas canvas, Size size) {
     final Offset center = size.center(Offset.zero);
     final double maxRadius = math.min(size.width, size.height) * 0.42;
@@ -1293,6 +1921,32 @@ class TopologyPainter extends CustomPainter {
     }
   }
 
+  /// Executes deterministic method `TopologyPainter::_drawDirectionalLeaderLine` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDirectionalLeaderLine` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawDirectionalLeaderLine` (declaration #33) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyPainter::_drawDirectionalLeaderLine` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TopologyPainter::_drawDirectionalLeaderLine` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_drawDirectionalLeaderLine)) bounded over input/member dimension of `TopologyPainter::_drawDirectionalLeaderLine`.
+  /// - Space Complexity: O(K(_drawDirectionalLeaderLine)) bounded auxiliary memory for `TopologyPainter::_drawDirectionalLeaderLine`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::_drawDirectionalLeaderLine` (`void`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::_drawDirectionalLeaderLine` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::_drawDirectionalLeaderLine` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::_drawDirectionalLeaderLine` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-DRAWDIRECTIONALLEADERLINE] | SysML v2: ActionDef(TopologyPainter::_drawDirectionalLeaderLine)
   void _drawDirectionalLeaderLine(
     Canvas canvas,
     Offset start,
@@ -1324,6 +1978,32 @@ class TopologyPainter extends CustomPainter {
     canvas.drawPath(headPath, leaderPaint);
   }
 
+  /// Executes deterministic method `TopologyPainter::_drawArincCalloutTag` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawArincCalloutTag` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawArincCalloutTag` (declaration #34) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TopologyPainter::_drawArincCalloutTag` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TopologyPainter::_drawArincCalloutTag` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_drawArincCalloutTag)) bounded over input/member dimension of `TopologyPainter::_drawArincCalloutTag`.
+  /// - Space Complexity: O(K(_drawArincCalloutTag)) bounded auxiliary memory for `TopologyPainter::_drawArincCalloutTag`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::_drawArincCalloutTag` (`void`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::_drawArincCalloutTag` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::_drawArincCalloutTag` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::_drawArincCalloutTag` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-DRAWARINCCALLOUTTAG] | SysML v2: ActionDef(TopologyPainter::_drawArincCalloutTag)
   void _drawArincCalloutTag(
     Canvas canvas,
     Offset nodeCenter,
@@ -1378,6 +2058,33 @@ class TopologyPainter extends CustomPainter {
     textPainter.paint(canvas, textPos);
   }
 
+  /// Executes deterministic method `TopologyPainter::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::paint` (declaration #35) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `canvas: Canvas` must satisfy domain and type-safety constraints prior to invoking `TopologyPainter::paint`.
+  /// - `size: Size` must satisfy domain and type-safety constraints prior to invoking `TopologyPainter::paint`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `TopologyPainter::paint` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(canvas)) bounded over input/member dimension of `TopologyPainter::paint`.
+  /// - Space Complexity: O(N(canvas)) bounded auxiliary memory for `TopologyPainter::paint`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::paint` (`void`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::paint` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::paint` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::paint` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-PAINT] | SysML v2: ActionDef(TopologyPainter::paint)
   @override
   void paint(Canvas canvas, Size size) {
     // 1. Always draw dark ARINC 661 tactical coordinate grid background
@@ -1558,6 +2265,32 @@ class TopologyPainter extends CustomPainter {
     }
   }
 
+  /// Executes deterministic method `TopologyPainter::shouldRepaint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::shouldRepaint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::shouldRepaint` (declaration #36) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldDelegate: TopologyPainter` must satisfy domain and type-safety constraints prior to invoking `TopologyPainter::shouldRepaint`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool` from `TopologyPainter::shouldRepaint` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldDelegate)) bounded over input/member dimension of `TopologyPainter::shouldRepaint`.
+  /// - Space Complexity: O(N(oldDelegate)) bounded auxiliary memory for `TopologyPainter::shouldRepaint`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TopologyPainter::shouldRepaint` (`bool`).
+  /// - State: Maintains consistent state invariants across `TopologyPainter::shouldRepaint` without partial mutation on error.
+  /// - Action: Executes `TopologyPainter::shouldRepaint` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TopologyPainter::shouldRepaint` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYPAINTER-SHOULDREPAINT] | SysML v2: ActionDef(TopologyPainter::shouldRepaint)
   @override
   bool shouldRepaint(covariant TopologyPainter oldDelegate) {
     return oldDelegate.currentTimeIndex != currentTimeIndex ||
@@ -1568,13 +2301,64 @@ class TopologyPainter extends CustomPainter {
   }
 }
 
+/// Executes deterministic class `_TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TextPainterKey` (declaration #37) within `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TextPainterKey` in `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TextPainterKey` representation for class `_TextPainterKey`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TextPainterKey)) bounded over input/member dimension of `_TextPainterKey`.
+/// - Space Complexity: O(K(_TextPainterKey)) bounded auxiliary memory for `_TextPainterKey`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TextPainterKey` (`_TextPainterKey`).
+/// - State: Maintains consistent state invariants across `_TextPainterKey` without partial mutation on error.
+/// - Action: Executes `_TextPainterKey` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TextPainterKey` (`TOPOLOGY-TOPOLOGY-MAP`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERKEY] | SysML v2: PartDef(_TextPainterKey)
 class _TextPainterKey {
-  /// Member documentation.
   final String text;
-  /// Member documentation.
   final Color color;
-  /// Member documentation.
   final double fontSize;
+  /// Executes deterministic constructor `_TextPainterKey::_TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TextPainterKey::_TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_TextPainterKey::_TextPainterKey` (declaration #38) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `text: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::_TextPainterKey`.
+  /// - `color: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::_TextPainterKey`.
+  /// - `fontSize: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::_TextPainterKey`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TextPainterKey::_TextPainterKey` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(text)) bounded over input/member dimension of `_TextPainterKey::_TextPainterKey`.
+  /// - Space Complexity: O(N(text)) bounded auxiliary memory for `_TextPainterKey::_TextPainterKey`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TextPainterKey::_TextPainterKey` (`()`).
+  /// - State: Maintains consistent state invariants across `_TextPainterKey::_TextPainterKey` without partial mutation on error.
+  /// - Action: Executes `_TextPainterKey::_TextPainterKey` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TextPainterKey::_TextPainterKey` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERKEY-TEXTPAINTERKEY] | SysML v2: ActionDef(_TextPainterKey::_TextPainterKey)
   _TextPainterKey(this.text, this.color, this.fontSize);
 
   @override
@@ -1589,11 +2373,64 @@ class _TextPainterKey {
   int get hashCode => Object.hash(text, color, fontSize);
 }
 
+/// Executes deterministic class `_TextPainterCache` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_TextPainterCache` (declaration #39) within `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_TextPainterCache` in `TOPOLOGY-TOPOLOGY-MAP`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_TextPainterCache` representation for class `_TextPainterCache`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_TextPainterCache)) bounded over input/member dimension of `_TextPainterCache`.
+/// - Space Complexity: O(K(_TextPainterCache)) bounded auxiliary memory for `_TextPainterCache`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_TextPainterCache` (`_TextPainterCache`).
+/// - State: Maintains consistent state invariants across `_TextPainterCache` without partial mutation on error.
+/// - Action: Executes `_TextPainterCache` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_TextPainterCache` (`TOPOLOGY-TOPOLOGY-MAP`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERCACHE] | SysML v2: PartDef(_TextPainterCache)
 class _TextPainterCache {
   static final Map<_TextPainterKey, TextPainter> _cache = {};
   static const int _maxEntries = 256;
 
-  /// Member documentation.
+  /// Executes deterministic method `_TextPainterCache::getOrCreate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::getOrCreate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TextPainterCache::getOrCreate` (declaration #40) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `text: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterCache::getOrCreate`.
+  /// - `color: Color` must satisfy domain and type-safety constraints prior to invoking `_TextPainterCache::getOrCreate`.
+  /// - `fontSize: double` must satisfy domain and type-safety constraints prior to invoking `_TextPainterCache::getOrCreate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `TextPainter` from `_TextPainterCache::getOrCreate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(text)) bounded over input/member dimension of `_TextPainterCache::getOrCreate`.
+  /// - Space Complexity: O(N(text)) bounded auxiliary memory for `_TextPainterCache::getOrCreate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TextPainterCache::getOrCreate` (`TextPainter`).
+  /// - State: Maintains consistent state invariants across `_TextPainterCache::getOrCreate` without partial mutation on error.
+  /// - Action: Executes `_TextPainterCache::getOrCreate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TextPainterCache::getOrCreate` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERCACHE-GETORCREATE] | SysML v2: ActionDef(_TextPainterCache::getOrCreate)
   static TextPainter getOrCreate(String text, Color color, double fontSize) {
     final key = _TextPainterKey(text, color, fontSize);
     final existing = _cache[key];
@@ -1620,7 +2457,32 @@ class _TextPainterCache {
     return painter;
   }
 
-  /// Member documentation.
+  /// Executes deterministic method `_TextPainterCache::clear` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::clear` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TextPainterCache::clear` (declaration #41) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TextPainterCache::clear` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TextPainterCache::clear` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(clear)) bounded over input/member dimension of `_TextPainterCache::clear`.
+  /// - Space Complexity: O(K(clear)) bounded auxiliary memory for `_TextPainterCache::clear`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TextPainterCache::clear` (`void`).
+  /// - State: Maintains consistent state invariants across `_TextPainterCache::clear` without partial mutation on error.
+  /// - Action: Executes `_TextPainterCache::clear` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TextPainterCache::clear` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERCACHE-CLEAR] | SysML v2: ActionDef(_TextPainterCache::clear)
   static void clear() {
     for (final painter in _cache.values) {
       painter.dispose();

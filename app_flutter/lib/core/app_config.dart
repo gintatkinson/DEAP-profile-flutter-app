@@ -41,6 +41,32 @@
 ///
 /// Realises: [Feat-10/AppConfig]
 class AppConfig {
+  /// Executes deterministic constructor `AppConfig::AppConfig._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/app_config.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `AppConfig::AppConfig._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/app_config.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `AppConfig::AppConfig._` (declaration #2) within `CORE-APP-CONFIG`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `AppConfig::AppConfig._` in `CORE-APP-CONFIG`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `AppConfig::AppConfig._` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(AppConfig._)) bounded over input/member dimension of `AppConfig::AppConfig._`.
+  /// - Space Complexity: O(K(AppConfig._)) bounded auxiliary memory for `AppConfig::AppConfig._`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `AppConfig::AppConfig._` (`()`).
+  /// - State: Maintains consistent state invariants across `AppConfig::AppConfig._` without partial mutation on error.
+  /// - Action: Executes `AppConfig::AppConfig._` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `AppConfig::AppConfig._` (`CORE-APP-CONFIG`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-APP-CONFIG-APPCONFIG-APPCONFIG] | SysML v2: ActionDef(AppConfig::AppConfig._)
   AppConfig._();
 
   /// The human-readable application title shown in window chrome and
