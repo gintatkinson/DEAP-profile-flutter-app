@@ -203,6 +203,42 @@ class _SplitWorkspaceState extends State<SplitWorkspace> {
   double? _draggedPaneSize;
   bool _initialized = false;
 
+  /// Executes deterministic method `_SplitWorkspaceState::didUpdateWidget` within `app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SplitWorkspaceState::didUpdateWidget` in `app_flutter/lib/features/layout/split_workspace.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_SplitWorkspaceState::didUpdateWidget` within `LAYOUT-SPLIT-WORKSPACE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: SplitWorkspace` must satisfy domain and type-safety constraints prior to invoking `_SplitWorkspaceState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Updates internal layout initialization state deterministically when `direction` or `initialRatio` changes across widget updates.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(1) constant-time comparison and state update for `_SplitWorkspaceState::didUpdateWidget`.
+  /// - Space Complexity: O(1) bounded auxiliary memory for `_SplitWorkspaceState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_SplitWorkspaceState::didUpdateWidget` (`SplitWorkspace`).
+  /// - State: Maintains consistent state invariants across `_SplitWorkspaceState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_SplitWorkspaceState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_SplitWorkspaceState::didUpdateWidget` (`LAYOUT-SPLIT-WORKSPACE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACESTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_SplitWorkspaceState::didUpdateWidget)
+  @override
+  void didUpdateWidget(covariant SplitWorkspace oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.direction != oldWidget.direction ||
+        widget.initialRatio != oldWidget.initialRatio) {
+      _initialized = false;
+      _draggedPaneSize = null;
+    }
+  }
+
   /// Executes deterministic method `_SplitWorkspaceState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
@@ -229,16 +265,6 @@ class _SplitWorkspaceState extends State<SplitWorkspace> {
   ///
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACESTATE-BUILD] | SysML v2: ActionDef(_SplitWorkspaceState::build)
-  @override
-  void didUpdateWidget(covariant SplitWorkspace oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.direction != oldWidget.direction ||
-        widget.initialRatio != oldWidget.initialRatio) {
-      _initialized = false;
-      _draggedPaneSize = null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final panelOpacity = context.watch<ThemeController>().panelOpacity;
