@@ -230,6 +230,16 @@ class _SplitWorkspaceState extends State<SplitWorkspace> {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-LAYOUT-SPLIT-WORKSPACE-SPLITWORKSPACESTATE-BUILD] | SysML v2: ActionDef(_SplitWorkspaceState::build)
   @override
+  void didUpdateWidget(covariant SplitWorkspace oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.direction != oldWidget.direction ||
+        widget.initialRatio != oldWidget.initialRatio) {
+      _initialized = false;
+      _draggedPaneSize = null;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final panelOpacity = context.watch<ThemeController>().panelOpacity;
     final resolvedDividerSize = widget.dividerSize ?? AppThemes.getDimension('component.splitter.divider-size', 8.0);

@@ -219,7 +219,7 @@ class ComponentFactory {
         }
         return tree;
       case 'SplitWorkspace':
-        final childrenList = node['children'] as List<dynamic>? ?? [];
+        final childrenList = (node['children'] as List<dynamic>? ?? []).cast<dynamic>();
         final topoChild = childrenList.firstWhere(
           (c) => c['type'] == 'TopographicalView',
           orElse: () => null,
@@ -228,17 +228,27 @@ class ComponentFactory {
           (c) => c['type'] == 'TabbedContainer',
           orElse: () => null,
         );
+        final leadingChild = topoChild ?? (childrenList.isNotEmpty ? childrenList[0] : null);
+        final trailingChild = tabbedChild ?? (childrenList.length > 1 ? childrenList[1] : null);
+        final isReconfigurable = node['props']?['reconfigurable'] == true;
+        final resolvedDirection = isReconfigurable
+            ? (preferredSplitAxis ?? _parseAxis(node))
+            : _parseAxis(node);
+        final nodeId = node['id'] as String?;
         return SplitWorkspace(
-          leading: topoChild != null
-              ? build(topoChild as Map<String, dynamic>, parentWidth, parentHeight, context)
+          key: ValueKey('split_${nodeId ?? 'root'}_${resolvedDirection.name}'),
+          leading: leadingChild != null
+              ? build(leadingChild as Map<String, dynamic>, parentWidth, parentHeight, context)
               : const SizedBox.shrink(),
-          trailing: tabbedChild != null
-              ? build(tabbedChild as Map<String, dynamic>, parentWidth, parentHeight, context)
+          trailing: trailingChild != null
+              ? build(trailingChild as Map<String, dynamic>, parentWidth, parentHeight, context)
               : const SizedBox.shrink(),
-          direction: preferredSplitAxis ?? _parseAxis(node),
+          direction: resolvedDirection,
           minFirstPaneSize: minPaneSize,
           initialRatio: defaultRatio(),
-          splitterKey: const Key('horizontal_splitter'),
+          splitterKey: (nodeId == null || nodeId == 'workspace_split')
+              ? const Key('horizontal_splitter')
+              : Key('${nodeId}_splitter'),
         );
       case 'TopographicalView':
         final treeData = treeViewModel?.treeData ?? [];
