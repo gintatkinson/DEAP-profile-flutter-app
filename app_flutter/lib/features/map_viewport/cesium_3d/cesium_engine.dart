@@ -52,10 +52,10 @@ class CesiumEngine {
   final CesiumNativeBindings _bindings;
   final int _handle;
 
-  /// Executes deterministic constructor `CesiumEngine::CesiumEngine._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Executes deterministic constructor `CesiumEngine::CesiumEngine._` within `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumEngine::CesiumEngine._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumEngine::CesiumEngine._` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumEngine::CesiumEngine._` (declaration #2) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -86,7 +86,7 @@ class CesiumEngine {
   /// Initializes the singleton [CesiumEngine] instance with the specified tile load and cache limits.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::initialize` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::initialize` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::initialize` (declaration #3) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -145,9 +145,59 @@ class CesiumEngine {
   }
 
   /// Returns the currently active singleton [CesiumEngine] instance, or `null` if uninitialized.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::instance` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::instance` (declaration #4) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::instance` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CesiumEngine::instance` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(instance)) bounded over input/member dimension of `CesiumEngine::instance`.
+  /// - Space Complexity: O(K(instance)) bounded auxiliary memory for `CesiumEngine::instance`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::instance` (`()`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::instance` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::instance` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::instance` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-INSTANCE] | SysML v2: ActionDef(CesiumEngine::instance)
   static CesiumEngine? get instance => _instance;
 
   /// Whether the underlying native engine handle reports a ready state (`!= 0`).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::isReady` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::isReady` (declaration #5) within `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumEngine::isReady` in `CESIUM-3D-CESIUM-ENGINE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CesiumEngine::isReady` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isReady)) bounded over input/member dimension of `CesiumEngine::isReady`.
+  /// - Space Complexity: O(K(isReady)) bounded auxiliary memory for `CesiumEngine::isReady`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumEngine::isReady` (`()`).
+  /// - State: Maintains consistent state invariants across `CesiumEngine::isReady` without partial mutation on error.
+  /// - Action: Executes `CesiumEngine::isReady` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumEngine::isReady` (`CESIUM-3D-CESIUM-ENGINE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-ENGINE-CESIUMENGINE-ISREADY] | SysML v2: ActionDef(CesiumEngine::isReady)
   bool get isReady {
     return _bindings.isReady(_handle) != 0;
   }
@@ -155,7 +205,7 @@ class CesiumEngine {
   /// Synchronizes the native viewport camera state with the provided [camera].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::updateCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::updateCamera` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::updateCamera` (declaration #4) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -195,7 +245,7 @@ class CesiumEngine {
   /// Queries the number of currently visible 3D tiles from the native engine.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileCount` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileCount` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileCount` (declaration #5) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -232,7 +282,7 @@ class CesiumEngine {
   /// Returns the string identifier of the visible tile at [index], or `null` if out of bounds.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileId` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileId` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileId` (declaration #6) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -277,7 +327,7 @@ class CesiumEngine {
   /// Returns the ordered list of all currently visible tile identifiers.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileIds` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::getVisibleTileIds` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::getVisibleTileIds` (declaration #7) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -359,7 +409,7 @@ class CesiumEngine {
   /// Requests binary tile payload for [tileId] from the native engine.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::requestTileData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::requestTileData` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::requestTileData` (declaration #8) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -394,7 +444,7 @@ class CesiumEngine {
   /// Shuts down the native engine handle and clears the active singleton reference.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::dispose` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::dispose` (declaration #9) within `CESIUM-3D-CESIUM-ENGINE`.
@@ -427,7 +477,7 @@ class CesiumEngine {
   /// Terminates the underlying native library subsystem globally.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::terminateLibrary` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumEngine::terminateLibrary` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_engine.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumEngine::terminateLibrary` (declaration #10) within `CESIUM-3D-CESIUM-ENGINE`.

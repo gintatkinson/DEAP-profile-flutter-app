@@ -46,7 +46,7 @@ abstract class ThemeService {
   /// Loads the persisted [ThemeMode]; defaults to [ThemeMode.system] when
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadThemeMode` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::loadThemeMode` (declaration #2) within `THEME-THEME-SERVICE`.
@@ -74,7 +74,7 @@ abstract class ThemeService {
   /// Persists [themeMode] so it survives app restarts.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveThemeMode` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::saveThemeMode` (declaration #3) within `THEME-THEME-SERVICE`.
@@ -102,7 +102,7 @@ abstract class ThemeService {
   /// Loads the persisted colour-scheme index; defaults to `0`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadThemeScheme` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::loadThemeScheme` (declaration #4) within `THEME-THEME-SERVICE`.
@@ -130,7 +130,7 @@ abstract class ThemeService {
   /// Persists the colour-scheme [index] so it survives app restarts.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveThemeScheme` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::saveThemeScheme` (declaration #5) within `THEME-THEME-SERVICE`.
@@ -158,7 +158,7 @@ abstract class ThemeService {
   /// Loads the persisted text scale factor; defaults to `1.0`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadTextScale` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadTextScale` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::loadTextScale` (declaration #6) within `THEME-THEME-SERVICE`.
@@ -186,7 +186,7 @@ abstract class ThemeService {
   /// Persists the text [scale] factor so it survives app restarts.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveTextScale` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveTextScale` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::saveTextScale` (declaration #7) within `THEME-THEME-SERVICE`.
@@ -214,7 +214,7 @@ abstract class ThemeService {
   /// Loads the persisted workspace split axis orientation; defaults to
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadLayoutSplitAxis` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::loadLayoutSplitAxis` (declaration #8) within `THEME-THEME-SERVICE`.
@@ -242,7 +242,7 @@ abstract class ThemeService {
   /// Persists [axis] so it survives app restarts.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::saveLayoutSplitAxis` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::saveLayoutSplitAxis` (declaration #9) within `THEME-THEME-SERVICE`.
@@ -270,7 +270,7 @@ abstract class ThemeService {
   /// Loads the persisted panel opacity; defaults to `0.85`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadPanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::loadPanelOpacity` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::loadPanelOpacity` (declaration #10) within `THEME-THEME-SERVICE`.
@@ -298,7 +298,7 @@ abstract class ThemeService {
   /// Persists the panel [opacity] so it survives app restarts.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::savePanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeService::savePanelOpacity` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeService::savePanelOpacity` (declaration #11) within `THEME-THEME-SERVICE`.
@@ -375,10 +375,10 @@ class SharedPreferencesThemeService implements ThemeService {
 
   SharedPreferences? _cachedPrefs;
 
-  /// Executes deterministic method `SharedPreferencesThemeService::_getPrefs` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Executes deterministic method `SharedPreferencesThemeService::_getPrefs` within `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::_getPrefs` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::_getPrefs` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::_getPrefs` (declaration #13) within `THEME-THEME-SERVICE`.
@@ -409,7 +409,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Reads the theme-mode string; unknown values fall back to system.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadThemeMode` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::loadThemeMode` (declaration #14) within `THEME-THEME-SERVICE`.
@@ -451,7 +451,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Writes a "light" / "dark" / "system" string.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveThemeMode` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::saveThemeMode` (declaration #15) within `THEME-THEME-SERVICE`.
@@ -490,7 +490,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Reads an integer index; returns `0` when absent.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadThemeScheme` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::loadThemeScheme` (declaration #16) within `THEME-THEME-SERVICE`.
@@ -527,7 +527,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Persists the scheme [index] as an integer.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveThemeScheme` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::saveThemeScheme` (declaration #17) within `THEME-THEME-SERVICE`.
@@ -563,7 +563,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Reads a double; returns `1.0` when absent.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadTextScale` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadTextScale` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::loadTextScale` (declaration #18) within `THEME-THEME-SERVICE`.
@@ -600,7 +600,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Persists the [scale] as a double.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveTextScale` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveTextScale` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::saveTextScale` (declaration #19) within `THEME-THEME-SERVICE`.
@@ -636,7 +636,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Reads the workspace split axis string; unknown/invalid values fall back to horizontal.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadLayoutSplitAxis` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::loadLayoutSplitAxis` (declaration #20) within `THEME-THEME-SERVICE`.
@@ -681,7 +681,7 @@ class SharedPreferencesThemeService implements ThemeService {
   /// Writes a "horizontal" or "vertical" string.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::saveLayoutSplitAxis` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::saveLayoutSplitAxis` (declaration #21) within `THEME-THEME-SERVICE`.
@@ -715,10 +715,10 @@ class SharedPreferencesThemeService implements ThemeService {
     }
   }
 
-  /// Executes deterministic method `SharedPreferencesThemeService::loadPanelOpacity` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Executes deterministic method `SharedPreferencesThemeService::loadPanelOpacity` within `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadPanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::loadPanelOpacity` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::loadPanelOpacity` (declaration #22) within `THEME-THEME-SERVICE`.
@@ -752,10 +752,10 @@ class SharedPreferencesThemeService implements ThemeService {
     }
   }
 
-  /// Executes deterministic method `SharedPreferencesThemeService::savePanelOpacity` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Executes deterministic method `SharedPreferencesThemeService::savePanelOpacity` within `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::savePanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_service.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SharedPreferencesThemeService::savePanelOpacity` in `app_flutter/lib/core/theme/theme_service.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SharedPreferencesThemeService::savePanelOpacity` (declaration #23) within `THEME-THEME-SERVICE`.

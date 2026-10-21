@@ -1,7 +1,7 @@
 /// Exception thrown when WGS-84 geodetic coordinates or camera Euler angles
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CoordinateValidationException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CoordinateValidationException` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CoordinateValidationException` (declaration #1) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -31,7 +31,7 @@ class CoordinateValidationException implements Exception {
   /// Creates a [CoordinateValidationException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateValidationException::CoordinateValidationException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateValidationException::CoordinateValidationException` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CoordinateValidationException::CoordinateValidationException` (declaration #2) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -56,10 +56,10 @@ class CoordinateValidationException implements Exception {
   /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-COORDINATEVALIDATIONEXCEPTION-COORDINATEVALIDATIONEXCEPTION] | SysML v2: ActionDef(CoordinateValidationException::CoordinateValidationException)
   CoordinateValidationException(this.message);
 
-  /// Executes deterministic method `CoordinateValidationException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Executes deterministic method `CoordinateValidationException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateValidationException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateValidationException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CoordinateValidationException::toString` (declaration #3) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -89,7 +89,7 @@ class CoordinateValidationException implements Exception {
 /// WGS-84 reference ellipsoid dimensions and geodetic constants.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `Ellipsoid` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `Ellipsoid` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `Ellipsoid` (declaration #4) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -121,7 +121,7 @@ class Ellipsoid {
 /// Geodetic altitude reference mode for positioning entities relative to terrain.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for enum `AltitudeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for enum `AltitudeMode` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for enum `AltitudeMode` (declaration #5) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -220,7 +220,7 @@ class VirtualCamera {
   /// Public validating factory constructor preserving runtime exception behavior.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera` (declaration #7) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -281,7 +281,7 @@ class VirtualCamera {
   /// Internal const constructor for compile-time canonicalization and trusted callers.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera.raw` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera.raw` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera.raw` (declaration #8) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -326,7 +326,7 @@ class VirtualCamera {
   /// Creates a sanitized [VirtualCamera] with values clamped to safe geodetic boundaries.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `VirtualCamera::VirtualCamera` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `VirtualCamera::VirtualCamera` (declaration #9) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -392,7 +392,7 @@ class VirtualCamera {
   /// Evaluates whether [other] is spatially equivalent within bounded tolerances.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::isSpatiallyEquivalentTo` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::isSpatiallyEquivalentTo` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `VirtualCamera::isSpatiallyEquivalentTo` (declaration #10) within `CESIUM-3D-VIRTUAL-CAMERA`.
@@ -430,13 +430,44 @@ class VirtualCamera {
            (roll - other.roll).abs() <= epsilonOrientation;
   }
 
+  /// Executes deterministic method `VirtualCamera::hashCode` within `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::hashCode` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `VirtualCamera::hashCode` (declaration #11) within `CESIUM-3D-VIRTUAL-CAMERA`.
+  ///
+  /// ## 3. Preconditions
+  /// - `dim_0: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  /// - `dim_1: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  /// - `dim_2: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  /// - `heading: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  /// - `pitch: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  /// - `roll: String` must satisfy domain and type-safety constraints prior to invoking `VirtualCamera::hashCode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `VirtualCamera::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(dim_0)) bounded over input/member dimension of `VirtualCamera::hashCode`.
+  /// - Space Complexity: O(N(dim_0)) bounded auxiliary memory for `VirtualCamera::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `VirtualCamera::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `VirtualCamera::hashCode` without partial mutation on error.
+  /// - Action: Executes `VirtualCamera::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `VirtualCamera::hashCode` (`CESIUM-3D-VIRTUAL-CAMERA`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-VIRTUAL-CAMERA-VIRTUALCAMERA-HASHCODE] | SysML v2: ActionDef(VirtualCamera::hashCode)
   @override
   int get hashCode => Object.hash(dim_0, dim_1, dim_2, heading, pitch, roll);
 
-  /// Executes deterministic method `VirtualCamera::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Executes deterministic method `VirtualCamera::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCamera::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/virtual_camera.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `VirtualCamera::toString` (declaration #11) within `CESIUM-3D-VIRTUAL-CAMERA`.

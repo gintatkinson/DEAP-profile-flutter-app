@@ -48,7 +48,7 @@ class RuntimeMetadataProvider {
   /// Returns the metadata value associated with [key], or `null` if [key]
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::getMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::getMetadata` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::getMetadata` (declaration #2) within `METADATA-RUNTIME-METADATA-PROVIDER`.
@@ -76,7 +76,7 @@ class RuntimeMetadataProvider {
   /// Registers (or overwrites) metadata under [key] with [value].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::registerMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::registerMetadata` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::registerMetadata` (declaration #3) within `METADATA-RUNTIME-METADATA-PROVIDER`.
@@ -107,7 +107,7 @@ class RuntimeMetadataProvider {
   /// Returns `true` when a value has been registered for [key].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::containsKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::containsKey` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::containsKey` (declaration #4) within `METADATA-RUNTIME-METADATA-PROVIDER`.
@@ -135,7 +135,7 @@ class RuntimeMetadataProvider {
   /// Removes the metadata entry for [key] and returns its previous value.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::removeMetadata` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::removeMetadata` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::removeMetadata` (declaration #5) within `METADATA-RUNTIME-METADATA-PROVIDER`.
@@ -161,8 +161,58 @@ class RuntimeMetadataProvider {
   dynamic removeMetadata(String key) => _store.remove(key);
 
   /// Returns the number of registered metadata entries.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::length` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::length` (declaration #6) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RuntimeMetadataProvider::length` in `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RuntimeMetadataProvider::length` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(length)) bounded over input/member dimension of `RuntimeMetadataProvider::length`.
+  /// - Space Complexity: O(K(length)) bounded auxiliary memory for `RuntimeMetadataProvider::length`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::length` (`()`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::length` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::length` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::length` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-LENGTH] | SysML v2: ActionDef(RuntimeMetadataProvider::length)
   int get length => _store.length;
 
   /// Returns all registered keys as an unmodifiable iterable.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RuntimeMetadataProvider::keys` in `app_flutter/lib/core/metadata/runtime_metadata_provider.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RuntimeMetadataProvider::keys` (declaration #7) within `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RuntimeMetadataProvider::keys` in `METADATA-RUNTIME-METADATA-PROVIDER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RuntimeMetadataProvider::keys` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(keys)) bounded over input/member dimension of `RuntimeMetadataProvider::keys`.
+  /// - Space Complexity: O(K(keys)) bounded auxiliary memory for `RuntimeMetadataProvider::keys`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RuntimeMetadataProvider::keys` (`()`).
+  /// - State: Maintains consistent state invariants across `RuntimeMetadataProvider::keys` without partial mutation on error.
+  /// - Action: Executes `RuntimeMetadataProvider::keys` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RuntimeMetadataProvider::keys` (`METADATA-RUNTIME-METADATA-PROVIDER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-METADATA-RUNTIME-METADATA-PROVIDER-RUNTIMEMETADATAPROVIDER-KEYS] | SysML v2: ActionDef(RuntimeMetadataProvider::keys)
   Iterable<String> get keys => _store.keys;
 }

@@ -41,10 +41,10 @@
 ///
 /// Realises: [Feat-10/AppConfig]
 class AppConfig {
-  /// Executes deterministic constructor `AppConfig::AppConfig._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/app_config.dart`.
+  /// Executes deterministic constructor `AppConfig::AppConfig._` within `app_flutter/lib/core/app_config.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `AppConfig::AppConfig._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/app_config.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `AppConfig::AppConfig._` in `app_flutter/lib/core/app_config.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `AppConfig::AppConfig._` (declaration #2) within `CORE-APP-CONFIG`.

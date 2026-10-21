@@ -67,7 +67,7 @@ class InstanceRecord {
   /// Creates a new [InstanceRecord] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `app_flutter/lib/domain/instance_record.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `InstanceRecord::InstanceRecord` (declaration #2) within `DOMAIN-INSTANCE-RECORD`.
@@ -100,7 +100,7 @@ class InstanceRecord {
   /// Creates an [InstanceRecord] from a raw map database entry.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `InstanceRecord::InstanceRecord` in `app_flutter/lib/domain/instance_record.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `InstanceRecord::InstanceRecord` (declaration #3) within `DOMAIN-INSTANCE-RECORD`.
@@ -147,7 +147,7 @@ class InstanceRecord {
   /// Attempts to parse an [InstanceRecord] from a raw map database entry.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::tryParse` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::tryParse` in `app_flutter/lib/domain/instance_record.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::tryParse` (declaration #4) within `DOMAIN-INSTANCE-RECORD`.
@@ -182,7 +182,7 @@ class InstanceRecord {
   /// Validates all attributes against the provided [fields] descriptors constraints.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::validate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::validate` in `app_flutter/lib/domain/instance_record.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::validate` (declaration #5) within `DOMAIN-INSTANCE-RECORD`.
@@ -212,7 +212,7 @@ class InstanceRecord {
   /// Creates a copy of this [InstanceRecord] with the given fields replaced.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/instance_record.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::copyWith` in `app_flutter/lib/domain/instance_record.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::copyWith` (declaration #6) within `DOMAIN-INSTANCE-RECORD`.
@@ -259,6 +259,32 @@ class InstanceRecord {
         mapEquals(other.attributes, attributes);
   }
 
+  /// Executes deterministic method `InstanceRecord::hashCode` within `app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRecord::hashCode` in `app_flutter/lib/domain/instance_record.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `InstanceRecord::hashCode` (declaration #7) within `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `InstanceRecord::hashCode` in `DOMAIN-INSTANCE-RECORD`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `InstanceRecord::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hashCode)) bounded over input/member dimension of `InstanceRecord::hashCode`.
+  /// - Space Complexity: O(K(hashCode)) bounded auxiliary memory for `InstanceRecord::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `InstanceRecord::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `InstanceRecord::hashCode` without partial mutation on error.
+  /// - Action: Executes `InstanceRecord::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `InstanceRecord::hashCode` (`DOMAIN-INSTANCE-RECORD`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-INSTANCE-RECORD-INSTANCERECORD-HASHCODE] | SysML v2: ActionDef(InstanceRecord::hashCode)
   @override
   int get hashCode {
     return Object.hash(

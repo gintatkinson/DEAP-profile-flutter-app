@@ -35,7 +35,7 @@ class CesiumInitializationException implements Exception {
   /// Creates a [CesiumInitializationException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumInitializationException::CesiumInitializationException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumInitializationException::CesiumInitializationException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumInitializationException::CesiumInitializationException` (declaration #2) within `NATIVE-ERROR-HANDLER`.
@@ -59,10 +59,10 @@ class CesiumInitializationException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMINITIALIZATIONEXCEPTION-CESIUMINITIALIZATIONEXCEPTION] | SysML v2: ActionDef(CesiumInitializationException::CesiumInitializationException)
   CesiumInitializationException(this.message);
-  /// Executes deterministic method `CesiumInitializationException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumInitializationException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumInitializationException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumInitializationException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumInitializationException::toString` (declaration #3) within `NATIVE-ERROR-HANDLER`.
@@ -92,7 +92,7 @@ class CesiumInitializationException implements Exception {
 /// Exception thrown when a native 3D camera update or transform operation fails
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumCameraException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumCameraException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CesiumCameraException` (declaration #4) within `NATIVE-ERROR-HANDLER`.
@@ -122,7 +122,7 @@ class CesiumCameraException implements Exception {
   /// Creates a [CesiumCameraException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumCameraException::CesiumCameraException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumCameraException::CesiumCameraException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumCameraException::CesiumCameraException` (declaration #5) within `NATIVE-ERROR-HANDLER`.
@@ -146,10 +146,10 @@ class CesiumCameraException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMCAMERAEXCEPTION-CESIUMCAMERAEXCEPTION] | SysML v2: ActionDef(CesiumCameraException::CesiumCameraException)
   CesiumCameraException(this.message);
-  /// Executes deterministic method `CesiumCameraException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumCameraException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumCameraException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumCameraException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumCameraException::toString` (declaration #6) within `NATIVE-ERROR-HANDLER`.
@@ -179,7 +179,7 @@ class CesiumCameraException implements Exception {
 /// Exception thrown when a native 3D tile query or traversal operation fails
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumTileException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumTileException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CesiumTileException` (declaration #7) within `NATIVE-ERROR-HANDLER`.
@@ -209,7 +209,7 @@ class CesiumTileException implements Exception {
   /// Creates a [CesiumTileException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumTileException::CesiumTileException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumTileException::CesiumTileException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumTileException::CesiumTileException` (declaration #8) within `NATIVE-ERROR-HANDLER`.
@@ -233,10 +233,10 @@ class CesiumTileException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMTILEEXCEPTION-CESIUMTILEEXCEPTION] | SysML v2: ActionDef(CesiumTileException::CesiumTileException)
   CesiumTileException(this.message);
-  /// Executes deterministic method `CesiumTileException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumTileException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumTileException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumTileException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumTileException::toString` (declaration #9) within `NATIVE-ERROR-HANDLER`.
@@ -266,7 +266,7 @@ class CesiumTileException implements Exception {
 /// Exception thrown when a native heap allocation fails inside the C/C++ bridge
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumMemoryException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumMemoryException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CesiumMemoryException` (declaration #10) within `NATIVE-ERROR-HANDLER`.
@@ -296,7 +296,7 @@ class CesiumMemoryException implements Exception {
   /// Creates a [CesiumMemoryException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumMemoryException::CesiumMemoryException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumMemoryException::CesiumMemoryException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumMemoryException::CesiumMemoryException` (declaration #11) within `NATIVE-ERROR-HANDLER`.
@@ -320,10 +320,10 @@ class CesiumMemoryException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMMEMORYEXCEPTION-CESIUMMEMORYEXCEPTION] | SysML v2: ActionDef(CesiumMemoryException::CesiumMemoryException)
   CesiumMemoryException(this.message);
-  /// Executes deterministic method `CesiumMemoryException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumMemoryException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumMemoryException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumMemoryException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumMemoryException::toString` (declaration #12) within `NATIVE-ERROR-HANDLER`.
@@ -353,7 +353,7 @@ class CesiumMemoryException implements Exception {
 /// Exception thrown when a native 3D pick or raycast intersection query fails
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumPickException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumPickException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CesiumPickException` (declaration #13) within `NATIVE-ERROR-HANDLER`.
@@ -383,7 +383,7 @@ class CesiumPickException implements Exception {
   /// Creates a [CesiumPickException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumPickException::CesiumPickException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumPickException::CesiumPickException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumPickException::CesiumPickException` (declaration #14) within `NATIVE-ERROR-HANDLER`.
@@ -407,10 +407,10 @@ class CesiumPickException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMPICKEXCEPTION-CESIUMPICKEXCEPTION] | SysML v2: ActionDef(CesiumPickException::CesiumPickException)
   CesiumPickException(this.message);
-  /// Executes deterministic method `CesiumPickException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumPickException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumPickException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumPickException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumPickException::toString` (declaration #15) within `NATIVE-ERROR-HANDLER`.
@@ -440,7 +440,7 @@ class CesiumPickException implements Exception {
 /// Exception thrown when an unrecoverable internal error occurs in the native
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumFatalException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `CesiumFatalException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `CesiumFatalException` (declaration #16) within `NATIVE-ERROR-HANDLER`.
@@ -470,7 +470,7 @@ class CesiumFatalException implements Exception {
   /// Creates a [CesiumFatalException] with the given [message].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumFatalException::CesiumFatalException` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumFatalException::CesiumFatalException` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumFatalException::CesiumFatalException` (declaration #17) within `NATIVE-ERROR-HANDLER`.
@@ -494,10 +494,10 @@ class CesiumFatalException implements Exception {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-NATIVE-ERROR-HANDLER-CESIUMFATALEXCEPTION-CESIUMFATALEXCEPTION] | SysML v2: ActionDef(CesiumFatalException::CesiumFatalException)
   CesiumFatalException(this.message);
-  /// Executes deterministic method `CesiumFatalException::toString` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Executes deterministic method `CesiumFatalException::toString` within `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumFatalException::toString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumFatalException::toString` in `app_flutter/lib/features/map_viewport/cesium_3d/native/error_handler.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumFatalException::toString` (declaration #18) within `NATIVE-ERROR-HANDLER`.

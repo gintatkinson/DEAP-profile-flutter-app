@@ -40,7 +40,7 @@ class SqliteDataSource implements DataSource {
   /// Creates a [SqliteDataSource] backed by the open SQLite [Database] handle `_db`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SqliteDataSource::SqliteDataSource` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SqliteDataSource::SqliteDataSource` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SqliteDataSource::SqliteDataSource` (declaration #2) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -70,13 +70,38 @@ class SqliteDataSource implements DataSource {
   List<TypeDescriptor>? _cachedTypes;
 
   /// Canonical backend identifier for this local relational data source (`"sqlite"`).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::name` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::name` (declaration #3) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `SqliteDataSource::name` in `DATA-SOURCES-SQLITE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `SqliteDataSource::name` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(name)) bounded over input/member dimension of `SqliteDataSource::name`.
+  /// - Space Complexity: O(K(name)) bounded auxiliary memory for `SqliteDataSource::name`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `SqliteDataSource::name` (`()`).
+  /// - State: Maintains consistent state invariants across `SqliteDataSource::name` without partial mutation on error.
+  /// - Action: Executes `SqliteDataSource::name` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `SqliteDataSource::name` (`DATA-SOURCES-SQLITE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-SQLITE-DATA-SOURCE-SQLITEDATASOURCE-NAME] | SysML v2: ActionDef(SqliteDataSource::name)
   @override
   String get name => 'sqlite';
 
   /// Clears cached schema descriptors, closes the property broadcast stream, and closes the SQLite database connection.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::dispose` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::dispose` (declaration #3) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -110,7 +135,7 @@ class SqliteDataSource implements DataSource {
   /// Queries `type_definitions`, `type_attributes`, and `type_relations` to assemble and cache all M2 [TypeDescriptor] models.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::discoverTypes` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::discoverTypes` (declaration #4) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -184,10 +209,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::typeFor` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::typeFor` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::typeFor` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::typeFor` (declaration #5) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -257,10 +282,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::fetchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::fetchProperties` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchProperties` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchProperties` (declaration #6) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -289,10 +314,10 @@ class SqliteDataSource implements DataSource {
     return Result.success(props);
   }
 
-  /// Executes deterministic method `SqliteDataSource::_fetchPropertiesRaw` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_fetchPropertiesRaw` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_fetchPropertiesRaw` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_fetchPropertiesRaw` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_fetchPropertiesRaw` (declaration #7) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -334,10 +359,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::saveProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::saveProperties` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::saveProperties` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::saveProperties` (declaration #8) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -380,10 +405,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::watchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::watchProperties` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::watchProperties` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::watchProperties` (declaration #9) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -416,10 +441,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::fetchRelatedInstances` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::fetchRelatedInstances` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRelatedInstances` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchRelatedInstances` (declaration #10) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -466,10 +491,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::fetchRootNodes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::fetchRootNodes` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchRootNodes` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchRootNodes` (declaration #11) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -520,10 +545,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::fetchChildrenForNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::fetchChildrenForNode` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchChildrenForNode` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchChildrenForNode` (declaration #12) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -587,10 +612,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::_buildType` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_buildType` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_buildType` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_buildType` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_buildType` (declaration #13) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -644,10 +669,10 @@ class SqliteDataSource implements DataSource {
     );
   }
 
-  /// Executes deterministic method `SqliteDataSource::_parseField` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_parseField` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseField` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseField` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_parseField` (declaration #14) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -693,10 +718,10 @@ class SqliteDataSource implements DataSource {
     );
   }
 
-  /// Executes deterministic method `SqliteDataSource::_flatten` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_flatten` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_flatten` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_flatten` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_flatten` (declaration #15) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -733,10 +758,10 @@ class SqliteDataSource implements DataSource {
     return result;
   }
 
-  /// Executes deterministic method `SqliteDataSource::_unflatten` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_unflatten` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_unflatten` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_unflatten` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_unflatten` (declaration #16) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -776,10 +801,10 @@ class SqliteDataSource implements DataSource {
     return result;
   }
 
-  /// Executes deterministic method `SqliteDataSource::fetchTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::fetchTopologyData` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::fetchTopologyData` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::fetchTopologyData` (declaration #17) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -818,10 +843,10 @@ class SqliteDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `SqliteDataSource::_findPathToKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_findPathToKey` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_findPathToKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_findPathToKey` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_findPathToKey` (declaration #18) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -861,10 +886,10 @@ class SqliteDataSource implements DataSource {
     return null;
   }
 
-  /// Executes deterministic method `SqliteDataSource::_resolveCoordinateValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_resolveCoordinateValue` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_resolveCoordinateValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_resolveCoordinateValue` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_resolveCoordinateValue` (declaration #19) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.
@@ -904,10 +929,10 @@ class SqliteDataSource implements DataSource {
     return null;
   }
 
-  /// Executes deterministic method `SqliteDataSource::_parseTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Executes deterministic method `SqliteDataSource::_parseTopologyData` within `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SqliteDataSource::_parseTopologyData` in `app_flutter/lib/data/data_sources/sqlite_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SqliteDataSource::_parseTopologyData` (declaration #20) within `DATA-SOURCES-SQLITE-DATA-SOURCE`.

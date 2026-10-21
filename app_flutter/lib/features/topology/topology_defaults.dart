@@ -49,7 +49,7 @@ TopologyData? _cachedTopologyData;
 /// Decodes a raw JSON string into a dynamic key-value map on a background isolate.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_parseJsonString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_defaults.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_parseJsonString` in `app_flutter/lib/features/topology/topology_defaults.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for fn `_parseJsonString` (declaration #1) within `TOPOLOGY-TOPOLOGY-DEFAULTS`.
@@ -119,7 +119,7 @@ Future<TopologyData> loadTopologyData() async {
 /// Invalidates the in-memory [TopologyData] cache so the next [loadTopologyData]
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `clearTopologyCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_defaults.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `clearTopologyCache` in `app_flutter/lib/features/topology/topology_defaults.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for fn `clearTopologyCache` (declaration #3) within `TOPOLOGY-TOPOLOGY-DEFAULTS`.

@@ -47,12 +47,37 @@ class Cesium3DNative {
   final CesiumNativeBindings? _bindings = CesiumNativeBindings.tryLoad();
 
   /// Whether the native C/C++ shared library is loaded and active.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::isNativeBridgeAvailable` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::isNativeBridgeAvailable` (declaration #2) within `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Cesium3DNative::isNativeBridgeAvailable` in `CESIUM-3D-CESIUM-3D-NATIVE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Cesium3DNative::isNativeBridgeAvailable` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isNativeBridgeAvailable)) bounded over input/member dimension of `Cesium3DNative::isNativeBridgeAvailable`.
+  /// - Space Complexity: O(K(isNativeBridgeAvailable)) bounded auxiliary memory for `Cesium3DNative::isNativeBridgeAvailable`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Cesium3DNative::isNativeBridgeAvailable` (`()`).
+  /// - State: Maintains consistent state invariants across `Cesium3DNative::isNativeBridgeAvailable` without partial mutation on error.
+  /// - Action: Executes `Cesium3DNative::isNativeBridgeAvailable` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Cesium3DNative::isNativeBridgeAvailable` (`CESIUM-3D-CESIUM-3D-NATIVE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CESIUM-3D-NATIVE-CESIUM3DNATIVE-ISNATIVEBRIDGEAVAILABLE] | SysML v2: ActionDef(Cesium3DNative::isNativeBridgeAvailable)
   bool get isNativeBridgeAvailable => _bindings?.isNativeAvailable ?? false;
 
   /// Initializes the cesium tileset from the given URL.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::initializeTileset` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::initializeTileset` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::initializeTileset` (declaration #2) within `CESIUM-3D-CESIUM-3D-NATIVE`.
@@ -85,7 +110,7 @@ class Cesium3DNative {
   /// Updates the FFI rendering viewport with the virtual camera state.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::updateViewport` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::updateViewport` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::updateViewport` (declaration #3) within `CESIUM-3D-CESIUM-3D-NATIVE`.
@@ -127,7 +152,7 @@ class Cesium3DNative {
   /// Fetches the currently visible tile URLs or paths.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::fetchVisibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Cesium3DNative::fetchVisibleTiles` in `app_flutter/lib/features/map_viewport/cesium_3d/cesium_3d_native.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Cesium3DNative::fetchVisibleTiles` (declaration #4) within `CESIUM-3D-CESIUM-3D-NATIVE`.

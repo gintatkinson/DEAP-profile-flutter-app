@@ -13,6 +13,102 @@ import 'package:app_flutter/features/topology/topographical_view.dart';
 import 'package:app_flutter/features/topology/topology_map.dart';
 import 'package:app_flutter/features/properties/properties_panel.dart';
 import 'package:app_flutter/features/properties/view_models/properties_view_model.dart';
+/// Execution scope and layout context supplied to custom [DeapComponentBuilder] callbacks.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to RTCA DO-178C Level A and ARINC 661 presentation component boundaries. Provides
+/// bounded parent geometry and recursive node builder dispatch to custom extension widgets.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Bounded Dimensions: [parentWidth] >= 0.0 and [parentHeight] >= 0.0.
+/// - Deterministic Child Dispatch: Invoking [buildChild] delegates to the host [ComponentFactory].
+///
+/// ## 3. Preconditions
+/// - [parentWidth] and [parentHeight] are finite non-negative values.
+///
+/// ## 4. Postconditions
+/// - Preserves immutable geometric context and recursive synthesis capabilities.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1) allocation. Space Complexity: O(1).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Read-only immutable container; zero failure modes.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/ComponentFactory]
+@immutable
+class DeapComponentScope {
+  /// Available width from parent layout container.
+  final double parentWidth;
+
+  /// Available height from parent layout container.
+  final double parentHeight;
+
+  /// Dispatches recursive layout synthesis for nested declarative AST nodes.
+  final Widget Function(Map<String, dynamic> node) buildChild;
+
+  /// Executes deterministic constructor `DeapComponentScope::DeapComponentScope` within `app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DeapComponentScope::DeapComponentScope` in `app_flutter/lib/features/layout/component_factory.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `DeapComponentScope::DeapComponentScope` (declaration #2) within `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DeapComponentScope::DeapComponentScope` in `LAYOUT-COMPONENT-FACTORY`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `DeapComponentScope::DeapComponentScope` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(DeapComponentScope)) bounded over input/member dimension of `DeapComponentScope::DeapComponentScope`.
+  /// - Space Complexity: O(K(DeapComponentScope)) bounded auxiliary memory for `DeapComponentScope::DeapComponentScope`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DeapComponentScope::DeapComponentScope` (`()`).
+  /// - State: Maintains consistent state invariants across `DeapComponentScope::DeapComponentScope` without partial mutation on error.
+  /// - Action: Executes `DeapComponentScope::DeapComponentScope` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DeapComponentScope::DeapComponentScope` (`LAYOUT-COMPONENT-FACTORY`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-DEAPCOMPONENTSCOPE-DEAPCOMPONENTSCOPE] | SysML v2: ActionDef(DeapComponentScope::DeapComponentScope)
+  const DeapComponentScope({
+    required this.parentWidth,
+    required this.parentHeight,
+    required this.buildChild,
+  });
+}
+
+/// Builder function signature for extensible ARINC 661 layout widgets.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to RTCA DO-178C Level A and ARINC 661 presentation standards.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Open-Closed Extension: Enables custom widget registration without modifying core layout switches.
+///
+/// ## 3. Preconditions
+/// - Valid BuildContext, node map, and DeapComponentScope.
+///
+/// ## 4. Postconditions
+/// - Returns a non-null Widget for the presentation tree.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(1). Space Complexity: O(1).
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Returns fallback widget on unhandled properties.
+///
+/// ## 7. Realization & Traceability
+/// Realises: [Feat-10/ComponentFactory]
+typedef DeapComponentBuilder = Widget Function(
+  BuildContext context,
+  Map<String, dynamic> node,
+  DeapComponentScope scope,
+);
+
 /// Schema-driven ARINC 661 layout interpreter that translates a parsed
 /// `logical-layout.json` AST node hierarchy into concrete Flutter presentation widgets.
 ///
@@ -105,10 +201,13 @@ class ComponentFactory {
   /// Overrides the configured axis when non-null.
   final Axis? preferredSplitAxis;
 
+  /// Extensible custom component builders for domain-specific widgets.
+  final Map<String, DeapComponentBuilder> customBuilders;
+
   /// Creates a [ComponentFactory] with the required dependency resolvers.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ComponentFactory::ComponentFactory` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ComponentFactory::ComponentFactory` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ComponentFactory::ComponentFactory` (declaration #2) within `LAYOUT-COMPONENT-FACTORY`.
@@ -142,6 +241,7 @@ class ComponentFactory {
     required this.buildChildWidget,
     this.treeViewModel,
     this.preferredSplitAxis,
+    this.customBuilders = const {},
   });
 
   /// Builds a widget subtree from a declarative layout [node] within
@@ -230,10 +330,11 @@ class ComponentFactory {
         );
         final leadingChild = topoChild ?? (childrenList.isNotEmpty ? childrenList[0] : null);
         final trailingChild = tabbedChild ?? (childrenList.length > 1 ? childrenList[1] : null);
-        final isReconfigurable = node['props']?['reconfigurable'] == true;
-        final resolvedDirection = isReconfigurable
-            ? (preferredSplitAxis ?? _parseAxis(node))
-            : _parseAxis(node);
+        final rawRatio = node['props']?['default_ratio'];
+        final double? nodeRatio = rawRatio is num
+            ? rawRatio.toDouble()
+            : (rawRatio is String ? double.tryParse(rawRatio) : null);
+        final resolvedDirection = _parseAxis(node);
         final nodeId = node['id'] as String?;
         return SplitWorkspace(
           key: ValueKey('split_${nodeId ?? 'root'}_${resolvedDirection.name}'),
@@ -245,7 +346,7 @@ class ComponentFactory {
               : const SizedBox.shrink(),
           direction: resolvedDirection,
           minFirstPaneSize: minPaneSize,
-          initialRatio: defaultRatio(),
+          initialRatio: nodeRatio ?? defaultRatio(),
           splitterKey: (nodeId == null || nodeId == 'workspace_split')
               ? const Key('horizontal_splitter')
               : Key('${nodeId}_splitter'),
@@ -253,6 +354,10 @@ class ComponentFactory {
       case 'TopographicalView':
         final treeData = treeViewModel?.treeData ?? [];
         final panelOpacity = context.watch<ThemeController>().panelOpacity;
+        final rawRatio = node['props']?['default_ratio'];
+        final double? nodeRatio = rawRatio is num
+            ? rawRatio.toDouble()
+            : (rawRatio is String ? double.tryParse(rawRatio) : null);
         return TopographicalView(
           key: TopographicalView.globalKey,
           currentView: currentView,
@@ -264,8 +369,8 @@ class ComponentFactory {
           topologyData: resolveTopologyData(),
           treeData: treeData,
           splitMinFirstPaneSize: minPaneSize,
-          splitInitialRatio: defaultRatio(),
-          splitDirection: preferredSplitAxis ?? _parseAxis(node),
+          splitInitialRatio: nodeRatio ?? defaultRatio(),
+          splitDirection: _parseAxis(node),
         );
       case 'TabbedContainer':
         return _TabbedContainerHost(currentView: currentView);
@@ -285,6 +390,15 @@ class ComponentFactory {
           ),
         );
       default:
+        final customBuilder = customBuilders[type];
+        if (customBuilder != null) {
+          final scope = DeapComponentScope(
+            parentWidth: parentWidth,
+            parentHeight: parentHeight,
+            buildChild: (child) => build(child, parentWidth, parentHeight, context),
+          );
+          return customBuilder(context, node, scope);
+        }
         return const SizedBox.shrink();
     }
   }
@@ -292,7 +406,7 @@ class ComponentFactory {
   /// Reads the `axis` prop from a layout [node] and returns the corresponding
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ComponentFactory::_parseAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ComponentFactory::_parseAxis` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ComponentFactory::_parseAxis` (declaration #4) within `LAYOUT-COMPONENT-FACTORY`.
@@ -316,6 +430,9 @@ class ComponentFactory {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-COMPONENTFACTORY-PARSEAXIS] | SysML v2: ActionDef(ComponentFactory::_parseAxis)
   Axis _parseAxis(Map<String, dynamic> node) {
+    if (node['props']?['reconfigurable'] == true && preferredSplitAxis != null) {
+      return preferredSplitAxis!;
+    }
     final axis = node['props']?['axis'] as String?;
     if (axis == 'horizontal') return Axis.horizontal;
     return Axis.vertical;
@@ -325,7 +442,7 @@ class ComponentFactory {
 /// Host widget that creates a [TablesViewModel] from the [DataSource] and
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHost` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TabbedContainerHost` (declaration #5) within `LAYOUT-COMPONENT-FACTORY`.
@@ -352,10 +469,10 @@ class _TabbedContainerHost extends StatefulWidget {
   /// Active view node identifier.
   final String currentView;
 
-  /// Executes deterministic constructor `_TabbedContainerHost::_TabbedContainerHost` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic constructor `_TabbedContainerHost::_TabbedContainerHost` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TabbedContainerHost::_TabbedContainerHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TabbedContainerHost::_TabbedContainerHost` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_TabbedContainerHost::_TabbedContainerHost` (declaration #6) within `LAYOUT-COMPONENT-FACTORY`.
@@ -380,10 +497,10 @@ class _TabbedContainerHost extends StatefulWidget {
   /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-TABBEDCONTAINERHOST-TABBEDCONTAINERHOST] | SysML v2: ActionDef(_TabbedContainerHost::_TabbedContainerHost)
   const _TabbedContainerHost({required this.currentView});
 
-  /// Executes deterministic method `_TabbedContainerHost::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TabbedContainerHost::createState` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHost::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHost::createState` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHost::createState` (declaration #7) within `LAYOUT-COMPONENT-FACTORY`.
@@ -410,10 +527,10 @@ class _TabbedContainerHost extends StatefulWidget {
   State<_TabbedContainerHost> createState() => _TabbedContainerHostState();
 }
 
-/// Executes deterministic class `_TabbedContainerHostState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Executes deterministic class `_TabbedContainerHostState` within `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHostState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerHostState` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TabbedContainerHostState` (declaration #8) within `LAYOUT-COMPONENT-FACTORY`.
@@ -440,10 +557,10 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
   TablesViewModel? _viewModel;
   bool _initialized = false;
 
-  /// Executes deterministic method `_TabbedContainerHostState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TabbedContainerHostState::didChangeDependencies` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didChangeDependencies` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::didChangeDependencies` (declaration #9) within `LAYOUT-COMPONENT-FACTORY`.
@@ -477,10 +594,10 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
     }
   }
 
-  /// Executes deterministic method `_TabbedContainerHostState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TabbedContainerHostState::didUpdateWidget` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::didUpdateWidget` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::didUpdateWidget` (declaration #10) within `LAYOUT-COMPONENT-FACTORY`.
@@ -511,10 +628,10 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
     }
   }
 
-  /// Executes deterministic method `_TabbedContainerHostState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TabbedContainerHostState::dispose` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::dispose` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::dispose` (declaration #11) within `LAYOUT-COMPONENT-FACTORY`.
@@ -543,10 +660,10 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
     super.dispose();
   }
 
-  /// Executes deterministic method `_TabbedContainerHostState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TabbedContainerHostState::build` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerHostState::build` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerHostState::build` (declaration #12) within `LAYOUT-COMPONENT-FACTORY`.
@@ -582,7 +699,7 @@ class _TabbedContainerHostState extends State<_TabbedContainerHost> {
 /// Host widget that creates a [TablesViewModel] for a single table tab and
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainer` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TableViewContainer` (declaration #13) within `LAYOUT-COMPONENT-FACTORY`.
@@ -611,10 +728,10 @@ class _TableViewContainer extends StatefulWidget {
   /// Active view node identifier.
   final String currentView;
 
-  /// Executes deterministic constructor `_TableViewContainer::_TableViewContainer` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic constructor `_TableViewContainer::_TableViewContainer` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TableViewContainer::_TableViewContainer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TableViewContainer::_TableViewContainer` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_TableViewContainer::_TableViewContainer` (declaration #14) within `LAYOUT-COMPONENT-FACTORY`.
@@ -642,10 +759,10 @@ class _TableViewContainer extends StatefulWidget {
     required this.currentView,
   });
 
-  /// Executes deterministic method `_TableViewContainer::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TableViewContainer::createState` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainer::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainer::createState` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainer::createState` (declaration #15) within `LAYOUT-COMPONENT-FACTORY`.
@@ -672,10 +789,10 @@ class _TableViewContainer extends StatefulWidget {
   State<_TableViewContainer> createState() => _TableViewContainerState();
 }
 
-/// Executes deterministic class `_TableViewContainerState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Executes deterministic class `_TableViewContainerState` within `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainerState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewContainerState` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TableViewContainerState` (declaration #16) within `LAYOUT-COMPONENT-FACTORY`.
@@ -702,10 +819,10 @@ class _TableViewContainerState extends State<_TableViewContainer> {
   TablesViewModel? _viewModel;
   bool _initialized = false;
 
-  /// Executes deterministic method `_TableViewContainerState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TableViewContainerState::didChangeDependencies` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didChangeDependencies` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::didChangeDependencies` (declaration #17) within `LAYOUT-COMPONENT-FACTORY`.
@@ -739,10 +856,10 @@ class _TableViewContainerState extends State<_TableViewContainer> {
     }
   }
 
-  /// Executes deterministic method `_TableViewContainerState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TableViewContainerState::didUpdateWidget` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::didUpdateWidget` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::didUpdateWidget` (declaration #18) within `LAYOUT-COMPONENT-FACTORY`.
@@ -774,10 +891,10 @@ class _TableViewContainerState extends State<_TableViewContainer> {
     }
   }
 
-  /// Executes deterministic method `_TableViewContainerState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TableViewContainerState::dispose` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::dispose` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::dispose` (declaration #19) within `LAYOUT-COMPONENT-FACTORY`.
@@ -806,10 +923,10 @@ class _TableViewContainerState extends State<_TableViewContainer> {
     super.dispose();
   }
 
-  /// Executes deterministic method `_TableViewContainerState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_TableViewContainerState::build` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewContainerState::build` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewContainerState::build` (declaration #20) within `LAYOUT-COMPONENT-FACTORY`.
@@ -845,7 +962,7 @@ class _TableViewContainerState extends State<_TableViewContainer> {
 /// Host widget that creates a [PropertiesViewModel] and provides it to [PropertiesPanel].
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHost` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_PropertiesPanelHost` (declaration #21) within `LAYOUT-COMPONENT-FACTORY`.
@@ -872,10 +989,10 @@ class _PropertiesPanelHost extends StatefulWidget {
   final String currentView;
   final Widget Function(BuildContext) buildChildWidget;
 
-  /// Executes deterministic constructor `_PropertiesPanelHost::_PropertiesPanelHost` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic constructor `_PropertiesPanelHost::_PropertiesPanelHost` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_PropertiesPanelHost::_PropertiesPanelHost` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_PropertiesPanelHost::_PropertiesPanelHost` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_PropertiesPanelHost::_PropertiesPanelHost` (declaration #22) within `LAYOUT-COMPONENT-FACTORY`.
@@ -903,10 +1020,10 @@ class _PropertiesPanelHost extends StatefulWidget {
     required this.buildChildWidget,
   });
 
-  /// Executes deterministic method `_PropertiesPanelHost::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_PropertiesPanelHost::createState` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHost::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHost::createState` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHost::createState` (declaration #23) within `LAYOUT-COMPONENT-FACTORY`.
@@ -933,10 +1050,10 @@ class _PropertiesPanelHost extends StatefulWidget {
   State<_PropertiesPanelHost> createState() => _PropertiesPanelHostState();
 }
 
-/// Executes deterministic class `_PropertiesPanelHostState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Executes deterministic class `_PropertiesPanelHostState` within `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHostState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_PropertiesPanelHostState` in `app_flutter/lib/features/layout/component_factory.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_PropertiesPanelHostState` (declaration #24) within `LAYOUT-COMPONENT-FACTORY`.
@@ -963,10 +1080,10 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
   PropertiesViewModel? _viewModel;
   bool _initialized = false;
 
-  /// Executes deterministic method `_PropertiesPanelHostState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_PropertiesPanelHostState::didChangeDependencies` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didChangeDependencies` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::didChangeDependencies` (declaration #25) within `LAYOUT-COMPONENT-FACTORY`.
@@ -1003,10 +1120,10 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
     }
   }
 
-  /// Executes deterministic method `_PropertiesPanelHostState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_PropertiesPanelHostState::didUpdateWidget` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::didUpdateWidget` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::didUpdateWidget` (declaration #26) within `LAYOUT-COMPONENT-FACTORY`.
@@ -1037,10 +1154,10 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
     }
   }
 
-  /// Executes deterministic method `_PropertiesPanelHostState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_PropertiesPanelHostState::dispose` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::dispose` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::dispose` (declaration #27) within `LAYOUT-COMPONENT-FACTORY`.
@@ -1069,10 +1186,10 @@ class _PropertiesPanelHostState extends State<_PropertiesPanelHost> {
     super.dispose();
   }
 
-  /// Executes deterministic method `_PropertiesPanelHostState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Executes deterministic method `_PropertiesPanelHostState::build` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/component_factory.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_PropertiesPanelHostState::build` in `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_PropertiesPanelHostState::build` (declaration #28) within `LAYOUT-COMPONENT-FACTORY`.

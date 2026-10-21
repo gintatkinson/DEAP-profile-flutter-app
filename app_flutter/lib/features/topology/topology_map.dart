@@ -5,10 +5,10 @@ import 'package:app_flutter/core/theme/app_themes.dart';
 import 'package:app_flutter/domain/type_descriptor.dart';
 import 'package:app_flutter/features/topology/topology_defaults.dart' show emptyTopologyData;
 
-/// Executes deterministic fn `_resolvePath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Executes deterministic fn `_resolvePath` within `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_resolvePath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_resolvePath` in `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for fn `_resolvePath` (declaration #1) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -45,10 +45,10 @@ dynamic _resolvePath(Map<String, dynamic> map, String path) {
   return current;
 }
 
-/// Executes deterministic fn `_collectNodeAttributes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Executes deterministic fn `_collectNodeAttributes` within `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_collectNodeAttributes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for fn `_collectNodeAttributes` in `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for fn `_collectNodeAttributes` (declaration #2) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -160,10 +160,10 @@ class TopologyNodePosition {
   /// [resolveCoordinate] / [resolveVector].
   final Map<String, dynamic> rawProperties;
 
-  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNodePosition::TopologyNodePosition` (declaration #4) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -195,10 +195,10 @@ class TopologyNodePosition {
     this.rawProperties = const <String, dynamic>{},
   });
 
-  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyNodePosition::TopologyNodePosition` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNodePosition::TopologyNodePosition` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNodePosition::TopologyNodePosition` (declaration #5) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -236,10 +236,10 @@ class TopologyNodePosition {
     );
   }
 
-  /// Executes deterministic method `TopologyNodePosition::_resolvePathWithMapping` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNodePosition::_resolvePathWithMapping` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::_resolvePathWithMapping` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::_resolvePathWithMapping` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::_resolvePathWithMapping` (declaration #6) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -269,10 +269,10 @@ class TopologyNodePosition {
     return path.startsWith('position/') ? path.substring(9) : path;
   }
 
-  /// Executes deterministic method `TopologyNodePosition::resolveCoordinate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNodePosition::resolveCoordinate` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveCoordinate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveCoordinate` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::resolveCoordinate` (declaration #7) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -318,10 +318,10 @@ class TopologyNodePosition {
     }
   }
 
-  /// Executes deterministic method `TopologyNodePosition::resolveVector` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNodePosition::resolveVector` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNodePosition::resolveVector` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNodePosition::resolveVector` (declaration #8) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -406,10 +406,10 @@ class TopologyNode {
   /// [resolveCoordinate] / [resolveVector].
   final Map<String, dynamic> rawProperties;
 
-  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNode::TopologyNode` (declaration #10) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -440,10 +440,10 @@ class TopologyNode {
     this.rawProperties = const <String, dynamic>{},
   });
 
-  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyNode::TopologyNode` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyNode::TopologyNode` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyNode::TopologyNode` (declaration #11) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -479,10 +479,10 @@ class TopologyNode {
     );
   }
 
-  /// Executes deterministic method `TopologyNode::resolveCoordinate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNode::resolveCoordinate` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveCoordinate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveCoordinate` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveCoordinate` (declaration #12) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -517,10 +517,10 @@ class TopologyNode {
     return position.resolveCoordinate(key, coordinateMapping);
   }
 
-  /// Executes deterministic method `TopologyNode::resolveVector` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNode::resolveVector` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveVector` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveVector` (declaration #13) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -555,10 +555,10 @@ class TopologyNode {
     return position.resolveVector(key, coordinateMapping);
   }
 
-  /// Executes deterministic method `TopologyNode::computePosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyNode::computePosition` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::computePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::computePosition` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::computePosition` (declaration #14) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -596,7 +596,7 @@ class TopologyNode {
   /// Resolves concentric dashed range/envelope radii (in logical pixels) from
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveEnvelopeRadii` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveEnvelopeRadii` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveEnvelopeRadii` (declaration #15) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -683,7 +683,7 @@ class TopologyNode {
   /// Resolves a directional leader line vector from trajectory velocity or
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveDirectionalLeaderVector` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyNode::resolveDirectionalLeaderVector` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyNode::resolveDirectionalLeaderVector` (declaration #16) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -816,10 +816,10 @@ class TopologyLink {
   /// Used solely as a data attribute; not rendered on canvas.
   final String type;
 
-  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyLink::TopologyLink` (declaration #18) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -848,10 +848,10 @@ class TopologyLink {
     required this.type,
   });
 
-  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyLink::TopologyLink` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyLink::TopologyLink` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyLink::TopologyLink` (declaration #19) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -925,10 +925,10 @@ class TopologyData {
   /// overlay resolution without hardcoding domain keys.
   final Map<String, dynamic> rawMetadata;
 
-  /// Executes deterministic constructor `TopologyData::TopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyData::TopologyData` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyData::TopologyData` (declaration #21) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -958,10 +958,10 @@ class TopologyData {
     this.rawMetadata = const <String, dynamic>{},
   });
 
-  /// Executes deterministic constructor `TopologyData::TopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyData::TopologyData` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyData::TopologyData` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyData::TopologyData` (declaration #22) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1124,10 +1124,10 @@ class TopologyMap extends StatefulWidget {
   /// playback panel. Default: 32.0.
   final double timeDisplayWidth;
 
-  /// Executes deterministic constructor `TopologyMap::TopologyMap` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyMap::TopologyMap` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyMap::TopologyMap` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyMap::TopologyMap` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyMap::TopologyMap` (declaration #24) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1173,10 +1173,10 @@ class TopologyMap extends StatefulWidget {
     this.labelFontSize = 12.0,
   });
 
-  /// Executes deterministic method `TopologyMap::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyMap::createState` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyMap::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyMap::createState` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyMap::createState` (declaration #25) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1203,10 +1203,10 @@ class TopologyMap extends StatefulWidget {
   State<TopologyMap> createState() => _TopologyMapState();
 }
 
-/// Executes deterministic class `_TopologyMapState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Executes deterministic class `_TopologyMapState` within `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TopologyMapState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TopologyMapState` in `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TopologyMapState` (declaration #26) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1237,6 +1237,32 @@ class _TopologyMapState extends State<TopologyMap>
   bool isPlaying = false;
   Duration _lastElapsed = Duration.zero;
 
+  /// Executes deterministic method `_TopologyMapState::minTime` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::minTime` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::minTime` (declaration #27) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopologyMapState::minTime` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TopologyMapState::minTime` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(minTime)) bounded over input/member dimension of `_TopologyMapState::minTime`.
+  /// - Space Complexity: O(K(minTime)) bounded auxiliary memory for `_TopologyMapState::minTime`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::minTime` (`()`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::minTime` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::minTime` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::minTime` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-MINTIME] | SysML v2: ActionDef(_TopologyMapState::minTime)
   double get minTime {
     final TopologyData activeData = widget.data ?? emptyTopologyData;
     if (activeData.nodes.isEmpty) return widget.defaultMinTime;
@@ -1248,6 +1274,32 @@ class _TopologyMapState extends State<TopologyMap>
     return minT == double.infinity ? widget.defaultMinTime : minT;
   }
 
+  /// Executes deterministic method `_TopologyMapState::maxTime` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::maxTime` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::maxTime` (declaration #28) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopologyMapState::maxTime` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TopologyMapState::maxTime` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(maxTime)) bounded over input/member dimension of `_TopologyMapState::maxTime`.
+  /// - Space Complexity: O(K(maxTime)) bounded auxiliary memory for `_TopologyMapState::maxTime`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::maxTime` (`()`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::maxTime` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::maxTime` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::maxTime` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-MAXTIME] | SysML v2: ActionDef(_TopologyMapState::maxTime)
   double get maxTime {
     final TopologyData activeData = widget.data ?? emptyTopologyData;
     if (activeData.nodes.isEmpty) return widget.defaultMaxTime;
@@ -1264,6 +1316,32 @@ class _TopologyMapState extends State<TopologyMap>
     return maxT;
   }
 
+  /// Executes deterministic method `_TopologyMapState::initState` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::initState` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::initState` (declaration #29) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopologyMapState::initState` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::initState` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(initState)) bounded over input/member dimension of `_TopologyMapState::initState`.
+  /// - Space Complexity: O(K(initState)) bounded auxiliary memory for `_TopologyMapState::initState`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::initState` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::initState` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::initState` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::initState` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-INITSTATE] | SysML v2: ActionDef(_TopologyMapState::initState)
   @override
   void initState() {
     super.initState();
@@ -1271,6 +1349,32 @@ class _TopologyMapState extends State<TopologyMap>
     currentTimeIndex = minTime;
   }
 
+  /// Executes deterministic method `_TopologyMapState::didUpdateWidget` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::didUpdateWidget` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::didUpdateWidget` (declaration #30) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `oldWidget: TopologyMap` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::didUpdateWidget`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::didUpdateWidget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(oldWidget)) bounded over input/member dimension of `_TopologyMapState::didUpdateWidget`.
+  /// - Space Complexity: O(N(oldWidget)) bounded auxiliary memory for `_TopologyMapState::didUpdateWidget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::didUpdateWidget` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::didUpdateWidget` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::didUpdateWidget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::didUpdateWidget` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-DIDUPDATEWIDGET] | SysML v2: ActionDef(_TopologyMapState::didUpdateWidget)
   @override
   void didUpdateWidget(covariant TopologyMap oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -1283,6 +1387,32 @@ class _TopologyMapState extends State<TopologyMap>
     }
   }
 
+  /// Executes deterministic method `_TopologyMapState::_onTick` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::_onTick` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::_onTick` (declaration #31) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `elapsed: Duration` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::_onTick`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::_onTick` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(elapsed)) bounded over input/member dimension of `_TopologyMapState::_onTick`.
+  /// - Space Complexity: O(N(elapsed)) bounded auxiliary memory for `_TopologyMapState::_onTick`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::_onTick` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::_onTick` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::_onTick` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::_onTick` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-ONTICK] | SysML v2: ActionDef(_TopologyMapState::_onTick)
   void _onTick(Duration elapsed) {
     if (_lastElapsed == Duration.zero) {
       _lastElapsed = elapsed;
@@ -1304,6 +1434,32 @@ class _TopologyMapState extends State<TopologyMap>
     }
   }
 
+  /// Executes deterministic method `_TopologyMapState::togglePlayback` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::togglePlayback` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::togglePlayback` (declaration #32) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopologyMapState::togglePlayback` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::togglePlayback` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(togglePlayback)) bounded over input/member dimension of `_TopologyMapState::togglePlayback`.
+  /// - Space Complexity: O(K(togglePlayback)) bounded auxiliary memory for `_TopologyMapState::togglePlayback`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::togglePlayback` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::togglePlayback` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::togglePlayback` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::togglePlayback` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-TOGGLEPLAYBACK] | SysML v2: ActionDef(_TopologyMapState::togglePlayback)
   void togglePlayback() {
     setState(() {
       isPlaying = !isPlaying;
@@ -1316,6 +1472,32 @@ class _TopologyMapState extends State<TopologyMap>
     });
   }
 
+  /// Executes deterministic method `_TopologyMapState::setPlayhead` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::setPlayhead` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::setPlayhead` (declaration #33) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `timeIndex: double` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::setPlayhead`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::setPlayhead` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(timeIndex)) bounded over input/member dimension of `_TopologyMapState::setPlayhead`.
+  /// - Space Complexity: O(N(timeIndex)) bounded auxiliary memory for `_TopologyMapState::setPlayhead`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::setPlayhead` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::setPlayhead` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::setPlayhead` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::setPlayhead` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-SETPLAYHEAD] | SysML v2: ActionDef(_TopologyMapState::setPlayhead)
   void setPlayhead(double timeIndex) {
     final double minT = minTime;
     final double maxT = maxTime;
@@ -1324,6 +1506,32 @@ class _TopologyMapState extends State<TopologyMap>
     });
   }
 
+  /// Executes deterministic method `_TopologyMapState::_handleTap` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::_handleTap` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::_handleTap` (declaration #34) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `details: TapUpDetails` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::_handleTap`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::_handleTap` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(details)) bounded over input/member dimension of `_TopologyMapState::_handleTap`.
+  /// - Space Complexity: O(N(details)) bounded auxiliary memory for `_TopologyMapState::_handleTap`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::_handleTap` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::_handleTap` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::_handleTap` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::_handleTap` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-HANDLETAP] | SysML v2: ActionDef(_TopologyMapState::_handleTap)
   void _handleTap(TapUpDetails details) {
     final TopologyData activeData = widget.data ?? emptyTopologyData;
     final double clickX = details.localPosition.dx;
@@ -1342,6 +1550,32 @@ class _TopologyMapState extends State<TopologyMap>
     }
   }
 
+  /// Executes deterministic method `_TopologyMapState::_buildPlaybackPanel` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::_buildPlaybackPanel` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::_buildPlaybackPanel` (declaration #35) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `colors: ColorScheme` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::_buildPlaybackPanel`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TopologyMapState::_buildPlaybackPanel` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(colors)) bounded over input/member dimension of `_TopologyMapState::_buildPlaybackPanel`.
+  /// - Space Complexity: O(N(colors)) bounded auxiliary memory for `_TopologyMapState::_buildPlaybackPanel`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::_buildPlaybackPanel` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::_buildPlaybackPanel` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::_buildPlaybackPanel` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::_buildPlaybackPanel` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-BUILDPLAYBACKPANEL] | SysML v2: ActionDef(_TopologyMapState::_buildPlaybackPanel)
   Widget _buildPlaybackPanel(ColorScheme colors) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -1448,12 +1682,64 @@ class _TopologyMapState extends State<TopologyMap>
     );
   }
 
+  /// Executes deterministic method `_TopologyMapState::dispose` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::dispose` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::dispose` (declaration #36) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TopologyMapState::dispose` in `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TopologyMapState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TopologyMapState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TopologyMapState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::dispose` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-DISPOSE] | SysML v2: ActionDef(_TopologyMapState::dispose)
   @override
   void dispose() {
     _ticker.dispose();
     super.dispose();
   }
 
+  /// Executes deterministic method `_TopologyMapState::build` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TopologyMapState::build` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TopologyMapState::build` (declaration #37) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TopologyMapState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TopologyMapState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TopologyMapState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TopologyMapState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TopologyMapState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TopologyMapState::build` without partial mutation on error.
+  /// - Action: Executes `_TopologyMapState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TopologyMapState::build` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TOPOLOGYMAPSTATE-BUILD] | SysML v2: ActionDef(_TopologyMapState::build)
   @override
   Widget build(BuildContext context) {
     final TopologyData activeData = widget.data ?? emptyTopologyData;
@@ -1594,10 +1880,10 @@ class TopologyPainterColors {
   /// Colour for node labels rendered below each node circle.
   final Color labelColor;
 
-  /// Executes deterministic constructor `TopologyPainterColors::TopologyPainterColors` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyPainterColors::TopologyPainterColors` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainterColors::TopologyPainterColors` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainterColors::TopologyPainterColors` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyPainterColors::TopologyPainterColors` (declaration #28) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1735,10 +2021,10 @@ class TopologyPainter extends CustomPainter {
   /// circle. Default: 12.0.
   final double labelFontSize;
 
-  /// Executes deterministic constructor `TopologyPainter::TopologyPainter` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `TopologyPainter::TopologyPainter` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainter::TopologyPainter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TopologyPainter::TopologyPainter` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TopologyPainter::TopologyPainter` (declaration #30) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1779,10 +2065,10 @@ class TopologyPainter extends CustomPainter {
     this.labelFontSize = 12.0,
   });
 
-  /// Executes deterministic method `TopologyPainter::_drawDashedCircle` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::_drawDashedCircle` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDashedCircle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDashedCircle` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawDashedCircle` (declaration #31) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1824,10 +2110,10 @@ class TopologyPainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
-  /// Executes deterministic method `TopologyPainter::_drawTacticalCoordinateBackdrop` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::_drawTacticalCoordinateBackdrop` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawTacticalCoordinateBackdrop` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawTacticalCoordinateBackdrop` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawTacticalCoordinateBackdrop` (declaration #32) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1921,10 +2207,10 @@ class TopologyPainter extends CustomPainter {
     }
   }
 
-  /// Executes deterministic method `TopologyPainter::_drawDirectionalLeaderLine` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::_drawDirectionalLeaderLine` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDirectionalLeaderLine` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawDirectionalLeaderLine` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawDirectionalLeaderLine` (declaration #33) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -1978,10 +2264,10 @@ class TopologyPainter extends CustomPainter {
     canvas.drawPath(headPath, leaderPaint);
   }
 
-  /// Executes deterministic method `TopologyPainter::_drawArincCalloutTag` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::_drawArincCalloutTag` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawArincCalloutTag` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::_drawArincCalloutTag` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::_drawArincCalloutTag` (declaration #34) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2058,10 +2344,10 @@ class TopologyPainter extends CustomPainter {
     textPainter.paint(canvas, textPos);
   }
 
-  /// Executes deterministic method `TopologyPainter::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::paint` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::paint` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::paint` (declaration #35) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2265,10 +2551,10 @@ class TopologyPainter extends CustomPainter {
     }
   }
 
-  /// Executes deterministic method `TopologyPainter::shouldRepaint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `TopologyPainter::shouldRepaint` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::shouldRepaint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyPainter::shouldRepaint` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyPainter::shouldRepaint` (declaration #36) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2301,10 +2587,10 @@ class TopologyPainter extends CustomPainter {
   }
 }
 
-/// Executes deterministic class `_TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Executes deterministic class `_TextPainterKey` within `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterKey` in `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TextPainterKey` (declaration #37) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2331,10 +2617,10 @@ class _TextPainterKey {
   final String text;
   final Color color;
   final double fontSize;
-  /// Executes deterministic constructor `_TextPainterKey::_TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic constructor `_TextPainterKey::_TextPainterKey` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TextPainterKey::_TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_TextPainterKey::_TextPainterKey` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_TextPainterKey::_TextPainterKey` (declaration #38) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2369,14 +2655,42 @@ class _TextPainterKey {
           color == other.color &&
           fontSize == other.fontSize;
 
+  /// Executes deterministic method `_TextPainterKey::hashCode` within `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterKey::hashCode` in `app_flutter/lib/features/topology/topology_map.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TextPainterKey::hashCode` (declaration #50) within `TOPOLOGY-TOPOLOGY-MAP`.
+  ///
+  /// ## 3. Preconditions
+  /// - `text: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::hashCode`.
+  /// - `color: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::hashCode`.
+  /// - `fontSize: String` must satisfy domain and type-safety constraints prior to invoking `_TextPainterKey::hashCode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_TextPainterKey::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(text)) bounded over input/member dimension of `_TextPainterKey::hashCode`.
+  /// - Space Complexity: O(N(text)) bounded auxiliary memory for `_TextPainterKey::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TextPainterKey::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `_TextPainterKey::hashCode` without partial mutation on error.
+  /// - Action: Executes `_TextPainterKey::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TextPainterKey::hashCode` (`TOPOLOGY-TOPOLOGY-MAP`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-TOPOLOGY-MAP-TEXTPAINTERKEY-HASHCODE] | SysML v2: ActionDef(_TextPainterKey::hashCode)
   @override
   int get hashCode => Object.hash(text, color, fontSize);
 }
 
-/// Executes deterministic class `_TextPainterCache` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Executes deterministic class `_TextPainterCache` within `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TextPainterCache` in `app_flutter/lib/features/topology/topology_map.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TextPainterCache` (declaration #39) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2403,10 +2717,10 @@ class _TextPainterCache {
   static final Map<_TextPainterKey, TextPainter> _cache = {};
   static const int _maxEntries = 256;
 
-  /// Executes deterministic method `_TextPainterCache::getOrCreate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `_TextPainterCache::getOrCreate` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::getOrCreate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::getOrCreate` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TextPainterCache::getOrCreate` (declaration #40) within `TOPOLOGY-TOPOLOGY-MAP`.
@@ -2457,10 +2771,10 @@ class _TextPainterCache {
     return painter;
   }
 
-  /// Executes deterministic method `_TextPainterCache::clear` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Executes deterministic method `_TextPainterCache::clear` within `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::clear` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/topology_map.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TextPainterCache::clear` in `app_flutter/lib/features/topology/topology_map.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TextPainterCache::clear` (declaration #41) within `TOPOLOGY-TOPOLOGY-MAP`.

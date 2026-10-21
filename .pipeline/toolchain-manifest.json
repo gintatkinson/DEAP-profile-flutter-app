@@ -1,0 +1,13 @@
+{
+  "upstream_repo": "gintatkinson/DEAP01-spec-core",
+  "commit_sha": "a60702344bc9fe248d57f12e697229a228b60cf9",
+  "timestamp_utc": "2026-10-21T15:46:00Z",
+  "binaries": {
+    "assemble-conops": "f7a14a84650df905258db184adf6bc90386087c1d8b3bbc13caafc6cd3afb8b4",
+    "compile-sysml": "e25f856edc8566502a9ddaa35aeb54ed55276d228972628ddaeb2df0210167d8",
+    "ingest-sysml": "625eeb2f35ba01f198e8650b12bb1583a6db314b7008d675b0d924af442bfe71",
+    "reconcile-backlog": "db8b2398c7923ba0fb61c87f36f52d408660f56689f673b0912c9bba13f6f833",
+    "verify-baseline": "836df24e4966d9e032f8b23cef58bb2c37e54be040dda87a6f20a28b7b8d4c9b"
+  },
+  "rules_bundle_sha256": "3afc136a4625f0b7b146e8c930480b0b800e683b0a570b04095565f1d8a92609"
+}

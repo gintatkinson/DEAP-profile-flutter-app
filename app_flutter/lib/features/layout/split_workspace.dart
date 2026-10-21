@@ -104,7 +104,7 @@ class SplitWorkspace extends StatefulWidget {
   /// Creates a resizable [SplitWorkspace].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SplitWorkspace::SplitWorkspace` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SplitWorkspace::SplitWorkspace` in `app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SplitWorkspace::SplitWorkspace` (declaration #2) within `LAYOUT-SPLIT-WORKSPACE`.
@@ -142,10 +142,10 @@ class SplitWorkspace extends StatefulWidget {
     this.paintLeadingOnTop = false,
   });
 
-  /// Executes deterministic method `SplitWorkspace::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  /// Executes deterministic method `SplitWorkspace::createState` within `app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SplitWorkspace::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SplitWorkspace::createState` in `app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SplitWorkspace::createState` (declaration #3) within `LAYOUT-SPLIT-WORKSPACE`.
@@ -172,10 +172,10 @@ class SplitWorkspace extends StatefulWidget {
   State<SplitWorkspace> createState() => _SplitWorkspaceState();
 }
 
-/// Executes deterministic class `_SplitWorkspaceState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+/// Executes deterministic class `_SplitWorkspaceState` within `app_flutter/lib/features/layout/split_workspace.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SplitWorkspaceState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SplitWorkspaceState` in `app_flutter/lib/features/layout/split_workspace.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_SplitWorkspaceState` (declaration #4) within `LAYOUT-SPLIT-WORKSPACE`.
@@ -239,10 +239,10 @@ class _SplitWorkspaceState extends State<SplitWorkspace> {
     }
   }
 
-  /// Executes deterministic method `_SplitWorkspaceState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  /// Executes deterministic method `_SplitWorkspaceState::build` within `app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SplitWorkspaceState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/split_workspace.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SplitWorkspaceState::build` in `app_flutter/lib/features/layout/split_workspace.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_SplitWorkspaceState::build` (declaration #5) within `LAYOUT-SPLIT-WORKSPACE`.

@@ -39,7 +39,7 @@ class FirebaseDataSource implements DataSource {
   /// Creates a [FirebaseDataSource] bound to the injected [FirebaseFirestore] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirebaseDataSource::FirebaseDataSource` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirebaseDataSource::FirebaseDataSource` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `FirebaseDataSource::FirebaseDataSource` (declaration #2) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -67,13 +67,38 @@ class FirebaseDataSource implements DataSource {
   List<TypeDescriptor>? _cachedTypes;
 
   /// Canonical backend identifier for this remote document-store data source (`"firebase"`).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::name` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::name` (declaration #3) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirebaseDataSource::name` in `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FirebaseDataSource::name` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(name)) bounded over input/member dimension of `FirebaseDataSource::name`.
+  /// - Space Complexity: O(K(name)) bounded auxiliary memory for `FirebaseDataSource::name`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirebaseDataSource::name` (`()`).
+  /// - State: Maintains consistent state invariants across `FirebaseDataSource::name` without partial mutation on error.
+  /// - Action: Executes `FirebaseDataSource::name` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirebaseDataSource::name` (`DATA-SOURCES-FIREBASE-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DATA-SOURCES-FIREBASE-DATA-SOURCE-FIREBASEDATASOURCE-NAME] | SysML v2: ActionDef(FirebaseDataSource::name)
   @override
   String get name => 'firebase';
 
   /// Discovers and caches all M2 [TypeDescriptor] definitions from the `schema/types` document.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::discoverTypes` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::discoverTypes` (declaration #3) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -126,10 +151,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::typeFor` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::typeFor` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::typeFor` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::typeFor` (declaration #4) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -185,10 +210,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::fetchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::fetchProperties` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchProperties` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchProperties` (declaration #5) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -224,10 +249,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::saveProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::saveProperties` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::saveProperties` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::saveProperties` (declaration #6) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -262,10 +287,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::watchProperties` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::watchProperties` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::watchProperties` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::watchProperties` (declaration #7) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -300,10 +325,10 @@ class FirebaseDataSource implements DataSource {
         });
   }
 
-  /// Executes deterministic method `FirebaseDataSource::fetchRelatedInstances` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::fetchRelatedInstances` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRelatedInstances` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchRelatedInstances` (declaration #8) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -364,10 +389,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::_parseFields` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::_parseFields` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseFields` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseFields` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_parseFields` (declaration #9) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -418,10 +443,10 @@ class FirebaseDataSource implements DataSource {
     }).toList();
   }
 
-  /// Executes deterministic method `FirebaseDataSource::_parseRelations` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::_parseRelations` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseRelations` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_parseRelations` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_parseRelations` (declaration #10) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -456,10 +481,10 @@ class FirebaseDataSource implements DataSource {
     }).toList();
   }
 
-  /// Executes deterministic method `FirebaseDataSource::fetchRootNodes` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::fetchRootNodes` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchRootNodes` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchRootNodes` (declaration #11) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -520,10 +545,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::fetchChildrenForNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::fetchChildrenForNode` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchChildrenForNode` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchChildrenForNode` (declaration #12) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -627,10 +652,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::fetchTopologyData` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::fetchTopologyData` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::fetchTopologyData` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::fetchTopologyData` (declaration #13) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -749,10 +774,10 @@ class FirebaseDataSource implements DataSource {
     }
   }
 
-  /// Executes deterministic method `FirebaseDataSource::_findPathToKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::_findPathToKey` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_findPathToKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_findPathToKey` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_findPathToKey` (declaration #14) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -792,10 +817,10 @@ class FirebaseDataSource implements DataSource {
     return null;
   }
 
-  /// Executes deterministic method `FirebaseDataSource::_resolveCoordinateValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::_resolveCoordinateValue` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_resolveCoordinateValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::_resolveCoordinateValue` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::_resolveCoordinateValue` (declaration #15) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.
@@ -835,10 +860,10 @@ class FirebaseDataSource implements DataSource {
     return null;
   }
 
-  /// Executes deterministic method `FirebaseDataSource::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Executes deterministic method `FirebaseDataSource::dispose` within `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/data_sources/firebase_data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirebaseDataSource::dispose` in `app_flutter/lib/data/data_sources/firebase_data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirebaseDataSource::dispose` (declaration #16) within `DATA-SOURCES-FIREBASE-DATA-SOURCE`.

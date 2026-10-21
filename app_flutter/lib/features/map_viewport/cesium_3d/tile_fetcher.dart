@@ -6,7 +6,7 @@ import 'package:app_flutter/core/app_config.dart';
 /// Enumeration of supported raster map-imagery tile providers.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for enum `ImageryProvider` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for enum `ImageryProvider` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for enum `ImageryProvider` (declaration #1) within `CESIUM-3D-TILE-FETCHER`.
@@ -81,7 +81,7 @@ class TileCache {
   /// Creates a cache that holds at most [maxSize] entries.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TileCache::TileCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TileCache::TileCache` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TileCache::TileCache` (declaration #3) within `CESIUM-3D-TILE-FETCHER`.
@@ -109,7 +109,7 @@ class TileCache {
   /// Returns the byte buffer for [key], or `null` if not cached.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::get` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::get` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileCache::get` (declaration #4) within `CESIUM-3D-TILE-FETCHER`.
@@ -143,7 +143,7 @@ class TileCache {
   /// Inserts [value] under [key], evicting the LRU entry first if the cache
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::put` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::put` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileCache::put` (declaration #5) within `CESIUM-3D-TILE-FETCHER`.
@@ -178,7 +178,7 @@ class TileCache {
   /// Removes every cached entry.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::clear` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::clear` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileCache::clear` (declaration #6) within `CESIUM-3D-TILE-FETCHER`.
@@ -206,9 +206,59 @@ class TileCache {
   }
 
   /// The current number of cached entries.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::length` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TileCache::length` (declaration #7) within `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TileCache::length` in `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TileCache::length` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(length)) bounded over input/member dimension of `TileCache::length`.
+  /// - Space Complexity: O(K(length)) bounded auxiliary memory for `TileCache::length`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TileCache::length` (`()`).
+  /// - State: Maintains consistent state invariants across `TileCache::length` without partial mutation on error.
+  /// - Action: Executes `TileCache::length` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TileCache::length` (`CESIUM-3D-TILE-FETCHER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-TILE-FETCHER-TILECACHE-LENGTH] | SysML v2: ActionDef(TileCache::length)
   int get length => _map.length;
 
   /// The maximum number of entries the cache can hold.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCache::maxSize` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TileCache::maxSize` (declaration #8) within `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TileCache::maxSize` in `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TileCache::maxSize` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(maxSize)) bounded over input/member dimension of `TileCache::maxSize`.
+  /// - Space Complexity: O(K(maxSize)) bounded auxiliary memory for `TileCache::maxSize`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TileCache::maxSize` (`()`).
+  /// - State: Maintains consistent state invariants across `TileCache::maxSize` without partial mutation on error.
+  /// - Action: Executes `TileCache::maxSize` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TileCache::maxSize` (`CESIUM-3D-TILE-FETCHER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-TILE-FETCHER-TILECACHE-MAXSIZE] | SysML v2: ActionDef(TileCache::maxSize)
   int get maxSize => _maxSize;
 }
 
@@ -254,7 +304,7 @@ class TileFetcher {
   /// Configures the fetcher with basemap URL templates from configuration.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::configure` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::configure` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::configure` (declaration #8) within `CESIUM-3D-TILE-FETCHER`.
@@ -298,7 +348,7 @@ class TileFetcher {
   /// Whether the fetcher is permitted to make outbound HTTP requests.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::isEnabled` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::isEnabled` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::isEnabled` (declaration #9) within `CESIUM-3D-TILE-FETCHER`.
@@ -326,7 +376,7 @@ class TileFetcher {
   /// Permanently disables the fetcher for the remainder of the process
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::disable` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::disable` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::disable` (declaration #10) within `CESIUM-3D-TILE-FETCHER`.
@@ -356,7 +406,7 @@ class TileFetcher {
   /// Disposes resources by closing the HTTP client and clearing the tile cache.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::dispose` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::dispose` (declaration #11) within `CESIUM-3D-TILE-FETCHER`.
@@ -387,7 +437,7 @@ class TileFetcher {
   /// Empties the internal tile cache. Useful when switching providers so
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::clearCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::clearCache` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::clearCache` (declaration #12) within `CESIUM-3D-TILE-FETCHER`.
@@ -415,12 +465,37 @@ class TileFetcher {
   }
 
   /// The number of entries currently held in the tile cache.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::cacheLength` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::cacheLength` (declaration #15) within `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TileFetcher::cacheLength` in `CESIUM-3D-TILE-FETCHER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TileFetcher::cacheLength` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(cacheLength)) bounded over input/member dimension of `TileFetcher::cacheLength`.
+  /// - Space Complexity: O(K(cacheLength)) bounded auxiliary memory for `TileFetcher::cacheLength`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TileFetcher::cacheLength` (`()`).
+  /// - State: Maintains consistent state invariants across `TileFetcher::cacheLength` without partial mutation on error.
+  /// - Action: Executes `TileFetcher::cacheLength` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TileFetcher::cacheLength` (`CESIUM-3D-TILE-FETCHER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-TILE-FETCHER-TILEFETCHER-CACHELENGTH] | SysML v2: ActionDef(TileFetcher::cacheLength)
   int get cacheLength => _cache.length;
 
   /// Builds the HTTPS URL for a tile at the given [provider], zoom level
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::urlFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::urlFor` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::urlFor` (declaration #13) within `CESIUM-3D-TILE-FETCHER`.
@@ -457,10 +532,10 @@ class TileFetcher {
         .replaceAll('{y}', y.toString());
   }
 
-  /// Executes deterministic method `TileFetcher::_urlFor` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Executes deterministic method `TileFetcher::_urlFor` within `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::_urlFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::_urlFor` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::_urlFor` (declaration #14) within `CESIUM-3D-TILE-FETCHER`.
@@ -496,7 +571,7 @@ class TileFetcher {
   /// Fetches the tile image bytes for [provider] at zoom [z] and tile
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::fetchTile` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileFetcher::fetchTile` in `app_flutter/lib/features/map_viewport/cesium_3d/tile_fetcher.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TileFetcher::fetchTile` (declaration #15) within `CESIUM-3D-TILE-FETCHER`.

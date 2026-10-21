@@ -9,7 +9,7 @@ import 'dart:io' show Platform;
 /// Renders a single [TreeNode] row in the sidebar tree with expand/collapse
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeNodeWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node_widget.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeNodeWidget` in `app_flutter/lib/features/tree/tree_node_widget.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `TreeNodeWidget` (declaration #1) within `TREE-TREE-NODE-WIDGET`.
@@ -45,7 +45,7 @@ class TreeNodeWidget extends StatelessWidget {
   /// Creates an immutable [TreeNodeWidget].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeNodeWidget::TreeNodeWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeNodeWidget::TreeNodeWidget` in `app_flutter/lib/features/tree/tree_node_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TreeNodeWidget::TreeNodeWidget` (declaration #2) within `TREE-TREE-NODE-WIDGET`.
@@ -74,10 +74,10 @@ class TreeNodeWidget extends StatelessWidget {
     this.childIndent = 16.0,
   });
 
-  /// Executes deterministic method `TreeNodeWidget::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node_widget.dart`.
+  /// Executes deterministic method `TreeNodeWidget::build` within `app_flutter/lib/features/tree/tree_node_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeNodeWidget::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeNodeWidget::build` in `app_flutter/lib/features/tree/tree_node_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TreeNodeWidget::build` (declaration #3) within `TREE-TREE-NODE-WIDGET`.

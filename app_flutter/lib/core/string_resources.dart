@@ -53,7 +53,7 @@ class StringResources {
   /// Loads strings from `assets/strings.json` via [rootBundle].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::load` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::load` in `app_flutter/lib/core/string_resources.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `StringResources::load` (declaration #2) within `CORE-STRING-RESOURCES`.
@@ -84,7 +84,7 @@ class StringResources {
   /// Returns the string for [key] or [fallback] (defaults to [key] itself).
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::get` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::get` in `app_flutter/lib/core/string_resources.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `StringResources::get` (declaration #3) within `CORE-STRING-RESOURCES`.
@@ -114,7 +114,7 @@ class StringResources {
   /// Loads strings from a raw JSON string -- intended for tests.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::loadFromJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/string_resources.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `StringResources::loadFromJson` in `app_flutter/lib/core/string_resources.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `StringResources::loadFromJson` (declaration #4) within `CORE-STRING-RESOURCES`.

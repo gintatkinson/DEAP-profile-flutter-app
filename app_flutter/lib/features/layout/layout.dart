@@ -72,10 +72,13 @@ class Layout extends StatefulWidget {
   /// Optional raw JSON string overriding the bundled `assets/logical-layout.json` manifest.
   final String? layoutConfig;
 
+  /// Extensible custom component builders for domain-specific widgets.
+  final Map<String, DeapComponentBuilder> customBuilders;
+
   /// Creates a root [Layout] orchestrator widget.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Layout::Layout` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Layout::Layout` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `Layout::Layout` (declaration #2) within `LAYOUT-LAYOUT`.
@@ -103,12 +106,13 @@ class Layout extends StatefulWidget {
     this.activeView,
     this.onViewChange,
     this.layoutConfig,
+    this.customBuilders = const {},
   });
 
-  /// Executes deterministic method `Layout::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `Layout::createState` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Layout::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Layout::createState` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Layout::createState` (declaration #3) within `LAYOUT-LAYOUT`.
@@ -135,10 +139,10 @@ class Layout extends StatefulWidget {
   State<Layout> createState() => _LayoutState();
 }
 
-/// Executes deterministic class `_LayoutState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+/// Executes deterministic class `_LayoutState` within `app_flutter/lib/features/layout/layout.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_LayoutState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_LayoutState` in `app_flutter/lib/features/layout/layout.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_LayoutState` (declaration #4) within `LAYOUT-LAYOUT`.
@@ -183,7 +187,7 @@ class _LayoutState extends State<Layout> {
   /// Subscribes to live property updates for [nodeId] via
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_subscribeProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_subscribeProperties` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_subscribeProperties` (declaration #5) within `LAYOUT-LAYOUT`.
@@ -225,10 +229,10 @@ class _LayoutState extends State<Layout> {
     );
   }
 
-  /// Executes deterministic method `_LayoutState::didChangeDependencies` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::didChangeDependencies` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::didChangeDependencies` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::didChangeDependencies` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::didChangeDependencies` (declaration #6) within `LAYOUT-LAYOUT`.
@@ -279,7 +283,7 @@ class _LayoutState extends State<Layout> {
   /// Triggers a rebuild when the properties view model notifies listeners.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_onPropertiesViewModelChanged` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_onPropertiesViewModelChanged` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_onPropertiesViewModelChanged` (declaration #7) within `LAYOUT-LAYOUT`.
@@ -309,7 +313,7 @@ class _LayoutState extends State<Layout> {
   /// Rebuilds the UI and syncs the current view from the tree when the tree
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_onTreeViewModelChanged` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_onTreeViewModelChanged` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_onTreeViewModelChanged` (declaration #8) within `LAYOUT-LAYOUT`.
@@ -353,7 +357,7 @@ class _LayoutState extends State<Layout> {
   /// Loads a JSON file from disk, caching results by type.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_loadJsonOnce` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_loadJsonOnce` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_loadJsonOnce` (declaration #9) within `LAYOUT-LAYOUT`.
@@ -399,10 +403,10 @@ class _LayoutState extends State<Layout> {
   TopologyData? _topologyData;
   TopologyData? _cachedTopologyData;
 
-  /// Executes deterministic method `_LayoutState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::initState` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::initState` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::initState` (declaration #10) within `LAYOUT-LAYOUT`.
@@ -446,10 +450,10 @@ class _LayoutState extends State<Layout> {
     _preloadTopologyData();
   }
 
-  /// Executes deterministic method `_LayoutState::_preloadConfigs` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::_preloadConfigs` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_preloadConfigs` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_preloadConfigs` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_preloadConfigs` (declaration #11) within `LAYOUT-LAYOUT`.
@@ -493,7 +497,7 @@ class _LayoutState extends State<Layout> {
   /// Preloads topology data from an external JSON asset for later use.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_preloadTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_preloadTopologyData` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_preloadTopologyData` (declaration #12) within `LAYOUT-LAYOUT`.
@@ -535,10 +539,10 @@ class _LayoutState extends State<Layout> {
     }
   }
 
-  /// Executes deterministic method `_LayoutState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::didUpdateWidget` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::didUpdateWidget` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::didUpdateWidget` (declaration #13) within `LAYOUT-LAYOUT`.
@@ -575,10 +579,10 @@ class _LayoutState extends State<Layout> {
     }
   }
 
-  /// Executes deterministic method `_LayoutState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::dispose` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::dispose` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::dispose` (declaration #14) within `LAYOUT-LAYOUT`.
@@ -616,7 +620,7 @@ class _LayoutState extends State<Layout> {
   /// Returns the default split ratio for the properties panel.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_getDefaultRatio` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_getDefaultRatio` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_getDefaultRatio` (declaration #15) within `LAYOUT-LAYOUT`.
@@ -647,7 +651,7 @@ class _LayoutState extends State<Layout> {
   /// Resolves the coordinate-to-location mapping from codebase rules.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveCoordinateMapping` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveCoordinateMapping` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_resolveCoordinateMapping` (declaration #16) within `LAYOUT-LAYOUT`.
@@ -678,7 +682,7 @@ class _LayoutState extends State<Layout> {
   /// Resolves the label mapping from codebase rules.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveLabelsMapping` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveLabelsMapping` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_resolveLabelsMapping` (declaration #17) within `LAYOUT-LAYOUT`.
@@ -709,7 +713,7 @@ class _LayoutState extends State<Layout> {
   /// Returns a human-readable label for the given [tabId].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveTabLabel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveTabLabel` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_resolveTabLabel` (declaration #18) within `LAYOUT-LAYOUT`.
@@ -751,7 +755,7 @@ class _LayoutState extends State<Layout> {
   /// Builds a [TopologyData] with the coordinate mapping applied.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_resolveTopologyData` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_resolveTopologyData` (declaration #19) within `LAYOUT-LAYOUT`.
@@ -792,7 +796,7 @@ class _LayoutState extends State<Layout> {
   /// Loads the logical layout configuration from the bundled assets.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_loadLayoutConfig` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_loadLayoutConfig` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_loadLayoutConfig` (declaration #20) within `LAYOUT-LAYOUT`.
@@ -833,7 +837,7 @@ class _LayoutState extends State<Layout> {
   /// Updates [_currentView] to the root of the tree data when no explicit
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_updateCurrentViewFromLayout` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_updateCurrentViewFromLayout` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_updateCurrentViewFromLayout` (declaration #21) within `LAYOUT-LAYOUT`.
@@ -870,7 +874,7 @@ class _LayoutState extends State<Layout> {
   /// Selects a view by [viewId], updating state, tree model, properties, and
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_selectView` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_selectView` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_selectView` (declaration #22) within `LAYOUT-LAYOUT`.
@@ -907,7 +911,7 @@ class _LayoutState extends State<Layout> {
   /// Builds the full widget tree from the parsed layout configuration.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_buildFromLayout` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_buildFromLayout` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_buildFromLayout` (declaration #23) within `LAYOUT-LAYOUT`.
@@ -944,6 +948,7 @@ class _LayoutState extends State<Layout> {
       buildChildWidget: _buildChildWidget,
       treeViewModel: _treeViewModel,
       preferredSplitAxis: preferredSplitAxis,
+      customBuilders: widget.customBuilders,
     );
     final rootNode = _parsedLayout!['layout']['root_container']
         as Map<String, dynamic>;
@@ -957,10 +962,10 @@ class _LayoutState extends State<Layout> {
     return childWidget;
   }
 
-  /// Executes deterministic method `_LayoutState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Executes deterministic method `_LayoutState::build` within `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::build` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::build` (declaration #24) within `LAYOUT-LAYOUT`.
@@ -998,7 +1003,7 @@ class _LayoutState extends State<Layout> {
   /// Builds the child widget displayed in the properties panel.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_buildChildWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/layout.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LayoutState::_buildChildWidget` in `app_flutter/lib/features/layout/layout.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LayoutState::_buildChildWidget` (declaration #25) within `LAYOUT-LAYOUT`.

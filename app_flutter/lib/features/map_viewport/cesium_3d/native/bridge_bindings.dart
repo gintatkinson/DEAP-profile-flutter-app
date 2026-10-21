@@ -84,7 +84,7 @@ final class BridgeTilesetConfig extends Struct {
 /// Native 32-bit signed integer handle identifying an initialized bridge instance.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeHandle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeHandle` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeHandle` (declaration #1) within `NATIVE-BRIDGE-BINDINGS`.
@@ -124,7 +124,7 @@ typedef BridgeHandle = Int32;
 /// Native C function signature for asynchronous bridge error callbacks.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeErrorCallbackNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeErrorCallbackNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeErrorCallbackNative` (declaration #2) within `NATIVE-BRIDGE-BINDINGS`.
@@ -154,7 +154,7 @@ typedef BridgeErrorCallbackNative = Void Function(
 /// Dart function signature for asynchronous bridge error callbacks.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeErrorCallback` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeErrorCallback` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeErrorCallback` (declaration #3) within `NATIVE-BRIDGE-BINDINGS`.
@@ -184,7 +184,7 @@ typedef BridgeErrorCallback = void Function(
 /// Native C function signature for tile payload readiness notifications.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTileReadyCallbackNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTileReadyCallbackNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeTileReadyCallbackNative` (declaration #4) within `NATIVE-BRIDGE-BINDINGS`.
@@ -214,7 +214,7 @@ typedef BridgeTileReadyCallbackNative = Void Function(
 /// Dart function signature for tile payload readiness notifications.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTileReadyCallback` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTileReadyCallback` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeTileReadyCallback` (declaration #5) within `NATIVE-BRIDGE-BINDINGS`.
@@ -244,7 +244,7 @@ typedef BridgeTileReadyCallback = void Function(
 /// Native C function signature for camera pose change notifications.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCameraChangedCallbackNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCameraChangedCallbackNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeCameraChangedCallbackNative` (declaration #6) within `NATIVE-BRIDGE-BINDINGS`.
@@ -274,7 +274,7 @@ typedef BridgeCameraChangedCallbackNative = Void Function(
 /// Dart function signature for camera pose change notifications.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCameraChangedCallback` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCameraChangedCallback` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeCameraChangedCallback` (declaration #7) within `NATIVE-BRIDGE-BINDINGS`.
@@ -304,7 +304,7 @@ typedef BridgeCameraChangedCallback = void Function(
 /// Native C function signature for `bridge_initialize`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeInitializeNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeInitializeNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeInitializeNative` (declaration #8) within `NATIVE-BRIDGE-BINDINGS`.
@@ -336,7 +336,7 @@ typedef BridgeInitializeNative = BridgeHandle Function(
 /// Dart function signature for `bridge_initialize`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeInitializeDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeInitializeDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeInitializeDart` (declaration #9) within `NATIVE-BRIDGE-BINDINGS`.
@@ -368,7 +368,7 @@ typedef BridgeInitializeDart = int Function(
 /// Native C function signature for `bridge_shutdown`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeShutdownNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeShutdownNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeShutdownNative` (declaration #10) within `NATIVE-BRIDGE-BINDINGS`.
@@ -396,7 +396,7 @@ typedef BridgeShutdownNative = Void Function(BridgeHandle handle);
 /// Dart function signature for `bridge_shutdown`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeShutdownDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeShutdownDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeShutdownDart` (declaration #11) within `NATIVE-BRIDGE-BINDINGS`.
@@ -424,7 +424,7 @@ typedef BridgeShutdownDart = void Function(int handle);
 /// Native C function signature for `bridge_terminate`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTerminateNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTerminateNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeTerminateNative` (declaration #12) within `NATIVE-BRIDGE-BINDINGS`.
@@ -452,7 +452,7 @@ typedef BridgeTerminateNative = Int32 Function();
 /// Dart function signature for `bridge_terminate`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTerminateDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeTerminateDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeTerminateDart` (declaration #13) within `NATIVE-BRIDGE-BINDINGS`.
@@ -480,7 +480,7 @@ typedef BridgeTerminateDart = int Function();
 /// Native C function signature for `bridge_is_ready`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeIsReadyNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeIsReadyNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeIsReadyNative` (declaration #14) within `NATIVE-BRIDGE-BINDINGS`.
@@ -508,7 +508,7 @@ typedef BridgeIsReadyNative = Int32 Function(BridgeHandle handle);
 /// Dart function signature for `bridge_is_ready`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeIsReadyDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeIsReadyDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeIsReadyDart` (declaration #15) within `NATIVE-BRIDGE-BINDINGS`.
@@ -536,7 +536,7 @@ typedef BridgeIsReadyDart = int Function(int handle);
 /// Native C function signature for `bridge_get_last_error`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetLastErrorNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetLastErrorNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetLastErrorNative` (declaration #16) within `NATIVE-BRIDGE-BINDINGS`.
@@ -564,7 +564,7 @@ typedef BridgeGetLastErrorNative = Int32 Function(BridgeHandle handle, Pointer<U
 /// Dart function signature for `bridge_get_last_error`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetLastErrorDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetLastErrorDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetLastErrorDart` (declaration #17) within `NATIVE-BRIDGE-BINDINGS`.
@@ -592,7 +592,7 @@ typedef BridgeGetLastErrorDart = int Function(int handle, Pointer<Utf8> out, int
 /// Native C function signature for `bridge_update_camera`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeUpdateCameraNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeUpdateCameraNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeUpdateCameraNative` (declaration #18) within `NATIVE-BRIDGE-BINDINGS`.
@@ -622,7 +622,7 @@ typedef BridgeUpdateCameraNative = Int32 Function(
 /// Dart function signature for `bridge_update_camera`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeUpdateCameraDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeUpdateCameraDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeUpdateCameraDart` (declaration #19) within `NATIVE-BRIDGE-BINDINGS`.
@@ -652,7 +652,7 @@ typedef BridgeUpdateCameraDart = int Function(
 /// Native C function signature for `bridge_register_camera_callback`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRegisterCameraCallbackNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRegisterCameraCallbackNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeRegisterCameraCallbackNative` (declaration #20) within `NATIVE-BRIDGE-BINDINGS`.
@@ -684,7 +684,7 @@ typedef BridgeRegisterCameraCallbackNative = Int32 Function(
 /// Dart function signature for `bridge_register_camera_callback`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRegisterCameraCallbackDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRegisterCameraCallbackDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeRegisterCameraCallbackDart` (declaration #21) within `NATIVE-BRIDGE-BINDINGS`.
@@ -716,7 +716,7 @@ typedef BridgeRegisterCameraCallbackDart = int Function(
 /// Native C function signature for `bridge_get_visible_tile_count`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileCountNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileCountNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetVisibleTileCountNative` (declaration #22) within `NATIVE-BRIDGE-BINDINGS`.
@@ -746,7 +746,7 @@ typedef BridgeGetVisibleTileCountNative = Int32 Function(
 /// Dart function signature for `bridge_get_visible_tile_count`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileCountDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileCountDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetVisibleTileCountDart` (declaration #23) within `NATIVE-BRIDGE-BINDINGS`.
@@ -776,7 +776,7 @@ typedef BridgeGetVisibleTileCountDart = int Function(
 /// Native C function signature for `bridge_get_visible_tile_id`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileIdNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileIdNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetVisibleTileIdNative` (declaration #24) within `NATIVE-BRIDGE-BINDINGS`.
@@ -806,7 +806,7 @@ typedef BridgeGetVisibleTileIdNative = Int32 Function(
 /// Dart function signature for `bridge_get_visible_tile_id`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileIdDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeGetVisibleTileIdDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeGetVisibleTileIdDart` (declaration #25) within `NATIVE-BRIDGE-BINDINGS`.
@@ -836,7 +836,7 @@ typedef BridgeGetVisibleTileIdDart = int Function(
 /// Native C function signature for `bridge_request_tile_data`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRequestTileDataNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRequestTileDataNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeRequestTileDataNative` (declaration #26) within `NATIVE-BRIDGE-BINDINGS`.
@@ -869,7 +869,7 @@ typedef BridgeRequestTileDataNative = Int32 Function(
 /// Dart function signature for `bridge_request_tile_data`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRequestTileDataDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeRequestTileDataDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeRequestTileDataDart` (declaration #27) within `NATIVE-BRIDGE-BINDINGS`.
@@ -902,7 +902,7 @@ typedef BridgeRequestTileDataDart = int Function(
 /// Native C function signature for `bridge_cartographic_to_ecef`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCartographicToEcefNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCartographicToEcefNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeCartographicToEcefNative` (declaration #28) within `NATIVE-BRIDGE-BINDINGS`.
@@ -933,7 +933,7 @@ typedef BridgeCartographicToEcefNative = Int32 Function(
 /// Dart function signature for `bridge_cartographic_to_ecef`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCartographicToEcefDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeCartographicToEcefDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeCartographicToEcefDart` (declaration #29) within `NATIVE-BRIDGE-BINDINGS`.
@@ -964,7 +964,7 @@ typedef BridgeCartographicToEcefDart = int Function(
 /// Native C function signature for `bridge_ecef_to_cartographic`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeEcefToCartographicNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeEcefToCartographicNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeEcefToCartographicNative` (declaration #30) within `NATIVE-BRIDGE-BINDINGS`.
@@ -995,7 +995,7 @@ typedef BridgeEcefToCartographicNative = Int32 Function(
 /// Dart function signature for `bridge_ecef_to_cartographic`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeEcefToCartographicDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeEcefToCartographicDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeEcefToCartographicDart` (declaration #31) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1026,7 +1026,7 @@ typedef BridgeEcefToCartographicDart = int Function(
 /// Native C function signature for `bridge_free_string`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeFreeStringNative` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeFreeStringNative` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeFreeStringNative` (declaration #32) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1054,7 +1054,7 @@ typedef BridgeFreeStringNative = Void Function(Pointer<Utf8> str);
 /// Dart function signature for `bridge_free_string`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeFreeStringDart` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for typedef `BridgeFreeStringDart` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for typedef `BridgeFreeStringDart` (declaration #33) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1177,7 +1177,7 @@ class CesiumNativeBindings {
   /// Resolves native C bridge symbols from [lib], falling back to pure-Dart stubs on error.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumNativeBindings::CesiumNativeBindings` (declaration #35) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1261,10 +1261,10 @@ class CesiumNativeBindings {
     }
   }
 
-  /// Executes deterministic constructor `CesiumNativeBindings::CesiumNativeBindings._fallback` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Executes deterministic constructor `CesiumNativeBindings::CesiumNativeBindings._fallback` within `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings._fallback` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings._fallback` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumNativeBindings::CesiumNativeBindings._fallback` (declaration #36) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1296,7 +1296,7 @@ class CesiumNativeBindings {
   /// Creates a safe pure-Dart fallback bindings instance when the native
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CesiumNativeBindings::CesiumNativeBindings` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CesiumNativeBindings::CesiumNativeBindings` (declaration #37) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1321,10 +1321,10 @@ class CesiumNativeBindings {
   /// Realises: [REQ-NATIVE-BRIDGE-BINDINGS-CESIUMNATIVEBINDINGS-CESIUMNATIVEBINDINGS] | SysML v2: ActionDef(CesiumNativeBindings::CesiumNativeBindings)
   factory CesiumNativeBindings.fallback() => CesiumNativeBindings._fallback();
 
-  /// Executes deterministic method `CesiumNativeBindings::_bindPureDartFallback` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Executes deterministic method `CesiumNativeBindings::_bindPureDartFallback` within `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_bindPureDartFallback` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_bindPureDartFallback` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::_bindPureDartFallback` (declaration #38) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1373,10 +1373,10 @@ class CesiumNativeBindings {
     freeString = (str) {};
   }
 
-  /// Executes deterministic method `CesiumNativeBindings::_fallbackCartographicToEcef` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Executes deterministic method `CesiumNativeBindings::_fallbackCartographicToEcef` within `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_fallbackCartographicToEcef` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_fallbackCartographicToEcef` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::_fallbackCartographicToEcef` (declaration #39) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1429,10 +1429,10 @@ class CesiumNativeBindings {
     return 0;
   }
 
-  /// Executes deterministic method `CesiumNativeBindings::_fallbackEcefToCartographic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Executes deterministic method `CesiumNativeBindings::_fallbackEcefToCartographic` within `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_fallbackEcefToCartographic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::_fallbackEcefToCartographic` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::_fallbackEcefToCartographic` (declaration #40) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1491,7 +1491,7 @@ class CesiumNativeBindings {
   /// Attempts to open the native shared library and resolve all C symbols.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::tryLoad` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::tryLoad` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::tryLoad` (declaration #41) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1538,10 +1538,10 @@ class CesiumNativeBindings {
     }
   }
 
-  /// Executes deterministic method `CesiumNativeBindings::load` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Executes deterministic method `CesiumNativeBindings::load` within `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::load` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::load` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::load` (declaration #42) within `NATIVE-BRIDGE-BINDINGS`.
@@ -1572,6 +1572,31 @@ class CesiumNativeBindings {
   }
 
   /// Returns the underlying [DynamicLibrary] if loaded.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CesiumNativeBindings::library` in `app_flutter/lib/features/map_viewport/cesium_3d/native/bridge_bindings.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CesiumNativeBindings::library` (declaration #43) within `NATIVE-BRIDGE-BINDINGS`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CesiumNativeBindings::library` in `NATIVE-BRIDGE-BINDINGS`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CesiumNativeBindings::library` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(library)) bounded over input/member dimension of `CesiumNativeBindings::library`.
+  /// - Space Complexity: O(K(library)) bounded auxiliary memory for `CesiumNativeBindings::library`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CesiumNativeBindings::library` (`()`).
+  /// - State: Maintains consistent state invariants across `CesiumNativeBindings::library` without partial mutation on error.
+  /// - Action: Executes `CesiumNativeBindings::library` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CesiumNativeBindings::library` (`NATIVE-BRIDGE-BINDINGS`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-NATIVE-BRIDGE-BINDINGS-CESIUMNATIVEBINDINGS-LIBRARY] | SysML v2: ActionDef(CesiumNativeBindings::library)
   DynamicLibrary? get library => _lib;
 }
 

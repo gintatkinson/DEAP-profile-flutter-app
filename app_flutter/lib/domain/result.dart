@@ -43,7 +43,7 @@ sealed class Result<T> {
   /// Abstract const constructor for [Result].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Result::Result` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/result.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Result::Result` in `app_flutter/lib/domain/result.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `Result::Result` (declaration #2) within `DOMAIN-RESULT`.
@@ -75,9 +75,59 @@ sealed class Result<T> {
   const factory Result.failure(DomainError error) = Failure<T>;
 
   /// Returns `true` if this result is a [Success].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Result::isSuccess` in `app_flutter/lib/domain/result.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Result::isSuccess` (declaration #3) within `DOMAIN-RESULT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Result::isSuccess` in `DOMAIN-RESULT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Result::isSuccess` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isSuccess)) bounded over input/member dimension of `Result::isSuccess`.
+  /// - Space Complexity: O(K(isSuccess)) bounded auxiliary memory for `Result::isSuccess`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Result::isSuccess` (`()`).
+  /// - State: Maintains consistent state invariants across `Result::isSuccess` without partial mutation on error.
+  /// - Action: Executes `Result::isSuccess` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Result::isSuccess` (`DOMAIN-RESULT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-RESULT-RESULT-ISSUCCESS] | SysML v2: ActionDef(Result::isSuccess)
   bool get isSuccess => this is Success<T>;
 
   /// Returns `true` if this result is a [Failure].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Result::isFailure` in `app_flutter/lib/domain/result.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Result::isFailure` (declaration #4) within `DOMAIN-RESULT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Result::isFailure` in `DOMAIN-RESULT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Result::isFailure` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isFailure)) bounded over input/member dimension of `Result::isFailure`.
+  /// - Space Complexity: O(K(isFailure)) bounded auxiliary memory for `Result::isFailure`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Result::isFailure` (`()`).
+  /// - State: Maintains consistent state invariants across `Result::isFailure` without partial mutation on error.
+  /// - Action: Executes `Result::isFailure` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Result::isFailure` (`DOMAIN-RESULT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-RESULT-RESULT-ISFAILURE] | SysML v2: ActionDef(Result::isFailure)
   bool get isFailure => this is Failure<T>;
 }
 

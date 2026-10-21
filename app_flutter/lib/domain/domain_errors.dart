@@ -43,7 +43,7 @@ sealed class DomainError {
   /// Abstract const constructor for [DomainError].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DomainError::DomainError` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/domain_errors.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DomainError::DomainError` in `app_flutter/lib/domain/domain_errors.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `DomainError::DomainError` (declaration #2) within `DOMAIN-DOMAIN-ERRORS`.

@@ -89,7 +89,7 @@ abstract class SeedStrategy {
   /// Populates the provided [db] instance with initial M2 type definitions and M1 instance records.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedStrategy::seed` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedStrategy::seed` in `app_flutter/lib/data/database_initializer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SeedStrategy::seed` (declaration #3) within `DATA-DATABASE-INITIALIZER`.
@@ -148,7 +148,7 @@ class DatabaseInitializer {
   /// Opens or creates the target SQLite database, applies WAL and foreign-key PRAGMAs, ensures all M2 schema tables and indexes exist, and optionally runs [seedStrategy].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::create` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::create` in `app_flutter/lib/data/database_initializer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DatabaseInitializer::create` (declaration #5) within `DATA-DATABASE-INITIALIZER`.
@@ -298,10 +298,10 @@ class DatabaseInitializer {
     }
   }
 
-  /// Executes deterministic method `DatabaseInitializer::_probeFfiViability` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  /// Executes deterministic method `DatabaseInitializer::_probeFfiViability` within `app_flutter/lib/data/database_initializer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::_probeFfiViability` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/database_initializer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DatabaseInitializer::_probeFfiViability` in `app_flutter/lib/data/database_initializer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DatabaseInitializer::_probeFfiViability` (declaration #6) within `DATA-DATABASE-INITIALIZER`.

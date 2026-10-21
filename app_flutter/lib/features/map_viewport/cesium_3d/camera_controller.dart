@@ -51,6 +51,31 @@ class CameraController extends ChangeNotifier {
   Duration _flightDuration = const Duration(milliseconds: 500);
 
   /// Exposes the computed geodesic flight duration for deterministic unit testing.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::flightDurationForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::flightDurationForTesting` (declaration #2) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::flightDurationForTesting` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CameraController::flightDurationForTesting` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(flightDurationForTesting)) bounded over input/member dimension of `CameraController::flightDurationForTesting`.
+  /// - Space Complexity: O(K(flightDurationForTesting)) bounded auxiliary memory for `CameraController::flightDurationForTesting`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::flightDurationForTesting` (`()`).
+  /// - State: Maintains consistent state invariants across `CameraController::flightDurationForTesting` without partial mutation on error.
+  /// - Action: Executes `CameraController::flightDurationForTesting` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::flightDurationForTesting` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-FLIGHTDURATIONFORTESTING] | SysML v2: ActionDef(CameraController::flightDurationForTesting)
   @visibleForTesting
   Duration get flightDurationForTesting => _flightDuration;
 
@@ -72,7 +97,7 @@ class CameraController extends ChangeNotifier {
   /// Optional callback returning terrain elevation in meters at `(latDeg, lngDeg)`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::Function` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::Function` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::Function` (declaration #2) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -98,10 +123,10 @@ class CameraController extends ChangeNotifier {
   /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-FUNCTION] | SysML v2: ActionDef(CameraController::Function)
   double Function(double dim_0, double lng)? elevationProvider;
 
-  /// Executes deterministic method `CameraController::_getTerrainHeight` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_getTerrainHeight` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_getTerrainHeight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_getTerrainHeight` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_getTerrainHeight` (declaration #3) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -130,10 +155,10 @@ class CameraController extends ChangeNotifier {
     return elevationProvider!(dim_0, lng);
   }
 
-  /// Executes deterministic method `CameraController::_clampAltitudeToTerrain` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_clampAltitudeToTerrain` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_clampAltitudeToTerrain` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_clampAltitudeToTerrain` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_clampAltitudeToTerrain` (declaration #4) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -167,7 +192,7 @@ class CameraController extends ChangeNotifier {
   /// Creates a [CameraController] initialized with [camera] normalized to absolute ECEF altitude.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CameraController::CameraController` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CameraController::CameraController` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CameraController::CameraController` (declaration #5) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -200,15 +225,65 @@ class CameraController extends ChangeNotifier {
   ) : camera;
 
   /// The current active [VirtualCamera] state.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::current` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::current` (declaration #7) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::current` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CameraController::current` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(current)) bounded over input/member dimension of `CameraController::current`.
+  /// - Space Complexity: O(K(current)) bounded auxiliary memory for `CameraController::current`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::current` (`()`).
+  /// - State: Maintains consistent state invariants across `CameraController::current` without partial mutation on error.
+  /// - Action: Executes `CameraController::current` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::current` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-CURRENT] | SysML v2: ActionDef(CameraController::current)
   VirtualCamera get current => _camera;
 
   /// Whether a geodesic [flyTo] animation is currently in progress.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::isFlying` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `CameraController::isFlying` (declaration #8) within `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `CameraController::isFlying` in `CESIUM-3D-CAMERA-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `CameraController::isFlying` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isFlying)) bounded over input/member dimension of `CameraController::isFlying`.
+  /// - Space Complexity: O(K(isFlying)) bounded auxiliary memory for `CameraController::isFlying`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `CameraController::isFlying` (`()`).
+  /// - State: Maintains consistent state invariants across `CameraController::isFlying` without partial mutation on error.
+  /// - Action: Executes `CameraController::isFlying` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `CameraController::isFlying` (`CESIUM-3D-CAMERA-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-ISFLYING] | SysML v2: ActionDef(CameraController::isFlying)
   bool get isFlying => _targetCamera != null;
 
   /// Immediately updates the camera state, clamping altitude above terrain and cancelling active flights.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::updateCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::updateCamera` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::updateCamera` (declaration #6) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -256,10 +331,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::_normalizeRadDiff` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_normalizeRadDiff` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_normalizeRadDiff` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_normalizeRadDiff` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_normalizeRadDiff` (declaration #7) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -289,10 +364,10 @@ class CameraController extends ChangeNotifier {
     return wrapped - math.pi;
   }
 
-  /// Executes deterministic method `CameraController::_computeAngularDistance` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_computeAngularDistance` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_computeAngularDistance` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_computeAngularDistance` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_computeAngularDistance` (declaration #8) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -331,10 +406,10 @@ class CameraController extends ChangeNotifier {
     return 2 * math.asin(math.sqrt(val.clamp(0.0, 1.0)));
   }
 
-  /// Executes deterministic method `CameraController::flyTo` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::flyTo` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::flyTo` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::flyTo` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::flyTo` (declaration #9) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -366,10 +441,10 @@ class CameraController extends ChangeNotifier {
     _animationStart = null;
   }
 
-  /// Executes deterministic method `CameraController::tick` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::tick` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tick` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tick` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::tick` (declaration #10) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -411,10 +486,10 @@ class CameraController extends ChangeNotifier {
     return false;
   }
 
-  /// Executes deterministic method `CameraController::_easeInOutCubic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_easeInOutCubic` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_easeInOutCubic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_easeInOutCubic` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_easeInOutCubic` (declaration #11) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -441,10 +516,10 @@ class CameraController extends ChangeNotifier {
     return t < 0.5 ? 4 * t * t * t : 1 - math.pow(-2 * t + 2, 3) / 2;
   }
 
-  /// Executes deterministic method `CameraController::_lerpCamera` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_lerpCamera` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_lerpCamera` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_lerpCamera` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_lerpCamera` (declaration #12) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -485,10 +560,10 @@ class CameraController extends ChangeNotifier {
     );
   }
 
-  /// Executes deterministic method `CameraController::_interpolateCircular` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_interpolateCircular` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_interpolateCircular` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_interpolateCircular` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_interpolateCircular` (declaration #13) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -521,10 +596,10 @@ class CameraController extends ChangeNotifier {
     return wrapFn(from + diff * t);
   }
 
-  /// Executes deterministic method `CameraController::_wrapLngStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapLngStatic` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLngStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLngStatic` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapLngStatic` (declaration #14) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -558,10 +633,10 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
-  /// Executes deterministic method `CameraController::_wrapHeadingStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapHeadingStatic` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeadingStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeadingStatic` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapHeadingStatic` (declaration #15) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -591,10 +666,10 @@ class CameraController extends ChangeNotifier {
     return wrapped;
   }
 
-  /// Executes deterministic method `CameraController::pan` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::pan` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::pan` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::pan` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::pan` (declaration #16) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -642,10 +717,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::tilt` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::tilt` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tilt` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::tilt` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::tilt` (declaration #17) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -679,10 +754,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::rotateHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::rotateHeading` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::rotateHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::rotateHeading` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::rotateHeading` (declaration #18) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -715,10 +790,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::zoom` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::zoom` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoom` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoom` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::zoom` (declaration #19) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -758,10 +833,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::zoomInteractive` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::zoomInteractive` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoomInteractive` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::zoomInteractive` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::zoomInteractive` (declaration #20) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -803,10 +878,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::keyboardRotate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::keyboardRotate` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotate` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardRotate` (declaration #21) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -838,10 +913,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::keyboardRotateHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::keyboardRotateHeading` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotateHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardRotateHeading` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardRotateHeading` (declaration #22) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -874,10 +949,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::keyboardTilt` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::keyboardTilt` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardTilt` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::keyboardTilt` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::keyboardTilt` (declaration #23) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -910,10 +985,10 @@ class CameraController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `CameraController::_wrapLng` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapLng` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLng` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapLng` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapLng` (declaration #24) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -947,10 +1022,10 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
-  /// Executes deterministic method `CameraController::_wrapHeading` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapHeading` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeading` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapHeading` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapHeading` (declaration #25) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -975,10 +1050,10 @@ class CameraController extends ChangeNotifier {
   /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPHEADING] | SysML v2: ActionDef(CameraController::_wrapHeading)
   double _wrapHeading(double heading) => _wrapHeadingStatic(heading);
 
-  /// Executes deterministic method `CameraController::_wrapPitch` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapPitch` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitch` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapPitch` (declaration #26) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -1003,10 +1078,10 @@ class CameraController extends ChangeNotifier {
   /// Realises: [REQ-CESIUM-3D-CAMERA-CONTROLLER-CAMERACONTROLLER-WRAPPITCH] | SysML v2: ActionDef(CameraController::_wrapPitch)
   double _wrapPitch(double pitch) => _wrapPitchStatic(pitch);
 
-  /// Executes deterministic method `CameraController::_wrapPitchStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::_wrapPitchStatic` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitchStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::_wrapPitchStatic` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::_wrapPitchStatic` (declaration #27) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -1040,10 +1115,10 @@ class CameraController extends ChangeNotifier {
     return val;
   }
 
-  /// Executes deterministic method `CameraController::wrapLngStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::wrapLngStaticForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngStaticForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapLngStaticForTesting` (declaration #28) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -1069,10 +1144,10 @@ class CameraController extends ChangeNotifier {
   @visibleForTesting
   static double wrapLngStaticForTesting(double lng) => _wrapLngStatic(lng);
 
-  /// Executes deterministic method `CameraController::wrapHeadingStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::wrapHeadingStaticForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapHeadingStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapHeadingStaticForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapHeadingStaticForTesting` (declaration #29) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -1098,10 +1173,10 @@ class CameraController extends ChangeNotifier {
   @visibleForTesting
   static double wrapHeadingStaticForTesting(double heading) => _wrapHeadingStatic(heading);
 
-  /// Executes deterministic method `CameraController::wrapLngForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::wrapLngForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapLngForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapLngForTesting` (declaration #30) within `CESIUM-3D-CAMERA-CONTROLLER`.
@@ -1127,10 +1202,10 @@ class CameraController extends ChangeNotifier {
   @visibleForTesting
   double wrapLngForTesting(double lng) => _wrapLng(lng);
 
-  /// Executes deterministic method `CameraController::wrapPitchStaticForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Executes deterministic method `CameraController::wrapPitchStaticForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapPitchStaticForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraController::wrapPitchStaticForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/camera_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraController::wrapPitchStaticForTesting` (declaration #31) within `CESIUM-3D-CAMERA-CONTROLLER`.

@@ -55,7 +55,7 @@ class TelemetryInjectionPanel extends StatefulWidget {
   /// Creates a [TelemetryInjectionPanel].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TelemetryInjectionPanel::TelemetryInjectionPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TelemetryInjectionPanel::TelemetryInjectionPanel` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TelemetryInjectionPanel::TelemetryInjectionPanel` (declaration #2) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -84,10 +84,10 @@ class TelemetryInjectionPanel extends StatefulWidget {
     this.onTelemetryInjected,
   });
 
-  /// Executes deterministic method `TelemetryInjectionPanel::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `TelemetryInjectionPanel::createState` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TelemetryInjectionPanel::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TelemetryInjectionPanel::createState` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TelemetryInjectionPanel::createState` (declaration #3) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -114,10 +114,10 @@ class TelemetryInjectionPanel extends StatefulWidget {
   State<TelemetryInjectionPanel> createState() => _TelemetryInjectionPanelState();
 }
 
-/// Executes deterministic class `_TelemetryInjectionPanelState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+/// Executes deterministic class `_TelemetryInjectionPanelState` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TelemetryInjectionPanelState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TelemetryInjectionPanelState` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TelemetryInjectionPanelState` (declaration #4) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -149,10 +149,10 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
   final List<GnmiTelemetryUpdate> _recentUpdates = [];
   bool _isStreaming = false;
 
-  /// Executes deterministic method `_TelemetryInjectionPanelState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `_TelemetryInjectionPanelState::initState` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::initState` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::initState` (declaration #5) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -182,10 +182,10 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     _isStreaming = _client.isConnected;
   }
 
-  /// Executes deterministic method `_TelemetryInjectionPanelState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `_TelemetryInjectionPanelState::dispose` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::dispose` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::dispose` (declaration #6) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -215,10 +215,10 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     super.dispose();
   }
 
-  /// Executes deterministic method `_TelemetryInjectionPanelState::_toggleStream` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `_TelemetryInjectionPanelState::_toggleStream` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_toggleStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_toggleStream` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::_toggleStream` (declaration #7) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -253,10 +253,10 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     });
   }
 
-  /// Executes deterministic method `_TelemetryInjectionPanelState::_injectTelemetry` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `_TelemetryInjectionPanelState::_injectTelemetry` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_injectTelemetry` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::_injectTelemetry` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::_injectTelemetry` (declaration #8) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.
@@ -303,10 +303,10 @@ class _TelemetryInjectionPanelState extends State<TelemetryInjectionPanel> {
     widget.onTelemetryInjected?.call(update);
   }
 
-  /// Executes deterministic method `_TelemetryInjectionPanelState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Executes deterministic method `_TelemetryInjectionPanelState::build` within `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TelemetryInjectionPanelState::build` in `app_flutter/lib/features/telemetry/telemetry_injection_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TelemetryInjectionPanelState::build` (declaration #9) within `TELEMETRY-TELEMETRY-INJECTION-PANEL`.

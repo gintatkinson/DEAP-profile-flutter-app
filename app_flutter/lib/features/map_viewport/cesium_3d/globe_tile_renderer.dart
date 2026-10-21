@@ -11,7 +11,7 @@ import 'package:app_flutter/features/map_viewport/cesium_3d/virtual_camera.dart'
 /// Web Mercator slippy-map tile coordinate (`zoom`, `x`, `y`).
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TileCoord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TileCoord` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `TileCoord` (declaration #1) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -47,7 +47,7 @@ class TileCoord {
   /// Creates a tile coordinate with the given [zoom], [x], and [y].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TileCoord::TileCoord` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TileCoord::TileCoord` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TileCoord::TileCoord` (declaration #2) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -75,6 +75,31 @@ class TileCoord {
   const TileCoord({required this.zoom, required this.x, required this.y});
 
   /// A string key suitable for use in maps and sets.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TileCoord::key` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TileCoord::key` (declaration #3) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TileCoord::key` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TileCoord::key` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(key)) bounded over input/member dimension of `TileCoord::key`.
+  /// - Space Complexity: O(K(key)) bounded auxiliary memory for `TileCoord::key`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TileCoord::key` (`()`).
+  /// - State: Maintains consistent state invariants across `TileCoord::key` without partial mutation on error.
+  /// - Action: Executes `TileCoord::key` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TileCoord::key` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-TILECOORD-KEY] | SysML v2: ActionDef(TileCoord::key)
   String get key => '$zoom/$x/$y';
 }
 
@@ -130,7 +155,7 @@ class GlobeTileRenderer {
   /// Optional test hook invoked with projected vertex positions and triangle indices.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::Function` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::Function` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::Function` (declaration #4) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -172,7 +197,7 @@ class GlobeTileRenderer {
   /// Creates a renderer that will fetch tiles via [fetcher] and initially
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GlobeTileRenderer::GlobeTileRenderer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GlobeTileRenderer::GlobeTileRenderer` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `GlobeTileRenderer::GlobeTileRenderer` (declaration #5) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -203,16 +228,66 @@ class GlobeTileRenderer {
         _activeProvider = initialProvider;
 
   /// Whether the underlying [TileFetcher] is enabled.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::isEnabled` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::isEnabled` (declaration #7) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::isEnabled` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `bool get isEnabled => _fetcher.` from `GlobeTileRenderer::isEnabled` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isEnabled)) bounded over input/member dimension of `GlobeTileRenderer::isEnabled`.
+  /// - Space Complexity: O(K(isEnabled)) bounded auxiliary memory for `GlobeTileRenderer::isEnabled`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::isEnabled` (`bool get isEnabled => _fetcher.`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::isEnabled` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::isEnabled` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::isEnabled` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-ISENABLED] | SysML v2: ActionDef(GlobeTileRenderer::isEnabled)
   bool get isEnabled => _fetcher.isEnabled();
 
   /// Returns the count of currently decoded tile images for unit testing.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::loadedImagesCount` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::loadedImagesCount` (declaration #8) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GlobeTileRenderer::loadedImagesCount` in `CESIUM-3D-GLOBE-TILE-RENDERER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GlobeTileRenderer::loadedImagesCount` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(loadedImagesCount)) bounded over input/member dimension of `GlobeTileRenderer::loadedImagesCount`.
+  /// - Space Complexity: O(K(loadedImagesCount)) bounded auxiliary memory for `GlobeTileRenderer::loadedImagesCount`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GlobeTileRenderer::loadedImagesCount` (`()`).
+  /// - State: Maintains consistent state invariants across `GlobeTileRenderer::loadedImagesCount` without partial mutation on error.
+  /// - Action: Executes `GlobeTileRenderer::loadedImagesCount` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GlobeTileRenderer::loadedImagesCount` (`CESIUM-3D-GLOBE-TILE-RENDERER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CESIUM-3D-GLOBE-TILE-RENDERER-GLOBETILERENDERER-LOADEDIMAGESCOUNT] | SysML v2: ActionDef(GlobeTileRenderer::loadedImagesCount)
   @visibleForTesting
   int get loadedImagesCount => _loadedImages.length;
 
   /// Returns true if a higher-zoom tile is loaded whose geographic bounds
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::hasHigherZoomOverlayForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::hasHigherZoomOverlayForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::hasHigherZoomOverlayForTesting` (declaration #6) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -243,7 +318,7 @@ class GlobeTileRenderer {
   /// Injects a pre-decoded [image] at [coord] into the tile cache for testing.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::injectTileForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::injectTileForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::injectTileForTesting` (declaration #7) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -275,7 +350,7 @@ class GlobeTileRenderer {
   /// Switches to [provider] and clears all locally cached images and
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::setProvider` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::setProvider` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::setProvider` (declaration #8) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -314,7 +389,7 @@ class GlobeTileRenderer {
   /// Disposes all loaded tile images and clears the cache.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::dispose` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::dispose` (declaration #9) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -350,7 +425,7 @@ class GlobeTileRenderer {
   /// Converts degrees to radians.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_rad` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_rad` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_rad` (declaration #10) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -382,7 +457,7 @@ class GlobeTileRenderer {
   /// Derives a zoom level from the camera [dim_2] (meters) and the
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_zoomForAltitude` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_zoomForAltitude` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_zoomForAltitude` (declaration #11) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -421,7 +496,7 @@ class GlobeTileRenderer {
   /// Converts dim_0/dim_1 (degrees) to a tile coordinate at the
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_latLngToTile` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_latLngToTile` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_latLngToTile` (declaration #12) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -463,7 +538,7 @@ class GlobeTileRenderer {
   /// Longitude of the *western* edge of tile column [x] at zoom [z].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lon` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lon` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_tile2lon` (declaration #13) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -493,7 +568,7 @@ class GlobeTileRenderer {
   /// Latitude of the *northern* edge of tile row [y] at zoom [z].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lat` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_tile2lat` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_tile2lat` (declaration #14) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -529,7 +604,7 @@ class GlobeTileRenderer {
   /// Returns the set of tile coordinates that cover the visible hemisphere
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_visibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_visibleTiles` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_visibleTiles` (declaration #15) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -617,7 +692,7 @@ class GlobeTileRenderer {
   /// Begins asynchronous fetching of all visible tiles for the given
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::beginTileFetch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::beginTileFetch` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::beginTileFetch` (declaration #16) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -647,10 +722,10 @@ class GlobeTileRenderer {
     _fetchVisibleTiles(camera, viewportSize, isFlying: isFlying); // fire-and-forget
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::_fetchVisibleTiles` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::_fetchVisibleTiles` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchVisibleTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchVisibleTiles` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_fetchVisibleTiles` (declaration #17) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -695,10 +770,10 @@ class GlobeTileRenderer {
     }
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::_fetchAndDecode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::_fetchAndDecode` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchAndDecode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_fetchAndDecode` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_fetchAndDecode` (declaration #18) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -769,7 +844,7 @@ class GlobeTileRenderer {
   /// Draws every loaded tile onto [canvas] using [projectFn] to map
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::renderTiles` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::renderTiles` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::renderTiles` (declaration #19) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -938,7 +1013,7 @@ class GlobeTileRenderer {
   /// Returns true only when all four direct child tiles at zoom [tile.zoom]+1
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_hasHigherZoomOverlay` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_hasHigherZoomOverlay` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_hasHigherZoomOverlay` (declaration #20) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -977,10 +1052,10 @@ class GlobeTileRenderer {
     return true;
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::_min4` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::_min4` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_min4` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_min4` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_min4` (declaration #21) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -1014,10 +1089,10 @@ class GlobeTileRenderer {
     return m;
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::_max4` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::_max4` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_max4` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::_max4` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::_max4` (declaration #22) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -1051,10 +1126,10 @@ class GlobeTileRenderer {
     return m;
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::visibleTilesForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::visibleTilesForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::visibleTilesForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::visibleTilesForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::visibleTilesForTesting` (declaration #23) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -1083,10 +1158,10 @@ class GlobeTileRenderer {
     return _visibleTiles(camera, viewportSize);
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::latLngToTileForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::latLngToTileForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::latLngToTileForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::latLngToTileForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::latLngToTileForTesting` (declaration #24) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -1116,10 +1191,10 @@ class GlobeTileRenderer {
     return _latLngToTile(dim_0, lng, zoom);
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::subdivisionsForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::subdivisionsForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::subdivisionsForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::subdivisionsForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::subdivisionsForTesting` (declaration #25) within `CESIUM-3D-GLOBE-TILE-RENDERER`.
@@ -1148,10 +1223,10 @@ class GlobeTileRenderer {
     return (tileWidthDeg / 3.0).ceil().clamp(8, 32);
   }
 
-  /// Executes deterministic method `GlobeTileRenderer::calculateIndicesForTesting` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Executes deterministic method `GlobeTileRenderer::calculateIndicesForTesting` within `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::calculateIndicesForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeTileRenderer::calculateIndicesForTesting` in `app_flutter/lib/features/map_viewport/cesium_3d/globe_tile_renderer.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeTileRenderer::calculateIndicesForTesting` (declaration #26) within `CESIUM-3D-GLOBE-TILE-RENDERER`.

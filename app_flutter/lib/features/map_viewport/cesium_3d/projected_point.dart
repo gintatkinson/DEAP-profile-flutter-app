@@ -48,7 +48,7 @@ class ProjectedPoint {
   /// Creates a projected point from a pixel [offset] and a signed depth [z].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ProjectedPoint::ProjectedPoint` (declaration #2) within `CESIUM-3D-PROJECTED-POINT`.
@@ -79,7 +79,7 @@ class ProjectedPoint {
   /// Returns a pooled [ProjectedPoint] instance keyed by `(offset.dx, offset.dy, z)`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ProjectedPoint::ProjectedPoint` in `app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ProjectedPoint::ProjectedPoint` (declaration #3) within `CESIUM-3D-PROJECTED-POINT`.
@@ -111,7 +111,7 @@ class ProjectedPoint {
   /// Clears all cached instances in the internal [ProjectedPoint] pool.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ProjectedPoint::clearPool` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ProjectedPoint::clearPool` in `app_flutter/lib/features/map_viewport/cesium_3d/projected_point.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ProjectedPoint::clearPool` (declaration #4) within `CESIUM-3D-PROJECTED-POINT`.

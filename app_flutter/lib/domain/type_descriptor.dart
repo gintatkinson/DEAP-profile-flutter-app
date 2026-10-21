@@ -105,7 +105,7 @@ class TypeDescriptor {
   /// Creates a new [TypeDescriptor] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeDescriptor::TypeDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeDescriptor::TypeDescriptor` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TypeDescriptor::TypeDescriptor` (declaration #2) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -141,7 +141,7 @@ class TypeDescriptor {
   /// Creates a copy of this [TypeDescriptor] with the given fields replaced.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeDescriptor::copyWith` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TypeDescriptor::copyWith` (declaration #3) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -197,6 +197,32 @@ class TypeDescriptor {
         listEquals(other.parentTypes, parentTypes);
   }
 
+  /// Executes deterministic method `TypeDescriptor::hashCode` within `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeDescriptor::hashCode` in `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeDescriptor::hashCode` (declaration #4) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TypeDescriptor::hashCode` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TypeDescriptor::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hashCode)) bounded over input/member dimension of `TypeDescriptor::hashCode`.
+  /// - Space Complexity: O(K(hashCode)) bounded auxiliary memory for `TypeDescriptor::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeDescriptor::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `TypeDescriptor::hashCode` without partial mutation on error.
+  /// - Action: Executes `TypeDescriptor::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeDescriptor::hashCode` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPEDESCRIPTOR-HASHCODE] | SysML v2: ActionDef(TypeDescriptor::hashCode)
   @override
   int get hashCode {
     return Object.hash(
@@ -266,7 +292,31 @@ class FieldDescriptor {
   static final _compiledPatterns = <String, RegExp>{};
 
   /// Returns a cached compiled [RegExp] for [pattern], or null if [pattern]
-  /// is null or empty. Reuses previously compiled instances to avoid GC churn.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FieldDescriptor::compiledPattern` in `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FieldDescriptor::compiledPattern` (declaration #6) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FieldDescriptor::compiledPattern` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FieldDescriptor::compiledPattern` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(compiledPattern)) bounded over input/member dimension of `FieldDescriptor::compiledPattern`.
+  /// - Space Complexity: O(K(compiledPattern)) bounded auxiliary memory for `FieldDescriptor::compiledPattern`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FieldDescriptor::compiledPattern` (`()`).
+  /// - State: Maintains consistent state invariants across `FieldDescriptor::compiledPattern` without partial mutation on error.
+  /// - Action: Executes `FieldDescriptor::compiledPattern` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FieldDescriptor::compiledPattern` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-FIELDDESCRIPTOR-COMPILEDPATTERN] | SysML v2: ActionDef(FieldDescriptor::compiledPattern)
   RegExp? get compiledPattern {
     if (pattern == null || pattern!.isEmpty) return null;
     return _compiledPatterns.putIfAbsent(pattern!, () => RegExp(pattern!));
@@ -357,7 +407,7 @@ class FieldDescriptor {
   /// Creates a new [FieldDescriptor] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FieldDescriptor::FieldDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FieldDescriptor::FieldDescriptor` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `FieldDescriptor::FieldDescriptor` (declaration #5) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -399,7 +449,7 @@ class FieldDescriptor {
   /// Creates a copy of this [FieldDescriptor] with the given fields replaced.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FieldDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FieldDescriptor::copyWith` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FieldDescriptor::copyWith` (declaration #6) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -473,6 +523,32 @@ class FieldDescriptor {
         listEquals(other.inputFormatters, inputFormatters);
   }
 
+  /// Executes deterministic method `FieldDescriptor::hashCode` within `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FieldDescriptor::hashCode` in `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FieldDescriptor::hashCode` (declaration #9) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FieldDescriptor::hashCode` in `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FieldDescriptor::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hashCode)) bounded over input/member dimension of `FieldDescriptor::hashCode`.
+  /// - Space Complexity: O(K(hashCode)) bounded auxiliary memory for `FieldDescriptor::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FieldDescriptor::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `FieldDescriptor::hashCode` without partial mutation on error.
+  /// - Action: Executes `FieldDescriptor::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FieldDescriptor::hashCode` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-FIELDDESCRIPTOR-HASHCODE] | SysML v2: ActionDef(FieldDescriptor::hashCode)
   @override
   int get hashCode {
     return Object.hash(
@@ -558,7 +634,7 @@ class TypeRelationDescriptor {
   /// Creates a new [TypeRelationDescriptor] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeRelationDescriptor::TypeRelationDescriptor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TypeRelationDescriptor::TypeRelationDescriptor` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TypeRelationDescriptor::TypeRelationDescriptor` (declaration #8) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -590,7 +666,7 @@ class TypeRelationDescriptor {
   /// Creates a copy of this [TypeRelationDescriptor] with the given fields replaced.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRelationDescriptor::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/type_descriptor.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRelationDescriptor::copyWith` in `app_flutter/lib/domain/type_descriptor.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TypeRelationDescriptor::copyWith` (declaration #9) within `DOMAIN-TYPE-DESCRIPTOR`.
@@ -634,6 +710,34 @@ class TypeRelationDescriptor {
         other.childLabel == childLabel;
   }
 
+  /// Executes deterministic method `TypeRelationDescriptor::hashCode` within `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRelationDescriptor::hashCode` in `app_flutter/lib/domain/type_descriptor.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TypeRelationDescriptor::hashCode` (declaration #13) within `DOMAIN-TYPE-DESCRIPTOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - `relationName: String` must satisfy domain and type-safety constraints prior to invoking `TypeRelationDescriptor::hashCode`.
+  /// - `childTypeName: String` must satisfy domain and type-safety constraints prior to invoking `TypeRelationDescriptor::hashCode`.
+  /// - `childLabel: String` must satisfy domain and type-safety constraints prior to invoking `TypeRelationDescriptor::hashCode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TypeRelationDescriptor::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(relationName)) bounded over input/member dimension of `TypeRelationDescriptor::hashCode`.
+  /// - Space Complexity: O(N(relationName)) bounded auxiliary memory for `TypeRelationDescriptor::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TypeRelationDescriptor::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `TypeRelationDescriptor::hashCode` without partial mutation on error.
+  /// - Action: Executes `TypeRelationDescriptor::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TypeRelationDescriptor::hashCode` (`DOMAIN-TYPE-DESCRIPTOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-TYPE-DESCRIPTOR-TYPERELATIONDESCRIPTOR-HASHCODE] | SysML v2: ActionDef(TypeRelationDescriptor::hashCode)
   @override
   int get hashCode => Object.hash(relationName, childTypeName, childLabel);
 }

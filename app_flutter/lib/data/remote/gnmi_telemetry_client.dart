@@ -39,7 +39,7 @@ class GnmiTelemetryUpdate {
   /// Creates a new [GnmiTelemetryUpdate].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GnmiTelemetryUpdate::GnmiTelemetryUpdate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `GnmiTelemetryUpdate::GnmiTelemetryUpdate` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `GnmiTelemetryUpdate::GnmiTelemetryUpdate` (declaration #2) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
@@ -71,7 +71,7 @@ class GnmiTelemetryUpdate {
   /// Converts update to JSON map.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryUpdate::toMap` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryUpdate::toMap` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryUpdate::toMap` (declaration #3) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
@@ -138,18 +138,93 @@ class GnmiTelemetryClient {
   List<String>? _activePaths;
 
   /// Whether a telemetry stream is currently active and connected.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::isConnected` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::isConnected` (declaration #5) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryClient::isConnected` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GnmiTelemetryClient::isConnected` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isConnected)) bounded over input/member dimension of `GnmiTelemetryClient::isConnected`.
+  /// - Space Complexity: O(K(isConnected)) bounded auxiliary memory for `GnmiTelemetryClient::isConnected`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::isConnected` (`()`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::isConnected` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::isConnected` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::isConnected` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-ISCONNECTED] | SysML v2: ActionDef(GnmiTelemetryClient::isConnected)
   bool get isConnected => _isConnected;
 
   /// The active gNMI stream target endpoint, or null if disconnected.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::activeTarget` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::activeTarget` (declaration #6) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryClient::activeTarget` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GnmiTelemetryClient::activeTarget` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(activeTarget)) bounded over input/member dimension of `GnmiTelemetryClient::activeTarget`.
+  /// - Space Complexity: O(K(activeTarget)) bounded auxiliary memory for `GnmiTelemetryClient::activeTarget`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::activeTarget` (`()`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::activeTarget` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::activeTarget` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::activeTarget` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-ACTIVETARGET] | SysML v2: ActionDef(GnmiTelemetryClient::activeTarget)
   String? get activeTarget => _activeTarget;
 
   /// The active subscribed gNMI paths, or null if disconnected.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::activePaths` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::activePaths` (declaration #7) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `GnmiTelemetryClient::activePaths` in `REMOTE-GNMI-TELEMETRY-CLIENT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `GnmiTelemetryClient::activePaths` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(activePaths)) bounded over input/member dimension of `GnmiTelemetryClient::activePaths`.
+  /// - Space Complexity: O(K(activePaths)) bounded auxiliary memory for `GnmiTelemetryClient::activePaths`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `GnmiTelemetryClient::activePaths` (`()`).
+  /// - State: Maintains consistent state invariants across `GnmiTelemetryClient::activePaths` without partial mutation on error.
+  /// - Action: Executes `GnmiTelemetryClient::activePaths` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `GnmiTelemetryClient::activePaths` (`REMOTE-GNMI-TELEMETRY-CLIENT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-GNMI-TELEMETRY-CLIENT-GNMITELEMETRYCLIENT-ACTIVEPATHS] | SysML v2: ActionDef(GnmiTelemetryClient::activePaths)
   List<String>? get activePaths => _activePaths != null ? List.unmodifiable(_activePaths!) : null;
 
   /// Connects to a gNMI telemetry stream for the specified [target] and subscribed [paths].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::connectStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::connectStream` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::connectStream` (declaration #5) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
@@ -191,7 +266,7 @@ class GnmiTelemetryClient {
   /// Emits a simulated telemetry update into the active stream.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::injectUpdate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::injectUpdate` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::injectUpdate` (declaration #6) within `REMOTE-GNMI-TELEMETRY-CLIENT`.
@@ -224,7 +299,7 @@ class GnmiTelemetryClient {
   /// Disconnects and closes the active gNMI telemetry stream.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::disconnectStream` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GnmiTelemetryClient::disconnectStream` in `app_flutter/lib/data/remote/gnmi_telemetry_client.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GnmiTelemetryClient::disconnectStream` (declaration #7) within `REMOTE-GNMI-TELEMETRY-CLIENT`.

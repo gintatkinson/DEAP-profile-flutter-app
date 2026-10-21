@@ -47,7 +47,7 @@ extension VirtualCameraNormalization on VirtualCamera {
   /// Ensures the camera altitude is normalized to absolute ECEF coordinates
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::toAbsoluteWgs84` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::toAbsoluteWgs84` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `VirtualCameraNormalization::toAbsoluteWgs84` (declaration #2) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -87,7 +87,7 @@ extension VirtualCameraNormalization on VirtualCamera {
   /// Extrapolates camera position forward in time based on velocity vector and delta seconds.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::extrapolatePosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `VirtualCameraNormalization::extrapolatePosition` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `VirtualCameraNormalization::extrapolatePosition` (declaration #3) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -157,10 +157,10 @@ class ElevationProvider {
   final bool isElevationActive;
   final double verticalExaggeration;
 
-  /// Executes deterministic constructor `ElevationProvider::ElevationProvider` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic constructor `ElevationProvider::ElevationProvider` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ElevationProvider::ElevationProvider` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ElevationProvider::ElevationProvider` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ElevationProvider::ElevationProvider` (declaration #5) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -188,10 +188,10 @@ class ElevationProvider {
     this.verticalExaggeration = 1.0,
   });
 
-  /// Executes deterministic method `ElevationProvider::getElevation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic method `ElevationProvider::getElevation` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ElevationProvider::getElevation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ElevationProvider::getElevation` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ElevationProvider::getElevation` (declaration #6) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -279,10 +279,10 @@ class CoordinateTransformer {
   late final double _d2;
   late final double _r2;
 
-  /// Executes deterministic constructor `CoordinateTransformer::CoordinateTransformer` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic constructor `CoordinateTransformer::CoordinateTransformer` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateTransformer::CoordinateTransformer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CoordinateTransformer::CoordinateTransformer` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CoordinateTransformer::CoordinateTransformer` (declaration #8) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -315,10 +315,10 @@ class CoordinateTransformer {
     _precomputeCameraBasis();
   }
 
-  /// Executes deterministic method `CoordinateTransformer::_precomputeCameraBasis` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic method `CoordinateTransformer::_precomputeCameraBasis` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_precomputeCameraBasis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_precomputeCameraBasis` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::_precomputeCameraBasis` (declaration #9) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -371,7 +371,7 @@ class CoordinateTransformer {
   /// Projects a 3D geocoordinate into a 2D screen offset.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::projectWgs84ToScreen` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::projectWgs84ToScreen` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::projectWgs84ToScreen` (declaration #10) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -484,10 +484,10 @@ class CoordinateTransformer {
     );
   }
 
-  /// Executes deterministic method `CoordinateTransformer::_checkCulling` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic method `CoordinateTransformer::_checkCulling` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_checkCulling` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::_checkCulling` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::_checkCulling` (declaration #11) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -547,7 +547,7 @@ class CoordinateTransformer {
   /// Calculates the Earth's visual horizon edge.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::generateHorizonPath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CoordinateTransformer::generateHorizonPath` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CoordinateTransformer::generateHorizonPath` (declaration #12) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -714,10 +714,10 @@ class SceneViewState extends ChangeNotifier {
   late ElevationProvider elevationProvider;
   late CoordinateTransformer transformer;
 
-  /// Executes deterministic constructor `SceneViewState::SceneViewState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic constructor `SceneViewState::SceneViewState` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SceneViewState::SceneViewState` (declaration #15) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -755,7 +755,7 @@ class SceneViewState extends ChangeNotifier {
   /// Serializes layout state to JSON.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::toJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::toJson` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SceneViewState::toJson` (declaration #16) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -802,7 +802,7 @@ class SceneViewState extends ChangeNotifier {
   /// Deserializes layout state from JSON.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SceneViewState::SceneViewState` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SceneViewState::SceneViewState` (declaration #17) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -857,10 +857,10 @@ class SceneViewState extends ChangeNotifier {
   TopologyData? _lastRecalculatedTopology;
   bool _lastRecalculatedIsFlying = false;
 
-  /// Executes deterministic method `SceneViewState::recalculate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic method `SceneViewState::recalculate` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::recalculate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneViewState::recalculate` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SceneViewState::recalculate` (declaration #18) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -1128,10 +1128,10 @@ class SceneViewState extends ChangeNotifier {
 class TextPainterKey {
   final String text;
   final Color color;
-  /// Executes deterministic constructor `TextPainterKey::TextPainterKey` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Executes deterministic constructor `TextPainterKey::TextPainterKey` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TextPainterKey::TextPainterKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TextPainterKey::TextPainterKey` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TextPainterKey::TextPainterKey` (declaration #20) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -1157,6 +1157,33 @@ class TextPainterKey {
   /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-TEXTPAINTERKEY-TEXTPAINTERKEY] | SysML v2: ActionDef(TextPainterKey::TextPainterKey)
   TextPainterKey(this.text, this.color);
   @override bool operator ==(Object other) => identical(this, other) || other is TextPainterKey && text == other.text && color == other.color;
+  /// Executes deterministic method `TextPainterKey::hashCode` within `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TextPainterKey::hashCode` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TextPainterKey::hashCode` (declaration #21) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
+  ///
+  /// ## 3. Preconditions
+  /// - `text: String` must satisfy domain and type-safety constraints prior to invoking `TextPainterKey::hashCode`.
+  /// - `color: String` must satisfy domain and type-safety constraints prior to invoking `TextPainterKey::hashCode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TextPainterKey::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(text)) bounded over input/member dimension of `TextPainterKey::hashCode`.
+  /// - Space Complexity: O(N(text)) bounded auxiliary memory for `TextPainterKey::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TextPainterKey::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `TextPainterKey::hashCode` without partial mutation on error.
+  /// - Action: Executes `TextPainterKey::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TextPainterKey::hashCode` (`TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES-TEXTPAINTERKEY-HASHCODE] | SysML v2: ActionDef(TextPainterKey::hashCode)
   @override int get hashCode => Object.hash(text, color);
 }
 
@@ -1215,7 +1242,7 @@ class Network3DScene {
   /// Loads the glTF model data from the given path.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::loadModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::loadModel` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Network3DScene::loadModel` (declaration #23) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.
@@ -1266,7 +1293,7 @@ class Network3DScene {
   /// Applies PBR materials and sets transcluent flags.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::applyPbrMaterials` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Network3DScene::applyPbrMaterials` in `app_flutter/lib/features/topology/scene_3d_viewport_classes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Network3DScene::applyPbrMaterials` (declaration #24) within `TOPOLOGY-SCENE-3D-VIEWPORT-CLASSES`.

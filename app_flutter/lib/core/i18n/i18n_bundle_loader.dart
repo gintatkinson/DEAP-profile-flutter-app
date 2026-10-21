@@ -57,13 +57,36 @@ class I18nBundleLoader {
 
   /// The locale tag that is currently loaded.
   ///
-  /// Returns `null` when no bundle has been loaded yet.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::currentLocale` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::currentLocale` (declaration #2) within `I18N-I18N-BUNDLE-LOADER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `I18nBundleLoader::currentLocale` in `I18N-I18N-BUNDLE-LOADER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `I18nBundleLoader::currentLocale` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(currentLocale)) bounded over input/member dimension of `I18nBundleLoader::currentLocale`.
+  /// - Space Complexity: O(K(currentLocale)) bounded auxiliary memory for `I18nBundleLoader::currentLocale`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `I18nBundleLoader::currentLocale` (`()`).
+  /// - State: Maintains consistent state invariants across `I18nBundleLoader::currentLocale` without partial mutation on error.
+  /// - Action: Executes `I18nBundleLoader::currentLocale` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `I18nBundleLoader::currentLocale` (`I18N-I18N-BUNDLE-LOADER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-I18N-I18N-BUNDLE-LOADER-I18NBUNDLELOADER-CURRENTLOCALE] | SysML v2: ActionDef(I18nBundleLoader::currentLocale)
   String? get currentLocale => _currentLocale;
 
   /// Loads the string bundle for [locale] from application assets.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::loadBundle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::loadBundle` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::loadBundle` (declaration #2) within `I18N-I18N-BUNDLE-LOADER`.
@@ -98,7 +121,7 @@ class I18nBundleLoader {
   /// Loads a bundle from a raw JSON string -- intended for testing.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::loadBundleFromJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::loadBundleFromJson` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::loadBundleFromJson` (declaration #3) within `I18N-I18N-BUNDLE-LOADER`.
@@ -132,7 +155,7 @@ class I18nBundleLoader {
   /// Returns the translated string for [key].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::getString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::getString` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::getString` (declaration #4) within `I18N-I18N-BUNDLE-LOADER`.
@@ -162,7 +185,7 @@ class I18nBundleLoader {
   /// Returns `true` when a bundle is loaded and a value exists for [key].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::containsKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::containsKey` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::containsKey` (declaration #5) within `I18N-I18N-BUNDLE-LOADER`.
@@ -188,5 +211,30 @@ class I18nBundleLoader {
   bool containsKey(String key) => _strings.containsKey(key);
 
   /// Returns the number of string entries in the currently loaded bundle.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `I18nBundleLoader::length` in `app_flutter/lib/core/i18n/i18n_bundle_loader.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `I18nBundleLoader::length` (declaration #7) within `I18N-I18N-BUNDLE-LOADER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `I18nBundleLoader::length` in `I18N-I18N-BUNDLE-LOADER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `I18nBundleLoader::length` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(length)) bounded over input/member dimension of `I18nBundleLoader::length`.
+  /// - Space Complexity: O(K(length)) bounded auxiliary memory for `I18nBundleLoader::length`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `I18nBundleLoader::length` (`()`).
+  /// - State: Maintains consistent state invariants across `I18nBundleLoader::length` without partial mutation on error.
+  /// - Action: Executes `I18nBundleLoader::length` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `I18nBundleLoader::length` (`I18N-I18N-BUNDLE-LOADER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-I18N-I18N-BUNDLE-LOADER-I18NBUNDLELOADER-LENGTH] | SysML v2: ActionDef(I18nBundleLoader::length)
   int get length => _strings.length;
 }

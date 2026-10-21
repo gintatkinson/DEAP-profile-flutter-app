@@ -56,7 +56,7 @@ class SettingsPanel extends StatelessWidget {
   /// Creates an immutable [SettingsPanel] widget.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SettingsPanel::SettingsPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/widgets/settings_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SettingsPanel::SettingsPanel` in `app_flutter/lib/core/theme/widgets/settings_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SettingsPanel::SettingsPanel` (declaration #2) within `WIDGETS-SETTINGS-PANEL`.
@@ -81,10 +81,10 @@ class SettingsPanel extends StatelessWidget {
   /// Realises: [REQ-WIDGETS-SETTINGS-PANEL-SETTINGSPANEL-SETTINGSPANEL] | SysML v2: ActionDef(SettingsPanel::SettingsPanel)
   const SettingsPanel({super.key});
 
-  /// Executes deterministic method `SettingsPanel::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/widgets/settings_panel.dart`.
+  /// Executes deterministic method `SettingsPanel::build` within `app_flutter/lib/core/theme/widgets/settings_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SettingsPanel::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/widgets/settings_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SettingsPanel::build` in `app_flutter/lib/core/theme/widgets/settings_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SettingsPanel::build` (declaration #3) within `WIDGETS-SETTINGS-PANEL`.

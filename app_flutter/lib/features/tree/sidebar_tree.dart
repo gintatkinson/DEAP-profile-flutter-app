@@ -10,7 +10,7 @@ import 'package:app_flutter/features/tree/view_models/tree_view_model.dart';
 /// Sidebar hierarchy navigation panel driven by [TreeViewModel].
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `SidebarTree` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `SidebarTree` in `app_flutter/lib/features/tree/sidebar_tree.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `SidebarTree` (declaration #1) within `TREE-SIDEBAR-TREE`.
@@ -47,7 +47,7 @@ class SidebarTree extends StatefulWidget {
   /// Creates an immutable [SidebarTree] widget.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SidebarTree::SidebarTree` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SidebarTree::SidebarTree` in `app_flutter/lib/features/tree/sidebar_tree.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SidebarTree::SidebarTree` (declaration #2) within `TREE-SIDEBAR-TREE`.
@@ -77,10 +77,10 @@ class SidebarTree extends StatefulWidget {
     this.contentPadding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
   });
 
-  /// Executes deterministic method `SidebarTree::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  /// Executes deterministic method `SidebarTree::createState` within `app_flutter/lib/features/tree/sidebar_tree.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SidebarTree::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SidebarTree::createState` in `app_flutter/lib/features/tree/sidebar_tree.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SidebarTree::createState` (declaration #3) within `TREE-SIDEBAR-TREE`.
@@ -107,10 +107,10 @@ class SidebarTree extends StatefulWidget {
   State<SidebarTree> createState() => _SidebarTreeState();
 }
 
-/// Executes deterministic class `_SidebarTreeState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+/// Executes deterministic class `_SidebarTreeState` within `app_flutter/lib/features/tree/sidebar_tree.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SidebarTreeState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_SidebarTreeState` in `app_flutter/lib/features/tree/sidebar_tree.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_SidebarTreeState` (declaration #4) within `TREE-SIDEBAR-TREE`.
@@ -136,10 +136,10 @@ class SidebarTree extends StatefulWidget {
 class _SidebarTreeState extends State<SidebarTree> {
   bool _openingSettings = false;
 
-  /// Executes deterministic method `_SidebarTreeState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  /// Executes deterministic method `_SidebarTreeState::build` within `app_flutter/lib/features/tree/sidebar_tree.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SidebarTreeState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/sidebar_tree.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_SidebarTreeState::build` in `app_flutter/lib/features/tree/sidebar_tree.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_SidebarTreeState::build` (declaration #5) within `TREE-SIDEBAR-TREE`.

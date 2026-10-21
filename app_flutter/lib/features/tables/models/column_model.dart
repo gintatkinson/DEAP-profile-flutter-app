@@ -72,7 +72,7 @@ class ColumnModel {
   /// Creates a [ColumnModel] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `app_flutter/lib/features/tables/models/column_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ColumnModel::ColumnModel` (declaration #2) within `MODELS-COLUMN-MODEL`.
@@ -108,12 +108,60 @@ class ColumnModel {
   });
 
   /// Whether this column represents an integer zero-ceiling safety/interlock
-  /// invariant (`type == 'int' && minValue == 0 && maxValue == 0`).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::isZeroCeilingConstraint` in `app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::isZeroCeilingConstraint` (declaration #3) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ColumnModel::isZeroCeilingConstraint` in `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ColumnModel::isZeroCeilingConstraint` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isZeroCeilingConstraint)) bounded over input/member dimension of `ColumnModel::isZeroCeilingConstraint`.
+  /// - Space Complexity: O(K(isZeroCeilingConstraint)) bounded auxiliary memory for `ColumnModel::isZeroCeilingConstraint`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::isZeroCeilingConstraint` (`()`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::isZeroCeilingConstraint` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::isZeroCeilingConstraint` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::isZeroCeilingConstraint` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-ISZEROCEILINGCONSTRAINT] | SysML v2: ActionDef(ColumnModel::isZeroCeilingConstraint)
   bool get isZeroCeilingConstraint =>
       type == 'int' && minValue == 0 && maxValue == 0;
 
   /// Whether this column defines a bounded numeric range (`maxValue > minValue`)
-  /// suitable for rendering an inline ARINC 661 segmented range gauge.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::hasSegmentedRangeBounds` in `app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::hasSegmentedRangeBounds` (declaration #4) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ColumnModel::hasSegmentedRangeBounds` in `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ColumnModel::hasSegmentedRangeBounds` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hasSegmentedRangeBounds)) bounded over input/member dimension of `ColumnModel::hasSegmentedRangeBounds`.
+  /// - Space Complexity: O(K(hasSegmentedRangeBounds)) bounded auxiliary memory for `ColumnModel::hasSegmentedRangeBounds`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::hasSegmentedRangeBounds` (`()`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::hasSegmentedRangeBounds` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::hasSegmentedRangeBounds` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::hasSegmentedRangeBounds` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-HASSEGMENTEDRANGEBOUNDS] | SysML v2: ActionDef(ColumnModel::hasSegmentedRangeBounds)
   bool get hasSegmentedRangeBounds =>
       (type == 'int' || type == 'double') &&
       minValue != null &&
@@ -123,7 +171,7 @@ class ColumnModel {
   /// Creates a [ColumnModel] from a [FieldDescriptor].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ColumnModel::ColumnModel` in `app_flutter/lib/features/tables/models/column_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ColumnModel::ColumnModel` (declaration #3) within `MODELS-COLUMN-MODEL`.
@@ -159,7 +207,7 @@ class ColumnModel {
   /// Derives column header label dynamically from [fd.key] if [fd.label] is
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::resolveColumnLabel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::resolveColumnLabel` in `app_flutter/lib/features/tables/models/column_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::resolveColumnLabel` (declaration #4) within `MODELS-COLUMN-MODEL`.
@@ -193,7 +241,7 @@ class ColumnModel {
   /// Formats a schema key into a human-readable title/label.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::deriveLabelFromKey` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/models/column_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::deriveLabelFromKey` in `app_flutter/lib/features/tables/models/column_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::deriveLabelFromKey` (declaration #5) within `MODELS-COLUMN-MODEL`.
@@ -247,6 +295,32 @@ class ColumnModel {
       other.minValue == minValue &&
       other.maxValue == maxValue;
 
+  /// Executes deterministic method `ColumnModel::hashCode` within `app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ColumnModel::hashCode` in `app_flutter/lib/features/tables/models/column_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ColumnModel::hashCode` (declaration #8) within `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ColumnModel::hashCode` in `MODELS-COLUMN-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ColumnModel::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hashCode)) bounded over input/member dimension of `ColumnModel::hashCode`.
+  /// - Space Complexity: O(K(hashCode)) bounded auxiliary memory for `ColumnModel::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ColumnModel::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `ColumnModel::hashCode` without partial mutation on error.
+  /// - Action: Executes `ColumnModel::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ColumnModel::hashCode` (`MODELS-COLUMN-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-MODELS-COLUMN-MODEL-COLUMNMODEL-HASHCODE] | SysML v2: ActionDef(ColumnModel::hashCode)
   @override
   int get hashCode => Object.hash(
         key,

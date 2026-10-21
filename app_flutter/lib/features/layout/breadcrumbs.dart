@@ -54,7 +54,7 @@ class BreadcrumbItem {
   /// Creates an immutable [BreadcrumbItem] segment descriptor.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `BreadcrumbItem::BreadcrumbItem` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `BreadcrumbItem::BreadcrumbItem` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `BreadcrumbItem::BreadcrumbItem` (declaration #2) within `LAYOUT-BREADCRUMBS`.
@@ -137,7 +137,7 @@ class NavigationBreadcrumbs extends StatefulWidget {
   /// Creates a [NavigationBreadcrumbs] widget.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `NavigationBreadcrumbs::NavigationBreadcrumbs` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `NavigationBreadcrumbs::NavigationBreadcrumbs` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `NavigationBreadcrumbs::NavigationBreadcrumbs` (declaration #4) within `LAYOUT-BREADCRUMBS`.
@@ -166,10 +166,10 @@ class NavigationBreadcrumbs extends StatefulWidget {
     this.maxItems = 4,
   });
 
-  /// Executes deterministic method `NavigationBreadcrumbs::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Executes deterministic method `NavigationBreadcrumbs::createState` within `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `NavigationBreadcrumbs::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `NavigationBreadcrumbs::createState` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `NavigationBreadcrumbs::createState` (declaration #5) within `LAYOUT-BREADCRUMBS`.
@@ -196,10 +196,10 @@ class NavigationBreadcrumbs extends StatefulWidget {
   State<NavigationBreadcrumbs> createState() => _NavigationBreadcrumbsState();
 }
 
-/// Executes deterministic class `_NavigationBreadcrumbsState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+/// Executes deterministic class `_NavigationBreadcrumbsState` within `app_flutter/lib/features/layout/breadcrumbs.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NavigationBreadcrumbsState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NavigationBreadcrumbsState` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_NavigationBreadcrumbsState` (declaration #6) within `LAYOUT-BREADCRUMBS`.
@@ -226,10 +226,10 @@ class _NavigationBreadcrumbsState extends State<NavigationBreadcrumbs> {
   bool _isExpanded = false;
   bool _isNavigating = false;
 
-  /// Executes deterministic method `_NavigationBreadcrumbsState::_safeNavigate` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Executes deterministic method `_NavigationBreadcrumbsState::_safeNavigate` within `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::_safeNavigate` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::_safeNavigate` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_NavigationBreadcrumbsState::_safeNavigate` (declaration #7) within `LAYOUT-BREADCRUMBS`.
@@ -261,10 +261,10 @@ class _NavigationBreadcrumbsState extends State<NavigationBreadcrumbs> {
     });
   }
 
-  /// Executes deterministic method `_NavigationBreadcrumbsState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Executes deterministic method `_NavigationBreadcrumbsState::build` within `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/layout/breadcrumbs.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_NavigationBreadcrumbsState::build` in `app_flutter/lib/features/layout/breadcrumbs.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_NavigationBreadcrumbsState::build` (declaration #8) within `LAYOUT-BREADCRUMBS`.

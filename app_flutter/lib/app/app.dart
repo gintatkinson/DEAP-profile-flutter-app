@@ -6,6 +6,7 @@ import 'package:app_flutter/core/theme/app_themes.dart';
 import 'package:app_flutter/core/theme/text_scaler.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/features/layout/layout.dart';
+import 'package:app_flutter/features/layout/component_factory.dart';
 
 /// Root application widget binding the Material theme, linear text scaler, and
 /// primary [DashboardPage] shell.
@@ -43,10 +44,13 @@ import 'package:app_flutter/features/layout/layout.dart';
 ///
 /// Realises: [Feat-10/MyApp, ARCH-APP-001, REQ-SHELL-001]
 class MyApp extends StatelessWidget {
+  /// Extensible custom component builders forwarded to dashboard layout.
+  final Map<String, DeapComponentBuilder> customBuilders;
+
   /// Creates a constant [MyApp] root widget instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `MyApp::MyApp` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `MyApp::MyApp` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `MyApp::MyApp` (declaration #2) within `APP-APP`.
@@ -69,12 +73,15 @@ class MyApp extends StatelessWidget {
   ///
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-APP-APP-MYAPP-MYAPP] | SysML v2: ActionDef(MyApp::MyApp)
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    this.customBuilders = const {},
+  });
 
-  /// Executes deterministic method `MyApp::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Executes deterministic method `MyApp::build` within `app_flutter/lib/app/app.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MyApp::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MyApp::build` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MyApp::build` (declaration #3) within `APP-APP`.
@@ -115,7 +122,7 @@ class MyApp extends StatelessWidget {
           child: child!,
         );
       },
-      home: const DashboardPage(),
+      home: DashboardPage(customBuilders: customBuilders),
     );
   }
 }
@@ -158,10 +165,13 @@ class MyApp extends StatelessWidget {
 ///
 /// Realises: [Feat-10/DashboardPage, ARCH-APP-001, REQ-SHELL-001]
 class DashboardPage extends StatefulWidget {
+  /// Extensible custom component builders forwarded to layout.
+  final Map<String, DeapComponentBuilder> customBuilders;
+
   /// Creates a constant [DashboardPage] widget instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DashboardPage::DashboardPage` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `DashboardPage::DashboardPage` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `DashboardPage::DashboardPage` (declaration #5) within `APP-APP`.
@@ -184,12 +194,15 @@ class DashboardPage extends StatefulWidget {
   ///
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-APP-APP-DASHBOARDPAGE-DASHBOARDPAGE] | SysML v2: ActionDef(DashboardPage::DashboardPage)
-  const DashboardPage({super.key});
+  const DashboardPage({
+    super.key,
+    this.customBuilders = const {},
+  });
 
-  /// Executes deterministic method `DashboardPage::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Executes deterministic method `DashboardPage::createState` within `app_flutter/lib/app/app.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DashboardPage::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DashboardPage::createState` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DashboardPage::createState` (declaration #6) within `APP-APP`.
@@ -216,10 +229,10 @@ class DashboardPage extends StatefulWidget {
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
-/// Executes deterministic class `_DashboardPageState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+/// Executes deterministic class `_DashboardPageState` within `app_flutter/lib/app/app.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_DashboardPageState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_DashboardPageState` in `app_flutter/lib/app/app.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_DashboardPageState` (declaration #7) within `APP-APP`.
@@ -246,10 +259,10 @@ class _DashboardPageState extends State<DashboardPage> {
   String _activeView = 'Master_1';
   late Future<String> _layoutConfigFuture;
 
-  /// Executes deterministic method `_DashboardPageState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Executes deterministic method `_DashboardPageState::initState` within `app_flutter/lib/app/app.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DashboardPageState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DashboardPageState::initState` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_DashboardPageState::initState` (declaration #8) within `APP-APP`.
@@ -278,10 +291,10 @@ class _DashboardPageState extends State<DashboardPage> {
     _layoutConfigFuture = rootBundle.loadString('assets/logical-layout.json');
   }
 
-  /// Executes deterministic method `_DashboardPageState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Executes deterministic method `_DashboardPageState::build` within `app_flutter/lib/app/app.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DashboardPageState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/app/app.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DashboardPageState::build` in `app_flutter/lib/app/app.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_DashboardPageState::build` (declaration #9) within `APP-APP`.
@@ -335,6 +348,7 @@ class _DashboardPageState extends State<DashboardPage> {
             });
           },
           layoutConfig: layoutConfig,
+          customBuilders: widget.customBuilders,
         );
       },
     );

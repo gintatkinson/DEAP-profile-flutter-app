@@ -57,7 +57,7 @@ class PropertiesPanel extends StatelessWidget {
   /// Creates a [PropertiesPanel].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesPanel::PropertiesPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesPanel::PropertiesPanel` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `PropertiesPanel::PropertiesPanel` (declaration #2) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -125,10 +125,10 @@ class PropertiesPanel extends StatelessWidget {
   /// Optional explicit [PropertiesViewModel] instance.
   final PropertiesViewModel? viewModel;
 
-  /// Executes deterministic method `PropertiesPanel::_resolveViewModel` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::_resolveViewModel` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_resolveViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_resolveViewModel` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_resolveViewModel` (declaration #3) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -160,10 +160,10 @@ class PropertiesPanel extends StatelessWidget {
     }
   }
 
-  /// Executes deterministic method `PropertiesPanel::_triggerConfigureLocation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::_triggerConfigureLocation` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerConfigureLocation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerConfigureLocation` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerConfigureLocation` (declaration #4) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -192,10 +192,10 @@ class PropertiesPanel extends StatelessWidget {
     _resolveViewModel(context)?.configureLocation(targetId);
   }
 
-  /// Executes deterministic method `PropertiesPanel::_triggerDrillHierarchy` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::_triggerDrillHierarchy` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerDrillHierarchy` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerDrillHierarchy` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerDrillHierarchy` (declaration #5) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -224,10 +224,10 @@ class PropertiesPanel extends StatelessWidget {
     _resolveViewModel(context)?.drillHierarchy(targetId);
   }
 
-  /// Executes deterministic method `PropertiesPanel::_triggerProvisionNe` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::_triggerProvisionNe` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerProvisionNe` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_triggerProvisionNe` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_triggerProvisionNe` (declaration #6) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -256,10 +256,10 @@ class PropertiesPanel extends StatelessWidget {
     _resolveViewModel(context)?.provisionNe(targetId);
   }
 
-  /// Executes deterministic method `PropertiesPanel::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::build` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::build` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::build` (declaration #7) within `PROPERTIES-PROPERTIES-PANEL`.
@@ -296,10 +296,10 @@ class PropertiesPanel extends StatelessWidget {
     return _buildContent(context, null);
   }
 
-  /// Executes deterministic method `PropertiesPanel::_buildContent` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Executes deterministic method `PropertiesPanel::_buildContent` within `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_buildContent` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/properties_panel.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesPanel::_buildContent` in `app_flutter/lib/features/properties/properties_panel.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesPanel::_buildContent` (declaration #8) within `PROPERTIES-PROPERTIES-PANEL`.

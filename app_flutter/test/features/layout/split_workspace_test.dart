@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:app_flutter/features/layout/component_factory.dart';
 import 'package:app_flutter/features/layout/split_workspace.dart';
+import 'package:app_flutter/features/topology/topographical_view.dart';
 import 'package:app_flutter/features/topology/topology_map.dart';
 import 'package:app_flutter/core/theme/theme_controller.dart';
 import 'package:app_flutter/core/theme/theme_service.dart' show SharedPreferencesThemeService;
@@ -92,6 +93,11 @@ void main() {
   });
 
   testWidgets('ComponentFactory respects reconfigurable prop, assigns orientation ValueKey, and supports nested SplitWorkspace children', (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1200);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     final nestedAst = <String, dynamic>{
       'type': 'SplitWorkspace',
       'id': 'workspace_split',
@@ -106,11 +112,16 @@ void main() {
           'props': <String, dynamic>{
             'axis': 'vertical',
             'reconfigurable': false,
+            'default_ratio': 0.3333,
           },
           'children': <dynamic>[
             <String, dynamic>{
-              'type': 'PropertiesPanel',
+              'type': 'TopographicalView',
               'id': 'child_a',
+              'props': <String, dynamic>{
+                'axis': 'vertical',
+                'default_ratio': 0.65,
+              },
             },
             <String, dynamic>{
               'type': 'PropertiesPanel',
@@ -165,11 +176,19 @@ void main() {
     expect(outerWidget.direction, Axis.horizontal);
     expect(outerWidget.splitterKey, const Key('horizontal_splitter'));
 
-    // Inner non-reconfigurable split preserves its own axis ('vertical') and is NOT stomped by preferredSplitAxis
+    // Inner non-reconfigurable split preserves its own axis ('vertical'), honors default_ratio (0.3333), and is NOT stomped by preferredSplitAxis
     final innerFinder = find.byKey(const ValueKey('split_inner_vertical_stack_vertical'));
     expect(innerFinder, findsOneWidget);
     final innerWidget = tester.widget<SplitWorkspace>(innerFinder);
     expect(innerWidget.direction, Axis.vertical);
+    expect(innerWidget.initialRatio, closeTo(0.3333, 0.0001));
     expect(innerWidget.splitterKey, const Key('inner_vertical_stack_splitter'));
+
+    // TopographicalView without reconfigurable:true preserves its own axis ('vertical') and default_ratio (0.65)
+    final topoFinder = find.byType(TopographicalView);
+    expect(topoFinder, findsOneWidget);
+    final topoWidget = tester.widget<TopographicalView>(topoFinder);
+    expect(topoWidget.splitDirection, Axis.vertical);
+    expect(topoWidget.splitInitialRatio, closeTo(0.65, 0.0001));
   });
 }

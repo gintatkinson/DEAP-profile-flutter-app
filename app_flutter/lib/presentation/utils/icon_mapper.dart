@@ -42,10 +42,10 @@ import 'package:flutter/material.dart';
 ///
 /// Realises: [Feat-10/IconMapper, ARCH-UI-001, REQ-UI-001]
 class IconMapper {
-  /// Executes deterministic constructor `IconMapper::IconMapper._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/presentation/utils/icon_mapper.dart`.
+  /// Executes deterministic constructor `IconMapper::IconMapper._` within `app_flutter/lib/presentation/utils/icon_mapper.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `IconMapper::IconMapper._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/presentation/utils/icon_mapper.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `IconMapper::IconMapper._` in `app_flutter/lib/presentation/utils/icon_mapper.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `IconMapper::IconMapper._` (declaration #2) within `UTILS-ICON-MAPPER`.
@@ -92,7 +92,7 @@ class IconMapper {
   /// Resolve an icon name string to [IconData].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `IconMapper::resolve` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/presentation/utils/icon_mapper.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `IconMapper::resolve` in `app_flutter/lib/presentation/utils/icon_mapper.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `IconMapper::resolve` (declaration #3) within `UTILS-ICON-MAPPER`.

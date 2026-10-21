@@ -1,7 +1,7 @@
 /// Immutable node in the sidebar hierarchy tree representing a selectable M2
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `TreeNode` in `app_flutter/lib/features/tree/tree_node.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `TreeNode` (declaration #1) within `TREE-TREE-NODE`.
@@ -37,7 +37,7 @@ class TreeNode {
   /// Creates an immutable [TreeNode] descriptor.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeNode::TreeNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TreeNode::TreeNode` in `app_flutter/lib/features/tree/tree_node.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TreeNode::TreeNode` (declaration #2) within `TREE-TREE-NODE`.
@@ -69,7 +69,7 @@ class TreeNode {
   /// Returns a copy of this [TreeNode] with selectively overridden fields.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeNode::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tree/tree_node.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeNode::copyWith` in `app_flutter/lib/features/tree/tree_node.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TreeNode::copyWith` (declaration #3) within `TREE-TREE-NODE`.

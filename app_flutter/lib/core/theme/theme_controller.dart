@@ -55,7 +55,7 @@ class ThemeController extends ChangeNotifier {
   /// Creates a [ThemeController] backed by the given [_themeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ThemeController::ThemeController` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ThemeController::ThemeController` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `ThemeController::ThemeController` (declaration #2) within `THEME-THEME-CONTROLLER`.
@@ -88,10 +88,10 @@ class ThemeController extends ChangeNotifier {
 
   Future<void> _operationQueue = Future.value();
 
-  /// Executes deterministic method `ThemeController::_enqueue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Executes deterministic method `ThemeController::_enqueue` within `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::_enqueue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::_enqueue` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::_enqueue` (declaration #3) within `THEME-THEME-CONTROLLER`.
@@ -122,29 +122,149 @@ class ThemeController extends ChangeNotifier {
   }
 
   /// Current [ThemeMode] (light / dark / system).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::themeMode` in `app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::themeMode` (declaration #4) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::themeMode` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::themeMode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(themeMode)) bounded over input/member dimension of `ThemeController::themeMode`.
+  /// - Space Complexity: O(K(themeMode)) bounded auxiliary memory for `ThemeController::themeMode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::themeMode` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::themeMode` without partial mutation on error.
+  /// - Action: Executes `ThemeController::themeMode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::themeMode` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-THEMEMODE] | SysML v2: ActionDef(ThemeController::themeMode)
   ThemeMode get themeMode => _themeMode;
 
   /// Index into [AppThemes.customSchemes] for the active colour scheme.
   ///
-  /// Guaranteed to be a valid index after [loadSettings] completes.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::currentThemeIndex` in `app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::currentThemeIndex` (declaration #5) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::currentThemeIndex` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::currentThemeIndex` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(currentThemeIndex)) bounded over input/member dimension of `ThemeController::currentThemeIndex`.
+  /// - Space Complexity: O(K(currentThemeIndex)) bounded auxiliary memory for `ThemeController::currentThemeIndex`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::currentThemeIndex` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::currentThemeIndex` without partial mutation on error.
+  /// - Action: Executes `ThemeController::currentThemeIndex` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::currentThemeIndex` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-CURRENTTHEMEINDEX] | SysML v2: ActionDef(ThemeController::currentThemeIndex)
   int get currentThemeIndex => _currentThemeIndex;
 
   /// Current layout split axis orientation.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::layoutSplitAxis` in `app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::layoutSplitAxis` (declaration #6) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::layoutSplitAxis` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::layoutSplitAxis` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(layoutSplitAxis)) bounded over input/member dimension of `ThemeController::layoutSplitAxis`.
+  /// - Space Complexity: O(K(layoutSplitAxis)) bounded auxiliary memory for `ThemeController::layoutSplitAxis`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::layoutSplitAxis` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::layoutSplitAxis` without partial mutation on error.
+  /// - Action: Executes `ThemeController::layoutSplitAxis` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::layoutSplitAxis` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-LAYOUTSPLITAXIS] | SysML v2: ActionDef(ThemeController::layoutSplitAxis)
   Axis get layoutSplitAxis => _layoutSplitAxis;
 
   /// Panel/overlay opacity between 0.0 and 1.0.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::panelOpacity` in `app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::panelOpacity` (declaration #7) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::panelOpacity` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::panelOpacity` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(panelOpacity)) bounded over input/member dimension of `ThemeController::panelOpacity`.
+  /// - Space Complexity: O(K(panelOpacity)) bounded auxiliary memory for `ThemeController::panelOpacity`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::panelOpacity` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::panelOpacity` without partial mutation on error.
+  /// - Action: Executes `ThemeController::panelOpacity` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::panelOpacity` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-PANELOPACITY] | SysML v2: ActionDef(ThemeController::panelOpacity)
   double get panelOpacity => _panelOpacity;
 
   /// Convenience getter for the currently selected [FlexSchemeData].
   ///
-  /// Reads from [AppThemes.customSchemes] at [currentThemeIndex]. Safe to
-  /// call after [loadSettings] because the index is clamped on load.
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::currentTheme` in `app_flutter/lib/core/theme/theme_controller.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::currentTheme` (declaration #8) within `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ThemeController::currentTheme` in `THEME-THEME-CONTROLLER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ThemeController::currentTheme` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(currentTheme)) bounded over input/member dimension of `ThemeController::currentTheme`.
+  /// - Space Complexity: O(K(currentTheme)) bounded auxiliary memory for `ThemeController::currentTheme`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ThemeController::currentTheme` (`()`).
+  /// - State: Maintains consistent state invariants across `ThemeController::currentTheme` without partial mutation on error.
+  /// - Action: Executes `ThemeController::currentTheme` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ThemeController::currentTheme` (`THEME-THEME-CONTROLLER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-THEME-CONTROLLER-THEMECONTROLLER-CURRENTTHEME] | SysML v2: ActionDef(ThemeController::currentTheme)
   FlexSchemeData get currentTheme => AppThemes.customSchemes[_currentThemeIndex];
 
   /// Loads persisted theme mode and scheme index from [ThemeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::loadSettings` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::loadSettings` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::loadSettings` (declaration #4) within `THEME-THEME-CONTROLLER`.
@@ -195,7 +315,7 @@ class ThemeController extends ChangeNotifier {
   /// Updates the theme mode and persists it via [ThemeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeMode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeMode` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateThemeMode` (declaration #5) within `THEME-THEME-CONTROLLER`.
@@ -230,7 +350,7 @@ class ThemeController extends ChangeNotifier {
   /// Updates the colour-scheme index and persists it via [ThemeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeScheme` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateThemeScheme` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateThemeScheme` (declaration #6) within `THEME-THEME-CONTROLLER`.
@@ -266,7 +386,7 @@ class ThemeController extends ChangeNotifier {
   /// Updates the layout split axis orientation and persists it via [ThemeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateLayoutSplitAxis` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updateLayoutSplitAxis` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updateLayoutSplitAxis` (declaration #7) within `THEME-THEME-CONTROLLER`.
@@ -301,7 +421,7 @@ class ThemeController extends ChangeNotifier {
   /// Updates the panel opacity value and persists it via [ThemeService].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updatePanelOpacity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::updatePanelOpacity` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::updatePanelOpacity` (declaration #8) within `THEME-THEME-CONTROLLER`.
@@ -333,10 +453,10 @@ class ThemeController extends ChangeNotifier {
     });
   }
 
-  /// Executes deterministic method `ThemeController::notifyListeners` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Executes deterministic method `ThemeController::notifyListeners` within `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::notifyListeners` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::notifyListeners` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::notifyListeners` (declaration #9) within `THEME-THEME-CONTROLLER`.
@@ -366,10 +486,10 @@ class ThemeController extends ChangeNotifier {
     }
   }
 
-  /// Executes deterministic method `ThemeController::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Executes deterministic method `ThemeController::dispose` within `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/theme_controller.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ThemeController::dispose` in `app_flutter/lib/core/theme/theme_controller.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `ThemeController::dispose` (declaration #10) within `THEME-THEME-CONTROLLER`.

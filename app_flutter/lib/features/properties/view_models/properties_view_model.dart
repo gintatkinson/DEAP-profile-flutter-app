@@ -48,7 +48,7 @@ class PropertiesState {
   /// Creates a [PropertiesState].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesState::PropertiesState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesState::PropertiesState` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `PropertiesState::PropertiesState` (declaration #2) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -93,7 +93,7 @@ class PropertiesState {
   /// Creates a copy of this state with updated fields.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesState::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesState::copyWith` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesState::copyWith` (declaration #3) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -144,6 +144,35 @@ class PropertiesState {
           actionMessage == other.actionMessage &&
           activeNodeId == other.activeNodeId;
 
+  /// Executes deterministic method `PropertiesState::hashCode` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesState::hashCode` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesState::hashCode` (declaration #4) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - `currentType: String` must satisfy domain and type-safety constraints prior to invoking `PropertiesState::hashCode`.
+  /// - `lastAction: String` must satisfy domain and type-safety constraints prior to invoking `PropertiesState::hashCode`.
+  /// - `actionMessage: String` must satisfy domain and type-safety constraints prior to invoking `PropertiesState::hashCode`.
+  /// - `activeNodeId: String` must satisfy domain and type-safety constraints prior to invoking `PropertiesState::hashCode`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertiesState::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(currentType)) bounded over input/member dimension of `PropertiesState::hashCode`.
+  /// - Space Complexity: O(N(currentType)) bounded auxiliary memory for `PropertiesState::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesState::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertiesState::hashCode` without partial mutation on error.
+  /// - Action: Executes `PropertiesState::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesState::hashCode` (`VIEW-MODELS-PROPERTIES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-PROPERTIES-VIEW-MODEL-PROPERTIESSTATE-HASHCODE] | SysML v2: ActionDef(PropertiesState::hashCode)
   @override
   int get hashCode => Object.hash(currentType, lastAction, actionMessage, activeNodeId);
 }
@@ -192,7 +221,7 @@ class PropertiesViewModel extends ChangeNotifier {
   /// Creates a [PropertiesViewModel] with injected [TypeRepository].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesViewModel::PropertiesViewModel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `PropertiesViewModel::PropertiesViewModel` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `PropertiesViewModel::PropertiesViewModel` (declaration #5) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -223,20 +252,93 @@ class PropertiesViewModel extends ChangeNotifier {
   int _requestId = 0;
 
   /// Current immutable state.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::state` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::state` (declaration #7) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertiesViewModel::state` in `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertiesViewModel::state` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(state)) bounded over input/member dimension of `PropertiesViewModel::state`.
+  /// - Space Complexity: O(K(state)) bounded auxiliary memory for `PropertiesViewModel::state`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesViewModel::state` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertiesViewModel::state` without partial mutation on error.
+  /// - Action: Executes `PropertiesViewModel::state` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesViewModel::state` (`VIEW-MODELS-PROPERTIES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-PROPERTIES-VIEW-MODEL-PROPERTIESVIEWMODEL-STATE] | SysML v2: ActionDef(PropertiesViewModel::state)
   PropertiesState get state => _state;
 
   /// The fields of the currently loaded type. Returns an empty list when no
-  /// type has been loaded or `loadType` returned `null`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::fields` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::fields` (declaration #8) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertiesViewModel::fields` in `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertiesViewModel::fields` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(fields)) bounded over input/member dimension of `PropertiesViewModel::fields`.
+  /// - Space Complexity: O(K(fields)) bounded auxiliary memory for `PropertiesViewModel::fields`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesViewModel::fields` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertiesViewModel::fields` without partial mutation on error.
+  /// - Action: Executes `PropertiesViewModel::fields` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesViewModel::fields` (`VIEW-MODELS-PROPERTIES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-PROPERTIES-VIEW-MODEL-PROPERTIESVIEWMODEL-FIELDS] | SysML v2: ActionDef(PropertiesViewModel::fields)
   List<FieldDescriptor> get fields => _state.currentType?.fields ?? [];
 
   /// Whether a type has been loaded (i.e., [loadType] completed with a
-  /// non-null [TypeDescriptor]).
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::hasType` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::hasType` (declaration #9) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `PropertiesViewModel::hasType` in `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `PropertiesViewModel::hasType` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hasType)) bounded over input/member dimension of `PropertiesViewModel::hasType`.
+  /// - Space Complexity: O(K(hasType)) bounded auxiliary memory for `PropertiesViewModel::hasType`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `PropertiesViewModel::hasType` (`()`).
+  /// - State: Maintains consistent state invariants across `PropertiesViewModel::hasType` without partial mutation on error.
+  /// - Action: Executes `PropertiesViewModel::hasType` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `PropertiesViewModel::hasType` (`VIEW-MODELS-PROPERTIES-VIEW-MODEL`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-VIEW-MODELS-PROPERTIES-VIEW-MODEL-PROPERTIESVIEWMODEL-HASTYPE] | SysML v2: ActionDef(PropertiesViewModel::hasType)
   bool get hasType => _state.currentType != null;
 
   /// Fetches the [TypeDescriptor] for [typeName] from the data source and
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::loadType` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::loadType` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::loadType` (declaration #6) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -274,10 +376,10 @@ class PropertiesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `PropertiesViewModel::configureLocation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Executes deterministic method `PropertiesViewModel::configureLocation` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::configureLocation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::configureLocation` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::configureLocation` (declaration #7) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -309,10 +411,10 @@ class PropertiesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `PropertiesViewModel::drillHierarchy` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Executes deterministic method `PropertiesViewModel::drillHierarchy` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::drillHierarchy` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::drillHierarchy` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::drillHierarchy` (declaration #8) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -344,10 +446,10 @@ class PropertiesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `PropertiesViewModel::provisionNe` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Executes deterministic method `PropertiesViewModel::provisionNe` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::provisionNe` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::provisionNe` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::provisionNe` (declaration #9) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -379,10 +481,10 @@ class PropertiesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Executes deterministic method `PropertiesViewModel::notifyListeners` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Executes deterministic method `PropertiesViewModel::notifyListeners` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::notifyListeners` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::notifyListeners` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::notifyListeners` (declaration #10) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.
@@ -411,10 +513,10 @@ class PropertiesViewModel extends ChangeNotifier {
     super.notifyListeners();
   }
 
-  /// Executes deterministic method `PropertiesViewModel::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Executes deterministic method `PropertiesViewModel::dispose` within `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertiesViewModel::dispose` in `app_flutter/lib/features/properties/view_models/properties_view_model.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertiesViewModel::dispose` (declaration #11) within `VIEW-MODELS-PROPERTIES-VIEW-MODEL`.

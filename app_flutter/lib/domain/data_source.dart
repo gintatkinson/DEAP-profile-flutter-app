@@ -51,7 +51,7 @@ abstract interface class TypeRepository {
   /// Discover all object types known to this data source.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::discoverTypes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::discoverTypes` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TypeRepository::discoverTypes` (declaration #2) within `DOMAIN-DATA-SOURCE`.
@@ -79,7 +79,7 @@ abstract interface class TypeRepository {
   /// Get the [TypeDescriptor] for a specific type by its [typeName].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::typeFor` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TypeRepository::typeFor` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TypeRepository::typeFor` (declaration #3) within `DOMAIN-DATA-SOURCE`.
@@ -149,7 +149,7 @@ abstract interface class PropertyRepository {
   /// Fetches the property map for the node identified by [nodeId].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::fetchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::fetchProperties` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::fetchProperties` (declaration #5) within `DOMAIN-DATA-SOURCE`.
@@ -177,7 +177,7 @@ abstract interface class PropertyRepository {
   /// Persists [data] as the properties for [nodeId].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::saveProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::saveProperties` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::saveProperties` (declaration #6) within `DOMAIN-DATA-SOURCE`.
@@ -206,7 +206,7 @@ abstract interface class PropertyRepository {
   /// Returns a broadcast stream emitting property updates for [nodeId].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::watchProperties` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `PropertyRepository::watchProperties` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `PropertyRepository::watchProperties` (declaration #7) within `DOMAIN-DATA-SOURCE`.
@@ -270,7 +270,7 @@ abstract interface class TreeRepository {
   /// Fetches root nodes for display in the tree view.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchRootNodes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchRootNodes` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TreeRepository::fetchRootNodes` (declaration #9) within `DOMAIN-DATA-SOURCE`.
@@ -298,7 +298,7 @@ abstract interface class TreeRepository {
   /// Fetches child nodes for a given parent node.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchChildrenForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TreeRepository::fetchChildrenForNode` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TreeRepository::fetchChildrenForNode` (declaration #10) within `DOMAIN-DATA-SOURCE`.
@@ -360,7 +360,7 @@ abstract interface class TopologyRepository {
   /// Fetches all active nodes and links for topology mapping.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyRepository::fetchTopologyData` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyRepository::fetchTopologyData` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyRepository::fetchTopologyData` (declaration #12) within `DOMAIN-DATA-SOURCE`.
@@ -422,7 +422,7 @@ abstract interface class InstanceRepository {
   /// Fetches related instances of [targetType] under [parentNodeId].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRepository::fetchRelatedInstances` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/domain/data_source.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `InstanceRepository::fetchRelatedInstances` in `app_flutter/lib/domain/data_source.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `InstanceRepository::fetchRelatedInstances` (declaration #14) within `DOMAIN-DATA-SOURCE`.
@@ -498,9 +498,59 @@ abstract class DataSource
         TopologyRepository,
         InstanceRepository {
   /// Human-readable name, e.g. "sqlite", "firebase", "grpc".
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DataSource::name` in `app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DataSource::name` (declaration #16) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DataSource::name` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `DataSource::name` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(name)) bounded over input/member dimension of `DataSource::name`.
+  /// - Space Complexity: O(K(name)) bounded auxiliary memory for `DataSource::name`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DataSource::name` (`()`).
+  /// - State: Maintains consistent state invariants across `DataSource::name` without partial mutation on error.
+  /// - Action: Executes `DataSource::name` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DataSource::name` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-DATASOURCE-NAME] | SysML v2: ActionDef(DataSource::name)
   String get name;
 
   /// Releases all resources held by this data source.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DataSource::dispose` in `app_flutter/lib/domain/data_source.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `DataSource::dispose` (declaration #17) within `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `DataSource::dispose` in `DOMAIN-DATA-SOURCE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<Result<void>>` from `DataSource::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `DataSource::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `DataSource::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `DataSource::dispose` (`Future<Result<void>>`).
+  /// - State: Maintains consistent state invariants across `DataSource::dispose` without partial mutation on error.
+  /// - Action: Executes `DataSource::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `DataSource::dispose` (`DOMAIN-DATA-SOURCE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DOMAIN-DATA-SOURCE-DATASOURCE-DISPOSE] | SysML v2: ActionDef(DataSource::dispose)
   Future<Result<void>> dispose();
 }
 

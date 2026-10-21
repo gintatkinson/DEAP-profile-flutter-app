@@ -7,7 +7,7 @@ import 'package:app_flutter/data/database_initializer.dart';
 /// Internal spatial coordinate tuple associating a node identifier with geodetic latitude and longitude degrees.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NodePos` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_NodePos` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_NodePos` (declaration #1) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -38,10 +38,10 @@ class _NodePos {
   /// Geodetic longitude in decimal degrees.
   final double lon;
 
-  /// Executes deterministic constructor `_NodePos::_NodePos` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Executes deterministic constructor `_NodePos::_NodePos` within `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_NodePos::_NodePos` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_NodePos::_NodePos` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_NodePos::_NodePos` (declaration #2) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -102,10 +102,10 @@ class DomainSeedStrategy implements SeedStrategy {
   late Database _currentDb;
   int _pendingOps = 0;
 
-  /// Executes deterministic method `DomainSeedStrategy::_insertAndFlush` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Executes deterministic method `DomainSeedStrategy::_insertAndFlush` within `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_insertAndFlush` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_insertAndFlush` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_insertAndFlush` (declaration #4) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -142,10 +142,10 @@ class DomainSeedStrategy implements SeedStrategy {
     }
   }
 
-  /// Executes deterministic method `DomainSeedStrategy::_flushBatch` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Executes deterministic method `DomainSeedStrategy::_flushBatch` within `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_flushBatch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_flushBatch` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_flushBatch` (declaration #5) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -178,7 +178,7 @@ class DomainSeedStrategy implements SeedStrategy {
   /// Seeds the database by batch-inserting default schemas, nodes, and instances.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::seed` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::seed` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::seed` (declaration #6) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -393,7 +393,7 @@ class DomainSeedStrategy implements SeedStrategy {
   /// Helper helper to insert a complete node configuration (type_definition, relation, properties, and instances).
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_addNodeToBatch` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_addNodeToBatch` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_addNodeToBatch` (declaration #7) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -486,7 +486,7 @@ class DomainSeedStrategy implements SeedStrategy {
   /// Safely extracts latitude from either top-level or nested position map.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLat` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLat` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractLat` (declaration #8) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -525,7 +525,7 @@ class DomainSeedStrategy implements SeedStrategy {
   /// Safely extracts longitude from either top-level or nested position map.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLon` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractLon` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractLon` (declaration #9) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -564,7 +564,7 @@ class DomainSeedStrategy implements SeedStrategy {
   /// Safely extracts height from either top-level or nested position map, defaulting to 0.0.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractHeight` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `DomainSeedStrategy::_extractHeight` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `DomainSeedStrategy::_extractHeight` (declaration #10) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -634,7 +634,7 @@ class SeedMigrationRunner {
   /// Creates a [SeedMigrationRunner] with an optional [seedStrategy].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SeedMigrationRunner::SeedMigrationRunner` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `SeedMigrationRunner::SeedMigrationRunner` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `SeedMigrationRunner::SeedMigrationRunner` (declaration #12) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -663,7 +663,7 @@ class SeedMigrationRunner {
   /// Runs seed migration for the provided [Database] instance.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::runMigration` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::runMigration` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::runMigration` (declaration #13) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -691,10 +691,10 @@ class SeedMigrationRunner {
     return true;
   }
 
-  /// Executes deterministic method `SeedMigrationRunner::_firstIntValue` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Executes deterministic method `SeedMigrationRunner::_firstIntValue` within `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::_firstIntValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::_firstIntValue` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::_firstIntValue` (declaration #14) within `SEEDS-DOMAIN-SEED-STRATEGY`.
@@ -728,7 +728,7 @@ class SeedMigrationRunner {
   /// Verifies whether seed migration is required for the target [db].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::isMigrationNeeded` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SeedMigrationRunner::isMigrationNeeded` in `app_flutter/lib/data/seeds/domain_seed_strategy.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SeedMigrationRunner::isMigrationNeeded` (declaration #15) within `SEEDS-DOMAIN-SEED-STRATEGY`.

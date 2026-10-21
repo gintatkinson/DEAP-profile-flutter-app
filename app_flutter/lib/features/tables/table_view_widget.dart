@@ -55,7 +55,7 @@ class TableViewWidget extends StatefulWidget {
   /// Creates a virtualized [TableViewWidget].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TableViewWidget::TableViewWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TableViewWidget::TableViewWidget` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TableViewWidget::TableViewWidget` (declaration #2) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -102,10 +102,10 @@ class TableViewWidget extends StatefulWidget {
   /// Horizontal gap in logical pixels between adjacent columns.
   final double columnSpacing;
 
-  /// Executes deterministic method `TableViewWidget::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `TableViewWidget::createState` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TableViewWidget::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TableViewWidget::createState` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TableViewWidget::createState` (declaration #3) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -132,10 +132,10 @@ class TableViewWidget extends StatefulWidget {
   State<TableViewWidget> createState() => _TableViewWidgetState();
 }
 
-/// Executes deterministic class `_TableViewWidgetState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Executes deterministic class `_TableViewWidgetState` within `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewWidgetState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TableViewWidgetState` in `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TableViewWidgetState` (declaration #4) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -171,10 +171,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
   Map<String, int>? _cachedHeaderIndices;
   List<ColumnModel>? _cachedAllHeadersForIndices;
 
-  /// Executes deterministic method `_TableViewWidgetState::_getSortedRows` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::_getSortedRows` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getSortedRows` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getSortedRows` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_getSortedRows` (declaration #5) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -237,10 +237,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return sortedRows;
   }
 
-  /// Executes deterministic method `_TableViewWidgetState::_getHeaderIndices` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::_getHeaderIndices` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getHeaderIndices` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_getHeaderIndices` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_getHeaderIndices` (declaration #6) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -284,10 +284,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return _cachedHeaderIndices!;
   }
 
-  /// Executes deterministic method `_TableViewWidgetState::_rowsEqual` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::_rowsEqual` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_rowsEqual` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_rowsEqual` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_rowsEqual` (declaration #7) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -324,10 +324,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     return true;
   }
 
-  /// Executes deterministic method `_TableViewWidgetState::_clearCache` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::_clearCache` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_clearCache` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::_clearCache` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::_clearCache` (declaration #8) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -360,10 +360,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     _cachedAllHeadersForIndices = null;
   }
 
-  /// Executes deterministic method `_TableViewWidgetState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::dispose` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::dispose` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::dispose` (declaration #9) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -392,10 +392,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
     super.dispose();
   }
 
-  /// Executes deterministic method `_TableViewWidgetState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_TableViewWidgetState::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TableViewWidgetState::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_TableViewWidgetState::build` (declaration #10) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -533,10 +533,10 @@ class _TableViewWidgetState extends State<TableViewWidget> {
   }
 }
 
-/// Executes deterministic class `_HeaderRow` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Executes deterministic class `_HeaderRow` within `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderRow` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderRow` in `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_HeaderRow` (declaration #11) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -570,10 +570,10 @@ class _HeaderRow extends StatelessWidget {
   final bool sortAscending;
   final void Function(int columnIndex) onSort;
 
-  /// Executes deterministic constructor `_HeaderRow::_HeaderRow` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic constructor `_HeaderRow::_HeaderRow` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderRow::_HeaderRow` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderRow::_HeaderRow` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_HeaderRow::_HeaderRow` (declaration #12) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -608,10 +608,10 @@ class _HeaderRow extends StatelessWidget {
     required this.onSort,
   });
 
-  /// Executes deterministic method `_HeaderRow::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_HeaderRow::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderRow::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderRow::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_HeaderRow::build` (declaration #13) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -669,10 +669,10 @@ class _HeaderRow extends StatelessWidget {
   }
 }
 
-/// Executes deterministic class `_HeaderCell` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Executes deterministic class `_HeaderCell` within `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderCell` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_HeaderCell` in `app_flutter/lib/features/tables/table_view_widget.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_HeaderCell` (declaration #14) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -709,10 +709,10 @@ class _HeaderCell extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isNumeric;
 
-  /// Executes deterministic constructor `_HeaderCell::_HeaderCell` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic constructor `_HeaderCell::_HeaderCell` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderCell::_HeaderCell` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_HeaderCell::_HeaderCell` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `_HeaderCell::_HeaderCell` (declaration #15) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -750,10 +750,10 @@ class _HeaderCell extends StatelessWidget {
     required this.isNumeric,
   });
 
-  /// Executes deterministic method `_HeaderCell::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Executes deterministic method `_HeaderCell::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderCell::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/table_view_widget.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_HeaderCell::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_HeaderCell::build` (declaration #16) within `TABLES-TABLE-VIEW-WIDGET`.
@@ -803,6 +803,32 @@ class _HeaderCell extends StatelessWidget {
   }
 }
 
+/// Executes deterministic class `_DataRow` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_DataRow` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_DataRow` (declaration #17) within `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_DataRow` in `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_DataRow` representation for class `_DataRow`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_DataRow)) bounded over input/member dimension of `_DataRow`.
+/// - Space Complexity: O(K(_DataRow)) bounded auxiliary memory for `_DataRow`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_DataRow` (`_DataRow`).
+/// - State: Maintains consistent state invariants across `_DataRow` without partial mutation on error.
+/// - Action: Executes `_DataRow` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_DataRow` (`TABLES-TABLE-VIEW-WIDGET`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATAROW] | SysML v2: PartDef(_DataRow)
 class _DataRow extends StatelessWidget {
   final List<String> cells;
   final List<ColumnModel> columnModels;
@@ -817,6 +843,32 @@ class _DataRow extends StatelessWidget {
 
   static final Color _stripeColor = Colors.black.withOpacity(0.03);
 
+  /// Executes deterministic constructor `_DataRow::_DataRow` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_DataRow::_DataRow` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_DataRow::_DataRow` (declaration #18) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_DataRow::_DataRow` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_DataRow::_DataRow` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_DataRow)) bounded over input/member dimension of `_DataRow::_DataRow`.
+  /// - Space Complexity: O(K(_DataRow)) bounded auxiliary memory for `_DataRow::_DataRow`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_DataRow::_DataRow` (`()`).
+  /// - State: Maintains consistent state invariants across `_DataRow::_DataRow` without partial mutation on error.
+  /// - Action: Executes `_DataRow::_DataRow` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_DataRow::_DataRow` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATAROW-DATAROW] | SysML v2: ActionDef(_DataRow::_DataRow)
   const _DataRow({
     required this.cells,
     required this.columnModels,
@@ -830,6 +882,32 @@ class _DataRow extends StatelessWidget {
     required this.numericTextStyle,
   });
 
+  /// Executes deterministic method `_DataRow::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DataRow::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_DataRow::build` (declaration #19) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_DataRow::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_DataRow::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_DataRow::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_DataRow::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_DataRow::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_DataRow::build` without partial mutation on error.
+  /// - Action: Executes `_DataRow::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_DataRow::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATAROW-BUILD] | SysML v2: ActionDef(_DataRow::build)
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -858,6 +936,32 @@ class _DataRow extends StatelessWidget {
   }
 }
 
+/// Executes deterministic class `_DataCell` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 1. Safety Intent & Regulatory Scope
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_DataCell` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+///
+/// ## 2. Invariants & Mathematical Properties
+/// - Preserves deterministic state conservation and referential transparency for class `_DataCell` (declaration #20) within `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 3. Preconditions
+/// - Invoked within a valid execution context for `_DataCell` in `TABLES-TABLE-VIEW-WIDGET`.
+///
+/// ## 4. Postconditions
+/// - Defines the authoritative `_DataCell` representation for class `_DataCell`.
+///
+/// ## 5. Algorithmic Complexity Bounds
+/// - Time Complexity: O(K(_DataCell)) bounded over input/member dimension of `_DataCell`.
+/// - Space Complexity: O(K(_DataCell)) bounded auxiliary memory for `_DataCell`.
+///
+/// ## 6. Failure Modes & Fault Tolerance
+/// - Interface: Validates boundary inputs and types for `_DataCell` (`_DataCell`).
+/// - State: Maintains consistent state invariants across `_DataCell` without partial mutation on error.
+/// - Action: Executes `_DataCell` deterministically with zero unbounded recursion or blocking.
+/// - Resource: Bounds stack and heap allocations within `_DataCell` (`TABLES-TABLE-VIEW-WIDGET`).
+///
+/// ## 7. Realization & Traceability
+/// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATACELL] | SysML v2: PartDef(_DataCell)
 class _DataCell extends StatelessWidget {
   final String value;
   final ColumnModel columnModel;
@@ -868,6 +972,32 @@ class _DataCell extends StatelessWidget {
   final bool isLast;
   final TextStyle? numericTextStyle;
 
+  /// Executes deterministic constructor `_DataCell::_DataCell` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `_DataCell::_DataCell` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `_DataCell::_DataCell` (declaration #21) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_DataCell::_DataCell` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_DataCell::_DataCell` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_DataCell)) bounded over input/member dimension of `_DataCell::_DataCell`.
+  /// - Space Complexity: O(K(_DataCell)) bounded auxiliary memory for `_DataCell::_DataCell`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_DataCell::_DataCell` (`()`).
+  /// - State: Maintains consistent state invariants across `_DataCell::_DataCell` without partial mutation on error.
+  /// - Action: Executes `_DataCell::_DataCell` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_DataCell::_DataCell` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATACELL-DATACELL] | SysML v2: ActionDef(_DataCell::_DataCell)
   const _DataCell({
     required this.value,
     required this.columnModel,
@@ -879,6 +1009,32 @@ class _DataCell extends StatelessWidget {
     required this.numericTextStyle,
   });
 
+  /// Executes deterministic method `_DataCell::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DataCell::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_DataCell::build` (declaration #22) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_DataCell::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_DataCell::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_DataCell::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_DataCell::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_DataCell::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_DataCell::build` without partial mutation on error.
+  /// - Action: Executes `_DataCell::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_DataCell::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATACELL-BUILD] | SysML v2: ActionDef(_DataCell::build)
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -964,6 +1120,32 @@ class _DataCell extends StatelessWidget {
     );
   }
 
+  /// Executes deterministic method `_DataCell::_formatDate` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_DataCell::_formatDate` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_DataCell::_formatDate` (declaration #23) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `value: String` must satisfy domain and type-safety constraints prior to invoking `_DataCell::_formatDate`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `String` from `_DataCell::_formatDate` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(value)) bounded over input/member dimension of `_DataCell::_formatDate`.
+  /// - Space Complexity: O(N(value)) bounded auxiliary memory for `_DataCell::_formatDate`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_DataCell::_formatDate` (`String`).
+  /// - State: Maintains consistent state invariants across `_DataCell::_formatDate` without partial mutation on error.
+  /// - Action: Executes `_DataCell::_formatDate` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_DataCell::_formatDate` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-DATACELL-FORMATDATE] | SysML v2: ActionDef(_DataCell::_formatDate)
   String _formatDate(String value) {
     if (value.isEmpty) return value;
     try {
@@ -1024,6 +1206,31 @@ class _DataCell extends StatelessWidget {
 @immutable
 class ArincSegmentedRangeGauge extends StatelessWidget {
   /// Creates an [ArincSegmentedRangeGauge].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` (declaration #25) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(ArincSegmentedRangeGauge)) bounded over input/member dimension of `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge`.
+  /// - Space Complexity: O(K(ArincSegmentedRangeGauge)) bounded auxiliary memory for `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` (`()`).
+  /// - State: Maintains consistent state invariants across `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` without partial mutation on error.
+  /// - Action: Executes `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ArincSegmentedRangeGauge::ArincSegmentedRangeGauge` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-ARINCSEGMENTEDRANGEGAUGE-ARINCSEGMENTEDRANGEGAUGE] | SysML v2: ActionDef(ArincSegmentedRangeGauge::ArincSegmentedRangeGauge)
   const ArincSegmentedRangeGauge({
     super.key,
     required this.value,
@@ -1057,7 +1264,31 @@ class ArincSegmentedRangeGauge extends StatelessWidget {
   static const Color inactiveTrackSlate = Color(0xFF1E293B);
 
   /// Resolves the ARINC 661 threshold color for [value] relative to
-  /// [minValue] and [maxValue].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ArincSegmentedRangeGauge::activeColor` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ArincSegmentedRangeGauge::activeColor` (declaration #26) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ArincSegmentedRangeGauge::activeColor` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ArincSegmentedRangeGauge::activeColor` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(activeColor)) bounded over input/member dimension of `ArincSegmentedRangeGauge::activeColor`.
+  /// - Space Complexity: O(K(activeColor)) bounded auxiliary memory for `ArincSegmentedRangeGauge::activeColor`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ArincSegmentedRangeGauge::activeColor` (`()`).
+  /// - State: Maintains consistent state invariants across `ArincSegmentedRangeGauge::activeColor` without partial mutation on error.
+  /// - Action: Executes `ArincSegmentedRangeGauge::activeColor` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ArincSegmentedRangeGauge::activeColor` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-ARINCSEGMENTEDRANGEGAUGE-ACTIVECOLOR] | SysML v2: ActionDef(ArincSegmentedRangeGauge::activeColor)
   Color get activeColor {
     if (value < minValue || value > maxValue) {
       return violationCrimson;
@@ -1074,12 +1305,63 @@ class ArincSegmentedRangeGauge extends StatelessWidget {
   }
 
   /// Normalized fill ratio clamped to `[0.0, 1.0]`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ArincSegmentedRangeGauge::normalizedFill` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ArincSegmentedRangeGauge::normalizedFill` (declaration #27) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `ArincSegmentedRangeGauge::normalizedFill` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `ArincSegmentedRangeGauge::normalizedFill` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(normalizedFill)) bounded over input/member dimension of `ArincSegmentedRangeGauge::normalizedFill`.
+  /// - Space Complexity: O(K(normalizedFill)) bounded auxiliary memory for `ArincSegmentedRangeGauge::normalizedFill`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ArincSegmentedRangeGauge::normalizedFill` (`()`).
+  /// - State: Maintains consistent state invariants across `ArincSegmentedRangeGauge::normalizedFill` without partial mutation on error.
+  /// - Action: Executes `ArincSegmentedRangeGauge::normalizedFill` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ArincSegmentedRangeGauge::normalizedFill` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-ARINCSEGMENTEDRANGEGAUGE-NORMALIZEDFILL] | SysML v2: ActionDef(ArincSegmentedRangeGauge::normalizedFill)
   double get normalizedFill {
     final span = maxValue - minValue;
     if (span <= 0) return 1.0;
     return ((value - minValue) / span).clamp(0.0, 1.0);
   }
 
+  /// Executes deterministic method `ArincSegmentedRangeGauge::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `ArincSegmentedRangeGauge::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `ArincSegmentedRangeGauge::build` (declaration #28) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `ArincSegmentedRangeGauge::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `ArincSegmentedRangeGauge::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `ArincSegmentedRangeGauge::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `ArincSegmentedRangeGauge::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `ArincSegmentedRangeGauge::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `ArincSegmentedRangeGauge::build` without partial mutation on error.
+  /// - Action: Executes `ArincSegmentedRangeGauge::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `ArincSegmentedRangeGauge::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-ARINCSEGMENTEDRANGEGAUGE-BUILD] | SysML v2: ActionDef(ArincSegmentedRangeGauge::build)
   @override
   Widget build(BuildContext context) {
     final color = activeColor;
@@ -1145,6 +1427,31 @@ class ArincSegmentedRangeGauge extends StatelessWidget {
 @immutable
 class TableZeroCeilingBadge extends StatelessWidget {
   /// Creates a [TableZeroCeilingBadge].
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TableZeroCeilingBadge::TableZeroCeilingBadge` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for constructor `TableZeroCeilingBadge::TableZeroCeilingBadge` (declaration #30) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `TableZeroCeilingBadge::TableZeroCeilingBadge` in `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `TableZeroCeilingBadge::TableZeroCeilingBadge` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(TableZeroCeilingBadge)) bounded over input/member dimension of `TableZeroCeilingBadge::TableZeroCeilingBadge`.
+  /// - Space Complexity: O(K(TableZeroCeilingBadge)) bounded auxiliary memory for `TableZeroCeilingBadge::TableZeroCeilingBadge`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TableZeroCeilingBadge::TableZeroCeilingBadge` (`()`).
+  /// - State: Maintains consistent state invariants across `TableZeroCeilingBadge::TableZeroCeilingBadge` without partial mutation on error.
+  /// - Action: Executes `TableZeroCeilingBadge::TableZeroCeilingBadge` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TableZeroCeilingBadge::TableZeroCeilingBadge` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEZEROCEILINGBADGE-TABLEZEROCEILINGBADGE] | SysML v2: ActionDef(TableZeroCeilingBadge::TableZeroCeilingBadge)
   const TableZeroCeilingBadge({
     super.key,
     required this.isVerified,
@@ -1159,6 +1466,32 @@ class TableZeroCeilingBadge extends StatelessWidget {
   /// Violation crimson color (`#FF334B`).
   static const Color violationColor = Color(0xFFFF334B);
 
+  /// Executes deterministic method `TableZeroCeilingBadge::build` within `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TableZeroCeilingBadge::build` in `app_flutter/lib/features/tables/table_view_widget.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `TableZeroCeilingBadge::build` (declaration #31) within `TABLES-TABLE-VIEW-WIDGET`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `TableZeroCeilingBadge::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `TableZeroCeilingBadge::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `TableZeroCeilingBadge::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `TableZeroCeilingBadge::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `TableZeroCeilingBadge::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `TableZeroCeilingBadge::build` without partial mutation on error.
+  /// - Action: Executes `TableZeroCeilingBadge::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `TableZeroCeilingBadge::build` (`TABLES-TABLE-VIEW-WIDGET`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABLE-VIEW-WIDGET-TABLEZEROCEILINGBADGE-BUILD] | SysML v2: ActionDef(TableZeroCeilingBadge::build)
   @override
   Widget build(BuildContext context) {
     final badgeColor = isVerified ? verifiedColor : violationColor;

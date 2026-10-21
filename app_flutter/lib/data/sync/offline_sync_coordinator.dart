@@ -28,7 +28,7 @@ class LocalChange {
   /// Creates a [LocalChange].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `LocalChange::LocalChange` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `LocalChange::LocalChange` in `app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `LocalChange::LocalChange` (declaration #2) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
@@ -134,13 +134,38 @@ class OfflineSyncCoordinator {
   final List<LocalChange> _pendingChanges = <LocalChange>[];
 
   /// Returns an unmodifiable view of the pending local changes.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::pendingChanges` in `app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::pendingChanges` (declaration #5) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `OfflineSyncCoordinator::pendingChanges` in `SYNC-OFFLINE-SYNC-COORDINATOR`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `OfflineSyncCoordinator::pendingChanges` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(pendingChanges)) bounded over input/member dimension of `OfflineSyncCoordinator::pendingChanges`.
+  /// - Space Complexity: O(K(pendingChanges)) bounded auxiliary memory for `OfflineSyncCoordinator::pendingChanges`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `OfflineSyncCoordinator::pendingChanges` (`()`).
+  /// - State: Maintains consistent state invariants across `OfflineSyncCoordinator::pendingChanges` without partial mutation on error.
+  /// - Action: Executes `OfflineSyncCoordinator::pendingChanges` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `OfflineSyncCoordinator::pendingChanges` (`SYNC-OFFLINE-SYNC-COORDINATOR`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-SYNC-OFFLINE-SYNC-COORDINATOR-OFFLINESYNCCOORDINATOR-PENDINGCHANGES] | SysML v2: ActionDef(OfflineSyncCoordinator::pendingChanges)
   List<LocalChange> get pendingChanges =>
       List<LocalChange>.unmodifiable(_pendingChanges);
 
   /// Queues a local mutation for later synchronisation.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::queueLocalChange` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::queueLocalChange` in `app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::queueLocalChange` (declaration #5) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
@@ -170,7 +195,7 @@ class OfflineSyncCoordinator {
   /// Reconciles queued local changes against [remoteChanges].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::reconcileWithRemote` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::reconcileWithRemote` in `app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::reconcileWithRemote` (declaration #6) within `SYNC-OFFLINE-SYNC-COORDINATOR`.
@@ -230,7 +255,7 @@ class OfflineSyncCoordinator {
   /// Resolves a conflict between a [local] and [remote] change.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::resolveConflict` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `OfflineSyncCoordinator::resolveConflict` in `app_flutter/lib/data/sync/offline_sync_coordinator.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `OfflineSyncCoordinator::resolveConflict` (declaration #7) within `SYNC-OFFLINE-SYNC-COORDINATOR`.

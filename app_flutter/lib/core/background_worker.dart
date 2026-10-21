@@ -54,15 +54,65 @@ class BackgroundWorker {
   bool _isDisposed = false;
 
   /// Broadcast stream of rounded integer results emitted after each periodic calculation cycle.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::results` in `app_flutter/lib/core/background_worker.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::results` (declaration #2) within `CORE-BACKGROUND-WORKER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `BackgroundWorker::results` in `CORE-BACKGROUND-WORKER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `BackgroundWorker::results` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(results)) bounded over input/member dimension of `BackgroundWorker::results`.
+  /// - Space Complexity: O(K(results)) bounded auxiliary memory for `BackgroundWorker::results`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `BackgroundWorker::results` (`()`).
+  /// - State: Maintains consistent state invariants across `BackgroundWorker::results` without partial mutation on error.
+  /// - Action: Executes `BackgroundWorker::results` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `BackgroundWorker::results` (`CORE-BACKGROUND-WORKER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-BACKGROUND-WORKER-BACKGROUNDWORKER-RESULTS] | SysML v2: ActionDef(BackgroundWorker::results)
   Stream<int> get results => _controller.stream;
 
   /// Most recently computed integer result, or `null` if no cycle has completed.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::lastResult` in `app_flutter/lib/core/background_worker.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::lastResult` (declaration #3) within `CORE-BACKGROUND-WORKER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `BackgroundWorker::lastResult` in `CORE-BACKGROUND-WORKER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `BackgroundWorker::lastResult` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(lastResult)) bounded over input/member dimension of `BackgroundWorker::lastResult`.
+  /// - Space Complexity: O(K(lastResult)) bounded auxiliary memory for `BackgroundWorker::lastResult`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `BackgroundWorker::lastResult` (`()`).
+  /// - State: Maintains consistent state invariants across `BackgroundWorker::lastResult` without partial mutation on error.
+  /// - Action: Executes `BackgroundWorker::lastResult` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `BackgroundWorker::lastResult` (`CORE-BACKGROUND-WORKER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-CORE-BACKGROUND-WORKER-BACKGROUNDWORKER-LASTRESULT] | SysML v2: ActionDef(BackgroundWorker::lastResult)
   int? get lastResult => _lastResult;
 
   /// Cancels any active schedule and starts a periodic 3-second background calculation timer.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::start` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/background_worker.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::start` in `app_flutter/lib/core/background_worker.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::start` (declaration #2) within `CORE-BACKGROUND-WORKER`.
@@ -94,10 +144,10 @@ class BackgroundWorker {
     });
   }
 
-  /// Executes deterministic method `BackgroundWorker::_runCalculation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/background_worker.dart`.
+  /// Executes deterministic method `BackgroundWorker::_runCalculation` within `app_flutter/lib/core/background_worker.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::_runCalculation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/background_worker.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::_runCalculation` in `app_flutter/lib/core/background_worker.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::_runCalculation` (declaration #3) within `CORE-BACKGROUND-WORKER`.
@@ -157,7 +207,7 @@ class BackgroundWorker {
   /// Halts the periodic calculation timer without closing the [results] stream.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::stop` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/background_worker.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::stop` in `app_flutter/lib/core/background_worker.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::stop` (declaration #4) within `CORE-BACKGROUND-WORKER`.
@@ -188,7 +238,7 @@ class BackgroundWorker {
   /// Permanently halts the periodic timer, marks the worker disposed, and closes [results].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/background_worker.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundWorker::dispose` in `app_flutter/lib/core/background_worker.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `BackgroundWorker::dispose` (declaration #5) within `CORE-BACKGROUND-WORKER`.

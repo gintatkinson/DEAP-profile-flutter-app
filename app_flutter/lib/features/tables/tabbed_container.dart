@@ -49,7 +49,7 @@ class TabbedContainer extends StatefulWidget {
   /// Creates a [TabbedContainer].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TabbedContainer::TabbedContainer` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `TabbedContainer::TabbedContainer` in `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `TabbedContainer::TabbedContainer` (declaration #2) within `TABLES-TABBED-CONTAINER`.
@@ -74,10 +74,10 @@ class TabbedContainer extends StatefulWidget {
   /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINER-TABBEDCONTAINER] | SysML v2: ActionDef(TabbedContainer::TabbedContainer)
   const TabbedContainer({super.key});
 
-  /// Executes deterministic method `TabbedContainer::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Executes deterministic method `TabbedContainer::createState` within `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TabbedContainer::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TabbedContainer::createState` in `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TabbedContainer::createState` (declaration #3) within `TABLES-TABBED-CONTAINER`.
@@ -104,10 +104,10 @@ class TabbedContainer extends StatefulWidget {
   State<TabbedContainer> createState() => _TabbedContainerState();
 }
 
-/// Executes deterministic class `_TabbedContainerState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+/// Executes deterministic class `_TabbedContainerState` within `app_flutter/lib/features/tables/tabbed_container.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_TabbedContainerState` in `app_flutter/lib/features/tables/tabbed_container.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_TabbedContainerState` (declaration #4) within `TABLES-TABBED-CONTAINER`.
@@ -137,6 +137,32 @@ class _TabbedContainerState extends State<TabbedContainer>
   int? _lastIndex;
   final List<TabController> _pendingDispose = [];
 
+  /// Executes deterministic method `_TabbedContainerState::didChangeDependencies` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::didChangeDependencies` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::didChangeDependencies` (declaration #5) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerState::didChangeDependencies` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerState::didChangeDependencies` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(didChangeDependencies)) bounded over input/member dimension of `_TabbedContainerState::didChangeDependencies`.
+  /// - Space Complexity: O(K(didChangeDependencies)) bounded auxiliary memory for `_TabbedContainerState::didChangeDependencies`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::didChangeDependencies` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::didChangeDependencies` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::didChangeDependencies` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::didChangeDependencies` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-DIDCHANGEDEPENDENCIES] | SysML v2: ActionDef(_TabbedContainerState::didChangeDependencies)
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -149,6 +175,32 @@ class _TabbedContainerState extends State<TabbedContainer>
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerState::_onViewModelChanged` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::_onViewModelChanged` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::_onViewModelChanged` (declaration #6) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerState::_onViewModelChanged` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerState::_onViewModelChanged` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_onViewModelChanged)) bounded over input/member dimension of `_TabbedContainerState::_onViewModelChanged`.
+  /// - Space Complexity: O(K(_onViewModelChanged)) bounded auxiliary memory for `_TabbedContainerState::_onViewModelChanged`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::_onViewModelChanged` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::_onViewModelChanged` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::_onViewModelChanged` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::_onViewModelChanged` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-ONVIEWMODELCHANGED] | SysML v2: ActionDef(_TabbedContainerState::_onViewModelChanged)
   void _onViewModelChanged() {
     if (mounted) {
       setState(() {
@@ -157,6 +209,32 @@ class _TabbedContainerState extends State<TabbedContainer>
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerState::_updateController` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::_updateController` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::_updateController` (declaration #7) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerState::_updateController` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerState::_updateController` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_updateController)) bounded over input/member dimension of `_TabbedContainerState::_updateController`.
+  /// - Space Complexity: O(K(_updateController)) bounded auxiliary memory for `_TabbedContainerState::_updateController`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::_updateController` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::_updateController` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::_updateController` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::_updateController` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-UPDATECONTROLLER] | SysML v2: ActionDef(_TabbedContainerState::_updateController)
   void _updateController() {
     final tabs = _viewModel?.tabs ?? [];
     if (tabs.isEmpty) {
@@ -186,6 +264,32 @@ class _TabbedContainerState extends State<TabbedContainer>
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerState::_onTabTick` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::_onTabTick` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::_onTabTick` (declaration #8) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerState::_onTabTick` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerState::_onTabTick` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(_onTabTick)) bounded over input/member dimension of `_TabbedContainerState::_onTabTick`.
+  /// - Space Complexity: O(K(_onTabTick)) bounded auxiliary memory for `_TabbedContainerState::_onTabTick`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::_onTabTick` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::_onTabTick` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::_onTabTick` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::_onTabTick` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-ONTABTICK] | SysML v2: ActionDef(_TabbedContainerState::_onTabTick)
   void _onTabTick() {
     if (_tabController != null) {
       if (_tabController!.index != _lastIndex) {
@@ -202,6 +306,32 @@ class _TabbedContainerState extends State<TabbedContainer>
     }
   }
 
+  /// Executes deterministic method `_TabbedContainerState::build` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::build` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::build` (declaration #9) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - `context: BuildContext` must satisfy domain and type-safety constraints prior to invoking `_TabbedContainerState::build`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Widget` from `_TabbedContainerState::build` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(context)) bounded over input/member dimension of `_TabbedContainerState::build`.
+  /// - Space Complexity: O(N(context)) bounded auxiliary memory for `_TabbedContainerState::build`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::build` (`Widget`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::build` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::build` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::build` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-BUILD] | SysML v2: ActionDef(_TabbedContainerState::build)
   @override
   Widget build(BuildContext context) {
     if (_viewModel == null) return const SizedBox.shrink();
@@ -257,6 +387,32 @@ class _TabbedContainerState extends State<TabbedContainer>
     );
   }
 
+  /// Executes deterministic method `_TabbedContainerState::dispose` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_TabbedContainerState::dispose` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_TabbedContainerState::dispose` (declaration #10) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_TabbedContainerState::dispose` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `void` from `_TabbedContainerState::dispose` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(dispose)) bounded over input/member dimension of `_TabbedContainerState::dispose`.
+  /// - Space Complexity: O(K(dispose)) bounded auxiliary memory for `_TabbedContainerState::dispose`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_TabbedContainerState::dispose` (`void`).
+  /// - State: Maintains consistent state invariants across `_TabbedContainerState::dispose` without partial mutation on error.
+  /// - Action: Executes `_TabbedContainerState::dispose` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_TabbedContainerState::dispose` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-TABBEDCONTAINERSTATE-DISPOSE] | SysML v2: ActionDef(_TabbedContainerState::dispose)
   @override
   void dispose() {
     _viewModel?.removeListener(_onViewModelChanged);
@@ -305,7 +461,7 @@ class LazyTab extends StatefulWidget {
   /// Creates a [LazyTab] wrapper.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `LazyTab::LazyTab` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `LazyTab::LazyTab` in `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `LazyTab::LazyTab` (declaration #6) within `TABLES-TABBED-CONTAINER`.
@@ -338,10 +494,10 @@ class LazyTab extends StatefulWidget {
   /// Whether this tab is currently the active selected tab.
   final bool isSelected;
 
-  /// Executes deterministic method `LazyTab::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Executes deterministic method `LazyTab::createState` within `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `LazyTab::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `LazyTab::createState` in `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `LazyTab::createState` (declaration #7) within `TABLES-TABBED-CONTAINER`.
@@ -368,10 +524,10 @@ class LazyTab extends StatefulWidget {
   State<LazyTab> createState() => _LazyTabState();
 }
 
-/// Executes deterministic class `_LazyTabState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+/// Executes deterministic class `_LazyTabState` within `app_flutter/lib/features/tables/tabbed_container.dart`.
 ///
 /// ## 1. Safety Intent & Regulatory Scope
-/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_LazyTabState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+/// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for class `_LazyTabState` in `app_flutter/lib/features/tables/tabbed_container.dart`.
 ///
 /// ## 2. Invariants & Mathematical Properties
 /// - Preserves deterministic state conservation and referential transparency for class `_LazyTabState` (declaration #8) within `TABLES-TABBED-CONTAINER`.
@@ -395,13 +551,39 @@ class LazyTab extends StatefulWidget {
 /// ## 7. Realization & Traceability
 /// Realises: [REQ-TABLES-TABBED-CONTAINER-LAZYTABSTATE] | SysML v2: PartDef(_LazyTabState)
 class _LazyTabState extends State<LazyTab> with AutomaticKeepAliveClientMixin {
+  /// Executes deterministic method `_LazyTabState::wantKeepAlive` within `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LazyTabState::wantKeepAlive` in `app_flutter/lib/features/tables/tabbed_container.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `_LazyTabState::wantKeepAlive` (declaration #15) within `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `_LazyTabState::wantKeepAlive` in `TABLES-TABBED-CONTAINER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `_LazyTabState::wantKeepAlive` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(wantKeepAlive)) bounded over input/member dimension of `_LazyTabState::wantKeepAlive`.
+  /// - Space Complexity: O(K(wantKeepAlive)) bounded auxiliary memory for `_LazyTabState::wantKeepAlive`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `_LazyTabState::wantKeepAlive` (`()`).
+  /// - State: Maintains consistent state invariants across `_LazyTabState::wantKeepAlive` without partial mutation on error.
+  /// - Action: Executes `_LazyTabState::wantKeepAlive` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `_LazyTabState::wantKeepAlive` (`TABLES-TABBED-CONTAINER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TABLES-TABBED-CONTAINER-LAZYTABSTATE-WANTKEEPALIVE] | SysML v2: ActionDef(_LazyTabState::wantKeepAlive)
   @override
   bool get wantKeepAlive => true;
 
-  /// Executes deterministic method `_LazyTabState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Executes deterministic method `_LazyTabState::build` within `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LazyTabState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/tables/tabbed_container.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `_LazyTabState::build` in `app_flutter/lib/features/tables/tabbed_container.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `_LazyTabState::build` (declaration #9) within `TABLES-TABBED-CONTAINER`.

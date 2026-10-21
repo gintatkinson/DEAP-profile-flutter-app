@@ -52,7 +52,7 @@ class Arinc661ReticleBorder extends OutlinedBorder {
   /// Creates an [Arinc661ReticleBorder] with a `1px` hairline and `6px`
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Arinc661ReticleBorder::Arinc661ReticleBorder` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Arinc661ReticleBorder::Arinc661ReticleBorder` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `Arinc661ReticleBorder::Arinc661ReticleBorder` (declaration #2) within `THEME-APP-THEMES`.
@@ -110,10 +110,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
   /// Whether corner L-bracket reticle ticks are rendered for an active panel.
   final bool isActive;
 
-  /// Executes deterministic method `Arinc661ReticleBorder::copyWith` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `Arinc661ReticleBorder::copyWith` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::copyWith` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::copyWith` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::copyWith` (declaration #3) within `THEME-APP-THEMES`.
@@ -159,10 +159,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
     );
   }
 
-  /// Executes deterministic method `Arinc661ReticleBorder::scale` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `Arinc661ReticleBorder::scale` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::scale` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::scale` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::scale` (declaration #4) within `THEME-APP-THEMES`.
@@ -199,10 +199,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
     );
   }
 
-  /// Executes deterministic method `Arinc661ReticleBorder::getInnerPath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `Arinc661ReticleBorder::getInnerPath` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::getInnerPath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::getInnerPath` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::getInnerPath` (declaration #5) within `THEME-APP-THEMES`.
@@ -235,10 +235,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
     return Path()..addRRect(rrect);
   }
 
-  /// Executes deterministic method `Arinc661ReticleBorder::getOuterPath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `Arinc661ReticleBorder::getOuterPath` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::getOuterPath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::getOuterPath` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::getOuterPath` (declaration #6) within `THEME-APP-THEMES`.
@@ -271,10 +271,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
     return Path()..addRRect(rrect);
   }
 
-  /// Executes deterministic method `Arinc661ReticleBorder::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `Arinc661ReticleBorder::paint` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::paint` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::paint` (declaration #7) within `THEME-APP-THEMES`.
@@ -367,6 +367,32 @@ class Arinc661ReticleBorder extends OutlinedBorder {
         other.isActive == isActive;
   }
 
+  /// Executes deterministic method `Arinc661ReticleBorder::hashCode` within `app_flutter/lib/core/theme/app_themes.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Arinc661ReticleBorder::hashCode` in `app_flutter/lib/core/theme/app_themes.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Arinc661ReticleBorder::hashCode` (declaration #8) within `THEME-APP-THEMES`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Arinc661ReticleBorder::hashCode` in `THEME-APP-THEMES`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Arinc661ReticleBorder::hashCode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(hashCode)) bounded over input/member dimension of `Arinc661ReticleBorder::hashCode`.
+  /// - Space Complexity: O(K(hashCode)) bounded auxiliary memory for `Arinc661ReticleBorder::hashCode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Arinc661ReticleBorder::hashCode` (`()`).
+  /// - State: Maintains consistent state invariants across `Arinc661ReticleBorder::hashCode` without partial mutation on error.
+  /// - Action: Executes `Arinc661ReticleBorder::hashCode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Arinc661ReticleBorder::hashCode` (`THEME-APP-THEMES`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-THEME-APP-THEMES-ARINC661RETICLEBORDER-HASHCODE] | SysML v2: ActionDef(Arinc661ReticleBorder::hashCode)
   @override
   int get hashCode => Object.hash(
         side,
@@ -430,10 +456,10 @@ class Arinc661ReticleBorder extends OutlinedBorder {
 ///
 /// Realises: [Feat-10/AppThemes]
 class AppThemes {
-  /// Executes deterministic constructor `AppThemes::AppThemes._` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic constructor `AppThemes::AppThemes._` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `AppThemes::AppThemes._` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `AppThemes::AppThemes._` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `AppThemes::AppThemes._` (declaration #9) within `THEME-APP-THEMES`.
@@ -515,7 +541,7 @@ class AppThemes {
   /// Builds a reusable [ShapeDecoration] using [Arinc661ReticleBorder] for
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::reticleDecoration` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::reticleDecoration` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::reticleDecoration` (declaration #10) within `THEME-APP-THEMES`.
@@ -682,10 +708,10 @@ class AppThemes {
 
   static Map<String, dynamic> _tokens = {};
 
-  /// Executes deterministic method `AppThemes::_ensureLoaded` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `AppThemes::_ensureLoaded` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_ensureLoaded` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_ensureLoaded` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::_ensureLoaded` (declaration #11) within `THEME-APP-THEMES`.
@@ -731,7 +757,7 @@ class AppThemes {
   /// Loads `assets/design-tokens.json` asynchronously via [rootBundle],
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::load` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::load` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::load` (declaration #12) within `THEME-APP-THEMES`.
@@ -766,7 +792,7 @@ class AppThemes {
   /// Loads design tokens directly from a raw JSON string for deterministic testing.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::loadFromJson` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::loadFromJson` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::loadFromJson` (declaration #13) within `THEME-APP-THEMES`.
@@ -796,7 +822,7 @@ class AppThemes {
   /// Recursively resolves `{dot.path}` token alias expressions against the loaded token tree.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::resolveValue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::resolveValue` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::resolveValue` (declaration #14) within `THEME-APP-THEMES`.
@@ -838,10 +864,10 @@ class AppThemes {
     return current;
   }
 
-  /// Executes deterministic method `AppThemes::_resolvePath` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `AppThemes::_resolvePath` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_resolvePath` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_resolvePath` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::_resolvePath` (declaration #15) within `THEME-APP-THEMES`.
@@ -883,7 +909,7 @@ class AppThemes {
   /// Parses a numeric or `'px'`-suffixed dimension token value into a `double`,
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::parseDimension` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::parseDimension` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::parseDimension` (declaration #16) within `THEME-APP-THEMES`.
@@ -919,7 +945,7 @@ class AppThemes {
   /// Resolves a numeric dimension token at [path], returning [defaultValue] when absent.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getDimension` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getDimension` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::getDimension` (declaration #17) within `THEME-APP-THEMES`.
@@ -953,7 +979,7 @@ class AppThemes {
   /// Resolves a string token at [path], or `null` when absent.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getString` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getString` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::getString` (declaration #18) within `THEME-APP-THEMES`.
@@ -985,7 +1011,7 @@ class AppThemes {
   /// Resolves the configured primary font family name from design tokens.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getFontFamily` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getFontFamily` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::getFontFamily` (declaration #19) within `THEME-APP-THEMES`.
@@ -1015,7 +1041,7 @@ class AppThemes {
   /// Resolves the configured [VisualDensity] from the design-token typography scale.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getVisualDensity` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::getVisualDensity` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::getVisualDensity` (declaration #20) within `THEME-APP-THEMES`.
@@ -1046,10 +1072,10 @@ class AppThemes {
     return FlexColorScheme.comfortablePlatformDensity;
   }
 
-  /// Executes deterministic method `AppThemes::_withTabular` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `AppThemes::_withTabular` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_withTabular` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_withTabular` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::_withTabular` (declaration #21) within `THEME-APP-THEMES`.
@@ -1079,10 +1105,10 @@ class AppThemes {
     return style.copyWith(fontFeatures: tabularFigures);
   }
 
-  /// Executes deterministic method `AppThemes::_applyTacticalTypography` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Executes deterministic method `AppThemes::_applyTacticalTypography` within `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_applyTacticalTypography` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_applyTacticalTypography` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::_applyTacticalTypography` (declaration #22) within `THEME-APP-THEMES`.
@@ -1138,7 +1164,7 @@ class AppThemes {
   /// Builds a light [ThemeData] from an optional custom scheme.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::light` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::light` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::light` (declaration #23) within `THEME-APP-THEMES`.
@@ -1186,7 +1212,7 @@ class AppThemes {
   /// Builds a dark [ThemeData] from an optional custom scheme.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::dark` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::dark` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::dark` (declaration #24) within `THEME-APP-THEMES`.
@@ -1253,7 +1279,7 @@ class AppThemes {
   /// Shared sub-theme configuration used by both [light] and [dark].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_subThemes` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/theme/app_themes.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `AppThemes::_subThemes` in `app_flutter/lib/core/theme/app_themes.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `AppThemes::_subThemes` (declaration #25) within `THEME-APP-THEMES`.

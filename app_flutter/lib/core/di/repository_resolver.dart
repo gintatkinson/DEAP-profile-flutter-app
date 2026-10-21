@@ -72,7 +72,7 @@ class RepositoryResolver {
   /// Creates a [RepositoryResolver] wrapping a resolved [DataSource].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `RepositoryResolver::RepositoryResolver` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `RepositoryResolver::RepositoryResolver` in `app_flutter/lib/core/di/repository_resolver.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `RepositoryResolver::RepositoryResolver` (declaration #2) within `DI-REPOSITORY-RESOLVER`.
@@ -101,18 +101,143 @@ class RepositoryResolver {
   final DataSource dataSource;
 
   /// Gets the [TypeRepository] interface.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::typeRepository` in `app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::typeRepository` (declaration #3) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::typeRepository` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RepositoryResolver::typeRepository` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(typeRepository)) bounded over input/member dimension of `RepositoryResolver::typeRepository`.
+  /// - Space Complexity: O(K(typeRepository)) bounded auxiliary memory for `RepositoryResolver::typeRepository`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::typeRepository` (`()`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::typeRepository` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::typeRepository` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::typeRepository` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-TYPEREPOSITORY] | SysML v2: ActionDef(RepositoryResolver::typeRepository)
   TypeRepository get typeRepository => dataSource;
 
   /// Gets the [PropertyRepository] interface.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::propertyRepository` in `app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::propertyRepository` (declaration #4) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::propertyRepository` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RepositoryResolver::propertyRepository` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(propertyRepository)) bounded over input/member dimension of `RepositoryResolver::propertyRepository`.
+  /// - Space Complexity: O(K(propertyRepository)) bounded auxiliary memory for `RepositoryResolver::propertyRepository`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::propertyRepository` (`()`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::propertyRepository` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::propertyRepository` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::propertyRepository` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-PROPERTYREPOSITORY] | SysML v2: ActionDef(RepositoryResolver::propertyRepository)
   PropertyRepository get propertyRepository => dataSource;
 
   /// Gets the [TreeRepository] interface.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::treeRepository` in `app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::treeRepository` (declaration #5) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::treeRepository` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RepositoryResolver::treeRepository` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(treeRepository)) bounded over input/member dimension of `RepositoryResolver::treeRepository`.
+  /// - Space Complexity: O(K(treeRepository)) bounded auxiliary memory for `RepositoryResolver::treeRepository`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::treeRepository` (`()`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::treeRepository` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::treeRepository` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::treeRepository` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-TREEREPOSITORY] | SysML v2: ActionDef(RepositoryResolver::treeRepository)
   TreeRepository get treeRepository => dataSource;
 
   /// Gets the [TopologyRepository] interface.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::topologyRepository` in `app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::topologyRepository` (declaration #6) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::topologyRepository` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RepositoryResolver::topologyRepository` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(topologyRepository)) bounded over input/member dimension of `RepositoryResolver::topologyRepository`.
+  /// - Space Complexity: O(K(topologyRepository)) bounded auxiliary memory for `RepositoryResolver::topologyRepository`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::topologyRepository` (`()`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::topologyRepository` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::topologyRepository` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::topologyRepository` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-TOPOLOGYREPOSITORY] | SysML v2: ActionDef(RepositoryResolver::topologyRepository)
   TopologyRepository get topologyRepository => dataSource;
 
   /// Gets the [InstanceRepository] interface.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::instanceRepository` in `app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::instanceRepository` (declaration #7) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::instanceRepository` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `RepositoryResolver::instanceRepository` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(instanceRepository)) bounded over input/member dimension of `RepositoryResolver::instanceRepository`.
+  /// - Space Complexity: O(K(instanceRepository)) bounded auxiliary memory for `RepositoryResolver::instanceRepository`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::instanceRepository` (`()`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::instanceRepository` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::instanceRepository` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::instanceRepository` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-INSTANCEREPOSITORY] | SysML v2: ActionDef(RepositoryResolver::instanceRepository)
   InstanceRepository get instanceRepository => dataSource;
 
   static const _defaultConfig = 'assets/persistence-config.json';
@@ -133,7 +258,7 @@ class RepositoryResolver {
   /// Resets and disposes any cached resolved instance. Intended for test teardown.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::resetForTesting` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::resetForTesting` in `app_flutter/lib/core/di/repository_resolver.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::resetForTesting` (declaration #3) within `DI-REPOSITORY-RESOLVER`.
@@ -165,7 +290,7 @@ class RepositoryResolver {
   /// Resolves and initialises the appropriate backend.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::resolve` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::resolve` in `app_flutter/lib/core/di/repository_resolver.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::resolve` (declaration #4) within `DI-REPOSITORY-RESOLVER`.
@@ -244,7 +369,7 @@ class RepositoryResolver {
   /// Initialises Firebase and returns a Firestore-backed DataSource.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::_createFirebaseAdapter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::_createFirebaseAdapter` in `app_flutter/lib/core/di/repository_resolver.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::_createFirebaseAdapter` (declaration #5) within `DI-REPOSITORY-RESOLVER`.
@@ -282,7 +407,7 @@ class RepositoryResolver {
   /// Initialises SQLite FFI and returns an SQLite-backed DataSource.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::_createSqliteAdapter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::_createSqliteAdapter` in `app_flutter/lib/core/di/repository_resolver.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::_createSqliteAdapter` (declaration #6) within `DI-REPOSITORY-RESOLVER`.

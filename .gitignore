@@ -43,8 +43,22 @@ node_modules/
 package-lock.json
 scratch/
 venv/
+# Ignore intermediate Cargo build directories
+/target/debug
+/target/release/build
+/target/release/deps
+/target/release/.fingerprint
+/target/release/incremental
+/target/*
+/target/release/*
 
-/target/
+# Whitelist release directory and exact Tier 0 binaries
+!/target/release/
+!/target/release/verify-baseline
+!/target/release/compile-sysml
+!/target/release/ingest-sysml
+!/target/release/assemble-conops
+!/target/release/reconcile-backlog
 
 app_flutter/build/
 app_flutter/.dart_tool/

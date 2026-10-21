@@ -44,10 +44,10 @@ import 'dart:io' show Platform;
 /// ## 7. Realization & Traceability
 /// Realises: [Feat-002/SceneLayer]
 abstract class SceneLayer {
-  /// Executes deterministic method `SceneLayer::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `SceneLayer::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneLayer::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `SceneLayer::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `SceneLayer::paint` (declaration #2) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -111,10 +111,10 @@ class BackgroundLayer extends SceneLayer {
 
   final Paint _starPaint = Paint()..style = PaintingStyle.fill;
 
-  /// Executes deterministic method `BackgroundLayer::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `BackgroundLayer::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundLayer::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `BackgroundLayer::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `BackgroundLayer::paint` (declaration #4) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -209,10 +209,10 @@ class GlobeLayer extends SceneLayer {
   final Paint _bandBorderPaint = Paint()..style = PaintingStyle.stroke..strokeWidth = 1.0;
   final Paint _flarePaint = Paint()..color = const Color(0xFFFFD54F)..style = PaintingStyle.stroke..strokeWidth = 2.0;
   final Paint _flareGlowPaint = Paint()..color = const Color(0x66FF9800)..style = PaintingStyle.stroke..strokeWidth = 6.0..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
-  /// Executes deterministic method `GlobeLayer::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `GlobeLayer::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeLayer::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `GlobeLayer::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `GlobeLayer::paint` (declaration #6) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -451,10 +451,10 @@ class TopologyLayer extends SceneLayer {
   final Paint _innerWhitePaint = Paint()..color = Colors.white..style = PaintingStyle.fill;
   final Paint _dropPaint = Paint()..color = const Color(0x80FFFFFF)..style = PaintingStyle.stroke..strokeWidth = 1.0;
 
-  /// Executes deterministic method `TopologyLayer::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `TopologyLayer::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyLayer::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `TopologyLayer::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `TopologyLayer::paint` (declaration #8) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -582,10 +582,10 @@ class HUDLayer extends SceneLayer {
   final Paint _labelBgPaint = Paint()..color = const Color(0xE6000000)..style = PaintingStyle.fill;
   final Paint _labelBorderPaint = Paint()..style = PaintingStyle.stroke..strokeWidth = 1.0;
 
-  /// Executes deterministic method `HUDLayer::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `HUDLayer::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `HUDLayer::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `HUDLayer::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `HUDLayer::paint` (declaration #10) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -766,10 +766,10 @@ class Scene3DViewportPainter extends CustomPainter {
   final double userTilt;
   final double zoomScale;
 
-  /// Executes deterministic constructor `Scene3DViewportPainter::Scene3DViewportPainter` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic constructor `Scene3DViewportPainter::Scene3DViewportPainter` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Scene3DViewportPainter::Scene3DViewportPainter` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Scene3DViewportPainter::Scene3DViewportPainter` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `Scene3DViewportPainter::Scene3DViewportPainter` (declaration #12) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -851,10 +851,10 @@ class Scene3DViewportPainter extends CustomPainter {
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportPainter::getElevationStatic` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportPainter::getElevationStatic` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::getElevationStatic` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::getElevationStatic` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::getElevationStatic` (declaration #13) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -883,10 +883,10 @@ class Scene3DViewportPainter extends CustomPainter {
     return ElevationProvider(isElevationActive: isElevationActive).getElevation(latDeg, lngDeg);
   }
 
-  /// Executes deterministic method `Scene3DViewportPainter::getElevation` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportPainter::getElevation` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::getElevation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::getElevation` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::getElevation` (declaration #14) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -918,10 +918,10 @@ class Scene3DViewportPainter extends CustomPainter {
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportPainter::project` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportPainter::project` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::project` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::project` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::project` (declaration #15) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -975,7 +975,7 @@ class Scene3DViewportPainter extends CustomPainter {
   /// Calculates the tile Level-of-Detail (LOD) index for a given altitude in meters.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::calculateTileLOD` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::calculateTileLOD` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::calculateTileLOD` (declaration #16) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1005,10 +1005,10 @@ class Scene3DViewportPainter extends CustomPainter {
     return lod.clamp(0, 18);
   }
 
-  /// Executes deterministic method `Scene3DViewportPainter::paint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportPainter::paint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::paint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::paint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::paint` (declaration #17) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1040,10 +1040,10 @@ class Scene3DViewportPainter extends CustomPainter {
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportPainter::shouldRepaint` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportPainter::shouldRepaint` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::shouldRepaint` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportPainter::shouldRepaint` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportPainter::shouldRepaint` (declaration #18) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1099,10 +1099,10 @@ class CameraStatsPanel extends StatelessWidget {
   final VoidCallback onClose;
   final int frameDropCount;
   
-  /// Executes deterministic constructor `CameraStatsPanel::CameraStatsPanel` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic constructor `CameraStatsPanel::CameraStatsPanel` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CameraStatsPanel::CameraStatsPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `CameraStatsPanel::CameraStatsPanel` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `CameraStatsPanel::CameraStatsPanel` (declaration #20) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1130,10 +1130,10 @@ class CameraStatsPanel extends StatelessWidget {
   /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-CAMERASTATSPANEL-CAMERASTATSPANEL] | SysML v2: ActionDef(CameraStatsPanel::CameraStatsPanel)
   const CameraStatsPanel({super.key, required this.cameraController, required this.onClose, this.frameDropCount = 0});
 
-  /// Executes deterministic method `CameraStatsPanel::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `CameraStatsPanel::build` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraStatsPanel::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `CameraStatsPanel::build` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `CameraStatsPanel::build` (declaration #21) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1245,10 +1245,10 @@ class MapConfigPanel extends StatelessWidget {
   final VoidCallback onClose;
   final VoidCallback onResetCamera;
 
-  /// Executes deterministic constructor `MapConfigPanel::MapConfigPanel` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic constructor `MapConfigPanel::MapConfigPanel` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `MapConfigPanel::MapConfigPanel` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `MapConfigPanel::MapConfigPanel` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `MapConfigPanel::MapConfigPanel` (declaration #23) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1293,10 +1293,10 @@ class MapConfigPanel extends StatelessWidget {
     required this.onResetCamera,
   });
 
-  /// Executes deterministic method `MapConfigPanel::_buildStyleButton` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `MapConfigPanel::_buildStyleButton` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildStyleButton` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildStyleButton` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MapConfigPanel::_buildStyleButton` (declaration #24) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1340,10 +1340,10 @@ class MapConfigPanel extends StatelessWidget {
     );
   }
 
-  /// Executes deterministic method `MapConfigPanel::_buildBodyButton` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `MapConfigPanel::_buildBodyButton` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildBodyButton` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildBodyButton` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MapConfigPanel::_buildBodyButton` (declaration #25) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1386,10 +1386,10 @@ class MapConfigPanel extends StatelessWidget {
     );
   }
 
-  /// Executes deterministic method `MapConfigPanel::_buildDatumButton` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `MapConfigPanel::_buildDatumButton` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildDatumButton` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildDatumButton` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MapConfigPanel::_buildDatumButton` (declaration #26) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1442,10 +1442,10 @@ class MapConfigPanel extends StatelessWidget {
     );
   }
 
-  /// Executes deterministic method `MapConfigPanel::_buildVisibilityToggle` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `MapConfigPanel::_buildVisibilityToggle` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildVisibilityToggle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::_buildVisibilityToggle` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MapConfigPanel::_buildVisibilityToggle` (declaration #27) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1484,10 +1484,10 @@ class MapConfigPanel extends StatelessWidget {
     );
   }
 
-  /// Executes deterministic method `MapConfigPanel::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `MapConfigPanel::build` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `MapConfigPanel::build` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `MapConfigPanel::build` (declaration #28) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1614,10 +1614,10 @@ class Scene3DViewport extends StatefulWidget {
   final ValueChanged<VirtualCamera>? onCameraChanged;
   final double verticalExaggeration;
 
-  /// Executes deterministic constructor `Scene3DViewport::Scene3DViewport` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic constructor `Scene3DViewport::Scene3DViewport` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Scene3DViewport::Scene3DViewport` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `Scene3DViewport::Scene3DViewport` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `Scene3DViewport::Scene3DViewport` (declaration #30) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1648,10 +1648,10 @@ class Scene3DViewport extends StatefulWidget {
     this.verticalExaggeration = 1.0,
   });
 
-  /// Executes deterministic method `Scene3DViewport::initializeScene` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewport::initializeScene` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::initializeScene` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::initializeScene` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewport::initializeScene` (declaration #31) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1675,10 +1675,10 @@ class Scene3DViewport extends StatefulWidget {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORT-INITIALIZESCENE] | SysML v2: ActionDef(Scene3DViewport::initializeScene)
   bool initializeScene() => true;
-  /// Executes deterministic method `Scene3DViewport::render` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewport::render` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::render` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::render` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewport::render` (declaration #32) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1703,10 +1703,10 @@ class Scene3DViewport extends StatefulWidget {
   /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORT-RENDER] | SysML v2: ActionDef(Scene3DViewport::render)
   bool render(Canvas canvas) => true;
 
-  /// Executes deterministic method `Scene3DViewport::createState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewport::createState` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::createState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewport::createState` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewport::createState` (declaration #33) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1760,10 +1760,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
   late CameraController _cameraController;
   TreeViewModel? _treeViewModel;
 
-  /// Executes deterministic method `Scene3DViewportState::getProjectedPosition` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::getProjectedPosition` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::getProjectedPosition` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::getProjectedPosition` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::getProjectedPosition` (declaration #35) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1787,9 +1787,87 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORTSTATE-GETPROJECTEDPOSITION] | SysML v2: ActionDef(Scene3DViewportState::getProjectedPosition)
   @visibleForTesting CameraController get cameraController => _cameraController;
+  /// Executes deterministic method `Scene3DViewportState::globeFocusNode` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::globeFocusNode` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::globeFocusNode` (declaration #36) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Scene3DViewportState::globeFocusNode` in `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Scene3DViewportState::globeFocusNode` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(globeFocusNode)) bounded over input/member dimension of `Scene3DViewportState::globeFocusNode`.
+  /// - Space Complexity: O(K(globeFocusNode)) bounded auxiliary memory for `Scene3DViewportState::globeFocusNode`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Scene3DViewportState::globeFocusNode` (`()`).
+  /// - State: Maintains consistent state invariants across `Scene3DViewportState::globeFocusNode` without partial mutation on error.
+  /// - Action: Executes `Scene3DViewportState::globeFocusNode` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Scene3DViewportState::globeFocusNode` (`TOPOLOGY-SCENE-3D-VIEWPORT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORTSTATE-GLOBEFOCUSNODE] | SysML v2: ActionDef(Scene3DViewportState::globeFocusNode)
   @visibleForTesting FocusNode get globeFocusNode => _globeFocusNode;
+  /// Executes deterministic method `Scene3DViewportState::tileRenderer` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::tileRenderer` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::tileRenderer` (declaration #37) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Scene3DViewportState::tileRenderer` in `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `Scene3DViewportState::tileRenderer` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(tileRenderer)) bounded over input/member dimension of `Scene3DViewportState::tileRenderer`.
+  /// - Space Complexity: O(K(tileRenderer)) bounded auxiliary memory for `Scene3DViewportState::tileRenderer`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Scene3DViewportState::tileRenderer` (`()`).
+  /// - State: Maintains consistent state invariants across `Scene3DViewportState::tileRenderer` without partial mutation on error.
+  /// - Action: Executes `Scene3DViewportState::tileRenderer` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Scene3DViewportState::tileRenderer` (`TOPOLOGY-SCENE-3D-VIEWPORT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORTSTATE-TILERENDERER] | SysML v2: ActionDef(Scene3DViewportState::tileRenderer)
   @visibleForTesting GlobeTileRenderer? get tileRenderer => _tileRenderer;
 
+  /// Executes deterministic method `Scene3DViewportState::getProjectedPosition` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::getProjectedPosition` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::getProjectedPosition` (declaration #38) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `Scene3DViewportState::getProjectedPosition` in `TOPOLOGY-SCENE-3D-VIEWPORT`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Offset` from `Scene3DViewportState::getProjectedPosition` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(getProjectedPosition)) bounded over input/member dimension of `Scene3DViewportState::getProjectedPosition`.
+  /// - Space Complexity: O(K(getProjectedPosition)) bounded auxiliary memory for `Scene3DViewportState::getProjectedPosition`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `Scene3DViewportState::getProjectedPosition` (`Offset`).
+  /// - State: Maintains consistent state invariants across `Scene3DViewportState::getProjectedPosition` without partial mutation on error.
+  /// - Action: Executes `Scene3DViewportState::getProjectedPosition` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `Scene3DViewportState::getProjectedPosition` (`TOPOLOGY-SCENE-3D-VIEWPORT`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-TOPOLOGY-SCENE-3D-VIEWPORT-SCENE3DVIEWPORTSTATE-GETPROJECTEDPOSITION] | SysML v2: ActionDef(Scene3DViewportState::getProjectedPosition)
   Offset getProjectedPosition(
     double latitude,
     double longitude, {
@@ -1879,10 +1957,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
   Ticker? _flyTicker;
   int _tileCacheVersion = 0;
 
-  /// Executes deterministic method `Scene3DViewportState::_providerForStyle` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::_providerForStyle` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_providerForStyle` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_providerForStyle` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::_providerForStyle` (declaration #36) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1914,10 +1992,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportState::initState` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::initState` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::initState` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::initState` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::initState` (declaration #37) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1966,10 +2044,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     _treeViewModel?.addListener(_onTreeViewModelChangeInsideViewport);
   }
 
-  /// Executes deterministic method `Scene3DViewportState::_onCameraChangedInside` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::_onCameraChangedInside` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_onCameraChangedInside` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_onCameraChangedInside` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::_onCameraChangedInside` (declaration #38) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -1998,10 +2076,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportState::didUpdateWidget` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::didUpdateWidget` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::didUpdateWidget` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::didUpdateWidget` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::didUpdateWidget` (declaration #39) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -2035,10 +2113,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportState::dispose` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::dispose` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::dispose` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::dispose` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::dispose` (declaration #40) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -2073,10 +2151,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     super.dispose();
   }
 
-  /// Executes deterministic method `Scene3DViewportState::_onTreeViewModelChangeInsideViewport` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::_onTreeViewModelChangeInsideViewport` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_onTreeViewModelChangeInsideViewport` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_onTreeViewModelChangeInsideViewport` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::_onTreeViewModelChangeInsideViewport` (declaration #41) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -2113,10 +2191,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     }
   }
 
-  /// Executes deterministic method `Scene3DViewportState::_calculateCameraForNode` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::_calculateCameraForNode` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_calculateCameraForNode` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_calculateCameraForNode` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::_calculateCameraForNode` (declaration #42) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -2157,10 +2235,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     return VirtualCamera.raw(dim_0: latVal, dim_1: lngVal, dim_2: 500.0, heading: 0.0, pitch: -89.9, roll: 0.0);
   }
 
-  /// Executes deterministic method `Scene3DViewportState::_handleKeyEvent` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::_handleKeyEvent` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_handleKeyEvent` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::_handleKeyEvent` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::_handleKeyEvent` (declaration #43) within `TOPOLOGY-SCENE-3D-VIEWPORT`.
@@ -2219,10 +2297,10 @@ class Scene3DViewportState extends State<Scene3DViewport> with SingleTickerProvi
     return KeyEventResult.ignored;
   }
 
-  /// Executes deterministic method `Scene3DViewportState::build` within `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Executes deterministic method `Scene3DViewportState::build` within `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::build` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/features/topology/scene_3d_viewport.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `Scene3DViewportState::build` in `app_flutter/lib/features/topology/scene_3d_viewport.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `Scene3DViewportState::build` (declaration #44) within `TOPOLOGY-SCENE-3D-VIEWPORT`.

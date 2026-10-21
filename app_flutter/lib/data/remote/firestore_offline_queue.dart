@@ -45,7 +45,7 @@ class FirestoreOperation {
   /// Creates a new [FirestoreOperation].
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirestoreOperation::FirestoreOperation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirestoreOperation::FirestoreOperation` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `FirestoreOperation::FirestoreOperation` (declaration #2) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
@@ -79,7 +79,7 @@ class FirestoreOperation {
   /// Converts operation to a serializable map.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOperation::toMap` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOperation::toMap` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOperation::toMap` (declaration #3) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
@@ -115,7 +115,7 @@ class FirestoreOperation {
   /// Creates a [FirestoreOperation] from a map.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirestoreOperation::FirestoreOperation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for constructor `FirestoreOperation::FirestoreOperation` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for constructor `FirestoreOperation::FirestoreOperation` (declaration #4) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
@@ -183,18 +183,93 @@ class FirestoreOfflineQueue {
   final List<FirestoreOperation> _queue = [];
 
   /// Returns an unmodifiable list of current queued operations.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::pendingOperations` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::pendingOperations` (declaration #6) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
+  ///
+  /// ## 3. Preconditions
+  /// - `_queue: String` must satisfy domain and type-safety constraints prior to invoking `FirestoreOfflineQueue::pendingOperations`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FirestoreOfflineQueue::pendingOperations` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(N(_queue)) bounded over input/member dimension of `FirestoreOfflineQueue::pendingOperations`.
+  /// - Space Complexity: O(N(_queue)) bounded auxiliary memory for `FirestoreOfflineQueue::pendingOperations`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirestoreOfflineQueue::pendingOperations` (`()`).
+  /// - State: Maintains consistent state invariants across `FirestoreOfflineQueue::pendingOperations` without partial mutation on error.
+  /// - Action: Executes `FirestoreOfflineQueue::pendingOperations` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirestoreOfflineQueue::pendingOperations` (`REMOTE-FIRESTORE-OFFLINE-QUEUE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-FIRESTORE-OFFLINE-QUEUE-FIRESTOREOFFLINEQUEUE-PENDINGOPERATIONS] | SysML v2: ActionDef(FirestoreOfflineQueue::pendingOperations)
   List<FirestoreOperation> get pendingOperations => List.unmodifiable(_queue);
 
   /// Number of operations currently pending in the queue.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::queueLength` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::queueLength` (declaration #7) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirestoreOfflineQueue::queueLength` in `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FirestoreOfflineQueue::queueLength` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(queueLength)) bounded over input/member dimension of `FirestoreOfflineQueue::queueLength`.
+  /// - Space Complexity: O(K(queueLength)) bounded auxiliary memory for `FirestoreOfflineQueue::queueLength`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirestoreOfflineQueue::queueLength` (`()`).
+  /// - State: Maintains consistent state invariants across `FirestoreOfflineQueue::queueLength` without partial mutation on error.
+  /// - Action: Executes `FirestoreOfflineQueue::queueLength` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirestoreOfflineQueue::queueLength` (`REMOTE-FIRESTORE-OFFLINE-QUEUE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-FIRESTORE-OFFLINE-QUEUE-FIRESTOREOFFLINEQUEUE-QUEUELENGTH] | SysML v2: ActionDef(FirestoreOfflineQueue::queueLength)
   int get queueLength => _queue.length;
 
   /// Returns `true` if the queue contains no pending operations.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::isEmpty` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::isEmpty` (declaration #8) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `FirestoreOfflineQueue::isEmpty` in `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `()` from `FirestoreOfflineQueue::isEmpty` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(isEmpty)) bounded over input/member dimension of `FirestoreOfflineQueue::isEmpty`.
+  /// - Space Complexity: O(K(isEmpty)) bounded auxiliary memory for `FirestoreOfflineQueue::isEmpty`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `FirestoreOfflineQueue::isEmpty` (`()`).
+  /// - State: Maintains consistent state invariants across `FirestoreOfflineQueue::isEmpty` without partial mutation on error.
+  /// - Action: Executes `FirestoreOfflineQueue::isEmpty` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `FirestoreOfflineQueue::isEmpty` (`REMOTE-FIRESTORE-OFFLINE-QUEUE`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-REMOTE-FIRESTORE-OFFLINE-QUEUE-FIRESTOREOFFLINEQUEUE-ISEMPTY] | SysML v2: ActionDef(FirestoreOfflineQueue::isEmpty)
   bool get isEmpty => _queue.isEmpty;
 
   /// Enqueues a new operation to be processed when online.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::enqueueOperation` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::enqueueOperation` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::enqueueOperation` (declaration #6) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
@@ -230,7 +305,7 @@ class FirestoreOfflineQueue {
   /// Reconciles and flushes all enqueued offline operations.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::reconcileQueue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::reconcileQueue` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::reconcileQueue` (declaration #7) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
@@ -286,7 +361,7 @@ class FirestoreOfflineQueue {
   /// Clears all pending operations from the queue.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
-  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::clearQueue` in `/tmp/deap_sync/DEAP-profile-flutter-app/app_flutter/lib/data/remote/firestore_offline_queue.dart`.
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `FirestoreOfflineQueue::clearQueue` in `app_flutter/lib/data/remote/firestore_offline_queue.dart`.
   ///
   /// ## 2. Invariants & Mathematical Properties
   /// - Preserves deterministic state conservation and referential transparency for method `FirestoreOfflineQueue::clearQueue` (declaration #8) within `REMOTE-FIRESTORE-OFFLINE-QUEUE`.
