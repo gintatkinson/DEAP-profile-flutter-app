@@ -32,7 +32,63 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:app_flutter/core/theme/theme_controller.dart';
+import 'package:app_flutter/core/theme/theme_service.dart' show SharedPreferencesThemeService;
+import 'package:app_flutter/domain/data_source.dart';
+import 'package:app_flutter/domain/result.dart';
+import 'package:app_flutter/domain/type_descriptor.dart';
+import 'package:app_flutter/domain/instance_record.dart';
+import 'package:app_flutter/features/tree/tree_node.dart';
+import 'package:app_flutter/features/topology/topology_map.dart' show TopologyData;
 import 'package:app_flutter/features/layout/component_factory.dart';
+import 'package:app_flutter/features/layout/layout.dart';
+import 'package:app_flutter/app/app.dart';
+
+class _StubDataSource implements DataSource {
+  @override
+  String get name => 'stub';
+
+  @override
+  Future<Result<void>> dispose() async => const Result.success(null);
+
+  @override
+  Future<Result<List<TypeDescriptor>>> discoverTypes() async => const Result.success([]);
+
+  @override
+  Future<Result<TypeDescriptor?>> typeFor(String typeName) async => const Result.success(null);
+
+  @override
+  Future<Result<List<(String, String)>>> discoverHierarchy() async => const Result.success([]);
+
+  @override
+  Future<Result<Map<String, dynamic>>> fetchProperties(String nodeId) async => const Result.success({});
+
+  @override
+  Future<Result<void>> saveProperties(
+          String nodeId, Map<String, dynamic> data) async => const Result.success(null);
+
+  @override
+  Stream<Result<Map<String, dynamic>>> watchProperties(String nodeId) =>
+      const Stream.empty();
+
+  @override
+  Future<Result<List<InstanceRecord>>> fetchRelatedInstances({
+    required String parentNodeId,
+    required TypeDescriptor targetType,
+  }) async =>
+      const Result.success([]);
+
+  @override
+  Future<Result<List<TreeNode>>> fetchRootNodes() async => const Result.success([]);
+
+  @override
+  Future<Result<List<TreeNode>>> fetchChildrenForNode(String parentId) async => const Result.success([]);
+
+  @override
+  Future<Result<TopologyData>> fetchTopologyData() async =>
+      const Result.success(TopologyData(coordinateMapping: {}, nodes: [], links: []));
+}
 
 void main() {
   group('ComponentFactory Open-Closed Extension Tests', () {
@@ -129,6 +185,37 @@ void main() {
       expect(find.byType(SizedBox), findsOneWidget);
     });
 
+    testWidgets('omitted or null type in AST node degrades gracefully to SizedBox.shrink',
+        (WidgetTester tester) async {
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 100.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: const {},
+      );
+
+      final emptyNode = <String, dynamic>{};
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return factory.build(emptyNode, 800.0, 600.0, context);
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byType(SizedBox), findsOneWidget);
+    });
+
     testWidgets('DeapComponentScope provides recursive child synthesis to custom builder',
         (WidgetTester tester) async {
       final customBuilders = <String, DeapComponentBuilder>{
@@ -188,6 +275,75 @@ void main() {
       expect(find.byKey(const ValueKey('composite_custom_container')), findsOneWidget);
       expect(find.text('Nested Component 1'), findsOneWidget);
       expect(find.text('Nested Component 2'), findsOneWidget);
+    });
+
+    testWidgets('Layout widget mounts and renders custom builder from declarative layoutConfig',
+        (WidgetTester tester) async {
+      final customBuilders = <String, DeapComponentBuilder>{
+        'CustomHeaderPanel': (context, node, scope) {
+          return Container(
+            key: const ValueKey('custom_header_panel_widget'),
+            child: Text(
+              'Station: ${node['props']?['station_id'] ?? 'none'}',
+              textDirection: TextDirection.ltr,
+            ),
+          );
+        },
+      };
+
+      const customLayoutConfig = '''
+{
+  "layout": {
+    "root_container": {
+      "type": "CustomHeaderPanel",
+      "props": {
+        "station_id": "ORBITAL-ALPHA-01"
+      }
+    }
+  }
+}
+''';
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            Provider<DataSource>.value(value: _StubDataSource()),
+            ChangeNotifierProvider<ThemeController>.value(
+              value: ThemeController(SharedPreferencesThemeService()),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: Layout(
+                layoutConfig: customLayoutConfig,
+                customBuilders: customBuilders,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byKey(const ValueKey('custom_header_panel_widget')), findsOneWidget);
+      expect(find.text('Station: ORBITAL-ALPHA-01'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+
+    testWidgets('MyApp and DashboardPage properly preserve and wire customBuilders down to Layout',
+        (WidgetTester tester) async {
+      final customBuilders = <String, DeapComponentBuilder>{
+        'TelemetryHUD': (context, node, scope) => const SizedBox(
+              key: ValueKey('telemetry_hud_rendered'),
+            ),
+      };
+
+      final myApp = MyApp(customBuilders: customBuilders);
+      expect(myApp.customBuilders, contains('TelemetryHUD'));
+
+      final dashboard = DashboardPage(customBuilders: customBuilders);
+      expect(dashboard.customBuilders, contains('TelemetryHUD'));
     });
   });
 }
