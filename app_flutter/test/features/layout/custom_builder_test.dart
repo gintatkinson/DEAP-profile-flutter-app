@@ -373,10 +373,9 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
 
       final layoutFinder = find.byType(Layout);
-      if (layoutFinder.evaluate().isNotEmpty) {
-        final layoutWidget = tester.widget<Layout>(layoutFinder);
-        expect(layoutWidget.customBuilders, contains('TelemetryHUD'));
-      }
+      expect(layoutFinder, findsOneWidget);
+      final layoutWidget = tester.widget<Layout>(layoutFinder);
+      expect(layoutWidget.customBuilders, contains('TelemetryHUD'));
 
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
@@ -643,6 +642,58 @@ void main() {
 
       expect(receivedWidth, equals(0.0));
       expect(receivedHeight, equals(0.0));
+    });
+
+    testWidgets('SidebarLayout delegates custom children to customBuilders when not hardcoded types',
+        (WidgetTester tester) async {
+      final customBuilders = <String, DeapComponentBuilder>{
+        'CustomSidebarPane': (context, node, scope) => const Text('Custom Sidebar', textDirection: TextDirection.ltr),
+        'CustomWorkspacePane': (context, node, scope) => const Text('Custom Main Workspace', textDirection: TextDirection.ltr),
+      };
+
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 50.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: customBuilders,
+      );
+
+      final sidebarNode = <String, dynamic>{
+        'type': 'SidebarLayout',
+        'children': [
+          {'type': 'CustomSidebarPane'},
+          {'type': 'CustomWorkspacePane'},
+        ],
+      };
+
+      final themeController = ThemeController(SharedPreferencesThemeService());
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<ThemeController>.value(
+          value: themeController,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SizedBox(
+                width: 800.0,
+                height: 600.0,
+                child: Builder(
+                  builder: (context) {
+                    return factory.build(sidebarNode, 800.0, 600.0, context);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Custom Sidebar'), findsOneWidget);
+      expect(find.text('Custom Main Workspace'), findsOneWidget);
     });
   });
 }

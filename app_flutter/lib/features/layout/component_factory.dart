@@ -290,14 +290,14 @@ class ComponentFactory {
     switch (type) {
       case 'SidebarLayout':
         final rawChildren = node['children'];
-        final childrenList = rawChildren is List ? rawChildren : const <dynamic>[];
-        final sidebarChild = childrenList.whereType<Map<String, dynamic>>().firstWhere(
+        final childrenList = (rawChildren is List ? rawChildren : const <dynamic>[]).whereType<Map<String, dynamic>>().toList();
+        final sidebarChild = childrenList.firstWhere(
           (c) => c['type'] == 'HierarchyTreeSelector',
-          orElse: () => const <String, dynamic>{},
+          orElse: () => childrenList.isNotEmpty ? childrenList[0] : const <String, dynamic>{},
         );
-        final splitWorkspaceChild = childrenList.whereType<Map<String, dynamic>>().firstWhere(
+        final splitWorkspaceChild = childrenList.firstWhere(
           (c) => c['type'] == 'SplitWorkspace',
-          orElse: () => const <String, dynamic>{},
+          orElse: () => childrenList.length > 1 ? childrenList[1] : const <String, dynamic>{},
         );
         return SplitWorkspace(
           leading: sidebarChild.isNotEmpty
