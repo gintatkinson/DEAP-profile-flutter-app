@@ -279,33 +279,39 @@ class ComponentFactory {
     Map<String, dynamic> node,
     double parentWidth,
     double parentHeight,
-    BuildContext context,
-  ) {
-    final type = node['type'] as String?;
+    BuildContext context, [
+    int depth = 0,
+  ]) {
+    if (depth > 64) {
+      return const SizedBox.shrink();
+    }
+    final rawType = node['type'];
+    final type = rawType is String ? rawType : null;
     switch (type) {
       case 'SidebarLayout':
-        final childrenList = node['children'] as List<dynamic>? ?? [];
-        final sidebarChild = childrenList.firstWhere(
+        final rawChildren = node['children'];
+        final childrenList = rawChildren is List ? rawChildren : const <dynamic>[];
+        final sidebarChild = childrenList.whereType<Map<String, dynamic>>().firstWhere(
           (c) => c['type'] == 'HierarchyTreeSelector',
-          orElse: () => null,
+          orElse: () => const <String, dynamic>{},
         );
-        final splitWorkspaceChild = childrenList.firstWhere(
+        final splitWorkspaceChild = childrenList.whereType<Map<String, dynamic>>().firstWhere(
           (c) => c['type'] == 'SplitWorkspace',
-          orElse: () => null,
+          orElse: () => const <String, dynamic>{},
         );
-            return SplitWorkspace(
-              leading: sidebarChild != null
-                  ? build(sidebarChild as Map<String, dynamic>, parentWidth, parentHeight, context)
-                  : const SizedBox.shrink(),
-              trailing: splitWorkspaceChild != null
-                  ? build(splitWorkspaceChild as Map<String, dynamic>, parentWidth, parentHeight, context)
-                  : const SizedBox.shrink(),
-              direction: Axis.horizontal,
-              minFirstPaneSize: minPaneSize,
-              initialRatio: 0.25,
-              splitterKey: const Key('vertical_splitter'),
-              paintLeadingOnTop: true,
-            );
+        return SplitWorkspace(
+          leading: sidebarChild.isNotEmpty
+              ? build(sidebarChild, parentWidth, parentHeight, context, depth + 1)
+              : const SizedBox.shrink(),
+          trailing: splitWorkspaceChild.isNotEmpty
+              ? build(splitWorkspaceChild, parentWidth, parentHeight, context, depth + 1)
+              : const SizedBox.shrink(),
+          direction: Axis.horizontal,
+          minFirstPaneSize: minPaneSize,
+          initialRatio: 0.25,
+          splitterKey: const Key('vertical_splitter'),
+          paintLeadingOnTop: true,
+        );
       case 'HierarchyTreeSelector':
         final tree = SidebarTree(
           workerResult: workerResult,
@@ -319,30 +325,32 @@ class ComponentFactory {
         }
         return tree;
       case 'SplitWorkspace':
-        final childrenList = (node['children'] as List<dynamic>? ?? []).cast<dynamic>();
+        final rawChildren = node['children'];
+        final childrenList = (rawChildren is List ? rawChildren : const <dynamic>[]).whereType<Map<String, dynamic>>().toList();
         final topoChild = childrenList.firstWhere(
           (c) => c['type'] == 'TopographicalView',
-          orElse: () => null,
+          orElse: () => const <String, dynamic>{},
         );
         final tabbedChild = childrenList.firstWhere(
           (c) => c['type'] == 'TabbedContainer',
-          orElse: () => null,
+          orElse: () => const <String, dynamic>{},
         );
-        final leadingChild = topoChild ?? (childrenList.isNotEmpty ? childrenList[0] : null);
-        final trailingChild = tabbedChild ?? (childrenList.length > 1 ? childrenList[1] : null);
-        final rawRatio = node['props']?['default_ratio'];
+        final leadingChild = topoChild.isNotEmpty ? topoChild : (childrenList.isNotEmpty ? childrenList[0] : null);
+        final trailingChild = tabbedChild.isNotEmpty ? tabbedChild : (childrenList.length > 1 ? childrenList[1] : null);
+        final rawRatio = node['props'] is Map ? (node['props'] as Map)['default_ratio'] : null;
         final double? nodeRatio = rawRatio is num
             ? rawRatio.toDouble()
             : (rawRatio is String ? double.tryParse(rawRatio) : null);
         final resolvedDirection = _parseAxis(node);
-        final nodeId = node['id'] as String?;
+        final rawNodeId = node['id'];
+        final nodeId = rawNodeId is String ? rawNodeId : null;
         return SplitWorkspace(
           key: ValueKey('split_${nodeId ?? 'root'}_${resolvedDirection.name}'),
           leading: leadingChild != null
-              ? build(leadingChild as Map<String, dynamic>, parentWidth, parentHeight, context)
+              ? build(leadingChild, parentWidth, parentHeight, context, depth + 1)
               : const SizedBox.shrink(),
           trailing: trailingChild != null
-              ? build(trailingChild as Map<String, dynamic>, parentWidth, parentHeight, context)
+              ? build(trailingChild, parentWidth, parentHeight, context, depth + 1)
               : const SizedBox.shrink(),
           direction: resolvedDirection,
           minFirstPaneSize: minPaneSize,
@@ -354,7 +362,7 @@ class ComponentFactory {
       case 'TopographicalView':
         final treeData = treeViewModel?.treeData ?? [];
         final panelOpacity = context.watch<ThemeController>().panelOpacity;
-        final rawRatio = node['props']?['default_ratio'];
+        final rawRatio = node['props'] is Map ? (node['props'] as Map)['default_ratio'] : null;
         final double? nodeRatio = rawRatio is num
             ? rawRatio.toDouble()
             : (rawRatio is String ? double.tryParse(rawRatio) : null);
@@ -375,7 +383,8 @@ class ComponentFactory {
       case 'TabbedContainer':
         return _TabbedContainerHost(currentView: currentView);
       case 'TableView':
-        final id = node['id'] as String? ?? '';
+        final rawId = node['id'];
+        final id = rawId is String ? rawId : '';
         return _TableViewContainer(
           tabId: id,
           currentView: currentView,
@@ -390,14 +399,20 @@ class ComponentFactory {
           ),
         );
       default:
-        final customBuilder = customBuilders[type];
+        final customBuilder = type != null ? customBuilders[type] : null;
         if (customBuilder != null) {
+          final safeWidth = (parentWidth.isFinite && parentWidth > 0.0) ? parentWidth : 0.0;
+          final safeHeight = (parentHeight.isFinite && parentHeight > 0.0) ? parentHeight : 0.0;
           final scope = DeapComponentScope(
-            parentWidth: parentWidth,
-            parentHeight: parentHeight,
-            buildChild: (child) => build(child, parentWidth, parentHeight, context),
+            parentWidth: safeWidth,
+            parentHeight: safeHeight,
+            buildChild: (child) => build(child, safeWidth, safeHeight, context, depth + 1),
           );
-          return customBuilder(context, node, scope);
+          try {
+            return customBuilder(context, node, scope);
+          } catch (_) {
+            return const SizedBox.shrink();
+          }
         }
         return const SizedBox.shrink();
     }
@@ -430,11 +445,14 @@ class ComponentFactory {
   /// ## 7. Realization & Traceability
   /// Realises: [REQ-LAYOUT-COMPONENT-FACTORY-COMPONENTFACTORY-PARSEAXIS] | SysML v2: ActionDef(ComponentFactory::_parseAxis)
   Axis _parseAxis(Map<String, dynamic> node) {
-    if (node['props']?['reconfigurable'] == true && preferredSplitAxis != null) {
-      return preferredSplitAxis!;
+    final props = node['props'];
+    if (props is Map) {
+      if (props['reconfigurable'] == true && preferredSplitAxis != null) {
+        return preferredSplitAxis!;
+      }
+      final axis = props['axis'];
+      if (axis == 'horizontal') return Axis.horizontal;
     }
-    final axis = node['props']?['axis'] as String?;
-    if (axis == 'horizontal') return Axis.horizontal;
     return Axis.vertical;
   }
 }

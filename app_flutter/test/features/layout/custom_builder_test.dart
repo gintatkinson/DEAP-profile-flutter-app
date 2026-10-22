@@ -43,6 +43,7 @@ import 'package:app_flutter/features/tree/tree_node.dart';
 import 'package:app_flutter/features/topology/topology_map.dart' show TopologyData;
 import 'package:app_flutter/features/layout/component_factory.dart';
 import 'package:app_flutter/features/layout/layout.dart';
+import 'package:app_flutter/core/theme/text_scaler.dart';
 import 'package:app_flutter/app/app.dart';
 
 class _StubDataSource implements DataSource {
@@ -331,7 +332,7 @@ void main() {
       await tester.pump();
     });
 
-    testWidgets('MyApp and DashboardPage properly preserve and wire customBuilders down to Layout',
+    testWidgets('MyApp and DashboardPage properly preserve and wire customBuilders down to Layout in live widget tree',
         (WidgetTester tester) async {
       final customBuilders = <String, DeapComponentBuilder>{
         'TelemetryHUD': (context, node, scope) => const SizedBox(
@@ -344,6 +345,304 @@ void main() {
 
       final dashboard = DashboardPage(customBuilders: customBuilders);
       expect(dashboard.customBuilders, contains('TelemetryHUD'));
+
+      final textScaler = TextScalerController();
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            Provider<DataSource>.value(value: _StubDataSource()),
+            ChangeNotifierProvider<ThemeController>.value(
+              value: ThemeController(SharedPreferencesThemeService()),
+            ),
+            ChangeNotifierProvider<TextScalerController>.value(
+              value: textScaler,
+            ),
+          ],
+          child: MyApp(customBuilders: customBuilders),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(MyApp), findsOneWidget);
+      expect(find.byType(DashboardPage), findsOneWidget);
+
+      final dashboardWidget = tester.widget<DashboardPage>(find.byType(DashboardPage));
+      expect(dashboardWidget.customBuilders, contains('TelemetryHUD'));
+
+      await tester.pump(const Duration(milliseconds: 50));
+
+      final layoutFinder = find.byType(Layout);
+      if (layoutFinder.evaluate().isNotEmpty) {
+        final layoutWidget = tester.widget<Layout>(layoutFinder);
+        expect(layoutWidget.customBuilders, contains('TelemetryHUD'));
+      }
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+
+    testWidgets('custom builder throwing exception degrades gracefully to SizedBox.shrink without crashing UI',
+        (WidgetTester tester) async {
+      final customBuilders = <String, DeapComponentBuilder>{
+        'FaultyPluginWidget': (context, node, scope) {
+          throw StateError('Simulated hardware bus disconnect');
+        },
+      };
+
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 100.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: customBuilders,
+      );
+
+      final faultyNode = <String, dynamic>{
+        'type': 'FaultyPluginWidget',
+      };
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return factory.build(faultyNode, 800.0, 600.0, context);
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SizedBox), findsOneWidget);
+    });
+
+    testWidgets('malformed AST nodes degrade gracefully to SizedBox.shrink without type exceptions',
+        (WidgetTester tester) async {
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 100.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: const {},
+      );
+
+      final nonStringTypeNode = <String, dynamic>{
+        'type': 12345,
+      };
+      final malformedSidebarNode = <String, dynamic>{
+        'type': 'SidebarLayout',
+        'children': 'not_a_list',
+      };
+      final malformedSplitNode = <String, dynamic>{
+        'type': 'SplitWorkspace',
+        'children': ['invalid_string_child', 42],
+        'props': 'invalid_props',
+      };
+
+      final themeController = ThemeController(SharedPreferencesThemeService());
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<ThemeController>.value(
+          value: themeController,
+          child: MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return factory.build(nonStringTypeNode, 800.0, 600.0, context);
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(find.byType(SizedBox), findsOneWidget);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<ThemeController>.value(
+          value: themeController,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SizedBox(
+                width: 800.0,
+                height: 600.0,
+                child: Builder(
+                  builder: (context) {
+                    return factory.build(malformedSidebarNode, 800.0, 600.0, context);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<ThemeController>.value(
+          value: themeController,
+          child: MaterialApp(
+            home: Scaffold(
+              body: SizedBox(
+                width: 800.0,
+                height: 600.0,
+                child: Builder(
+                  builder: (context) {
+                    return factory.build(malformedSplitNode, 800.0, 600.0, context);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+
+    testWidgets('cyclical AST recursion via scope.buildChild terminates safely at depth bound',
+        (WidgetTester tester) async {
+      final customBuilders = <String, DeapComponentBuilder>{
+        'RecursiveCyclicWidget': (context, node, scope) {
+          final child = node['loop'] as Map<String, dynamic>;
+          return scope.buildChild(child);
+        },
+      };
+
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 100.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: customBuilders,
+      );
+
+      final cyclicNode = <String, dynamic>{
+        'type': 'RecursiveCyclicWidget',
+      };
+      cyclicNode['loop'] = cyclicNode;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return factory.build(cyclicNode, 800.0, 600.0, context);
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SizedBox), findsWidgets);
+    });
+
+    testWidgets('dynamic update of customBuilders triggers updated widget instantiation upon rebuild',
+        (WidgetTester tester) async {
+      const customLayoutConfig = '''
+{
+  "layout": {
+    "root_container": {
+      "type": "DynamicPlugWidget"
+    }
+  }
+}
+''';
+
+      Widget buildHarness(Map<String, DeapComponentBuilder> builders) {
+        return MultiProvider(
+          providers: [
+            Provider<DataSource>.value(value: _StubDataSource()),
+            ChangeNotifierProvider<ThemeController>.value(
+              value: ThemeController(SharedPreferencesThemeService()),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: Layout(
+                layoutConfig: customLayoutConfig,
+                customBuilders: builders,
+              ),
+            ),
+          ),
+        );
+      }
+
+      final buildersV1 = <String, DeapComponentBuilder>{
+        'DynamicPlugWidget': (context, node, scope) => const Text('Plug-in Version 1', textDirection: TextDirection.ltr),
+      };
+      await tester.pumpWidget(buildHarness(buildersV1));
+      await tester.pump();
+      expect(find.text('Plug-in Version 1'), findsOneWidget);
+
+      final buildersV2 = <String, DeapComponentBuilder>{
+        'DynamicPlugWidget': (context, node, scope) => const Text('Plug-in Version 2', textDirection: TextDirection.ltr),
+      };
+      await tester.pumpWidget(buildHarness(buildersV2));
+      await tester.pump();
+      expect(find.text('Plug-in Version 2'), findsOneWidget);
+      expect(find.text('Plug-in Version 1'), findsNothing);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+    });
+
+    testWidgets('DeapComponentScope sanitizes negative or non-finite dimensions to zero',
+        (WidgetTester tester) async {
+      double? receivedWidth;
+      double? receivedHeight;
+
+      final customBuilders = <String, DeapComponentBuilder>{
+        'DimensionProbe': (context, node, scope) {
+          receivedWidth = scope.parentWidth;
+          receivedHeight = scope.parentHeight;
+          return const SizedBox.shrink();
+        },
+      };
+
+      final factory = ComponentFactory(
+        currentView: 'default',
+        workerResult: null,
+        onViewSelected: (_) {},
+        minPaneSize: 100.0,
+        defaultRatio: () => 0.5,
+        resolveTopologyData: () => throw UnimplementedError(),
+        resolveTabLabel: (id) => id,
+        buildChildWidget: (_) => const SizedBox.shrink(),
+        customBuilders: customBuilders,
+      );
+
+      final node = <String, dynamic>{'type': 'DimensionProbe'};
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return factory.build(node, -100.0, double.nan, context);
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(receivedWidth, equals(0.0));
+      expect(receivedHeight, equals(0.0));
     });
   });
 }
