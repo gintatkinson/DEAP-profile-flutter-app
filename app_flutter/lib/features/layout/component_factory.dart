@@ -48,6 +48,36 @@ class DeapComponentScope {
   /// Dispatches recursive layout synthesis for nested declarative AST nodes.
   final Widget Function(Map<String, dynamic> node) buildChild;
 
+  /// Active view node identifier.
+  final String currentView;
+
+  /// Latest worker isolate result.
+  final int? workerResult;
+
+  /// Callback invoked when a view node is selected.
+  final void Function(String)? onViewSelected;
+
+  /// Minimum first-pane size in logical pixels.
+  final double minPaneSize;
+
+  /// Resolver for default split ratio.
+  final double Function()? defaultRatio;
+
+  /// Resolver for active topology data.
+  final TopologyData Function()? resolveTopologyData;
+
+  /// Resolver for human-readable tab labels.
+  final String Function(String)? resolveTabLabel;
+
+  /// Builder for child property/inspector widget.
+  final Widget Function(BuildContext)? buildChildWidget;
+
+  /// Optional hierarchy tree view model.
+  final TreeViewModel? treeViewModel;
+
+  /// Preferred split axis orientation.
+  final Axis? preferredSplitAxis;
+
   /// Executes deterministic constructor `DeapComponentScope::DeapComponentScope` within `app_flutter/lib/features/layout/component_factory.dart`.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
@@ -78,6 +108,16 @@ class DeapComponentScope {
     required this.parentWidth,
     required this.parentHeight,
     required this.buildChild,
+    this.currentView = '',
+    this.workerResult,
+    this.onViewSelected,
+    this.minPaneSize = 150.0,
+    this.defaultRatio,
+    this.resolveTopologyData,
+    this.resolveTabLabel,
+    this.buildChildWidget,
+    this.treeViewModel,
+    this.preferredSplitAxis,
   });
 }
 
@@ -287,6 +327,31 @@ class ComponentFactory {
     }
     final rawType = node['type'];
     final type = rawType is String ? rawType : null;
+    final customBuilder = type != null ? customBuilders[type] : null;
+    if (customBuilder != null) {
+      final safeWidth = (parentWidth.isFinite && parentWidth > 0.0) ? parentWidth : 0.0;
+      final safeHeight = (parentHeight.isFinite && parentHeight > 0.0) ? parentHeight : 0.0;
+      final scope = DeapComponentScope(
+        parentWidth: safeWidth,
+        parentHeight: safeHeight,
+        buildChild: (child) => build(child, safeWidth, safeHeight, context, depth + 1),
+        currentView: currentView,
+        workerResult: workerResult,
+        onViewSelected: onViewSelected,
+        minPaneSize: minPaneSize,
+        defaultRatio: defaultRatio,
+        resolveTopologyData: resolveTopologyData,
+        resolveTabLabel: resolveTabLabel,
+        buildChildWidget: buildChildWidget,
+        treeViewModel: treeViewModel,
+        preferredSplitAxis: preferredSplitAxis,
+      );
+      try {
+        return customBuilder(context, node, scope);
+      } catch (_) {
+        return const SizedBox.shrink();
+      }
+    }
     switch (type) {
       case 'SidebarLayout':
         final rawChildren = node['children'];
@@ -399,21 +464,6 @@ class ComponentFactory {
           ),
         );
       default:
-        final customBuilder = type != null ? customBuilders[type] : null;
-        if (customBuilder != null) {
-          final safeWidth = (parentWidth.isFinite && parentWidth > 0.0) ? parentWidth : 0.0;
-          final safeHeight = (parentHeight.isFinite && parentHeight > 0.0) ? parentHeight : 0.0;
-          final scope = DeapComponentScope(
-            parentWidth: safeWidth,
-            parentHeight: safeHeight,
-            buildChild: (child) => build(child, safeWidth, safeHeight, context, depth + 1),
-          );
-          try {
-            return customBuilder(context, node, scope);
-          } catch (_) {
-            return const SizedBox.shrink();
-          }
-        }
         return const SizedBox.shrink();
     }
   }

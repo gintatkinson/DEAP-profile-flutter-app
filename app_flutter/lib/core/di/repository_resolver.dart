@@ -255,6 +255,37 @@ class RepositoryResolver {
   // duplicate connections (BUG #215).
   static bool _isResolving = false;
 
+  /// Optional domain-specific SQLite adapter factory injected by downstream Tier 2 applications.
+  ///
+  /// ## 1. Safety Intent & Regulatory Scope
+  /// Conforms to DO-178C Level A, DO-330 TQL-4, ISO 26262 ASIL D, and ECSS-E-ST-40C safety objectives for method `RepositoryResolver::Function` in `/Users/perkunas/jail/DEAP-profile-flutter-app/app_flutter/lib/core/di/repository_resolver.dart`.
+  ///
+  /// ## 2. Invariants & Mathematical Properties
+  /// - Preserves deterministic state conservation and referential transparency for method `RepositoryResolver::Function` (declaration #8) within `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 3. Preconditions
+  /// - Invoked within a valid execution context for `RepositoryResolver::Function` in `DI-REPOSITORY-RESOLVER`.
+  ///
+  /// ## 4. Postconditions
+  /// - Returns `Future<DataSource>` from `RepositoryResolver::Function` with deterministic post-execution state.
+  ///
+  /// ## 5. Algorithmic Complexity Bounds
+  /// - Time Complexity: O(K(Function)) bounded over input/member dimension of `RepositoryResolver::Function`.
+  /// - Space Complexity: O(K(Function)) bounded auxiliary memory for `RepositoryResolver::Function`.
+  ///
+  /// ## 6. Failure Modes & Fault Tolerance
+  /// - Interface: Validates boundary inputs and types for `RepositoryResolver::Function` (`Future<DataSource>`).
+  /// - State: Maintains consistent state invariants across `RepositoryResolver::Function` without partial mutation on error.
+  /// - Action: Executes `RepositoryResolver::Function` deterministically with zero unbounded recursion or blocking.
+  /// - Resource: Bounds stack and heap allocations within `RepositoryResolver::Function` (`DI-REPOSITORY-RESOLVER`).
+  ///
+  /// ## 7. Realization & Traceability
+  /// Realises: [REQ-DI-REPOSITORY-RESOLVER-REPOSITORYRESOLVER-FUNCTION] | SysML v2: ActionDef(RepositoryResolver::Function)
+  static Future<DataSource> Function({
+    String? dbAssetPath,
+    bool inMemory,
+  })? defaultSqliteAdapterFactory;
+
   /// Resets and disposes any cached resolved instance. Intended for test teardown.
   ///
   /// ## 1. Safety Intent & Regulatory Scope
@@ -349,15 +380,27 @@ class RepositoryResolver {
         case 'firebase':
           resolved = await _createFirebaseAdapter(useEmulator: useEmulator);
         case 'sqlite':
-          resolved = await _createSqliteAdapter(
-            dbAssetPath: dbAssetPath,
-            inMemory: sqliteInMemory,
-          );
+          final factory = defaultSqliteAdapterFactory;
+          resolved = factory != null
+              ? await factory(
+                  dbAssetPath: dbAssetPath,
+                  inMemory: sqliteInMemory,
+                )
+              : await _createSqliteAdapter(
+                  dbAssetPath: dbAssetPath,
+                  inMemory: sqliteInMemory,
+                );
         default:
-          resolved = await _createSqliteAdapter(
-            dbAssetPath: dbAssetPath,
-            inMemory: sqliteInMemory,
-          );
+          final factory = defaultSqliteAdapterFactory;
+          resolved = factory != null
+              ? await factory(
+                  dbAssetPath: dbAssetPath,
+                  inMemory: sqliteInMemory,
+                )
+              : await _createSqliteAdapter(
+                  dbAssetPath: dbAssetPath,
+                  inMemory: sqliteInMemory,
+                );
       }
       _lastResolved = resolved;
       return resolved;

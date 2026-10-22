@@ -12,9 +12,11 @@ import 'package:app_flutter/domain/data_source.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:app_flutter/data/database_initializer.dart';
 import 'package:app_flutter/data/data_sources/sqlite_data_source.dart';
+import 'package:app_flutter/features/layout/component_factory.dart';
 import 'package:app_flutter/features/layout/layout.dart';
 import 'package:app_flutter/features/tables/tabbed_container.dart';
 import 'package:app_flutter/features/tables/view_models/tables_view_model.dart';
+import 'package:app_flutter/features/topology/topology_map.dart';
 
 const String testLayoutConfig = '''
 {
@@ -360,7 +362,7 @@ void main() {
       await tester.tap(find.byKey(const Key('node_Master_1')));
       await settle(tester);
 
-      // Send ArrowDown key event — navigates to SubItem child
+      // Send ArrowDown key event -- navigates to SubItem child
       await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
       await settle(tester);
       expect(selectedView, 'SubItem');
@@ -399,5 +401,48 @@ void main() {
       await tester.pumpWidget(Container());
       await settle(tester);
     });
+  });
+
+  testWidgets('ComponentFactory customBuilders overrides built-in PropertiesPanel and exposes scope.currentView', (WidgetTester tester) async {
+    String? capturedCurrentView;
+    int? capturedWorkerResult;
+    double? capturedMinPaneSize;
+
+    final factory = ComponentFactory(
+      currentView: 'Node_Alpha',
+      workerResult: 42,
+      onViewSelected: (_) {},
+      minPaneSize: 180.0,
+      defaultRatio: () => 0.4,
+      resolveTopologyData: () => const TopologyData(coordinateMapping: {}, nodes: [], links: []),
+      resolveTabLabel: (id) => id,
+      buildChildWidget: (_) => const SizedBox.shrink(),
+      customBuilders: {
+        'PropertiesPanel': (context, node, scope) {
+          capturedCurrentView = scope.currentView;
+          capturedWorkerResult = scope.workerResult;
+          capturedMinPaneSize = scope.minPaneSize;
+          return Text('CustomProperties:${scope.currentView}');
+        },
+      },
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) => factory.build(
+            const <String, dynamic>{'type': 'PropertiesPanel', 'id': 'props_1'},
+            800.0,
+            600.0,
+            context,
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('CustomProperties:Node_Alpha'), findsOneWidget);
+    expect(capturedCurrentView, 'Node_Alpha');
+    expect(capturedWorkerResult, 42);
+    expect(capturedMinPaneSize, 180.0);
   });
 }
