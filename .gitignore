@@ -22,6 +22,7 @@
 *.pyo
 *define*.json
 .DS_Store
+.agents/teamwork/
 .dart_tool/
 .env
 .env.*
